@@ -26,9 +26,9 @@ tasks.javadoc {
     isFailOnError = false
 }
 
-val main: start.LudoPartyApp
+//val mainClass: start.LudoPartyApp
 
 application {
     // The following allows to run with: ./gradlew -PmainClass=start.LudoPartyApp run
-    mainClass.set(main)
+    mainClass.set("start.LudoPartyApp")
 }
