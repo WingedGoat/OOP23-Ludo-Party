@@ -1,19 +1,30 @@
 package model;
 
 import java.util.Random;
-
 import model.api.Dice;
 
+    /**
+     * A standard dice with 6 possible results.
+     */
 public class BasicDice implements Dice {
 
     /**
-     * Returns a random number between 1 and 6
-     * @return the dice result
+     * Number of faces.
+     */
+    private static final int FACES = 6;
+
+    /**
+     * Random variable to use for dice rolling.
+     */
+    private final Random r = new Random();
+
+    /**
+     * Returns a random number between 1 and 6.
+     * @return the dice result.
      */
     @Override
     public int roll() {
-        Random r = new Random();
-        return r.nextInt(6) + 1;
+        return r.nextInt(FACES) + 1;
     }
 
 }
