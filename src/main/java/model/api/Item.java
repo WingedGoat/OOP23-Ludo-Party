@@ -1,24 +1,24 @@
 package model.api;
 
 /**
- * Rapresents the base of an item
+ * Rapresents the base of an item.
  */
 public interface Item {
 
     /**
-     * Return the name of the item
+     * Return the name of the item.
      * @return the name
      */
     String getName();
 
     /**
-     * Return the description of an item and its interaction
+     * Return the description of an item and its interaction.
      * @return the description
      */
     String getDescription();
 
     /**
-     * Return the price of the item
+     * Return the price of the item.
      * @return the price
      */
     int getPrice();
@@ -29,6 +29,4 @@ public interface Item {
      * @return true if it's a bonus
      */
     boolean isBonus();
-
-    
 }
