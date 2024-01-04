@@ -3,9 +3,8 @@ package start;
 import javafx.application.Application;
 
 /**
- * 
+ * App entry point.
  */
-@SuppressWarnings("PMD")
 public final class Main {
 
     private Main() { }
@@ -14,7 +13,6 @@ public final class Main {
      *             possible command line arguments (not used)
      */
     public static void main(final String[] args) {
-        System.out.println("Chapo");
         Application.launch(LudoPartyApp.class, args);
     }
 

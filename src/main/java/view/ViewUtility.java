@@ -23,7 +23,7 @@ public final class ViewUtility {
 
     /**
      * Creates the initial scene with the logo and
-     * where is asked to write the player name.
+     * the field in wich the player can insert his/her name.
      * 
      * @param stage the stage
      * 
@@ -40,7 +40,7 @@ public final class ViewUtility {
      * @param stage the stage
      * @param playerName the player name
      * 
-     * @return a new ChoosePlayerNumberScene(stage, playerName);
+     * @return a new ChoosePlayerNumberScene
      */
     public static Scene createChoosePlayerScene(final Stage stage, final String playerName) {
         return new ChoosePlayerNumberScene(stage, playerName);

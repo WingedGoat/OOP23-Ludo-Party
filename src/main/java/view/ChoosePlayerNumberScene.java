@@ -11,9 +11,10 @@ import javafx.stage.Stage;
 
 import controller.ControllerImpl;
 import utility.Constants;
+
 /**
- * Second Scene represents the Scene contained by 
- * the Second Stage.
+ * Choose Player Number Scene represents the second Scene 
+ * contained by the Stage.
  */
 public class ChoosePlayerNumberScene extends Scene {
     /**

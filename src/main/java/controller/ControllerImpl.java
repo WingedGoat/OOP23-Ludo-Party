@@ -9,10 +9,10 @@ import view.ViewUtility;
 /**
  * Controller used to coordinate model and view.
  */
-@SuppressWarnings("all")
 public class ControllerImpl implements Controller {
 
     private final Scene board;
+    private final String playerName;
     private final int playersNumber;
 
     /**
@@ -25,12 +25,20 @@ public class ControllerImpl implements Controller {
      *                  the number of players of the game
      */
     public ControllerImpl(final Stage stage, final String playerName, final int playersNumber) {
-        //Player player = new PlayerImpl(playerName);
+        this.playerName = playerName;
         this.playersNumber = playersNumber;
 
         // initGame()
         this.board = ViewUtility.createBoardScene(stage);
         this.setInputHandler();
+    }
+
+    /**
+     * Returns the player name.
+     * @return playerName
+     */
+    public String getPlayerName() {
+        return this.playerName;
     }
 
     /**

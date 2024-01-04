@@ -5,7 +5,7 @@ import javafx.stage.Stage;
 import view.ViewUtility;
 
 /**
- * 
+ * Ludo Party App.
  */
 public final class LudoPartyApp extends Application {
 

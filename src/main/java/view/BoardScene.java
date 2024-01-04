@@ -5,15 +5,17 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import utility.Constants;
+
 /**
- * View with the effective board of the game.
+ * Board Scene represents the third Scene 
+ * contained by the Stage. It's the view
+ * with the effective board of the game.
  */
 public class BoardScene extends Scene {
 
     /**
      * Constructor.
-     * @param stage
-     *          the stage
+     * @param stage the stage
      */
     public BoardScene(final Stage stage) {
         super(new BorderPane());
@@ -34,4 +36,5 @@ public class BoardScene extends Scene {
             //System.exit(0);
         });
     }
+
 }

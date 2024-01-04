@@ -18,8 +18,8 @@ import javafx.stage.Stage;
 import utility.Constants;
 
 /**
- * First Scene represents the Scene contained by 
- * the First Stage.
+ * Start Scene represents the first Scene 
+ * contained by the Stage.
  */
 public class StartScene extends Scene {
 
@@ -59,13 +59,10 @@ public class StartScene extends Scene {
      * Title Y position.
      */
     public static final int Y_POS = 35;
-    /**
-     * The stage.
-     */
-    //private final Stage stage;
+
 
     /**
-     * Constructs the First Scene.
+     * Constructs the Start Scene.
      * @param stage
      *              the stage
      */
