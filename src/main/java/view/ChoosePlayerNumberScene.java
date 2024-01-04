@@ -15,7 +15,7 @@ import utility.Constants;
  * Second Scene represents the Scene contained by 
  * the Second Stage.
  */
-public class SecondScene extends Scene {
+public class ChoosePlayerNumberScene extends Scene {
     /**
      * Button width.
      */
@@ -33,42 +33,42 @@ public class SecondScene extends Scene {
      */
     private static final int PLAYERS_NUM_4 = 4;
 
+
     /**
      * Constructor.
      * @param stage the stage
      * @param playerName the player name
      */
-    public SecondScene(final Stage stage, final String playerName) {
+    public ChoosePlayerNumberScene(final Stage stage, final String playerName) {
         super(new VBox());
         stage.setTitle("Ludo");
 
+        // vbox
         final VBox vbox = (VBox) this.getRoot();
         vbox.setMinSize(Constants.HOME_WINDOW_WIDTH, Constants.HOME_WINDOW_HEIGHT);
         vbox.setPadding(new Insets(Constants.INSET_OS));
         vbox.setSpacing(8);
         vbox.setAlignment(Pos.CENTER);
 
-        final Button twoPlayersBt = createButton(PLAYERS_NUM_2, playerName, stage);
+        // buttons
+        final Button twoPlayersBt = new Button(PLAYERS_NUM_2 + " players");
         twoPlayersBt.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-        final Button fourPlayersBt = createButton(PLAYERS_NUM_4, playerName, stage);
+        twoPlayersBt.setCursor(Cursor.HAND);
+        twoPlayersBt.setOnAction((event) -> {
+            new ControllerImpl(stage, playerName, PLAYERS_NUM_2);
+        });
+
+        final Button fourPlayersBt = new Button(PLAYERS_NUM_4 + " players");
         fourPlayersBt.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+        fourPlayersBt.setCursor(Cursor.HAND);
+        fourPlayersBt.setOnAction((event) -> {
+            new ControllerImpl(stage, playerName, PLAYERS_NUM_4);
+        });
 
         vbox.getChildren().add(twoPlayersBt);
         vbox.getChildren().add(fourPlayersBt);
 
         this.setFill(Color.valueOf("0077b6"));
-    }
-
-    private Button createButton(final int playersNumber, final String playerName, final Stage stage) {
-        final Button button = new Button(playersNumber + " players");
-
-        button.setOnAction((event) -> {
-            stage.close();
-            new ControllerImpl(playerName, playersNumber);
-        });
-        button.setCursor(Cursor.HAND);
-
-        return button;
     }
 
 }

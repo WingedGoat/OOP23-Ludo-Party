@@ -21,7 +21,7 @@ import utility.Constants;
  * First Scene represents the Scene contained by 
  * the First Stage.
  */
-public class FirstScene extends Scene {
+public class StartScene extends Scene {
 
     /**
      * Columns gap.
@@ -69,7 +69,7 @@ public class FirstScene extends Scene {
      * @param stage
      *              the stage
      */
-    public FirstScene(final Stage stage) {
+    public StartScene(final Stage stage) {
         super(new GridPane());
         stage.setTitle("Ludo");
 
@@ -114,9 +114,7 @@ public class FirstScene extends Scene {
             final String playerName = ((TextField) nodes.get(2)).getText();
 
             //System.out.println("Button clicked! " + playerName);
-
-            stage.close();
-            new SecondStage(playerName);
+            stage.setScene(ViewUtility.createChoosePlayerScene(stage, playerName));
         });
         button.setCursor(Cursor.HAND);
 

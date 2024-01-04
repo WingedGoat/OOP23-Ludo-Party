@@ -4,24 +4,20 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
-import model.api.Player;
 import utility.Constants;
 /**
  * View with the effective board of the game.
  */
-@SuppressWarnings("PMD")
-public class BoardView extends Stage {
+public class BoardScene extends Scene {
 
     /**
      * Constructor.
-     * @param player 
-     *              the player
-     * @param playersNumber 
-     *              the number of players in the game
+     * @param stage
+     *          the stage
      */
-    public BoardView(final Player player, final int playersNumber) {
-        final BorderPane layout = new BorderPane();
+    public BoardScene(final Stage stage) {
+        super(new BorderPane());
+        final BorderPane layout = (BorderPane) this.getRoot();
         final Pane pane = new Pane();
         pane.setPrefWidth(Constants.HOME_WINDOW_HEIGHT);
         pane.setPrefHeight(Constants.HOME_WINDOW_HEIGHT);
@@ -29,12 +25,12 @@ public class BoardView extends Stage {
         layout.setCenter(pane);
         //layout.setBottom(PlayerBonus/Malus);
         final Scene scene = new Scene(layout);
-        this.setScene(scene);
+        stage.setScene(scene);
 
-        this.setResizable(false);
-        this.show();
+        stage.setResizable(false);
+        stage.show();
 
-        this.setOnCloseRequest(e -> {
+        stage.setOnCloseRequest(e -> {
             //System.exit(0);
         });
     }

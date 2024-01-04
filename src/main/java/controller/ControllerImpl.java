@@ -1,36 +1,44 @@
 package controller;
 
+import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
-
 import controller.api.Controller;
-import model.PlayerImpl;
-import model.api.Player;
-import view.BoardView;
+import view.ViewUtility;
 
 /**
  * Controller used to coordinate model and view.
  */
-@SuppressWarnings("PMD")
+@SuppressWarnings("all")
 public class ControllerImpl implements Controller {
 
-    private final Stage board;
+    private final Scene board;
     private final int playersNumber;
 
     /**
      * Controller Impl constructor.
+     * @param stage
+     *                  the stage
      * @param playerName
      *                  the player name
      * @param playersNumber 
      *                  the number of players of the game
      */
-    public ControllerImpl(final String playerName, final int playersNumber) {
-        Player player = new PlayerImpl(playerName);
+    public ControllerImpl(final Stage stage, final String playerName, final int playersNumber) {
+        //Player player = new PlayerImpl(playerName);
         this.playersNumber = playersNumber;
 
         // initGame()
-        this.board = new BoardView(player, this.playersNumber);
+        this.board = ViewUtility.createBoardScene(stage);
         this.setInputHandler();
+    }
+
+    /**
+     * Returns the players number.
+     * @return playersNumber
+     */
+    public int getPlayersNumber() {
+        return this.playersNumber;
     }
 
     /**
@@ -38,7 +46,7 @@ public class ControllerImpl implements Controller {
      */
     //TODO
     private void setInputHandler() {
-        this.board.getScene().setOnKeyPressed(e -> {
+        this.board.setOnKeyPressed(e -> {
             if (e.getCode().equals(KeyCode.ENTER)) {
                 switch (e.getCode()) {
                 case ENTER: // THROW_DICE
