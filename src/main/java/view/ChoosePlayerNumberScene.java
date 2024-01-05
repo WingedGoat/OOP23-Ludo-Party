@@ -55,14 +55,16 @@ public class ChoosePlayerNumberScene extends Scene {
         final Button twoPlayersBt = new Button(PLAYERS_NUM_2 + " players");
         twoPlayersBt.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         twoPlayersBt.setCursor(Cursor.HAND);
-        twoPlayersBt.setOnAction((event) -> {
+        twoPlayersBt.setOnAction(event -> {
+            stage.close();
             new ControllerImpl(stage, playerName, PLAYERS_NUM_2);
         });
 
         final Button fourPlayersBt = new Button(PLAYERS_NUM_4 + " players");
         fourPlayersBt.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         fourPlayersBt.setCursor(Cursor.HAND);
-        fourPlayersBt.setOnAction((event) -> {
+        fourPlayersBt.setOnAction(event -> {
+            stage.close();
             new ControllerImpl(stage, playerName, PLAYERS_NUM_4);
         });
 

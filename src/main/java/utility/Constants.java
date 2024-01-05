@@ -20,6 +20,10 @@ public final class Constants {
      */
     public static final int HOME_WINDOW_HEIGHT = 600;
     /**
+     * Board bottom height.
+     */
+    public static final int BOARD_BOTTOM_HEIGHT = 50;
+    /**
      * Inset offset.
      */
     public static final int INSET_OS = 10;

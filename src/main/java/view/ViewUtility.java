@@ -11,7 +11,7 @@ public final class ViewUtility {
     private ViewUtility() { }
 
     /**
-     * Creates a new stage.
+     * Creates the app stage.
      */
     public static void createStage() {
         final Stage stage = new Stage();

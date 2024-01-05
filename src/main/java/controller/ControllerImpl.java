@@ -18,11 +18,11 @@ public class ControllerImpl implements Controller {
     /**
      * Controller Impl constructor.
      * @param stage
-     *                  the stage
+     *              the stage
      * @param playerName
-     *                  the player name
+     *              the player name
      * @param playersNumber 
-     *                  the number of players of the game
+     *              the number of players of the game
      */
     public ControllerImpl(final Stage stage, final String playerName, final int playersNumber) {
         this.playerName = playerName;
