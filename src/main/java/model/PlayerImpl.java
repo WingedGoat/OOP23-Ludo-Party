@@ -5,7 +5,7 @@ import java.util.List;
 import model.api.Pawn;
 import model.api.Player;
 import model.api.Wallet;
-import utility.Pair;
+import utility.Position;
 
 /**
  * Player Implementation class.
@@ -16,7 +16,7 @@ public final class PlayerImpl implements Player {
     private final String name;
     private final PlayerType type;
     private final Color color;
-    private final Pair boxPos;
+    private final Position boxPos;
     // private final List<Pair<Integer,Integer>> colouredPath;
     private final List<Pawn> pawns;
     private int coins;
@@ -35,7 +35,7 @@ public final class PlayerImpl implements Player {
      *               the position of the player's house
      */
     public PlayerImpl(final String name, final PlayerType type,
-            final Color color, final Pair boxPos) {
+            final Color color, final Position boxPos) {
         this.name = name;
         this.type = type;
         this.color = color;
@@ -68,7 +68,7 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public Pair getBoxPos() {
+    public Position getBoxPos() {
         return boxPos;
     }
 

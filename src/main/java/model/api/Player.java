@@ -3,7 +3,7 @@ package model.api;
 import java.util.List;
 
 import model.Color;
-import utility.Pair;
+import utility.Position;
 
 /**
  * Represents a player.
@@ -50,7 +50,7 @@ public interface Player {
      * 
      * @return the position of the house cell
      */
-    Pair getBoxPos();
+    Position getBoxPos();
 
     /**
      * Get the pawns of the current player.

@@ -1,10 +1,11 @@
 package model.api;
 
 import java.util.List;
-import utility.Pair;
+import utility.Position;
 
 /**
- * Rapresents the base of a Cell.
+ * Rapresents a Cell with a position and some flags 
+ * (e.g. isSafe) which indicates the type of the cell.
  */
 public interface Cell {
 
@@ -13,7 +14,7 @@ public interface Cell {
      * 
      * @return the cell position
      */
-    Pair getPosition();
+    Position getPosition();
 
     /**
      * Returns true if the actual cell is safe, false otherwise.
@@ -49,4 +50,5 @@ public interface Cell {
      * @return list with pawns
      */
     List<Pawn> getPawns();
+
 }
