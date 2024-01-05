@@ -4,7 +4,7 @@ import model.Color;
 import utility.Position;
 
 /**
- * 
+ * Represents the pawn of a player, which is moved in the board.
  */
 public interface Pawn {
 

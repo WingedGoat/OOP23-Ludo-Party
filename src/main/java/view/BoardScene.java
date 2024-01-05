@@ -1,5 +1,7 @@
 package view;
 
+import java.util.Map;
+import java.util.HashMap;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -14,7 +16,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import model.CellImpl;
+import model.api.Cell;
 import utility.Constants;
+import utility.Position;
 
 /**
  * Board Scene represents the third Scene 
@@ -26,6 +31,8 @@ public class BoardScene extends Scene {
     private static final int BOARD_CENTRAL_PANEL_WIDTH = 600;
     private static final int BORDER_WIDTH = 1;
     private static final int BOARD_SIDEPANEL_WIDTH = 220;
+    private static final int CELL_WIDTH = 20;
+    private final Map<Button, Cell> cells = new HashMap<>();
 
     /**
      * Constructor.
@@ -47,7 +54,8 @@ public class BoardScene extends Scene {
         // gridpane - central panel
         final GridPane centralPane = new GridPane();
         centralPane.setMinSize(BOARD_CENTRAL_PANEL_WIDTH, BOARD_CENTRAL_PANEL_WIDTH);
-        centralPane.add(new Button("central"), 10, 10);
+        createBoard(centralPane);
+        //centralPane.add(new Button("central"), 10, 10);
         centralPane.setBorder(border);
         borderPane.setCenter(centralPane);
 
@@ -76,6 +84,18 @@ public class BoardScene extends Scene {
         stage.setOnCloseRequest(e -> {
             //System.exit(0);
         });
+    }
+
+    private void createBoard(GridPane panel) {
+        for (int i = 0; i < Constants.BOARD_CELLS; i++) {
+            for (int j = 0; j < Constants.BOARD_CELLS; j++) {
+                final Button bt = new Button(" ");
+                bt.setPrefSize(CELL_WIDTH, CELL_WIDTH);
+                this.cells.put(bt, new CellImpl(new Position(j, i)));
+                //bt.addActionListener(al);
+                panel.add(bt, CELL_WIDTH, CELL_WIDTH);
+            }
+        }
     }
 
 }

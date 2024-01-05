@@ -39,6 +39,20 @@ public final class CellImpl implements Cell {
         this.pawnList = new ArrayList<>();
     }
 
+    /**
+     * Constructor.
+     * 
+     * @param pos the position of the cell
+     */
+    public CellImpl(final Position pos) {
+        this.position = pos;
+        this.isSafe = false;
+        this.isShop = false;
+        this.isHome = false;
+        this.isEmpty = true;
+        this.pawnList = new ArrayList<>();
+    }
+
     @Override
     public Position getPosition() {
         return this.position;

@@ -27,6 +27,10 @@ public final class Constants {
      * Inset offset.
      */
     public static final int INSET_OS = 10;
+    /**
+     * Number of cells of the board.
+     */
+    public static final int BOARD_CELLS = 15;
 
     private Constants() { }
 

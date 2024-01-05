@@ -5,7 +5,7 @@ import utility.Position;
 
 /**
  * Rapresents a Cell with a position and some flags 
- * (e.g. isSafe) which indicates the type of the cell.
+ * (e.g. isSafe) which indicate the type of the cell.
  */
 public interface Cell {
 
