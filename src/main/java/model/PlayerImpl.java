@@ -2,7 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import model.Game;
 import model.api.Pawn;
 import model.api.Player;
 import model.api.Wallet;
@@ -17,25 +17,26 @@ public final class PlayerImpl implements Player {
     private final String name;
     private final PlayerType type;
     private final Color color;
-    private final Pair<Integer, Integer> boxPos;
-    //private final List<Pair<Integer,Integer>> colouredPath;
+    private final Pair boxPos;
+    // private final List<Pair<Integer,Integer>> colouredPath;
     private final List<Pawn> pawns;
     private int coins;
     private boolean isPlayerTurn;
 
     /**
      * Player constructor.
+     * 
      * @param name
-     *          the player name
+     *               the player name
      * @param type
-     *          the player type
+     *               the player type
      * @param color
-     *          the player color
+     *               the player color
      * @param boxPos
-     *          the position of the player's house
+     *               the position of the player's house
      */
-    public PlayerImpl(final String name, final PlayerType type, 
-                      final Color color, final Pair<Integer, Integer> boxPos) {
+    public PlayerImpl(final String name, final PlayerType type,
+            final Color color, final Pair boxPos) {
         this.name = name;
         this.type = type;
         this.color = color;
@@ -68,13 +69,13 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public Pair<Integer, Integer> getBoxPos() {
+    public Pair getBoxPos() {
         return boxPos;
     }
 
     @Override
     public List<Pawn> getPawns() {
-        return pawns;
+        return List.copyOf(pawns);
     }
 
     @Override

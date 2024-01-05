@@ -10,19 +10,19 @@ public final class PawnImpl implements Pawn {
 
     private final Color color;
     private final int itemNo;
-    private Pair<Integer, Integer> position;
+    private Pair position;
 
     /**
      * Constructor.
      * 
      * @param color
-     *          the color of the pawn
+     *              the color of the pawn
      * @param index
-     *          the index of the pawn in the pawn list
+     *              the index of the pawn in the pawn list
      * @param pos
-     *          the position of the pawn in the board
+     *              the position of the pawn in the board
      */
-    public PawnImpl(final Color color, final int index, final Pair<Integer, Integer> pos) {
+    public PawnImpl(final Color color, final int index, final Pair pos) {
         this.color = color;
         this.itemNo = index;
         this.position = pos;
@@ -39,12 +39,12 @@ public final class PawnImpl implements Pawn {
     }
 
     @Override
-    public Pair<Integer, Integer> getPosition() {
+    public Pair getPosition() {
         return position;
     }
 
     @Override
-    public void setPosition(final Pair<Integer, Integer> position) {
+    public void setPosition(final Pair position) {
         this.position = position;
     }
 

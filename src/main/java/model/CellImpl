@@ -1,0 +1,29 @@
+package model;
+
+/**
+ * 
+ */
+public final class CellImpl implements Cell {
+
+    private final Pair<Integer, Integer> position;
+    private final boolean isSafe;
+    private final boolean isShop;
+    private final boolean isEmpty;
+    private final boolean isHome;
+
+    /**
+     * Constructor.
+     * @param
+     */
+    public CellImpl(final Pair<Integer, Integer> pos, final boolean isSafe, final boolean isShop, final boolean isEmpty, final boolean isHome) {
+        this.position = pos;
+        this.isSafe = isSafe;
+        this.isShop = isShop;
+        this.isEmpty = isEmpty;
+        this.isHome = isHome;
+    }
+
+
+
+    
+}
