@@ -2,7 +2,6 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-import model.Game;
 import model.api.Pawn;
 import model.api.Player;
 import model.api.Wallet;
