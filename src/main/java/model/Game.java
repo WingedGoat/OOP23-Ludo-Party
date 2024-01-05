@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import model.api.Player;
 import model.api.Player.PlayerType;
-import utility.Pair;
+import utility.Position;
 
 /**
  * 
  */
-@SuppressWarnings("PMD")
 public class Game {
 
     /**
@@ -42,17 +41,17 @@ public class Game {
      */
     public Game(final String playerName, final int playersNumber) {
         final Player h = new PlayerImpl(playerName, PlayerType.HUMAN, 
-            Color.BLUE, new Pair(ELEVEN, TWO));
+            Color.BLUE, new Position(ELEVEN, TWO));
         final Player p1 = new PlayerImpl(playerName, PlayerType.COMPUTER, 
-            Color.YELLOW, new Pair(0, 0));
+            Color.YELLOW, new Position(0, 0));
         players = new ArrayList<>();
         players.add(h);
         players.add(p1);
         if (playersNumber > players.size()) {
             final Player p2 = new PlayerImpl(playerName, PlayerType.COMPUTER, 
-                Color.GREEN, new Pair(0, 0));
+                Color.GREEN, new Position(0, 0));
             final Player p3 = new PlayerImpl(playerName, PlayerType.COMPUTER, 
-                Color.RED, new Pair(0, 0));
+                Color.RED, new Position(0, 0));
             players.add(p2);
             players.add(p3);
         }
