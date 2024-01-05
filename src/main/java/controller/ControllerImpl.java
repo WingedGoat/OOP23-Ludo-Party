@@ -3,8 +3,13 @@ package controller;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
+
+import java.util.List;
+
 import controller.api.Controller;
 import view.ViewUtility;
+import model.Game;
+import model.api.Player;
 
 /**
  * Controller used to coordinate model and view.
@@ -14,6 +19,7 @@ public class ControllerImpl implements Controller {
     private final Scene board;
     private final String playerName;
     private final int playersNumber;
+    private Player currentPlayer;
 
     /**
      * Controller Impl constructor.
@@ -29,23 +35,40 @@ public class ControllerImpl implements Controller {
         this.playersNumber = playersNumber;
 
         // initGame()
-        this.board = ViewUtility.createBoardScene(stage);
+        this.board = ViewUtility.createBoardScene(stage, playerName);
         this.setInputHandler();
+        final Game game = new Game(playerName, playersNumber);
+        final List<Player> players = game.getPlayers();
+
+        int turn = 0;
+        while (true) {
+            if (players.size() > turn) {
+                currentPlayer = players.get(turn);
+            }
+            if ("pi".equals(currentPlayer.getName())) {
+                break;
+            }
+            // giocatore lancia dado
+            // giocatore muove
+            // giocatore completa turno (compra o usa carte)
+            // giocatore segnala fine turno (boolean turnIsOver) e win/continue
+            turn = (turn + 1) % playersNumber;
+        }
     }
 
     /**
      * Returns the player name.
-     * @return playerName
+     * @return playerName.
      */
-    public String getPlayerName() {
+    public final String getPlayerName() {
         return this.playerName;
     }
 
     /**
      * Returns the players number.
-     * @return playersNumber
+     * @return playersNumber.
      */
-    public int getPlayersNumber() {
+    public final int getPlayersNumber() {
         return this.playersNumber;
     }
 

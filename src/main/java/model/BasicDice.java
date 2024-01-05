@@ -3,9 +3,9 @@ package model;
 import java.util.Random;
 import model.api.Dice;
 
-    /**
-     * A standard dice with 6 possible results.
-     */
+/**
+ * A standard dice with 6 possible results.
+ */
 public class BasicDice implements Dice {
 
     /**

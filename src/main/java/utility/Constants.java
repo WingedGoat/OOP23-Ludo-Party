@@ -27,6 +27,10 @@ public final class Constants {
      * Inset offset.
      */
     public static final int INSET_OS = 10;
+    /**
+     * Four players game.
+     */
+    public static final int FOUR_PLAYERS_GAME = 4;
 
     private Constants() { }
 
