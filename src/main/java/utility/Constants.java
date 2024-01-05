@@ -28,6 +28,10 @@ public final class Constants {
      */
     public static final int INSET_OS = 10;
     /**
+     * Four players game.
+     */
+    public static final int FOUR_PLAYERS_GAME = 4;
+    /**
      * Number of cells of the board.
      */
     public static final int BOARD_CELLS = 15;

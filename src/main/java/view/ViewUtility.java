@@ -50,11 +50,12 @@ public final class ViewUtility {
      * Creates the third scene, the one with the board of the game.
      * 
      * @param stage the stage
+     * @param playerName the player name
      * 
      * @return a new BoardScene
      */
-    public static Scene createBoardScene(final Stage stage) {
-        return new BoardScene(stage);
+    public static Scene createBoardScene(final Stage stage, final String playerName) {
+        return new BoardScene(stage, playerName);
     }
 
 }

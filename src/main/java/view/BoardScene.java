@@ -37,8 +37,9 @@ public class BoardScene extends Scene {
     /**
      * Constructor.
      * @param stage the stage
+     * @param playerName the player name
      */
-    public BoardScene(final Stage stage) {
+    public BoardScene(final Stage stage, final String playerName) {
         super(new BorderPane());
         stage.setScene(this);
         stage.setTitle("Board");
@@ -71,7 +72,7 @@ public class BoardScene extends Scene {
         borderPane.setRight(vBoxRight);
 
         // hbox - bottom panel for Player Bonus/Malus
-        final Button button = new Button("Button Bottom");
+        final Button button = new Button(playerName);
         final HBox bottomPane = new HBox(button);
         bottomPane.setPrefHeight(Constants.BOARD_BOTTOM_HEIGHT);
         bottomPane.setBorder(border);
