@@ -1,58 +1,112 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import model.api.Pawn;
 import model.api.Player;
 import model.api.Wallet;
+import utility.Pair;
 
 /**
- * 
+ * Player Implementation class.
  */
+@SuppressWarnings("all")
 public final class PlayerImpl implements Player {
 
     private final String name;
-    private final int coins;
+    private final PlayerType type;
     private final Color color;
-    private final boolean isPlayerTurn;
+    private final Pair<Integer, Integer> boxPos;
+    //private final List<Pair<Integer,Integer>> colouredPath;
+    private final List<Pawn> pawns;
+    private int coins;
+    private boolean isPlayerTurn;
 
     /**
      * Player constructor.
-     * @param name  the player name
+     * @param name
+     *          the player name
+     * @param type
+     *          the player type
+     * @param color
+     *          the player color
+     * @param boxPos
+     *          the position of the player's house
      */
-    public PlayerImpl(final String name) {
+    public PlayerImpl(final String name, final PlayerType type, 
+                      final Color color, final Pair<Integer, Integer> boxPos) {
         this.name = name;
+        this.type = type;
+        this.color = color;
+        this.boxPos = boxPos;
+
+        this.pawns = new ArrayList<>();
+        for (int i = 0; i < Game.getPawnNumber(); i++) {
+            pawns.add(new PawnImpl(color, i, boxPos));
+        }
+
         this.coins = 0;
-        this.color = Color.GRAY;
         this.isPlayerTurn = false;
     }
 
+    // getters
+
     @Override
     public String getName() {
-        return this.name;
+        return name;
     }
 
     @Override
-    public int getCoins() {
-        return this.coins;
+    public PlayerType getType() {
+        return type;
     }
 
     @Override
     public Color getColor() {
-        return this.color;
+        return color;
+    }
+
+    @Override
+    public Pair<Integer, Integer> getBoxPos() {
+        return boxPos;
+    }
+
+    @Override
+    public List<Pawn> getPawns() {
+        return pawns;
+    }
+
+    @Override
+    public int getCoins() {
+        return coins;
+    }
+
+    @Override
+    public void setCoins(final int coins) {
+        this.coins = coins;
     }
 
     @Override
     public boolean isPlayerTurn() {
-        return this.isPlayerTurn;
+        return isPlayerTurn;
+    }
+
+    @Override
+    public String toString() {
+        return "PlayerImpl [name=" + name + ", coins=" + coins + ", color=" + color + ", isPlayerTurn=" + isPlayerTurn
+                + "]";
     }
 
     @Override
     public int throwDice() {
-        //TODO
-        return 0;
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'throwDice'");
     }
 
     @Override
     public Wallet getWallet() {
-        // TODO
+        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getWallet'");
     }
 
