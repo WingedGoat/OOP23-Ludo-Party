@@ -11,6 +11,7 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import utility.Constants;
@@ -22,7 +23,9 @@ import utility.Constants;
  */
 public class BoardScene extends Scene {
 
-    private static final int BORDER_WIDTH = 3;
+    private static final int BOARD_CENTRAL_PANEL_WIDTH = 600;
+    private static final int BORDER_WIDTH = 1;
+    private static final int BOARD_SIDEPANEL_WIDTH = 220;
 
     /**
      * Constructor.
@@ -35,20 +38,35 @@ public class BoardScene extends Scene {
 
         // borderpane - container
         final BorderPane borderPane = (BorderPane) this.getRoot();
-        borderPane.setMinSize(Constants.HOME_WINDOW_HEIGHT, Constants.HOME_WINDOW_HEIGHT);
+        borderPane.setMinSize(BOARD_CENTRAL_PANEL_WIDTH, BOARD_CENTRAL_PANEL_WIDTH);
         borderPane.setPadding(new Insets(Constants.INSET_OS));
+
+        final var border = new Border(new BorderStroke(
+                Color.valueOf("#202020"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(BORDER_WIDTH)));
 
         // gridpane - central panel
         final GridPane centralPane = new GridPane();
+        centralPane.setMinSize(BOARD_CENTRAL_PANEL_WIDTH, BOARD_CENTRAL_PANEL_WIDTH);
         centralPane.add(new Button("central"), 10, 10);
+        centralPane.setBorder(border);
         borderPane.setCenter(centralPane);
+
+        // vboxes - lateral panels for Players
+        final VBox vBoxLeft = new VBox();
+        vBoxLeft.setPrefWidth(BOARD_SIDEPANEL_WIDTH); //FIXME
+        vBoxLeft.setBorder(border);
+        borderPane.setLeft(vBoxLeft);
+
+        final VBox vBoxRight = new VBox();
+        vBoxRight.setPrefWidth(BOARD_SIDEPANEL_WIDTH); //FIXME
+        vBoxRight.setBorder(border);
+        borderPane.setRight(vBoxRight);
 
         // hbox - bottom panel for Player Bonus/Malus
         final Button button = new Button("Button Bottom");
         final HBox bottomPane = new HBox(button);
         bottomPane.setPrefHeight(Constants.BOARD_BOTTOM_HEIGHT);
-        bottomPane.setBorder(new Border(new BorderStroke(
-                Color.CHOCOLATE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(BORDER_WIDTH))));
+        bottomPane.setBorder(border);
         borderPane.setBottom(bottomPane);
 
         this.setFill(Color.valueOf("0077b6"));
