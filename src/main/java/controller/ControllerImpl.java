@@ -41,7 +41,8 @@ public class ControllerImpl implements Controller {
         final List<Player> players = game.getPlayers();
 
         int turn = 0;
-        while (true) {
+        int count = 0;
+        while (count < players.size()) {
             if (players.size() > turn) {
                 currentPlayer = players.get(turn);
             }
@@ -53,6 +54,7 @@ public class ControllerImpl implements Controller {
             // giocatore completa turno (compra o usa carte)
             // giocatore segnala fine turno (boolean turnIsOver) e win/continue
             turn = (turn + 1) % playersNumber;
+            count++;
         }
     }
 

@@ -87,7 +87,7 @@ public class BoardScene extends Scene {
         });
     }
 
-    private void createBoard(GridPane panel) {
+    private void createBoard(final GridPane panel) {
         for (int i = 0; i < Constants.BOARD_CELLS; i++) {
             for (int j = 0; j < Constants.BOARD_CELLS; j++) {
                 final Button bt = new Button(" ");

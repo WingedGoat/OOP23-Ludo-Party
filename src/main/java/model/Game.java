@@ -14,7 +14,7 @@ public class Game {
     /**
      * Represent the game result.
      */
-    enum Result {
+    public enum Result {
         /**
          * Win.
          */
@@ -30,7 +30,7 @@ public class Game {
     private static final int ELEVEN = 11;
 
     private final int playersNumber;
-    private List<Player> players;
+    private final List<Player> players;
 
     /**
      * Constructor.
