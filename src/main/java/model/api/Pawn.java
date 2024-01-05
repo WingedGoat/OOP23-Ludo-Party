@@ -1,7 +1,7 @@
 package model.api;
 
 import model.Color;
-import utility.Pair;
+import utility.Position;
 
 /**
  * 
@@ -28,13 +28,13 @@ public interface Pawn {
      * 
      * @return the position
      */
-    Pair getPosition();
+    Position getPosition();
 
     /**
      * Sets the position of the pawn in the board.
      * 
      * @param position the position to set
      */
-    void setPosition(Pair position);
+    void setPosition(Position position);
 
 }

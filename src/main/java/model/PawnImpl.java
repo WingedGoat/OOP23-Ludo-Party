@@ -1,7 +1,7 @@
 package model;
 
 import model.api.Pawn;
-import utility.Pair;
+import utility.Position;
 
 /**
  * Pawn Implementation.
@@ -10,7 +10,7 @@ public final class PawnImpl implements Pawn {
 
     private final Color color;
     private final int itemNo;
-    private Pair position;
+    private Position position;
 
     /**
      * Constructor.
@@ -22,7 +22,7 @@ public final class PawnImpl implements Pawn {
      * @param pos
      *              the position of the pawn in the board
      */
-    public PawnImpl(final Color color, final int index, final Pair pos) {
+    public PawnImpl(final Color color, final int index, final Position pos) {
         this.color = color;
         this.itemNo = index;
         this.position = pos;
@@ -39,12 +39,12 @@ public final class PawnImpl implements Pawn {
     }
 
     @Override
-    public Pair getPosition() {
+    public Position getPosition() {
         return position;
     }
 
     @Override
-    public void setPosition(final Pair position) {
+    public void setPosition(final Position position) {
         this.position = position;
     }
 

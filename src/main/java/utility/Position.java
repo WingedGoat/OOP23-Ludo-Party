@@ -4,7 +4,7 @@ package utility;
  * A standard generic Pair, with getters, hashCode, equals, and toString well
  * implemented.
  */
-public final class Pair {
+public final class Position {
 
     private final int x;
     private final int y;
@@ -15,7 +15,7 @@ public final class Pair {
      * @param x x value
      * @param y y value
      */
-    public Pair(final int x, final int y) {
+    public Position(final int x, final int y) {
         this.x = x;
         this.y = y;
     }
