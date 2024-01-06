@@ -1,5 +1,6 @@
 package model;
 
+import model.PlayerHome.HomePosition;
 import model.api.Pawn;
 import utility.Position;
 
@@ -8,29 +9,45 @@ import utility.Position;
  */
 public final class PawnImpl implements Pawn {
 
-    private final Color color;
+    private final Position startPosition;
+    private Position currentPosition;
     private final int itemNo;
-    private Position position;
+    private final HomePosition homePosition;
+    private final Color color;
 
     /**
      * Constructor.
      * 
-     * @param color
-     *              the color of the pawn
-     * @param index
-     *              the index of the pawn in the pawn list
      * @param pos
-     *              the position of the pawn in the board
+     *          the position of the pawn in the board
+     * @param index
+     *          the index of the pawn in the list
+     * @param homePos
+     *          the home position in the board
+     * @param color
+     *          the color of the pawn
      */
-    public PawnImpl(final Color color, final int index, final Position pos) {
-        this.color = color;
+    public PawnImpl(final Position pos, final int index, final HomePosition homePos, final Color color) {
+        this.startPosition = pos;
+        this.currentPosition = pos;
         this.itemNo = index;
-        this.position = pos;
+        this.homePosition = homePos;
+        this.color = color;
     }
 
     @Override
-    public Color getColor() {
-        return color;
+    public Position getStartPosition() {
+        return startPosition;
+    }
+
+    @Override
+    public Position getPosition() {
+        return currentPosition;
+    }
+
+    @Override
+    public void setPosition(final Position position) {
+        this.currentPosition = position;
     }
 
     @Override
@@ -39,18 +56,19 @@ public final class PawnImpl implements Pawn {
     }
 
     @Override
-    public Position getPosition() {
-        return position;
+    public Color getColor() {
+        return color;
     }
 
     @Override
-    public void setPosition(final Position position) {
-        this.position = position;
+    public HomePosition getHomePosition() {
+        return homePosition;
     }
 
     @Override
     public String toString() {
-        return "PawnImpl [color=" + color + ", itemNo =" + itemNo + ", position=" + position + "]";
+        return "PawnImpl [startPosition=" + startPosition + ", currentPosition=" + currentPosition + ", itemNo="
+                + itemNo + ", homePosition=" + homePosition + ", color=" + color + "]";
     }
 
 }
