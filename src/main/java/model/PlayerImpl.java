@@ -2,10 +2,11 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import model.PlayerHome.HomePosition;
 import model.api.Pawn;
 import model.api.Player;
 import model.api.Wallet;
-import utility.Position;
 
 /**
  * Player Implementation class.
@@ -16,8 +17,8 @@ public final class PlayerImpl implements Player {
     private final String name;
     private final PlayerType type;
     private final Color color;
-    private final Position boxPos;
-    // private final List<Pair<Integer,Integer>> colouredPath;
+    private final HomePosition homePosition;
+    // private final List<Pair<Integer,Integer>> safePath;
     private final List<Pawn> pawns;
     private int coins;
     private boolean isPlayerTurn;
@@ -31,19 +32,19 @@ public final class PlayerImpl implements Player {
      *               the player type
      * @param color
      *               the player color
-     * @param boxPos
+     * @param homePosition
      *               the position of the player's house
      */
     public PlayerImpl(final String name, final PlayerType type,
-            final Color color, final Position boxPos) {
+            final Color color, final HomePosition homePosition) {
         this.name = name;
         this.type = type;
         this.color = color;
-        this.boxPos = boxPos;
+        this.homePosition = homePosition;
 
         this.pawns = new ArrayList<>();
-        for (int i = 0; i < Game.getPawnNumber(); i++) {
-            pawns.add(new PawnImpl(color, i, boxPos));
+        for (int i = 0; i < homePosition.getPawnPositions().size(); i++) {
+            pawns.add(new PawnImpl(homePosition.getPawnPositions().get(i), i, homePosition, color));
         }
 
         this.coins = 0;
@@ -68,8 +69,8 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public Position getBoxPos() {
-        return boxPos;
+    public HomePosition getHomePosition() {
+        return homePosition;
     }
 
     @Override
@@ -92,10 +93,11 @@ public final class PlayerImpl implements Player {
         return isPlayerTurn;
     }
 
+
     @Override
     public String toString() {
-        return "PlayerImpl [name=" + name + ", coins=" + coins + ", color=" + color + ", isPlayerTurn=" + isPlayerTurn
-                + "]";
+        return "PlayerImpl [name=" + name + ", type=" + type + ", color=" + color + ", homePosition=" + homePosition
+                + ", pawns=" + pawns + ", coins=" + coins + ", isPlayerTurn=" + isPlayerTurn + "]";
     }
 
     @Override

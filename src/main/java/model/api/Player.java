@@ -3,7 +3,7 @@ package model.api;
 import java.util.List;
 
 import model.Color;
-import utility.Position;
+import model.PlayerHome.HomePosition;
 
 /**
  * Represents a player.
@@ -46,11 +46,11 @@ public interface Player {
     Color getColor();
 
     /**
-     * Gets the position of the house cell (the first one).
+     * Gets the position of the house cell.
      * 
      * @return the position of the house cell
      */
-    Position getBoxPos();
+    HomePosition getHomePosition();
 
     /**
      * Get the pawns of the current player.
@@ -94,4 +94,5 @@ public interface Player {
      * @return a wallet
      */
     Wallet getWallet();
+
 }
