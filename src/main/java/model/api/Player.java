@@ -82,9 +82,17 @@ public interface Player {
     boolean isPlayerTurn();
 
     /**
+     * Returns the type of Dice the player owns,
+     * everyone starts with a BasicDiceImpl.
+     * 
+     * @return the Dice of the player.
+     */
+    Dice getDice();
+
+    /**
      * Returns the value of the dice thrown.
      * 
-     * @return the value of the dice
+     * @return the value of the dice.
      */
     int throwDice();
 

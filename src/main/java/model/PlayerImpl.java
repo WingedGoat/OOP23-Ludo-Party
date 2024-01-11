@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.PlayerHome.HomePosition;
+import model.api.Dice;
 import model.api.Pawn;
 import model.api.Player;
 import model.api.Wallet;
@@ -22,6 +23,7 @@ public final class PlayerImpl implements Player {
     private final List<Pawn> pawns;
     private int coins;
     private boolean isPlayerTurn;
+    private Dice dice;
 
     /**
      * Player constructor.
@@ -49,6 +51,7 @@ public final class PlayerImpl implements Player {
 
         this.coins = 0;
         this.isPlayerTurn = false;
+        this.dice = new BasicDiceImpl();
     }
 
     // getters
@@ -93,6 +96,11 @@ public final class PlayerImpl implements Player {
         return isPlayerTurn;
     }
 
+    @Override
+    public Dice getDice() {
+        return this.dice;
+    }
+
 
     @Override
     public String toString() {
@@ -102,8 +110,7 @@ public final class PlayerImpl implements Player {
 
     @Override
     public int throwDice() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'throwDice'");
+        return this.getDice().roll();
     }
 
     @Override

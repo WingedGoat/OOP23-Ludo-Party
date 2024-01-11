@@ -43,17 +43,17 @@ public class ControllerImpl implements Controller {
         int turn = 0;
         int count = 0;
         while (count < players.size()) {
-            if (players.size() > turn) {
+            if (players.size() > turn) { // controllo che turn sia regolarmente nel range 0 - n^ giocatori
                 currentPlayer = players.get(turn);
             }
-            if ("pi".equals(currentPlayer.getName())) {
+            /*if ("pi".equals(currentPlayer.getName())) {
                 break;
-            }
-            // giocatore lancia dado
+            }*/
+            currentPlayer.throwDice();
             // giocatore muove
             // giocatore completa turno (compra o usa carte)
             // giocatore segnala fine turno (boolean turnIsOver) e win/continue
-            turn = (turn + 1) % playersNumber;
+            turn = (turn + 1) % getPlayersNumber();
             count++;
         }
     }

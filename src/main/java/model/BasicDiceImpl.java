@@ -6,7 +6,7 @@ import model.api.Dice;
 /**
  * A standard dice with 6 possible results.
  */
-public class BasicDice implements Dice {
+public class BasicDiceImpl implements Dice {
 
     /**
      * Number of faces.
