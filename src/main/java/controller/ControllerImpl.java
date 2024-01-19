@@ -1,25 +1,26 @@
 package controller;
 
-import javafx.scene.Scene;
+import java.util.List;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
-import java.util.List;
-
-import controller.api.Controller;
-import view.ViewUtility;
 import model.Game;
 import model.api.Player;
+import controller.api.Controller;
+import view.BoardScene;
+import view.ViewUtility;
 
 /**
  * Controller used to coordinate model and view.
  */
 public class ControllerImpl implements Controller {
 
-    private final Scene board;
+    private final BoardScene board;
     private final String playerName;
     private final int playersNumber;
     private Player currentPlayer;
+    private final List<Player> players;
+    private int diceResult;
 
     /**
      * Controller Impl constructor.
@@ -35,27 +36,31 @@ public class ControllerImpl implements Controller {
         this.playersNumber = playersNumber;
 
         // initGame()
-        this.board = ViewUtility.createBoardScene(stage, playerName);
+        this.board = (BoardScene) ViewUtility.createBoardScene(stage, playerName);
         this.setInputHandler();
         final Game game = new Game(playerName, playersNumber);
-        final List<Player> players = game.getPlayers();
+        this.players = game.getPlayers();
 
-        int turn = 0;
-        int count = 0;
-        while (count < players.size()) {
-            if (players.size() > turn) { // controllo che turn sia regolarmente nel range 0 - n^ giocatori
-                currentPlayer = players.get(turn);
-            }
-            /*if ("pi".equals(currentPlayer.getName())) {
-                break;
-            }*/
-            currentPlayer.throwDice();
-            // giocatore muove
+        board.getPlayerPanel().getRollDiceButton().setOnAction(e -> {
+            currentPlayer = players.get(0);
+            this.diceResult = currentPlayer.throwDice();
+            board.getPlayerPanel().getRollDiceButton().setDisable(true);
+        });
+
+            // giocatore muove pedina
             // giocatore completa turno (compra o usa carte)
             // giocatore segnala fine turno (boolean turnIsOver) e win/continue
-            turn = (turn + 1) % getPlayersNumber();
-            count++;
+    }
+
+    private void changeTurn() {
+        int turn = 1;
+        while (turn < players.size()) {
+            currentPlayer = players.get(turn);
+            this.diceResult = currentPlayer.throwDice();
+            // giocatore muove pedina
+            turn++;
         }
+        board.getPlayerPanel().getRollDiceButton().setDisable(false);
     }
 
     /**
@@ -75,20 +80,20 @@ public class ControllerImpl implements Controller {
     }
 
     /**
-     * Metodo che imposta i comandi ottenibili da tastiera.
+     * Returns the dice result.
+     * @return the result of the dice.
      */
-    //TODO
+    public int getDiceResult() {
+        return this.diceResult;
+    }
+
+    /**
+     * Set input handler for ENTER key pressed.
+     */
     private void setInputHandler() {
         this.board.setOnKeyPressed(e -> {
             if (e.getCode().equals(KeyCode.ENTER)) {
-                switch (e.getCode()) {
-                case ENTER: // THROW_DICE
-                    //this.board.getDice().throw();
-                    break;
-                default:
-                    //System.out.println("Key Pressed: " + e.getCode());
-                    break;
-                }
+                this.changeTurn();
             }
         });
     }

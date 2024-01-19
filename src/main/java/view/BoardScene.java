@@ -61,7 +61,7 @@ public class BoardScene extends Scene {
         borderPane.setCenter(centralPane);
 
         // vboxes - lateral panels for Players
-        final VBox vBoxLeft = new VBox();
+        final PlayerPanel vBoxLeft = new PlayerPanel(new Button("Roll dice"));
         vBoxLeft.setPrefWidth(BOARD_SIDEPANEL_WIDTH); //FIXME
         vBoxLeft.setBorder(border);
         borderPane.setLeft(vBoxLeft);
@@ -72,8 +72,8 @@ public class BoardScene extends Scene {
         borderPane.setRight(vBoxRight);
 
         // hbox - bottom panel for Player Bonus/Malus
-        final Button button = new Button(playerName);
-        final HBox bottomPane = new HBox(button);
+        final Button playerButton = new Button(playerName);
+        final HBox bottomPane = new HBox(playerButton);
         bottomPane.setPrefHeight(Constants.BOARD_BOTTOM_HEIGHT);
         bottomPane.setBorder(border);
         borderPane.setBottom(bottomPane);
@@ -92,11 +92,20 @@ public class BoardScene extends Scene {
             for (int j = 0; j < Constants.BOARD_CELLS; j++) {
                 final Button bt = new Button(" ");
                 bt.setPrefSize(CELL_WIDTH, CELL_WIDTH);
+                bt.setDisable(true);
                 this.cells.put(bt, new CellImpl(new Position(j, i)));
                 //bt.addActionListener(al);
                 panel.add(bt, CELL_WIDTH, CELL_WIDTH);
             }
         }
+    }
+
+    /**
+     * Return PlayerPanel.
+     * @return PlayerPanel.
+     */
+    public PlayerPanel getPlayerPanel() {
+        return (PlayerPanel) ((BorderPane) this.getRoot()).getLeft();
     }
 
 }
