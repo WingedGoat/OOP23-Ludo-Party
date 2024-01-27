@@ -52,7 +52,7 @@ public class ChoosePlayerNumberScene extends Scene {
         vbox.setAlignment(Pos.CENTER);
 
         // buttons
-        final Button twoPlayersBt = new Button(PLAYERS_NUM_2 + " players");
+        final Button twoPlayersBt = new Button(PLAYERS_NUM_2 + " giocatori");
         twoPlayersBt.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         twoPlayersBt.setCursor(Cursor.HAND);
         twoPlayersBt.setOnAction(event -> {
@@ -60,7 +60,7 @@ public class ChoosePlayerNumberScene extends Scene {
             new ControllerImpl(stage, playerName, PLAYERS_NUM_2);
         });
 
-        final Button fourPlayersBt = new Button(PLAYERS_NUM_4 + " players");
+        final Button fourPlayersBt = new Button(PLAYERS_NUM_4 + " giocatori");
         fourPlayersBt.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         fourPlayersBt.setCursor(Cursor.HAND);
         fourPlayersBt.setOnAction(event -> {

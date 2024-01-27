@@ -72,7 +72,7 @@ public class BoardScene extends Scene {
         borderPane.setCenter(centralPane);
 
         // vboxes - lateral panels for Players
-        final Button rollDiceButton = new Button("Roll dice");
+        final Button rollDiceButton = new Button("Tira il dado");
         rollDiceButton.setOnAction(e -> {
             controller.clickRollDiceButton();
         });
