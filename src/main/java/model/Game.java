@@ -39,15 +39,15 @@ public class Game {
     public Game(final String playerName, final int playersNumber) {
         final Player h = new PlayerImpl(playerName, PlayerType.HUMAN, 
             Color.BLUE, HomePosition.BOTTOM_LEFT);
-        final Player p1 = new PlayerImpl(playerName, PlayerType.COMPUTER, 
+        final Player p1 = new PlayerImpl("Player 2", PlayerType.COMPUTER, 
             Color.YELLOW, HomePosition.TOP_RIGHT);
         players = new ArrayList<>();
         players.add(h);
         players.add(p1);
         if (playersNumber > players.size()) {
-            final Player p2 = new PlayerImpl(playerName, PlayerType.COMPUTER, 
+            final Player p2 = new PlayerImpl("Player 3", PlayerType.COMPUTER, 
                 Color.GREEN, HomePosition.TOP_LEFT);
-            final Player p3 = new PlayerImpl(playerName, PlayerType.COMPUTER, 
+            final Player p3 = new PlayerImpl("Player 4", PlayerType.COMPUTER, 
                 Color.RED, HomePosition.BOTTOM_RIGHT);
             players.add(p2);
             players.add(p3);

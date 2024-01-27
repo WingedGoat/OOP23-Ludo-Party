@@ -84,7 +84,7 @@ public final class PlayerHome {
          * Home positioned at bottom right corner.
          */
         BOTTOM_RIGHT(new Position(ELEVEN, ELEVEN), new Position(TWELVE, ELEVEN), 
-                     new Position(TWELVE, ELEVEN), new Position(TWELVE, TWELVE));
+                     new Position(ELEVEN, TWELVE), new Position(TWELVE, TWELVE));
 
         private List<Position> pawnPositions = new ArrayList<>();
 

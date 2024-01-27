@@ -3,6 +3,8 @@ package view;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import controller.ControllerImpl;
+
 /**
  * Utility class used to create the views of the game.
  */
@@ -49,13 +51,14 @@ public final class ViewUtility {
     /**
      * Creates the third scene, the one with the board of the game.
      * 
+     * @param controller the controller
      * @param stage the stage
      * @param playerName the player name
      * 
      * @return a new BoardScene
      */
-    public static Scene createBoardScene(final Stage stage, final String playerName) {
-        return new BoardScene(stage, playerName);
+    public static Scene createBoardScene(final ControllerImpl controller, final Stage stage, final String playerName) {
+        return new BoardScene(controller, stage, playerName);
     }
 
 }

@@ -2,9 +2,14 @@ package view;
 
 import java.util.Map;
 import java.util.HashMap;
+
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.BorderStroke;
@@ -16,10 +21,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import model.CellImpl;
-import model.api.Cell;
+import controller.ControllerImpl;
 import utility.Constants;
-import utility.Position;
 
 /**
  * Board Scene represents the third Scene
@@ -32,7 +35,6 @@ public class BoardScene extends Scene {
     private static final int BORDER_WIDTH = 1;
     private static final int BOARD_SIDEPANEL_WIDTH = 220;
     private static final int CELL_WIDTH = 40;
-    private final Map<Button, Cell> cells = new HashMap<>();
     private static final int BORDER_POINT = 0; // The border of one of the coords of the board
     private static final int FIRST_HALF = 6;
     private static final int MIDDLE_POINT = 7; // The center of a coordinate of the board
@@ -44,10 +46,11 @@ public class BoardScene extends Scene {
     /**
      * Constructor.
      * 
+     * @param controller the controller
      * @param stage      the stage
      * @param playerName the player name
      */
-    public BoardScene(final Stage stage, final String playerName) {
+    public BoardScene(final ControllerImpl controller, final Stage stage, final String playerName) {
         super(new BorderPane());
         stage.setScene(this);
         stage.setTitle("Board");
@@ -63,13 +66,17 @@ public class BoardScene extends Scene {
         // gridpane - central panel
         final GridPane centralPane = new GridPane();
         centralPane.setMinSize(BOARD_CENTRAL_PANEL_WIDTH, BOARD_CENTRAL_PANEL_WIDTH);
-        createBoard(centralPane);
+        createBoard(centralPane, controller);
         // centralPane.add(new Button("central"), 10, 10);
         centralPane.setBorder(border);
         borderPane.setCenter(centralPane);
 
         // vboxes - lateral panels for Players
-        final PlayerPanel vBoxLeft = new PlayerPanel(new Button("Roll dice"));
+        final Button rollDiceButton = new Button("Roll dice");
+        rollDiceButton.setOnAction(e -> {
+            controller.clickRollDiceButton();
+        });
+        final PlayerPanel vBoxLeft = new PlayerPanel(rollDiceButton, new Label(" "));
         vBoxLeft.setPrefWidth(BOARD_SIDEPANEL_WIDTH); //FIXME
         vBoxLeft.setBorder(border);
         borderPane.setLeft(vBoxLeft);
@@ -81,12 +88,19 @@ public class BoardScene extends Scene {
 
         // hbox - bottom panel for Player Bonus/Malus
         final Button playerButton = new Button(playerName);
+        playerButton.setDisable(true);
         final HBox bottomPane = new HBox(playerButton);
         bottomPane.setPrefHeight(Constants.BOARD_BOTTOM_HEIGHT);
         bottomPane.setBorder(border);
         borderPane.setBottom(bottomPane);
 
         this.setFill(Color.valueOf("0077b6"));
+
+        this.setOnKeyPressed(e -> {
+            if (e.getCode().equals(KeyCode.ENTER)) {
+                controller.pressEnterKey();
+            }
+        });
 
         stage.show();
 
@@ -95,14 +109,23 @@ public class BoardScene extends Scene {
         });
     }
 
-    private void createBoard(final GridPane panel) {
+    private void createBoard(final GridPane panel, final ControllerImpl controller) {
+
+        final EventHandler<ActionEvent> buttonClicked = new EventHandler<>() {
+
+            @Override
+            public void handle(final ActionEvent e) {
+                final Button clicked = (Button) e.getSource();
+                clicked.setDisable(true);
+            }
+        };
         for (int i = 0; i < Constants.BOARD_CELLS; i++) {
             for (int j = 0; j < Constants.BOARD_CELLS; j++) {
                 final Button bt = new Button(" ");
                 bt.setPrefSize(CELL_WIDTH, CELL_WIDTH);
                 bt.setDisable(true);
-                this.cells.put(bt, new CellImpl(new Position(j, i)));
-                // bt.addActionListener(al);
+                bt.setOnAction(buttonClicked);
+                controller.addToCells(bt, i, j);
                 if (colorNumber(i, j) != NO_COLOR) {
                     bt.setStyle("-fx-background-color: " + COLOR_CODES.get(colorNumber(i, j)) + ";");
                 }
