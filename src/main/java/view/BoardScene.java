@@ -42,6 +42,7 @@ public class BoardScene extends Scene {
     private static final Map<Integer, String> COLOR_CODES = new HashMap<>(// FIXME
             Map.of(0, "#ff0000", 1, "#00ff00", 2, "#0000ff", 3, "#ffff00")); // Color codes to display
     private static final int NO_COLOR = 4;
+    private final BorderPane borderPane;
 
     /**
      * Constructor.
@@ -56,7 +57,7 @@ public class BoardScene extends Scene {
         stage.setTitle("Board");
 
         // borderpane - container
-        final BorderPane borderPane = (BorderPane) this.getRoot();
+        borderPane = (BorderPane) this.getRoot();
         borderPane.setMinSize(BOARD_CENTRAL_PANEL_WIDTH, BOARD_CENTRAL_PANEL_WIDTH);
         borderPane.setPadding(new Insets(Constants.INSET_OS));
 
@@ -75,6 +76,7 @@ public class BoardScene extends Scene {
         final Button rollDiceButton = new Button("Tira il dado");
         rollDiceButton.setOnAction(e -> {
             controller.clickRollDiceButton();
+            borderPane.requestFocus();
         });
         final PlayerPanel vBoxLeft = new PlayerPanel(rollDiceButton, new Label(" "));
         vBoxLeft.setPrefWidth(BOARD_SIDEPANEL_WIDTH); //FIXME
@@ -99,6 +101,7 @@ public class BoardScene extends Scene {
         this.setOnKeyPressed(e -> {
             if (e.getCode().equals(KeyCode.ENTER)) {
                 controller.pressEnterKey();
+                rollDiceButton.requestFocus();
             }
         });
 
@@ -116,7 +119,8 @@ public class BoardScene extends Scene {
             @Override
             public void handle(final ActionEvent e) {
                 final Button clicked = (Button) e.getSource();
-                clicked.setDisable(true);
+                controller.clickBoardButton(clicked);
+                borderPane.requestFocus();
             }
         };
         for (int i = 0; i < Constants.BOARD_CELLS; i++) {

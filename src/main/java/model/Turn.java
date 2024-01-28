@@ -14,7 +14,7 @@ public class Turn {
      * @param player current player.
      */
     private void setCurrentPlayer(final Player player) {
-        this.diceResult = player.throwDice();
+        this.diceResult = player.rollDice();
     }
 
     /**

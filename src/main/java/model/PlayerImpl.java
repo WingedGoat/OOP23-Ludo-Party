@@ -109,7 +109,7 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public int throwDice() {
+    public int rollDice() {
         return this.getDice().roll();
     }
 

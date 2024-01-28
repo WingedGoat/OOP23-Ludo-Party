@@ -98,6 +98,17 @@ public class ControllerImpl implements Controller {
         this.turn.changeTurn(currentPlayer);
         board.getPlayerPanel().getDiceLabel().setText("Risultato " + currentPlayer.getName() + ": " + turn.getDiceResult());
         board.getPlayerPanel().getRollDiceButton().setDisable(true);
+        for (final Button b : this.cells.keySet()) {
+            b.setDisable(false);
+        }
+    }
+
+    /**
+     * Handles the click of any Button of the board.
+     * @param clickedButton the button of the board which was clicked.
+     */
+    public void clickBoardButton(final Button clickedButton) {
+
     }
 
     /**

@@ -94,7 +94,7 @@ public interface Player {
      * 
      * @return the value of the dice.
      */
-    int throwDice();
+    int rollDice();
 
     /**
      * Returns a wallet.
