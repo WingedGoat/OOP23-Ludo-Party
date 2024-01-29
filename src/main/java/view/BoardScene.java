@@ -1,9 +1,11 @@
 package view;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.HashMap;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -43,6 +45,7 @@ public class BoardScene extends Scene {
             Map.of(0, "#ff0000", 1, "#00ff00", 2, "#0000ff", 3, "#ffff00")); // Color codes to display
     private static final int NO_COLOR = 4;
     private final BorderPane borderPane;
+    private Optional<Event> lastEvent = Optional.empty();
 
     /**
      * Constructor.
@@ -75,7 +78,11 @@ public class BoardScene extends Scene {
         // vboxes - lateral panels for Players
         final Button rollDiceButton = new Button("Tira il dado");
         rollDiceButton.setOnAction(e -> {
-            controller.clickRollDiceButton();
+            if (!lastEvent.isPresent()
+                    || lastEvent.isPresent() && !lastEvent.get().getSource().equals(rollDiceButton)) {
+                lastEvent = Optional.of(e);
+                controller.clickRollDiceButton();
+            }
             borderPane.requestFocus();
         });
         final PlayerPanel vBoxLeft = new PlayerPanel(rollDiceButton, new Label(" "));
@@ -100,6 +107,7 @@ public class BoardScene extends Scene {
 
         this.setOnKeyPressed(e -> {
             if (e.getCode().equals(KeyCode.ENTER)) {
+                lastEvent = Optional.of(e);
                 controller.pressEnterKey();
                 rollDiceButton.requestFocus();
             }
@@ -114,20 +122,22 @@ public class BoardScene extends Scene {
 
     private void createBoard(final GridPane panel, final ControllerImpl controller) {
 
+        final BoardScene thisBoard = this;
         final EventHandler<ActionEvent> buttonClicked = new EventHandler<>() {
 
             @Override
             public void handle(final ActionEvent e) {
                 final Button clicked = (Button) e.getSource();
                 controller.clickBoardButton(clicked);
-                borderPane.requestFocus();
+                if (lastEvent.isPresent() && !lastEvent.get().getSource().equals(thisBoard)) {
+                    borderPane.requestFocus();
+                }
             }
         };
         for (int i = 0; i < Constants.BOARD_CELLS; i++) {
             for (int j = 0; j < Constants.BOARD_CELLS; j++) {
                 final Button bt = new Button(" ");
                 bt.setPrefSize(CELL_WIDTH, CELL_WIDTH);
-                bt.setDisable(true);
                 bt.setOnAction(buttonClicked);
                 controller.addToCells(bt, i, j);
                 if (colorNumber(i, j) != NO_COLOR) {

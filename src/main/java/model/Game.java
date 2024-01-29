@@ -1,11 +1,18 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javafx.scene.control.Button;
 
 import model.PlayerHome.HomePosition;
+import model.api.Cell;
 import model.api.Player;
 import model.api.Player.PlayerType;
+import utility.Position;
 
 /**
  * 
@@ -28,6 +35,7 @@ public class Game {
 
     private final int playersNumber;
     private final List<Player> players;
+    private final Map<Button, Cell> cells = new HashMap<>();
 
     /**
      * Constructor.
@@ -69,6 +77,28 @@ public class Game {
      */
     public List<Player> getPlayers() {
         return List.copyOf(players);
+    }
+
+    /**
+     * Returns the cells of the board.
+     * @return the board cells.
+     */
+    public Map<Button, Cell> getCells() {
+        final Map<Button, Cell> myCells = new HashMap<>();
+        for (final Entry<Button, Cell> e : this.cells.entrySet()) {
+            myCells.put(e.getKey(), e.getValue());
+        }
+        return myCells;
+    }
+
+    /**
+     * Add to cells Map a new button and his Cell.
+     * @param button the button to add to Map cells.
+     * @param i the y coordinate of the new Button.
+     * @param j the x coordinate of the new Button.
+     */
+    public void addToCells(final Button button, final int i, final int j) {
+        this.cells.put(button, new CellImpl(new Position(j, i)));
     }
 
     /**
