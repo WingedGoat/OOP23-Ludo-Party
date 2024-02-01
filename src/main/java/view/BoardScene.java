@@ -1,11 +1,9 @@
 package view;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.HashMap;
 
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -45,7 +43,6 @@ public class BoardScene extends Scene {
             Map.of(0, "#ff0000", 1, "#00ff00", 2, "#0000ff", 3, "#ffff00")); // Color codes to display
     private static final int NO_COLOR = 4;
     private final BorderPane borderPane;
-    private Optional<Event> lastEvent = Optional.empty();
 
     /**
      * Constructor.
@@ -71,18 +68,13 @@ public class BoardScene extends Scene {
         final GridPane centralPane = new GridPane();
         centralPane.setMinSize(BOARD_CENTRAL_PANEL_WIDTH, BOARD_CENTRAL_PANEL_WIDTH);
         createBoard(centralPane, controller);
-        // centralPane.add(new Button("central"), 10, 10);
         centralPane.setBorder(border);
         borderPane.setCenter(centralPane);
 
         // vboxes - lateral panels for Players
         final Button rollDiceButton = new Button("Tira il dado");
         rollDiceButton.setOnAction(e -> {
-            if (!lastEvent.isPresent()
-                    || lastEvent.isPresent() && !lastEvent.get().getSource().equals(rollDiceButton)) {
-                lastEvent = Optional.of(e);
-                controller.clickRollDiceButton();
-            }
+            controller.clickRollDiceButton();
             borderPane.requestFocus();
         });
         final PlayerPanel vBoxLeft = new PlayerPanel(rollDiceButton, new Label(" "));
@@ -106,9 +98,7 @@ public class BoardScene extends Scene {
         this.setFill(Color.valueOf("0077b6"));
 
         this.setOnKeyPressed(e -> {
-            if (e.getCode().equals(KeyCode.ENTER)) {
-                lastEvent = Optional.of(e);
-                controller.pressEnterKey();
+            if (e.getCode().equals(KeyCode.ENTER) && controller.pressEnterKey()) {
                 rollDiceButton.requestFocus();
             }
         });
@@ -122,14 +112,12 @@ public class BoardScene extends Scene {
 
     private void createBoard(final GridPane panel, final ControllerImpl controller) {
 
-        final BoardScene thisBoard = this;
         final EventHandler<ActionEvent> buttonClicked = new EventHandler<>() {
 
             @Override
             public void handle(final ActionEvent e) {
                 final Button clicked = (Button) e.getSource();
-                controller.clickBoardButton(clicked);
-                if (lastEvent.isPresent() && !lastEvent.get().getSource().equals(thisBoard)) {
+                if (controller.clickBoardButton(clicked)) {
                     borderPane.requestFocus();
                 }
             }

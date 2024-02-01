@@ -1,18 +1,15 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javafx.scene.control.Button;
+import java.util.Set;
 
 import model.PlayerHome.HomePosition;
 import model.api.Cell;
 import model.api.Player;
 import model.api.Player.PlayerType;
-import utility.Position;
 
 /**
  * 
@@ -35,7 +32,7 @@ public class Game {
 
     private final int playersNumber;
     private final List<Player> players;
-    private final Map<Button, Cell> cells = new HashMap<>();
+    private Set<Cell> cells = new HashSet<>();
 
     /**
      * Constructor.
@@ -80,25 +77,19 @@ public class Game {
     }
 
     /**
-     * Returns the cells of the board.
-     * @return the board cells.
+     * Set the private field cells with the cells of the board.
+     * @param cells the board cells, as saved in the Controller.
      */
-    public Map<Button, Cell> getCells() {
-        final Map<Button, Cell> myCells = new HashMap<>();
-        for (final Entry<Button, Cell> e : this.cells.entrySet()) {
-            myCells.put(e.getKey(), e.getValue());
-        }
-        return myCells;
+    public void setCells(final Collection<Cell> cells) {
+        this.cells = Set.copyOf(cells);
     }
 
     /**
-     * Add to cells Map a new button and his Cell.
-     * @param button the button to add to Map cells.
-     * @param i the y coordinate of the new Button.
-     * @param j the x coordinate of the new Button.
+     * Return a Set of the board cells.
+     * @return the board cells.
      */
-    public void addToCells(final Button button, final int i, final int j) {
-        this.cells.put(button, new CellImpl(new Position(j, i)));
+    public Set<Cell> getCells() {
+        return Set.copyOf(this.cells);
     }
 
     /**

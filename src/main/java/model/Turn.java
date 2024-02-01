@@ -10,26 +10,18 @@ public class Turn {
     private int diceResult;
 
     /**
-     * set current player.
-     * @param player current player.
-     */
-    private void setCurrentPlayer(final Player player) {
-        this.diceResult = player.rollDice();
-    }
-
-    /**
      * return the result of the Dice.
-     * @return the Dice's result.
+     * @return the Dice result.
      */
     public int getDiceResult() {
         return this.diceResult;
     }
 
     /**
-     * Set the player for next turn.
-     * @param player the player of the next turn.
+     * Set the player for this turn.
+     * @param player the player of this turn.
      */
     public void changeTurn(final Player player) {
-        setCurrentPlayer(player);
+        this.diceResult = player.rollDice();
     }
 }
