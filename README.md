@@ -24,15 +24,15 @@ Qualora una pedina raggiungesse una cella occupata da 2 (o più) pedine avversar
 Al termine di un giro completo, una pedina entra nelle celle finali del suo colore. Questa parte di percorso è l'unica a poter essere attraversata solo dalle proprie pedine.
 Ci sono postazioni sicure nelle quali non si può venire mangiati, oltre alle celle finali: la propria cella iniziale e le case speciali Shop.
 Le case Shop sono 4 celle ubicate lungo il percorso. Quando un giocatore ne raggiunge una con una propria pedina, nel solo turno in cui ha raggiunto la casa Shop, ha la possibilità di servirsi dello Shop del gioco per comprare Bonus/Malus da utilizzare in partita.
-I Bonus/Malus si possono comprare attraverso i Ludollari, monete che verranno raccolte dalle caselle quando le pedine ci passeranno sopra.
+I Bonus/Malus si possono comprare attraverso i Ludollari, monete che verranno raccolte dalle pedine quando passeranno sopra le caselle.
 I bonus sono oggetti che possono essere usati su se stessi per avere dei vantaggi, mentre i malus vanno a targhettare gli altri giocatori ostacolandoli.
 
-Lista dei bonus:
+BONUS:
 Daduplo: Al prossimo tiro di dado il giocatore ne può tirare due.
 Abbondanza: I coin raccolti raddoppiano per questo turno.
 Bastione: Fino al tuo prossimo turno non sei targhettabile dai malus degli avversari e le tue pedine non possono venir mangiate.
 
-Lista malus: 
+MALUS: 
 Tagliatelo: Il prossimo tiro di dado dell’avversario sarà dimezzato.
 La regola dei 4: Riporta una pedina avversaria indietro di 4 caselle.
 Ariete: permette di disattivare anticipatamente il Bastione di un avversario.
