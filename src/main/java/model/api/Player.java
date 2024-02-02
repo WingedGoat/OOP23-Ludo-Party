@@ -3,7 +3,9 @@ package model.api;
 import java.util.List;
 
 import model.Color;
+import model.InventoryImpl;
 import model.PlayerHome.HomePosition;
+import model.PlayerImpl;
 
 /**
  * Represents a player.
@@ -102,5 +104,54 @@ public interface Player {
      * @return a wallet
      */
     Wallet getWallet();
+
+    /**
+     * Returns the player inventory.
+     * 
+     * @return the player inventory
+     */
+    InventoryImpl getPlayerInventory();
+
+    /**
+     * Modify the amount of coins.
+     * 
+     * @param value
+     */
+    void modifyCoins(int value);
+
+    /**
+     * Add an item in the player's inventory.
+     * 
+     * @param id
+     * 
+     * @param item
+     */
+    void addItem(Integer id, Item item);
+
+    /**
+     * Add the item in the List of item activated on the player.
+     * 
+     * @param item
+     */
+    void itemApplied(Item item);
+
+    /**
+     * Active the item on the designed player.
+     * 
+     * @param item
+     * 
+     * @param player
+     */
+    void useItem(Item item, PlayerImpl player);
+
+    /**
+     * Remove the malus on the player after it is expired.
+     */
+    void malusExpired();
+
+    /**
+     * Remove the bonus on the player after it is expired.
+     */
+    void bonusExpired();
 
 }

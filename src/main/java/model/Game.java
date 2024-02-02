@@ -58,6 +58,7 @@ public class Game {
             players.add(p3);
         }
         this.playersNumber = playersNumber;
+        new ShopImpl();
     }
 
     /**
