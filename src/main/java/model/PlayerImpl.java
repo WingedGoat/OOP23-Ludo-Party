@@ -124,7 +124,7 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public InventoryImpl getPlayerInventory() { //
+    public InventoryImpl getPlayerInventory() { 
         InventoryImpl inventoryCopy = new InventoryImpl();
         for (Entry<Integer, Item> entry : inventory.getInventory().entrySet()) {
             inventoryCopy.getInventory().put(entry.getKey(), entry.getValue());
@@ -133,22 +133,22 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public void modifyCoins(final int value) { //
+    public void modifyCoins(final int value) { 
         this.coins = this.coins + value;
     }
 
     @Override
-    public void addItem(final Integer id, final Item item) { //
+    public void addItem(final Integer id, final Item item) { 
         inventory.getInventory().put(id, item);
     } 
 
     @Override
-    public void itemApplied(final Item item) { //
+    public void itemApplied(final Item item) { 
         itemApplied.add(item);
     } 
 
     @Override
-    public void useItem(final Item item, final PlayerImpl player) { //
+    public void useItem(final Item item, final PlayerImpl player) { 
         inventory.getInventory().remove(item.getId(), item);
         player.itemApplied(item);
     } 

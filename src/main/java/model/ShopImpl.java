@@ -1,5 +1,7 @@
 package model; 
 
+import java.util.Map;
+
 import model.api.Item; 
 import model.api.Shop; 
 
@@ -18,7 +20,7 @@ public final class ShopImpl implements Shop {
     }
 
     /** 
-     * 
+     * te operation for selling an item.
      * 
      * @param player
      * 
@@ -48,7 +50,7 @@ public final class ShopImpl implements Shop {
     }
 
     /**
-     * 
+     * Fill the showcase returning the new item's id.
      * 
      * @param itemselled
      * 
@@ -66,7 +68,7 @@ public final class ShopImpl implements Shop {
         a = itema.getId(); 
         b = itemb.getId(); 
         c = id; 
-        while (id.equals(a) || id.equals(b) || id.equals(c)) { // entra c che deve essere diverso da a e b
+        while (id.equals(a) || id.equals(b) || id.equals(c)) { 
             id = mydice.roll(); 
         } 
         return id; 
@@ -75,10 +77,19 @@ public final class ShopImpl implements Shop {
     void showcaseCreation() {
         final BasicDiceImpl mydice = new BasicDiceImpl(); 
         showcase.setKeyA(mydice.roll()); 
-        showcase.setKeyB(showcase.getKeyA()); //keyb = keya
-        while (showcase.getKeyB().equals(showcase.getKeyA())) { // entra b che deve essere diverso da a
+        showcase.setKeyB(showcase.getKeyA()); 
+        while (showcase.getKeyB().equals(showcase.getKeyA())) { 
             showcase.setKeyB(mydice.roll()); 
         } 
         showcase.setKeyC(fillShowcase(showcase.getItemA(), showcase.getItemA(), showcase.getItemB()));
     } 
+
+    /**
+     * Returns a copy of the shop inventory.
+     * 
+     * @return the showcase
+     */
+    public Map<Integer, Item> getShowcase() {
+        return showcase.getInventory();
+    }
 } 
