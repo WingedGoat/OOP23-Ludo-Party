@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import model.PlayerHome.HomePosition;
 import model.api.Cell;
+import model.api.Item;
 import model.api.Player;
 import model.api.Player.PlayerType;
 
@@ -33,6 +35,7 @@ public class Game {
     private final int playersNumber;
     private final List<Player> players;
     private Set<Cell> cells = new HashSet<>();
+    private final ShopImpl shop;
 
     /**
      * Constructor.
@@ -58,7 +61,7 @@ public class Game {
             players.add(p3);
         }
         this.playersNumber = playersNumber;
-        new ShopImpl();
+        shop = new ShopImpl();
     }
 
     /**
@@ -91,6 +94,14 @@ public class Game {
      */
     public Set<Cell> getCells() {
         return Set.copyOf(this.cells);
+    }
+
+    /**
+     * Return the showcase with current items.
+     * @return the current showcase.
+     */
+    public Map<Integer, Item> getShowcase() {
+        return this.shop.getShowcase();
     }
 
     /**
