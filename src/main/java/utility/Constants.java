@@ -1,6 +1,8 @@
 package utility;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class containing useful constants.
@@ -32,10 +34,35 @@ public final class Constants {
      */
     public static final int FOUR_PLAYERS_GAME = 4;
     /**
+     * Two players game.
+     */
+    public static final int TWO_PLAYERS_GAME = 2;
+    /**
+     * Number of the pawns for each player.
+     */
+    public static final int PLAYER_PAWNS = 4;
+    /**
      * Number of cells of the board.
      */
     public static final int BOARD_CELLS = 15;
+    /**
+     * The path of the pawns of the red player.
+     */
+    static final List<Position> RED_STREET = new ArrayList<>();
+    /**
+     * The path of the pawns of the green player.
+     */
+    static final List<Position> GREEN_STREET = new ArrayList<>();
+    /**
+     * The path of the pawns of the blue player.
+     */
+    static final List<Position> BLUE_STREET = new ArrayList<>();
+    /**
+     * The path of the pawns of the yellow player.
+     */
+    static final List<Position> YELLOW_STREET = new ArrayList<>();
 
-    private Constants() { }
+    private Constants() {
+    }
 
 }

@@ -37,12 +37,13 @@ public class ControllerImpl implements Controller {
 
     /**
      * Controller Impl constructor.
+     * 
      * @param stage
-     *              the stage
+     *                      the stage
      * @param playerName
-     *              the player name
-     * @param playersNumber 
-     *              the number of players of the game
+     *                      the player name
+     * @param playersNumber
+     *                      the number of players of the game
      */
     public ControllerImpl(final Stage stage, final String playerName, final int playersNumber) {
         this.playerName = playerName;
@@ -55,29 +56,24 @@ public class ControllerImpl implements Controller {
         this.game.setCells(getCells().values());
         this.turn = new Turn();
 
-            // giocatore muove pedina
-            // giocatore completa turno (compra o usa carte)
-            // giocatore segnala fine turno (boolean turnIsOver) e win/continue
+        // giocatore muove pedina
+        // giocatore completa turno (compra o usa carte)
+        // giocatore segnala fine turno (boolean turnIsOver) e win/continue
     }
 
-    /**
-     * Returns the player name.
-     * @return playerName.
-     */
+    @Override
     public final String getPlayerName() {
         return this.playerName;
     }
 
-    /**
-     * Returns the players number.
-     * @return playersNumber.
-     */
+    @Override
     public final int getPlayersNumber() {
         return this.playersNumber;
     }
 
     /**
      * Returns the cells of the board.
+     * 
      * @return the board cells.
      */
     public final Map<Button, Cell> getCells() {
@@ -88,9 +84,10 @@ public class ControllerImpl implements Controller {
 
     /**
      * Add to cells Map a new button and his Cell.
+     * 
      * @param button the button to add to Map cells.
-     * @param i the y coordinate of the new Button.
-     * @param j the x coordinate of the new Button.
+     * @param i      the y coordinate of the new Button.
+     * @param j      the x coordinate of the new Button.
      */
     public void addToCells(final Button button, final int i, final int j) {
         final CellImpl cell;
@@ -98,7 +95,8 @@ public class ControllerImpl implements Controller {
                 || i >= CELL_NINE && (j < CELL_SIX || j >= CELL_NINE)) { // celle home
             cell = new CellImpl(new Position(j, i), true, false, true);
         } else if (i == CELL_SIX && j == CELL_ONE || i == CELL_ONE && j == CELL_EIGHT
-                || i == CELL_EIGHT && j == CELL_THIRTEEN || i == CELL_THIRTEEN && j == CELL_SIX) { // celle safe (inizio percorso)
+                || i == CELL_EIGHT && j == CELL_THIRTEEN || i == CELL_THIRTEEN && j == CELL_SIX) { // celle safe (inizio
+                                                                                                   // percorso)
             cell = new CellImpl(new Position(j, i), true, false, false);
         } else if (i == CELL_EIGHT && j == CELL_TWO || i == CELL_TWO && j == CELL_SIX
                 || i == CELL_SIX && j == CELL_TWELVE || i == CELL_TWELVE && j == CELL_EIGHT) { // celle shop
@@ -112,6 +110,7 @@ public class ControllerImpl implements Controller {
     /**
      * Handles the click of each of the Shop buttons.
      * They are clicked when User tries to buy an Item.
+     * 
      * @param clickedButton the Shop Button which was clicked.
      * @return true if the User manages to buy the Item.
      */
@@ -146,6 +145,7 @@ public class ControllerImpl implements Controller {
 
     /**
      * Handles the click of any Button of the board.
+     * 
      * @param clickedButton the button of the board which was clicked.
      * @return true if the board Button was rightfully clicked.
      */
