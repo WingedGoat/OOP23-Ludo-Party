@@ -7,11 +7,11 @@ import java.util.Map;
 
 import model.CellImpl;
 import model.Game;
+import model.PlayerImpl;
 import model.Turn;
 import model.api.Cell;
-import model.api.Player;
+import model.api.Item;
 import controller.api.Controller;
-import view.BoardScene;
 import view.ViewUtility;
 import utility.Position;
 
@@ -28,11 +28,10 @@ public class ControllerImpl implements Controller {
     private static final int CELL_TWELVE = 12;
     private static final int CELL_THIRTEEN = 13;
 
-    private final BoardScene board;
     private final String playerName;
     private final int playersNumber;
     private final Game game;
-    private final Turn turn = new Turn();
+    private final Turn turn;
     private final Map<Button, Cell> cells = new HashMap<>();
     private boolean diceRolled;
 
@@ -51,9 +50,10 @@ public class ControllerImpl implements Controller {
 
         // initGame()
         this.game = new Game(playerName, playersNumber);
-        this.board = (BoardScene) ViewUtility.createBoardScene(this, stage, playerName);
+        ViewUtility.createBoardScene(this, stage, playerName);
 
         this.game.setCells(getCells().values());
+        this.turn = new Turn();
 
             // giocatore muove pedina
             // giocatore completa turno (compra o usa carte)
@@ -121,20 +121,25 @@ public class ControllerImpl implements Controller {
         }
         // implementare controllo se si ha già effettuato la propria mossa
         // implementare controllo se la pedina appena mossa è arrivata su una cella shop
+        final PlayerImpl humanPlayer = (PlayerImpl) game.getPlayers().get(0);
+        Item itemOfClickedButton = null;
+        for (final Item item : game.getShowcase().values()) {
+            if (item.getName().equals(clickedButton.getText())) {
+                itemOfClickedButton = item;
+            }
+        }
+        game.sellingItem(humanPlayer, itemOfClickedButton);
         return true;
     }
 
     /**
-     * Handles the click of the roll-dice Button.
-     * @return true if the Dice has been rolled.
+     * Checks if the User can roll the Dice.
+     * @return true if the roll-Dice Button has been clicked at the right time.
      */
     public Boolean clickRollDiceButton() {
         if (this.diceRolled) {
             return false;
         }
-        final Player humanPlayer = game.getPlayers().get(0);
-        //this.turn.changeTurn(currentPlayer);
-        board.getPlayerPanel().getDiceLabel().setText("Risultato " + humanPlayer.getName() + ": " + humanPlayer.rollDice());
         this.diceRolled = true;
         return true;
     }
@@ -149,24 +154,37 @@ public class ControllerImpl implements Controller {
     }
 
     /**
-     * Handles the pression of ENTER key.
+     * Checks if it's the right moment to press ENTER.
      * @return true if ENTER key is pressed when it's actually possible to change turn.
      */
     public Boolean pressEnterKey() {
         if (!this.diceRolled) {
             return false;
         }
-        int i = 1;
-        while (i < game.getPlayers().size()) {
-            turn.changeTurn(game.getPlayers().get(i));
-            board.getPlayerPanel().getDiceLabel().setText(
-                board.getPlayerPanel().getDiceLabel().getText() + "\n"
-                + "Risultato " + game.getPlayers().get(i).getName() + ": " + turn.getDiceResult()
-            );
-            i++;
-        }
         this.diceRolled = false;
         return true;
+    }
+
+    /**
+     * A computer plays its turn.
+     * @param i the computer player's index.
+     */
+    public void playTurn(final int i) {
+        turn.setShowcase(game.getShowcase());
+        turn.play(game.getPlayers().get(i), this.game);
+    }
+
+    /**
+     * Provides the GUI a String containing a Player and its Dice result.
+     * @param i index of the current Player.
+     * @return a String with the Player's name and its Dice result.
+     */
+    public String getDiceResult(final int i) {
+        final String result = "Risultato " + game.getPlayers().get(i).getName() + ": ";
+        if (i == 0) {
+            return result + game.getPlayers().get(i).rollDice();
+        }
+        return result + turn.getDiceResult();
     }
 
 }

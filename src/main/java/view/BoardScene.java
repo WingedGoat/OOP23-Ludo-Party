@@ -73,11 +73,13 @@ public class BoardScene extends Scene {
 
         // vboxes - lateral panels for Players
         final Button rollDiceButton = new Button("Tira il dado");
+        final PlayerPanel vBoxLeft = new PlayerPanel(rollDiceButton, new Label(" "));
         rollDiceButton.setOnAction(e -> {
-            controller.clickRollDiceButton();
+            if (controller.clickRollDiceButton()) {
+                vBoxLeft.getDiceLabel().setText(controller.getDiceResult(0));
+            }
             borderPane.requestFocus();
         });
-        final PlayerPanel vBoxLeft = new PlayerPanel(rollDiceButton, new Label(" "));
         vBoxLeft.setPrefWidth(BOARD_SIDEPANEL_WIDTH); //FIXME
         vBoxLeft.setBorder(border);
         borderPane.setLeft(vBoxLeft);
@@ -99,6 +101,13 @@ public class BoardScene extends Scene {
 
         this.setOnKeyPressed(e -> {
             if (e.getCode().equals(KeyCode.ENTER) && controller.pressEnterKey()) {
+                for (int i = 1; i < controller.getPlayersNumber(); i++) {
+                    controller.playTurn(i);
+                    vBoxLeft.getDiceLabel().setText(
+                        vBoxLeft.getDiceLabel().getText() + "\n"
+                        + controller.getDiceResult(i)
+                    );
+                }
                 rollDiceButton.requestFocus();
             }
         });
