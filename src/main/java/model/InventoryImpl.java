@@ -41,11 +41,11 @@ public final class InventoryImpl implements Inventory {
         }
         return copyItemsMap;
     }
-    
-    //@SuppressWarnings("all") 
+
     @Override
     public Map<Integer, Item> getInventory() { 
-        return inventory;
+        return new HashMap<>();
+        //return inventory;
     }
 
     @Override

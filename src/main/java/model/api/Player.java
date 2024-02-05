@@ -1,11 +1,10 @@
 package model.api;
 
 import java.util.List;
+import java.util.Map;
 
 import model.Color;
-import model.InventoryImpl;
 import model.PlayerHome.HomePosition;
-import model.PlayerImpl;
 
 /**
  * Represents a player.
@@ -110,7 +109,7 @@ public interface Player {
      * 
      * @return the player inventory
      */
-    InventoryImpl getPlayerInventory();
+    Map<Integer, Item> getPlayerInventory();
 
     /**
      * Modify the amount of coins.
@@ -123,7 +122,6 @@ public interface Player {
      * Add an item in the player's inventory.
      * 
      * @param id
-     * 
      * @param item
      */
     void addItemPlayer(Integer id, Item item);
@@ -133,16 +131,21 @@ public interface Player {
      * 
      * @param item
      */
-    void itemApplied(Item item);
+    void addToItemsApplied(Item item);
+
+    /**
+     * Returns the list of applied items.
+     * @return the list of applied items
+     */
+    List<Item> getItemsApplied(); 
 
     /**
      * Active the item on the designed player.
      * 
      * @param item
-     * 
      * @param player
      */
-    void useItem(Item item, PlayerImpl player);
+    void useItem(Item item, Player player);
 
     /**
      * Remove the malus on the player after it is expired.
