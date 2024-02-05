@@ -2,9 +2,11 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import model.PlayerHome.HomePosition;
 import model.api.Dice;
+import model.api.Inventory;
 import model.api.Item;
 import model.api.Pawn;
 import model.api.Player;
@@ -25,20 +27,20 @@ public final class PlayerImpl implements Player {
     private int coins;
     private boolean isPlayerTurn;
     private Dice dice;
-    private InventoryImpl inventory = new InventoryImpl();
-    private List<Item> itemApplied = new ArrayList<>();
+    private Inventory inventory = new InventoryImpl();
+    private List<Item> itemsApplied = new ArrayList<>();
 
     /**
      * Player constructor.
      * 
      * @param name
-     *               the player name
+     *          the player name
      * @param type
-     *               the player type
+     *          the player type
      * @param color
-     *               the player color
+     *          the player color
      * @param homePosition
-     *               the position of the player's house
+     *          the position of the player's house
      */
     public PlayerImpl(final String name, final PlayerType type,
             final Color color, final HomePosition homePosition) {
@@ -113,11 +115,11 @@ public final class PlayerImpl implements Player {
 
     @Override
     public int rollDice() {
-        if (itemApplied.contains(inventory.getItems().get(1)) && itemApplied.contains(inventory.getItems().get(4))) {
+        if (itemsApplied.contains(inventory.getItems().get(1)) && itemsApplied.contains(inventory.getItems().get(4))) {
             return this.getDice().roll();
-        } else if (itemApplied.contains(inventory.getItems().get(1))) {
+        } else if (itemsApplied.contains(inventory.getItems().get(1))) {
             return this.getDice().roll() + this.getDice().roll();
-        } else if (itemApplied.contains(inventory.getItems().get(4))) {
+        } else if (itemsApplied.contains(inventory.getItems().get(4))) {
             return this.getDice().roll() / 2;
         } 
         return this.getDice().roll();
@@ -129,10 +131,9 @@ public final class PlayerImpl implements Player {
         throw new UnsupportedOperationException("Unimplemented method 'getWallet'");
     }
 
-    //@SuppressWarnings("all")
     @Override 
-    public InventoryImpl getPlayerInventory() { 
-        return inventory;
+    public Map<Integer, Item>  getPlayerInventory() { 
+        return inventory.getInventory();
     }
 
     @Override
@@ -146,39 +147,44 @@ public final class PlayerImpl implements Player {
     } 
 
     @Override
-    public void itemApplied(final Item item) { 
-        itemApplied.add(item);
-    } 
+    public void addToItemsApplied(final Item item) { 
+        itemsApplied.add(item);
+    }
 
     @Override
-    public void useItem(final Item item, final PlayerImpl player) { 
+    public List<Item> getItemsApplied() {
+        return List.copyOf(this.itemsApplied);
+    }
+
+    @Override
+    public void useItem(final Item item, final Player player) { 
         final int bastioneId = 3;
         final int arieteId = 6;
         inventory.getInventory().remove(item.getId(), item);
         if (item.isBonus()) {
-            player.itemApplied(item);
-        } else if (!player.itemApplied.contains(inventory.getItems().get(bastioneId))) {
-            player.itemApplied(item);
+            player.addToItemsApplied(item);
+        } else if (!player.getItemsApplied().contains(inventory.getItems().get(bastioneId))) {
+            player.addToItemsApplied(item);
         } else if (item.getId() == arieteId) {
-            player.itemApplied.remove(inventory.getItems().get(bastioneId));
-            player.itemApplied(item);
+            player.getItemsApplied().remove(inventory.getItems().get(bastioneId));
+            player.addToItemsApplied(item);
         }
     } 
 
     @Override
     public void malusExpired() { 
-        for (Item i : itemApplied) { 
+        for (Item i : itemsApplied) { 
             if (!i.isBonus()) {
-                itemApplied.remove(i); 
+                itemsApplied.remove(i); 
             }
         }
     }
 
     @Override
     public void bonusExpired() { 
-        for (Item i : itemApplied) { 
+        for (Item i : itemsApplied) { 
             if (i.isBonus()) {
-                itemApplied.remove(i); 
+                itemsApplied.remove(i); 
             }
         }
     }
