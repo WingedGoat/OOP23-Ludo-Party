@@ -9,7 +9,7 @@ public interface Controller {
      * 
      * @return playerName.
      */
-    String getPlayerName();
+    String getHumanPlayerName();
 
     /**
      * Returns the players number.

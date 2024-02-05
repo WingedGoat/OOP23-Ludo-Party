@@ -11,6 +11,7 @@ import model.PlayerImpl;
 import model.Turn;
 import model.api.Cell;
 import model.api.Item;
+import model.api.Player;
 import controller.api.Controller;
 import view.ViewUtility;
 import utility.Position;
@@ -39,19 +40,18 @@ public class ControllerImpl implements Controller {
      * Controller Impl constructor.
      * 
      * @param stage
-     *                      the stage
+     *          the stage
      * @param playerName
-     *                      the player name
+     *          the player name
      * @param playersNumber
-     *                      the number of players of the game
+     *          the number of players of the game
      */
     public ControllerImpl(final Stage stage, final String playerName, final int playersNumber) {
         this.playerName = playerName;
         this.playersNumber = playersNumber;
 
-        // initGame()
         this.game = new Game(playerName, playersNumber);
-        ViewUtility.createBoardScene(this, stage, playerName);
+        ViewUtility.createBoardScene(this, stage);
 
         this.game.setCells(getCells().values());
         this.turn = new Turn();
@@ -62,7 +62,7 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-    public final String getPlayerName() {
+    public final String getHumanPlayerName() {
         return this.playerName;
     }
 
@@ -90,7 +90,7 @@ public class ControllerImpl implements Controller {
      * @param j      the x coordinate of the new Button.
      */
     public void addToCells(final Button button, final int i, final int j) {
-        final CellImpl cell;
+        final Cell cell;
         if (i < CELL_SIX && (j < CELL_SIX || j >= CELL_NINE)
                 || i >= CELL_NINE && (j < CELL_SIX || j >= CELL_NINE)) { // celle home
             cell = new CellImpl(new Position(j, i), true, false, true);
@@ -120,7 +120,7 @@ public class ControllerImpl implements Controller {
         }
         // implementare controllo se si ha già effettuato la propria mossa
         // implementare controllo se la pedina appena mossa è arrivata su una cella shop
-        final PlayerImpl humanPlayer = (PlayerImpl) game.getPlayers().get(0);
+        final Player humanPlayer = (PlayerImpl) game.getPlayers().get(0);
         Item itemOfClickedButton = null;
         for (final Item item : game.getShowcase().values()) {
             if (item.getName().equals(clickedButton.getText())) {

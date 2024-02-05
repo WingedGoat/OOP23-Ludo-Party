@@ -8,8 +8,8 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.BorderStroke;
@@ -18,7 +18,6 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import controller.ControllerImpl;
@@ -49,9 +48,8 @@ public class BoardScene extends Scene {
      * 
      * @param controller the controller
      * @param stage      the stage
-     * @param playerName the player name
      */
-    public BoardScene(final ControllerImpl controller, final Stage stage, final String playerName) {
+    public BoardScene(final ControllerImpl controller, final Stage stage) {
         super(new BorderPane());
         stage.setScene(this);
         stage.setTitle("Board");
@@ -73,7 +71,8 @@ public class BoardScene extends Scene {
 
         // vboxes - lateral panels for Players
         final Button rollDiceButton = new Button("Tira il dado");
-        final PlayerPanel vBoxLeft = new PlayerPanel(rollDiceButton, new Label(" "));
+        final PlayerPanel vBoxLeft = new PlayerPanel("Player 2", controller.getHumanPlayerName()); 
+            //new PlayerPanel(rollDiceButton, new Label(" "));
         rollDiceButton.setOnAction(e -> {
             if (controller.clickRollDiceButton()) {
                 vBoxLeft.getDiceLabel().setText(controller.getDiceResult(0));
@@ -81,16 +80,16 @@ public class BoardScene extends Scene {
             borderPane.requestFocus();
         });
         vBoxLeft.setPrefWidth(BOARD_SIDEPANEL_WIDTH); //FIXME
-        vBoxLeft.setBorder(border);
+        //vBoxLeft.setBorder(border);
         borderPane.setLeft(vBoxLeft);
 
-        final VBox vBoxRight = new VBox();
+        final AnchorPane vBoxRight = new PlayerPanel("Player 3", "Player 4");
         vBoxRight.setPrefWidth(BOARD_SIDEPANEL_WIDTH); // FIXME
-        vBoxRight.setBorder(border);
+        //vBoxRight.setBorder(border);
         borderPane.setRight(vBoxRight);
 
         // hbox - bottom panel for Player Bonus/Malus
-        final Button playerButton = new Button(playerName);
+        final Button playerButton = new Button(controller.getHumanPlayerName());
         playerButton.setDisable(true);
         final HBox bottomPane = new HBox(playerButton);
         bottomPane.setPrefHeight(Constants.BOARD_BOTTOM_HEIGHT);

@@ -53,12 +53,11 @@ public final class ViewUtility {
      * 
      * @param controller the controller
      * @param stage the stage
-     * @param playerName the player name
      * 
      * @return a new BoardScene
      */
-    public static Scene createBoardScene(final ControllerImpl controller, final Stage stage, final String playerName) {
-        return new BoardScene(controller, stage, playerName);
+    public static Scene createBoardScene(final ControllerImpl controller, final Stage stage) {
+        return new BoardScene(controller, stage);
     }
 
 }
