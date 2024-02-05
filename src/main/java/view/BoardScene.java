@@ -92,7 +92,26 @@ public class BoardScene extends Scene {
         // hbox - bottom panel for Player Bonus/Malus
         final Button playerButton = new Button(playerName);
         playerButton.setDisable(true);
-        final HBox bottomPane = new HBox(playerButton);
+        final Button item1 = new Button();
+        final Button item2 = new Button();
+        final Button item3 = new Button();
+        final HBox bottomPane = new HBox(playerButton, item1, item2, item3);
+        final EventHandler<ActionEvent> itemClicked = new EventHandler<>() {
+
+            @Override
+            public void handle(final ActionEvent e) {
+                final Button clicked = (Button) e.getSource();
+                if (!clicked.getText().isEmpty() && controller.clickBonusButton(clicked)) {
+                    clicked.setText("");
+                    //aggiungere eventuali conseguenze visive dell'avere giocato un bonus su se stessi
+                }
+                borderPane.requestFocus();
+            }
+
+        };
+        item1.setOnAction(itemClicked);
+        item2.setOnAction(itemClicked);
+        item3.setOnAction(itemClicked);
         bottomPane.setPrefHeight(Constants.BOARD_BOTTOM_HEIGHT);
         bottomPane.setBorder(border);
         borderPane.setBottom(bottomPane);

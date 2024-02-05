@@ -11,6 +11,7 @@ import model.PlayerImpl;
 import model.Turn;
 import model.api.Cell;
 import model.api.Item;
+import model.api.Player;
 import controller.api.Controller;
 import view.ViewUtility;
 import utility.Position;
@@ -27,6 +28,8 @@ public class ControllerImpl implements Controller {
     private static final int CELL_NINE = 9;
     private static final int CELL_TWELVE = 12;
     private static final int CELL_THIRTEEN = 13;
+    private static final String NOT_ENOUGH_SPACE = "ATTENZIONE! NON HAI ABBASTANZA SPAZIO NELL'INVENTARIO!";
+    private static final String NOT_ENOUGH_MONEY = "ATTENZIONE! NON HAI ABBASTANZA LUDOLLARI!";
 
     private final String playerName;
     private final int playersNumber;
@@ -34,6 +37,8 @@ public class ControllerImpl implements Controller {
     private final Turn turn;
     private final Map<Button, Cell> cells = new HashMap<>();
     private boolean diceRolled;
+    private boolean malusClicked;
+    private Item itemToUse;
 
     /**
      * Controller Impl constructor.
@@ -120,14 +125,52 @@ public class ControllerImpl implements Controller {
         }
         // implementare controllo se si ha già effettuato la propria mossa
         // implementare controllo se la pedina appena mossa è arrivata su una cella shop
-        final PlayerImpl humanPlayer = (PlayerImpl) game.getPlayers().get(0);
+        final Player humanPlayer = game.getPlayers().get(0);
         Item itemOfClickedButton = null;
         for (final Item item : game.getShowcase().values()) {
             if (item.getName().equals(clickedButton.getText())) {
                 itemOfClickedButton = item;
             }
         }
-        game.sellingItem(humanPlayer, itemOfClickedButton);
+        final String outcome = game.sellingItem(humanPlayer, itemOfClickedButton);
+        if (NOT_ENOUGH_SPACE.equals(outcome) || NOT_ENOUGH_MONEY.equals(outcome)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Checks whether the User clicked an Item Button with a bonus.
+     * If so, tells the model to activate this bonus for the User player.
+     * @param clickedButton the Item Button which was clicked.
+     * @return true if the Button contains a bonus, false otherwise.
+     */
+    public Boolean clickBonusButton(final Button clickedButton) {
+        final Player humanPlayer = game.getPlayers().get(0);
+        for (final Item item : humanPlayer.getPlayerInventory().getInventory().values()) {
+            if (item.getName().equals(clickedButton.getText())) {
+                this.itemToUse = item;
+            }
+        }
+        if (!itemToUse.isBonus()) {
+            malusClicked = true;
+            return false;
+        }
+        humanPlayer.useItem(itemToUse, (PlayerImpl) humanPlayer);
+        return true;
+    }
+
+    /**
+     * Checks if the User has correctly targeted an opponent after having clicked a MALUS Item.
+     * @param targetPlayer the opponent Player who receives a malus for next turn.
+     * @return true if clicked at the right time.
+     */
+    public Boolean clickPlayerTargetOfMalus(final Button targetPlayer) {
+        if (!malusClicked) {
+            return false;
+        }
+        //implementare in base a quale stringa conterrà il Button dei Player avversari
+        malusClicked = false;
         return true;
     }
 
