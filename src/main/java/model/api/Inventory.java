@@ -83,5 +83,14 @@ public interface Inventory {
      * @param newkeyc
      */
     void setKeyC(Integer newkeyc);
+
+    /**
+     * Add an item in the inventory.
+     * 
+     * @param id
+     * 
+     * @param item
+     */
+    void addItem(Integer id, Item item);
 }
 

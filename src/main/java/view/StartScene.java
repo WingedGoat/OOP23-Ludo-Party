@@ -69,6 +69,7 @@ public class StartScene extends Scene {
     public StartScene(final Stage stage) {
         super(new GridPane());
         stage.setTitle("Ludo");
+        //this.style
 
         final GridPane gridPane = (GridPane) this.getRoot();
         gridPane.setMinSize(Constants.HOME_WINDOW_WIDTH, Constants.HOME_WINDOW_HEIGHT);

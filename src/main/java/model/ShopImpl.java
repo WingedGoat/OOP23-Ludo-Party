@@ -2,6 +2,7 @@ package model;
 
 import java.util.Map;
 
+import model.api.Inventory;
 import model.api.Item; 
 import model.api.Shop; 
 
@@ -9,13 +10,13 @@ import model.api.Shop;
  * 
  */
 public final class ShopImpl implements Shop { 
-    private final InventoryImpl showcase = new InventoryImpl(); 
+    private final Inventory showcase; 
 
     /**
      * Constructor for the shop.
      */
-    public ShopImpl() {
-        showcase.inventoryCreation(); 
+    public ShopImpl() { 
+        showcase = new InventoryImpl();
         showcaseCreation();
     }
 
@@ -36,7 +37,7 @@ public final class ShopImpl implements Shop {
                 return "ATTENZIONE! NON HAI ABBASTANZA LUDOLLARI!"; 
                 } else { 
                     player.modifyCoins(-item.getPrice()); 
-                    player.addItem(item.getId(), item); 
+                    player.addItemPlayer(item.getId(), item); 
                     if (item.equals(showcase.getItemA())) { 
                         showcase.setKeyA(fillShowcase(item, showcase.getItemB(), showcase.getItemC())); 
                     } else if (item.equals(showcase.getItemB())) { 
