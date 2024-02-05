@@ -105,6 +105,17 @@ public class Game {
     }
 
     /**
+     * Called when a player attempts to use the Shop.
+     * 
+     * @param player trying to buy an Item.
+     * @param item to be bought by the Player.
+     * @return a string representing the outcome of the transaction.
+     */
+    public String sellingItem(final Player player, final Item item) {
+        return this.shop.sellingItem((PlayerImpl) player, item);
+    }
+
+    /**
      * Return true if the game is over, false otherwise.
      * @param res the game result.
      * @return true if the game is over.

@@ -1,13 +1,32 @@
 package model;
 
+import java.util.Map;
+import java.util.HashMap;
+
+import model.api.Item;
 import model.api.Player;
 
 /**
- * This class handles current player's turn.
+ * This class handles current Computer player's turn.
  */
 public class Turn {
 
     private int diceResult;
+    private final Map<Integer, Item> showcase = new HashMap<>();
+
+    /**
+     * Main method of this class, used to play the whole turn.
+     * @param player who currently has the turn.
+     * @param game the current game.
+     */
+    public void play(final Player player, final Game game) {
+        //possibilità di giocare BONUS
+        //subito prima di tirare il dado: calcolare effetto combinato degli "item applied" sul Player
+        this.diceResult = player.rollDice();
+        //movimento
+        //possibilità di giocare BONUS o MALUS
+        //game.sellingItem(player, this.showcase.values().iterator().next());
+    }
 
     /**
      * return the result of the Dice.
@@ -18,10 +37,10 @@ public class Turn {
     }
 
     /**
-     * Set the player for this turn.
-     * @param player the player of this turn.
+     * Set the showcase with its current items.
+     * @param showcase with the items it currently contains.
      */
-    public void changeTurn(final Player player) {
-        this.diceResult = player.rollDice();
+    public void setShowcase(final Map<Integer, Item> showcase) {
+        this.showcase.putAll(showcase);
     }
 }
