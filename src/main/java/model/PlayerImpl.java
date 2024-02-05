@@ -2,7 +2,6 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
 
 import model.PlayerHome.HomePosition;
 import model.api.Dice;
@@ -114,6 +113,13 @@ public final class PlayerImpl implements Player {
 
     @Override
     public int rollDice() {
+        if (itemApplied.contains(inventory.getItems().get(1)) && itemApplied.contains(inventory.getItems().get(4))) {
+            return this.getDice().roll();
+        } else if (itemApplied.contains(inventory.getItems().get(1))) {
+            return this.getDice().roll() + this.getDice().roll();
+        } else if (itemApplied.contains(inventory.getItems().get(4))) {
+            return this.getDice().roll() / 2;
+        } 
         return this.getDice().roll();
     }
 
@@ -123,13 +129,10 @@ public final class PlayerImpl implements Player {
         throw new UnsupportedOperationException("Unimplemented method 'getWallet'");
     }
 
-    @Override
+    //@SuppressWarnings("all")
+    @Override 
     public InventoryImpl getPlayerInventory() { 
-        InventoryImpl inventoryCopy = new InventoryImpl();
-        for (Entry<Integer, Item> entry : inventory.getInventory().entrySet()) {
-            inventoryCopy.getInventory().put(entry.getKey(), entry.getValue());
-        }
-        return inventoryCopy;
+        return inventory;
     }
 
     @Override
@@ -138,8 +141,8 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public void addItem(final Integer id, final Item item) { 
-        inventory.getInventory().put(id, item);
+    public void addItemPlayer(final Integer id, final Item item) { 
+        inventory.addItem(id, item);
     } 
 
     @Override
@@ -149,8 +152,17 @@ public final class PlayerImpl implements Player {
 
     @Override
     public void useItem(final Item item, final PlayerImpl player) { 
+        final int bastioneId = 3;
+        final int arieteId = 6;
         inventory.getInventory().remove(item.getId(), item);
-        player.itemApplied(item);
+        if (item.isBonus()) {
+            player.itemApplied(item);
+        } else if (!player.itemApplied.contains(inventory.getItems().get(bastioneId))) {
+            player.itemApplied(item);
+        } else if (item.getId() == arieteId) {
+            player.itemApplied.remove(inventory.getItems().get(bastioneId));
+            player.itemApplied(item);
+        }
     } 
 
     @Override

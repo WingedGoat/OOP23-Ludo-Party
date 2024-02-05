@@ -126,7 +126,7 @@ public interface Player {
      * 
      * @param item
      */
-    void addItem(Integer id, Item item);
+    void addItemPlayer(Integer id, Item item);
 
     /**
      * Add the item in the List of item activated on the player.
