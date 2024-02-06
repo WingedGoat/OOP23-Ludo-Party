@@ -23,7 +23,7 @@ public class PlayerPanel extends AnchorPane {
     /**
      * image path.
      */
-    protected static final String IMAGE_PATH = Path.of("." + FILE_SEPARATOR + "resources" + FILE_SEPARATOR
+    protected static final String START_DICE_IMAGE_PATH = Path.of("." + FILE_SEPARATOR + "resources" + FILE_SEPARATOR
         + "images" + FILE_SEPARATOR + "dices" + FILE_SEPARATOR + "dice-1.png").toString();
     /**
      * pane height.
@@ -94,7 +94,9 @@ public class PlayerPanel extends AnchorPane {
 
     /**
      * Creates the outer circle of the player avatar.
+     * 
      * @param pos pos
+     * 
      * @return the player avatar
      */
     protected Circle createPlayerAvatar(final Position pos) {
@@ -103,7 +105,9 @@ public class PlayerPanel extends AnchorPane {
 
     /**
      * Creates the inner circle of the player avatar.
+     * 
      * @param pos pos
+     * 
      * @return the player avatar
      */
     protected Circle createPlayerInnerAvatar(final Position pos) {
@@ -111,9 +115,11 @@ public class PlayerPanel extends AnchorPane {
     }
 
     /**
-     * AA.
-     * @param name A
-     * @return A
+     * Creates the label with the name of the player.
+     * 
+     * @param name the player name
+     * 
+     * @return the label with the player name
      */
     protected Label createNameLabelTopPanel(final String name) {
         final Label playerName = new Label(name);
@@ -124,9 +130,11 @@ public class PlayerPanel extends AnchorPane {
     }
 
     /**
-     * AA.
-     * @param coins A
-     * @return A
+     * Creates the label with the coin quantity of the player.
+     * 
+     * @param coins the amount of coins owned by the player
+     * 
+     * @return label with the coin amount
      */
     protected Label createCoinLabelTopPanel(final int coins) {
         final Label playerCoins = new Label("Ludollari: " + coins);
@@ -137,13 +145,14 @@ public class PlayerPanel extends AnchorPane {
     }
 
     /**
-     * AA.
-     * @return A
+     * Creates the dice image to show at the player side.
+     * 
+     * @return the dice image
      */
     protected ImageView createDicImageView() {
         final ImageView diceImage = new ImageView();
 
-        final File file =  new File(IMAGE_PATH);
+        final File file =  new File(START_DICE_IMAGE_PATH);
         diceImage.setImage(new Image(file.toURI().toString()));
         diceImage.setFitHeight(DICE_HEIGHT);
         diceImage.setFitWidth(DICE_WIDTH);
@@ -156,6 +165,25 @@ public class PlayerPanel extends AnchorPane {
         diceImage.setOnMouseExited(mouseEvent -> {
             diceImage.setEffect(null);
         });
+
+        return diceImage;
+    }
+
+    /**
+     * Change the dice number on the dice image showed.
+     * 
+     * @param diceImage the old dice image
+     * @param number the new number to show
+     * 
+     * @return the dice image with the new value of the dice
+     */
+    protected ImageView showDiceNumber(final ImageView diceImage, final int number) {
+
+        final String diceImagePath = Path.of("." + FILE_SEPARATOR + "resources" + FILE_SEPARATOR
+            + "images" + FILE_SEPARATOR + "dices" + FILE_SEPARATOR + "dice-" + number + ".png").toString();
+
+        final File file =  new File(diceImagePath);
+        diceImage.setImage(new Image(file.toURI().toString()));
 
         return diceImage;
     }

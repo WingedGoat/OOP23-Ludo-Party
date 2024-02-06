@@ -9,7 +9,7 @@ import javafx.scene.shape.Circle;
 import utility.Position;
 
 /**
- * The side panel with the player info.
+ * Player panel on the left.
  */
 public final class PlayerPanelLeft extends PlayerPanel {
 
@@ -65,7 +65,9 @@ public final class PlayerPanelLeft extends PlayerPanel {
         diceImage.setLayoutY(TREEQUARANTA);
 
         diceImage.setOnMouseClicked(mouseEvent -> {
-            //controller.get
+            final int diceResult = ctrl.getGame().getTurn().getCurrentPlayer().rollDice();
+            showDiceNumber(diceImage, diceResult);
+            //System.out.println(diceResult);
         });
 
         g.getChildren().addAll(playerAvatar, playerAvatarInner, playerName, playerCoins, diceImage);

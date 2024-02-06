@@ -9,7 +9,7 @@ import javafx.scene.shape.Circle;
 import utility.Position;
 
 /**
- * Player panel at right side.
+ * Player panel on the right.
  */
 public final class PlayerPanelRight extends PlayerPanel {
 
