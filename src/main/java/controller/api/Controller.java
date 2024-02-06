@@ -1,20 +1,24 @@
 package controller.api;
 
+import model.Game;
+
 /**
- * 
+ * Controller.
  */
 public interface Controller {
-    /**
-     * Returns the player name.
-     * 
-     * @return playerName.
-     */
-    String getHumanPlayerName();
 
     /**
      * Returns the players number.
      * 
-     * @return playersNumber.
+     * @return playersNumber
      */
     int getPlayersNumber();
+
+    /**
+     * Returns the game.
+     * 
+     * @return the game
+     */
+    Game getGame();
+
 }

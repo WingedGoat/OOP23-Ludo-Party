@@ -31,16 +31,27 @@ public final class PlayerImpl implements Player {
     private List<Item> itemsApplied = new ArrayList<>();
 
     /**
+     * Constructor.
+     * @param p the player
+     */
+    public PlayerImpl(final Player p) {
+        this.name = p.getName();
+        this.type = p.getType();
+        this.color = p.getColor();
+        this.homePosition = p.getHomePosition();
+
+        this.pawns = new ArrayList<>();
+        this.coins = 0;
+        this.isPlayerTurn = false;
+        this.dice = new BasicDiceImpl();
+    }
+    /**
      * Player constructor.
      * 
-     * @param name
-     *          the player name
-     * @param type
-     *          the player type
-     * @param color
-     *          the player color
-     * @param homePosition
-     *          the position of the player's house
+     * @param name the player name
+     * @param type the player type
+     * @param color the player color
+     * @param homePosition the position of the player's house
      */
     public PlayerImpl(final String name, final PlayerType type,
             final Color color, final HomePosition homePosition) {
@@ -102,10 +113,14 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
+    public void setPlayerTurn() {
+        this.isPlayerTurn = true;
+    }
+
+    @Override
     public Dice getDice() {
         return this.dice;
     }
-
 
     @Override
     public String toString() {
@@ -132,7 +147,7 @@ public final class PlayerImpl implements Player {
     }
 
     @Override 
-    public Map<Integer, Item>  getPlayerInventory() { 
+    public Map<Integer, Item> getPlayerInventory() { 
         return inventory.getInventory();
     }
 

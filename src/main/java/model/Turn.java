@@ -9,10 +9,20 @@ import model.api.Player;
 /**
  * This class handles current Computer player's turn.
  */
-public class Turn {
+public final class Turn {
 
+    private Player currentPlayer;
     private int diceResult;
     private final Map<Integer, Item> showcase = new HashMap<>();
+
+    /**
+     * Constructor.
+     * 
+     * @param player the player which start the game.
+     */
+    public Turn(final Player player) {
+        this.currentPlayer = player;
+    }
 
     /**
      * Main method of this class, used to play the whole turn.
@@ -43,4 +53,23 @@ public class Turn {
     public void setShowcase(final Map<Integer, Item> showcase) {
         this.showcase.putAll(showcase);
     }
+
+    /**
+     * Returns the current player.
+     * 
+     * @return the current player
+     */
+    public Player getCurrentPlayer() {
+        return new PlayerImpl(this.currentPlayer);
+    }
+
+    /**
+     * Sets the current player.
+     * 
+     * @param player the current player
+     */
+    public void passTurnTo(final Player player) {
+        this.currentPlayer = player;
+    }
+
 }

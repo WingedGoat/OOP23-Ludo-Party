@@ -3,8 +3,6 @@ package view;
 import java.util.Map;
 import java.util.HashMap;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -20,7 +18,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import controller.ControllerImpl;
+
+import controller.api.Controller;
 import utility.Constants;
 
 /**
@@ -41,7 +40,6 @@ public class BoardScene extends Scene {
     private static final Map<Integer, String> COLOR_CODES = new HashMap<>(// FIXME
             Map.of(0, "#ff0000", 1, "#00ff00", 2, "#0000ff", 3, "#ffff00")); // Color codes to display
     private static final int NO_COLOR = 4;
-    private final BorderPane borderPane;
 
     /**
      * Constructor.
@@ -49,13 +47,13 @@ public class BoardScene extends Scene {
      * @param controller the controller
      * @param stage      the stage
      */
-    public BoardScene(final ControllerImpl controller, final Stage stage) {
+    public BoardScene(final Controller controller, final Stage stage) {
         super(new BorderPane());
         stage.setScene(this);
         stage.setTitle("Board");
 
         // borderpane - container
-        borderPane = (BorderPane) this.getRoot();
+        final BorderPane borderPane = (BorderPane) this.getRoot();
         borderPane.setMinSize(BOARD_CENTRAL_PANEL_WIDTH, BOARD_CENTRAL_PANEL_WIDTH);
         borderPane.setPadding(new Insets(Constants.INSET_OS));
 
@@ -65,31 +63,34 @@ public class BoardScene extends Scene {
         // gridpane - central panel
         final GridPane centralPane = new GridPane();
         centralPane.setMinSize(BOARD_CENTRAL_PANEL_WIDTH, BOARD_CENTRAL_PANEL_WIDTH);
-        createBoard(centralPane, controller);
+        createBoard(centralPane);
         centralPane.setBorder(border);
         borderPane.setCenter(centralPane);
 
-        // vboxes - lateral panels for Players
-        final Button rollDiceButton = new Button("Tira il dado");
-        final PlayerPanel vBoxLeft = new PlayerPanel("Player 2", controller.getHumanPlayerName()); 
+        // lateral panels for Players
+        //final Button rollDiceButton = new Button("Tira il dado");
+
+        final PlayerPanel leftPane = new PlayerPanel(controller); 
             //new PlayerPanel(rollDiceButton, new Label(" "));
+        /*
         rollDiceButton.setOnAction(e -> {
             if (controller.clickRollDiceButton()) {
                 vBoxLeft.getDiceLabel().setText(controller.getDiceResult(0));
             }
             borderPane.requestFocus();
         });
-        vBoxLeft.setPrefWidth(BOARD_SIDEPANEL_WIDTH); //FIXME
+         */
+        leftPane.setPrefWidth(BOARD_SIDEPANEL_WIDTH); //FIXME
         //vBoxLeft.setBorder(border);
-        borderPane.setLeft(vBoxLeft);
+        borderPane.setLeft(leftPane);
 
-        final AnchorPane vBoxRight = new PlayerPanel("Player 3", "Player 4");
-        vBoxRight.setPrefWidth(BOARD_SIDEPANEL_WIDTH); // FIXME
+        final AnchorPane rightPane = new PlayerPanel(controller);
+        rightPane.setPrefWidth(BOARD_SIDEPANEL_WIDTH); // FIXME
         //vBoxRight.setBorder(border);
-        borderPane.setRight(vBoxRight);
+        borderPane.setRight(rightPane);
 
         // hbox - bottom panel for Player Bonus/Malus
-        final Button playerButton = new Button(controller.getHumanPlayerName());
+        final Button playerButton = new Button("ciao"); //controller.getGame().getTurn().getCurrentPlayer().getName());
         playerButton.setDisable(true);
         final HBox bottomPane = new HBox(playerButton);
         bottomPane.setPrefHeight(Constants.BOARD_BOTTOM_HEIGHT);
@@ -98,16 +99,20 @@ public class BoardScene extends Scene {
 
         this.setFill(Color.valueOf("0077b6"));
 
+        // when finish the turn
         this.setOnKeyPressed(e -> {
-            if (e.getCode().equals(KeyCode.ENTER) && controller.pressEnterKey()) {
+            if (e.getCode().equals(KeyCode.ENTER)) { // && controller.pressEnterKey()) {
                 for (int i = 1; i < controller.getPlayersNumber(); i++) {
+                    i = 2;
+                    /* 
                     controller.playTurn(i);
                     vBoxLeft.getDiceLabel().setText(
                         vBoxLeft.getDiceLabel().getText() + "\n"
                         + controller.getDiceResult(i)
                     );
+                    */
                 }
-                rollDiceButton.requestFocus();
+                //rollDiceButton.requestFocus();
             }
         });
 
@@ -118,24 +123,27 @@ public class BoardScene extends Scene {
         });
     }
 
-    private void createBoard(final GridPane panel, final ControllerImpl controller) {
-
+//    private void createBoard(final GridPane panel, final Controller controller) {
+        private void createBoard(final GridPane panel) {
+        /*
         final EventHandler<ActionEvent> buttonClicked = new EventHandler<>() {
 
             @Override
             public void handle(final ActionEvent e) {
-                final Button clicked = (Button) e.getSource();
+                //final Button clicked = (Button) e.getSource();
                 if (controller.clickBoardButton(clicked)) {
                     borderPane.requestFocus();
                 }
+
             }
         };
+        */
         for (int i = 0; i < Constants.BOARD_CELLS; i++) {
             for (int j = 0; j < Constants.BOARD_CELLS; j++) {
                 final Button bt = new Button(" ");
                 bt.setPrefSize(CELL_WIDTH, CELL_WIDTH);
-                bt.setOnAction(buttonClicked);
-                controller.addToCells(bt, i, j);
+                //bt.setOnAction(buttonClicked);
+                //controller.addToCells(bt, i, j);
                 if (colorNumber(i, j) != NO_COLOR) {
                     bt.setStyle("-fx-background-color: " + COLOR_CODES.get(colorNumber(i, j)) + ";");
                 }

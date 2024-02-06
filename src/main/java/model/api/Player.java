@@ -83,6 +83,11 @@ public interface Player {
     boolean isPlayerTurn();
 
     /**
+     * Sets the isPlayerTurn field to true.
+     */
+    void setPlayerTurn();
+
+    /**
      * Returns the type of Dice the player owns,
      * everyone starts with a BasicDiceImpl.
      * 
