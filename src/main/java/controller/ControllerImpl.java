@@ -30,6 +30,7 @@ public class ControllerImpl implements Controller {
     private static final int CELL_THIRTEEN = 13;
     private static final String NOT_ENOUGH_SPACE = "ATTENZIONE! NON HAI ABBASTANZA SPAZIO NELL'INVENTARIO!";
     private static final String NOT_ENOUGH_MONEY = "ATTENZIONE! NON HAI ABBASTANZA LUDOLLARI!";
+    private static final String DUPLICATE = "ATTENZIONE! HAI GIA' QUESTO OGGETTO NEL TUO INVENTARIO!";
 
     private final String playerName;
     private final int playersNumber;
@@ -132,7 +133,7 @@ public class ControllerImpl implements Controller {
             }
         }
         final String outcome = game.sellingItem(humanPlayer, itemOfClickedButton);
-        if (NOT_ENOUGH_SPACE.equals(outcome) || NOT_ENOUGH_MONEY.equals(outcome)) {
+        if (NOT_ENOUGH_SPACE.equals(outcome) || NOT_ENOUGH_MONEY.equals(outcome) || DUPLICATE.equals(outcome)) {
             return false;
         }
         return true;

@@ -37,7 +37,9 @@ public final class ShopImpl implements Shop {
             return "ATTENZIONE! NON HAI ABBASTANZA SPAZIO NELL'INVENTARIO!";
         } else if (coinplayer < item.getPrice()) { 
                 return "ATTENZIONE! NON HAI ABBASTANZA LUDOLLARI!"; 
-        } else { 
+        } else if (player.getPlayerInventory().containsKey(item.getId())) {
+            return "ATTENZIONE! HAI GIA' QUESTO OGGETTO NEL TUO INVENTARIO!";
+        } else {
             player.modifyCoins(-item.getPrice()); 
             player.addItemPlayer(item.getId(), item); 
             if (item.equals(showcase.getItemA())) { 
