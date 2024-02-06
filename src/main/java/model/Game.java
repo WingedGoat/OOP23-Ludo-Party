@@ -31,7 +31,6 @@ public class Game {
         CONTINUE;
     }
 
-    private final int playersNumber;
     private final Player humanPlayer;
     private final List<Player> players;
     private final Turn turn;
@@ -46,8 +45,6 @@ public class Game {
      * @param playersNumber the number of players
      */
     public Game(final String playerName, final int playersNumber) {
-
-        this.playersNumber = playersNumber;
 
         // add players
         this.humanPlayer = new PlayerImpl(playerName, PlayerType.HUMAN, 
@@ -70,14 +67,6 @@ public class Game {
         //turn.passTurnTo(this.humanPlayer);
 
         shop = new ShopImpl();
-    }
-
-    /**
-     * Return the number of players.
-     * @return the players number
-     */
-    public int getPlayersNumber() {
-        return playersNumber;
     }
 
     /**

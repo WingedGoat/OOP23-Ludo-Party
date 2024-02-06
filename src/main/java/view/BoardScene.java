@@ -7,7 +7,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.BorderStroke;
@@ -68,29 +67,16 @@ public class BoardScene extends Scene {
         borderPane.setCenter(centralPane);
 
         // lateral panels for Players
-        //final Button rollDiceButton = new Button("Tira il dado");
-
-        final PlayerPanel leftPane = new PlayerPanel(controller); 
-            //new PlayerPanel(rollDiceButton, new Label(" "));
-        /*
-        rollDiceButton.setOnAction(e -> {
-            if (controller.clickRollDiceButton()) {
-                vBoxLeft.getDiceLabel().setText(controller.getDiceResult(0));
-            }
-            borderPane.requestFocus();
-        });
-         */
-        leftPane.setPrefWidth(BOARD_SIDEPANEL_WIDTH); //FIXME
-        //vBoxLeft.setBorder(border);
+        final PlayerPanelLeft leftPane = new PlayerPanelLeft(controller); 
+        leftPane.setPrefWidth(BOARD_SIDEPANEL_WIDTH); 
         borderPane.setLeft(leftPane);
 
-        final AnchorPane rightPane = new PlayerPanel(controller);
-        rightPane.setPrefWidth(BOARD_SIDEPANEL_WIDTH); // FIXME
-        //vBoxRight.setBorder(border);
+        final PlayerPanelRight rightPane = new PlayerPanelRight(controller);
+        rightPane.setPrefWidth(BOARD_SIDEPANEL_WIDTH); 
         borderPane.setRight(rightPane);
 
         // hbox - bottom panel for Player Bonus/Malus
-        final Button playerButton = new Button("ciao"); //controller.getGame().getTurn().getCurrentPlayer().getName());
+        final Button playerButton = new Button("ciao");
         playerButton.setDisable(true);
         final HBox bottomPane = new HBox(playerButton);
         bottomPane.setPrefHeight(Constants.BOARD_BOTTOM_HEIGHT);
@@ -177,7 +163,7 @@ public class BoardScene extends Scene {
      * Return PlayerPanel.
      * @return PlayerPanel.
      */
-    public PlayerPanel getPlayerPanel() {
-        return (PlayerPanel) ((BorderPane) this.getRoot()).getLeft();
+    public PlayerPanelLeft getPlayerPanel() {
+        return (PlayerPanelLeft) ((BorderPane) this.getRoot()).getLeft();
     }
 }
