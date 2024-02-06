@@ -9,6 +9,11 @@ repositories {
     mavenCentral()
 }
 
+spotbugs {
+    ignoreFailures.set(false)
+    excludeFilter = file("spotbugs-exclude.xml")
+}
+
 val javaFXModules = listOf("base","controls","fxml","swing","graphics")
 val supportedPlatforms = listOf("linux","mac","win") 
 val javaFxVersion = 17
