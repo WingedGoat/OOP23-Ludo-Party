@@ -1,8 +1,8 @@
 package model.api;
 
-import model.Color;
+import model.Position;
 import model.PlayerHome.HomePosition;
-import utility.Position;
+import utility.BColor;
 
 /**
  * Represents the pawn of a player, which is moved in the board.
@@ -43,7 +43,7 @@ public interface Pawn {
      * 
      * @return color
      */
-    Color getColor();
+    BColor getColor();
 
     /**
      * Gets the position of the pawn in the board.

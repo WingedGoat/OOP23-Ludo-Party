@@ -4,6 +4,8 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.Position;
+
 /**
  * Class containing useful constants.
  */

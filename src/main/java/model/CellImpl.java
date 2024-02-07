@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import model.api.Cell;
 import model.api.Pawn;
-import utility.Position;
 
 /**
  * 

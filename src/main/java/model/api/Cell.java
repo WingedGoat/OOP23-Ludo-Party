@@ -1,7 +1,8 @@
 package model.api;
 
 import java.util.List;
-import utility.Position;
+
+import model.Position;
 
 /**
  * Rapresents a Cell with a position and some flags 

@@ -11,24 +11,25 @@ import model.api.Item;
 import model.api.Pawn;
 import model.api.Player;
 import model.api.Wallet;
+import utility.BColor;
 
 /**
  * Player Implementation class.
  */
-@SuppressWarnings("all")
 public final class PlayerImpl implements Player {
 
     private final String name;
     private final PlayerType type;
-    private final Color color;
+    private final BColor color;
     private final HomePosition homePosition;
     // private final List<Pair<Integer,Integer>> safePath;
     private final List<Pawn> pawns;
+    private final Dice dice;
     private int coins;
     private boolean isPlayerTurn;
-    private Dice dice;
-    private Inventory inventory = new InventoryImpl();
-    private List<Item> itemsApplied = new ArrayList<>();
+
+    private final Inventory inventory = new InventoryImpl();
+    private final List<Item> itemsApplied = new ArrayList<>();
 
     /**
      * Constructor.
@@ -54,7 +55,7 @@ public final class PlayerImpl implements Player {
      * @param homePosition the position of the player's house
      */
     public PlayerImpl(final String name, final PlayerType type,
-            final Color color, final HomePosition homePosition) {
+            final BColor color, final HomePosition homePosition) {
         this.name = name;
         this.type = type;
         this.color = color;
@@ -83,7 +84,7 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public Color getColor() {
+    public BColor getColor() {
         return color;
     }
 
@@ -188,7 +189,7 @@ public final class PlayerImpl implements Player {
 
     @Override
     public void malusExpired() { 
-        for (Item i : itemsApplied) { 
+        for (final Item i : itemsApplied) { 
             if (!i.isBonus()) {
                 itemsApplied.remove(i); 
             }
@@ -197,7 +198,7 @@ public final class PlayerImpl implements Player {
 
     @Override
     public void bonusExpired() { 
-        for (Item i : itemsApplied) { 
+        for (final Item i : itemsApplied) { 
             if (i.isBonus()) {
                 itemsApplied.remove(i); 
             }

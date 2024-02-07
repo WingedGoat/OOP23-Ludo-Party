@@ -1,8 +1,7 @@
-package utility;
+package model;
 
 /**
- * A standard generic Pair, with getters, hashCode, equals, and toString well
- * implemented.
+ * A 2D Position.
  */
 public final class Position {
 
@@ -21,18 +20,18 @@ public final class Position {
     }
 
     /**
-     * Gets X value.
+     * Gets x value.
      * 
-     * @return X
+     * @return x
      */
     public int getX() {
         return x;
     }
 
     /**
-     * Gets Y value.
+     * Gets y value.
      * 
-     * @return Y
+     * @return y
      */
     public int getY() {
         return y;

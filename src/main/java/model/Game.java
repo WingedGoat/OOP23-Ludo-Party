@@ -11,6 +11,7 @@ import model.api.Cell;
 import model.api.Item;
 import model.api.Player;
 import model.api.Player.PlayerType;
+import utility.BColor;
 
 /**
  * 
@@ -48,16 +49,16 @@ public class Game {
 
         // add players
         this.humanPlayer = new PlayerImpl(playerName, PlayerType.HUMAN, 
-            Color.BLUE, HomePosition.BOTTOM_LEFT);
+            BColor.BLUE, HomePosition.BOTTOM_LEFT);
         final Player p1 = new PlayerImpl("Player 2", PlayerType.COMPUTER, 
-            Color.YELLOW, HomePosition.TOP_RIGHT);
+            BColor.YELLOW, HomePosition.TOP_RIGHT);
         this.players = new ArrayList<>(List.of(this.humanPlayer, p1));
 
         if (playersNumber > players.size()) {
             final Player p2 = new PlayerImpl("Player 3", PlayerType.COMPUTER, 
-                Color.GREEN, HomePosition.TOP_LEFT);
+                BColor.GREEN, HomePosition.TOP_LEFT);
             final Player p3 = new PlayerImpl("Player 4", PlayerType.COMPUTER, 
-                Color.RED, HomePosition.BOTTOM_RIGHT);
+                BColor.RED, HomePosition.BOTTOM_RIGHT);
             this.players.add(p2);
             this.players.add(p3);
         }
