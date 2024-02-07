@@ -17,6 +17,11 @@
     <Bug code="EI2,EI" />
   </Match>
 
+  <Match>
+    <Class name="model.InventoryImpl" />
+    <Bug code="EI2,EI" />
+  </Match>
+
   <!-- Match all XYZ violations. -->
   <Match>
     <Bug code="XYZ" />
