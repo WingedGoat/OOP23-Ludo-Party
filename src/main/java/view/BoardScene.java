@@ -1,9 +1,7 @@
 package view;
 
-import java.util.Map;
-import java.util.HashMap;
-
 import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
@@ -17,8 +15,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
+import model.PlayerHome;
+import model.Position;
+import model.PlayerHome.HomePosition;
+import model.PlayerSafePath;
 import controller.api.Controller;
+import utility.BColor;
 import utility.Constants;
 
 /**
@@ -29,16 +31,13 @@ import utility.Constants;
 public class BoardScene extends Scene {
 
     private static final int BOARD_CENTRAL_PANEL_WIDTH = 600;
-    private static final int BORDER_WIDTH = 1;
     private static final int BOARD_SIDEPANEL_WIDTH = 220;
     private static final int CELL_WIDTH = 40;
-    private static final int BORDER_POINT = 0; // The border of one of the coords of the board
-    private static final int FIRST_HALF = 6;
-    private static final int MIDDLE_POINT = 7; // The center of a coordinate of the board
-    private static final int SECOND_HALF = 8;
-    private static final Map<Integer, String> COLOR_CODES = new HashMap<>(// FIXME
-            Map.of(0, "#ff0000", 1, "#00ff00", 2, "#0000ff", 3, "#ffff00")); // Color codes to display
-    private static final int NO_COLOR = 4;
+
+    private static final double BORDER_WIDTH = 0.5;
+    private static final String BG_COLOR_CSS = "-fx-background-color: ";
+    private static final String BG_RADIUS_CSS = "; -fx-border-color: #5A5858; -fx-border-width: 0.3px; "
+        + "-fx-background-radius: 0";
 
     /**
      * Constructor.
@@ -67,12 +66,12 @@ public class BoardScene extends Scene {
         borderPane.setCenter(centralPane);
 
         // lateral panels for Players
-        final PlayerPanelLeft leftPane = new PlayerPanelLeft(controller); 
-        leftPane.setPrefWidth(BOARD_SIDEPANEL_WIDTH); 
+        final PlayerPanelLeft leftPane = new PlayerPanelLeft(controller);
+        leftPane.setPrefWidth(BOARD_SIDEPANEL_WIDTH);
         borderPane.setLeft(leftPane);
 
         final PlayerPanelRight rightPane = new PlayerPanelRight(controller);
-        rightPane.setPrefWidth(BOARD_SIDEPANEL_WIDTH); 
+        rightPane.setPrefWidth(BOARD_SIDEPANEL_WIDTH);
         borderPane.setRight(rightPane);
 
         // hbox - bottom panel for Player Bonus/Malus
@@ -90,15 +89,15 @@ public class BoardScene extends Scene {
             if (e.getCode().equals(KeyCode.ENTER)) { // && controller.pressEnterKey()) {
                 for (int i = 1; i < controller.getPlayersNumber(); i++) {
                     i = 2;
-                    /* 
-                    controller.playTurn(i);
-                    vBoxLeft.getDiceLabel().setText(
-                        vBoxLeft.getDiceLabel().getText() + "\n"
-                        + controller.getDiceResult(i)
-                    );
-                    */
+                    /*
+                     * controller.playTurn(i);
+                     * vBoxLeft.getDiceLabel().setText(
+                     * vBoxLeft.getDiceLabel().getText() + "\n"
+                     * + controller.getDiceResult(i)
+                     * );
+                     */
                 }
-                //rollDiceButton.requestFocus();
+                // rollDiceButton.requestFocus();
             }
         });
 
@@ -109,61 +108,52 @@ public class BoardScene extends Scene {
         });
     }
 
-//    private void createBoard(final GridPane panel, final Controller controller) {
-        private void createBoard(final GridPane panel) {
+    // private void createBoard(final GridPane panel, final Controller controller) {
+    private void createBoard(final GridPane panel) {
         /*
-        final EventHandler<ActionEvent> buttonClicked = new EventHandler<>() {
-
-            @Override
-            public void handle(final ActionEvent e) {
-                //final Button clicked = (Button) e.getSource();
-                if (controller.clickBoardButton(clicked)) {
-                    borderPane.requestFocus();
-                }
-
-            }
-        };
-        */
+         * final EventHandler<ActionEvent> buttonClicked = new EventHandler<>() {
+         * 
+         * @Override
+         * public void handle(final ActionEvent e) {
+         * //final Button clicked = (Button) e.getSource();
+         * if (controller.clickBoardButton(clicked)) {
+         * borderPane.requestFocus();
+         * }
+         * }
+         * };
+         */
         for (int i = 0; i < Constants.BOARD_CELLS; i++) {
             for (int j = 0; j < Constants.BOARD_CELLS; j++) {
                 final Button bt = new Button(" ");
-                bt.setPrefSize(CELL_WIDTH, CELL_WIDTH);
-                //bt.setOnAction(buttonClicked);
-                //controller.addToCells(bt, i, j);
-                if (colorNumber(i, j) != NO_COLOR) {
-                    bt.setStyle("-fx-background-color: " + COLOR_CODES.get(colorNumber(i, j)) + ";");
+                bt.setStyle("-fx-background-color: #fdfcfc;"
+                        + "-fx-border-color: #5A5858; -fx-border-width: 0.5px; " + BG_RADIUS_CSS);
+                //bt.setOnAction(e -> System.out.println("-clickato"));
+
+                final Position pos = new Position(i, j);
+
+                if (PlayerHome.getPlayerHome(HomePosition.BOTTOM_LEFT).contains(pos) 
+                    || PlayerSafePath.getPath(HomePosition.BOTTOM_LEFT).contains(pos)) {
+                    bt.setStyle(BG_COLOR_CSS + BColor.BLUE.get() + BG_RADIUS_CSS);
                 }
+                if (PlayerHome.getPlayerHome(HomePosition.TOP_LEFT).contains(pos) 
+                    || PlayerSafePath.getPath(HomePosition.TOP_LEFT).contains(pos)) {
+                    bt.setStyle(BG_COLOR_CSS + BColor.RED.get() + BG_RADIUS_CSS);
+                }
+                if (PlayerHome.getPlayerHome(HomePosition.TOP_RIGHT).contains(pos) 
+                    || PlayerSafePath.getPath(HomePosition.TOP_RIGHT).contains(pos)) {
+                    bt.setStyle(BG_COLOR_CSS + BColor.GREEN.get() + BG_RADIUS_CSS);
+                }
+                if (PlayerHome.getPlayerHome(HomePosition.BOTTOM_RIGHT).contains(pos) 
+                    || PlayerSafePath.getPath(HomePosition.BOTTOM_RIGHT).contains(pos)) {
+                    bt.setStyle(BG_COLOR_CSS + BColor.YELLOW.get() + BG_RADIUS_CSS);
+                }
+                bt.setPrefSize(CELL_WIDTH, CELL_WIDTH);
+                bt.setCursor(Cursor.HAND);
+
+                // this.cells.put(bt, new CellImpl());
                 panel.add(bt, j, i);
             }
         }
     }
 
-    private int colorNumber(final int i, final int j) {
-        if (i < FIRST_HALF && j < FIRST_HALF || i == MIDDLE_POINT && j > BORDER_POINT && j < MIDDLE_POINT
-                || i == FIRST_HALF && j == 1) {
-            return 0;
-        } else if (i < FIRST_HALF && j > SECOND_HALF || j == MIDDLE_POINT && i > BORDER_POINT && i < MIDDLE_POINT
-                || i == 1 && j == SECOND_HALF) {
-            return 1;
-        } else if (i > SECOND_HALF && j < FIRST_HALF
-                || j == Constants.BOARD_CELLS - MIDDLE_POINT - 1 && i < Constants.BOARD_CELLS - BORDER_POINT - 1
-                        && i > MIDDLE_POINT
-                || i == Constants.BOARD_CELLS - BORDER_POINT - 2 && j == FIRST_HALF) {
-            return 2;
-        } else if (i > SECOND_HALF && j > SECOND_HALF
-                || i == Constants.BOARD_CELLS - MIDDLE_POINT - 1 && j < Constants.BOARD_CELLS - BORDER_POINT - 1
-                        && j > MIDDLE_POINT
-                || j == Constants.BOARD_CELLS - BORDER_POINT - 2 && i == SECOND_HALF) {
-            return 3;
-        }
-        return 4;
-    }
-
-    /**
-     * Return PlayerPanel.
-     * @return PlayerPanel.
-     */
-    public PlayerPanelLeft getPlayerPanel() {
-        return (PlayerPanelLeft) ((BorderPane) this.getRoot()).getLeft();
-    }
 }
