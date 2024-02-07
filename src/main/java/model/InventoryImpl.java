@@ -47,11 +47,12 @@ public final class InventoryImpl implements Inventory {
 
     @Override
     public Map getInventory() {
-        final Map<Integer, Item> copyInventoryMap = new HashMap<>();
+        final Map<Integer, Item> copyIinventoryMap = new HashMap<>();
         for (final Entry<Integer, Item> entry : inventory.entrySet()) {
-            copyInventoryMap.put(entry.getKey(), entry.getValue());
+            copyIinventoryMap.put(entry.getKey(), entry.getValue());
         }
-        return copyInventoryMap; // return inventory;
+        return copyIinventoryMap;
+        //return inventory;
     }
 
     @Override
