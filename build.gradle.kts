@@ -19,6 +19,8 @@ val supportedPlatforms = listOf("linux","mac","win")
 val javaFxVersion = 17
 
 dependencies {
+    implementation("org.apache.logging.log4j:log4j-core:2.22.1")
+
     for (platform in supportedPlatforms) {
 	    for (module in javaFXModules) {
 	        implementation("org.openjfx:javafx-$module:$javaFxVersion:$platform")
