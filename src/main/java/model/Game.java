@@ -6,8 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import model.PlayerHome.HomePosition;
+import model.api.Board;
 import model.api.Cell;
+import model.api.Cell.Type;
 import model.api.Item;
 import model.api.Player;
 import model.api.Player.PlayerType;
@@ -16,7 +17,7 @@ import utility.BColor;
 /**
  * 
  */
-public class Game {
+public final class Game {
 
     /**
      * Represent the game result.
@@ -31,6 +32,8 @@ public class Game {
          */
         CONTINUE;
     }
+
+    private final Board board;
 
     private final Player humanPlayer;
     private final List<Player> players;
@@ -47,18 +50,20 @@ public class Game {
      */
     public Game(final String playerName, final int playersNumber) {
 
+        this.board = new BoardImpl();
+
         // add players
         this.humanPlayer = new PlayerImpl(playerName, PlayerType.HUMAN, 
-            BColor.BLUE, HomePosition.BOTTOM_LEFT);
+            BColor.BLUE, Type.BOTTOM_LEFT_HOUSE);
         final Player p1 = new PlayerImpl("Player 2", PlayerType.COMPUTER, 
-            BColor.YELLOW, HomePosition.TOP_RIGHT);
+            BColor.YELLOW, Type.TOP_LEFT_HOUSE);
         this.players = new ArrayList<>(List.of(this.humanPlayer, p1));
 
         if (playersNumber > players.size()) {
             final Player p2 = new PlayerImpl("Player 3", PlayerType.COMPUTER, 
-                BColor.GREEN, HomePosition.TOP_LEFT);
+                BColor.GREEN, Type.TOP_LEFT_HOUSE);
             final Player p3 = new PlayerImpl("Player 4", PlayerType.COMPUTER, 
-                BColor.RED, HomePosition.BOTTOM_RIGHT);
+                BColor.RED, Type.BOTTOM_RIGHT_HOUSE);
             this.players.add(p2);
             this.players.add(p3);
         }
@@ -68,6 +73,14 @@ public class Game {
         //turn.passTurnTo(this.humanPlayer);
 
         shop = new ShopImpl();
+    }
+
+    /**
+     * Gets the board.
+     * @return the board
+     */
+    public Board getBoard() {
+        return board;
     }
 
     /**

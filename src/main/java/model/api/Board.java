@@ -59,6 +59,6 @@ public interface Board {
      * Gets the cells of the board.
      * @return the cells
      */
-    Set<Position> getCells();
+    Set<Cell> getCells();
 
 }

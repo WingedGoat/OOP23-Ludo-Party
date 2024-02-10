@@ -16,10 +16,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-import model.PlayerHome;
+
 import model.Position;
-import model.PlayerHome.HomePosition;
-import model.PlayerSafePath;
 import controller.api.Controller;
 import utility.BColor;
 import utility.Constants;
@@ -69,7 +67,7 @@ public class BoardScene extends Scene {
 
         // gridpane - central panel
         boardPanel = new GridPane();
-        createBoard();
+        createBoard(controller);
         initPawns();
         boardPanel.setMinSize(BOARD_PANEL_WIDTH, BOARD_PANEL_WIDTH);
         boardPanel.setBorder(border);
@@ -123,10 +121,12 @@ public class BoardScene extends Scene {
     }
 
     /**
-     * Creates the game board, with the colored houses
-     * and the safe path for each player.
+     * Creates the game board, with the colored houses,
+     * safe paths for each player, and the white path.
+     * 
+     * @param ctrl the controller
      */
-    private void createBoard() { // final Controller ctrl
+    private void createBoard(final Controller ctrl) {
 
         for (int i = 0; i < Constants.CELLS_NUMBER; i++) {
             for (int j = 0; j < Constants.CELLS_NUMBER; j++) {
@@ -137,32 +137,27 @@ public class BoardScene extends Scene {
 
                 final Position pos = new Position(i, j);
 
-                // player home 1 --
-                if (PlayerHome.getPlayerHome(HomePosition.BOTTOM_LEFT).contains(pos)) {
+                if (ctrl.getGame().getBoard().getBottomLeftHouse().contains(pos)
+                    || ctrl.getGame().getBoard().getBottomLeftSafePath().contains(pos)) {
                     bt.setStyle(BG_COLOR_CSS + BColor.BLUE.get() + BG_RADIUS_CSS);
                     bt.setOnMouseEntered(e -> bt.setCursor(null));
-                } else if (PlayerSafePath.getPath(HomePosition.BOTTOM_LEFT).contains(pos)) {
-                    bt.setStyle(BG_COLOR_CSS + BColor.BLUE.get() + BG_RADIUS_CSS);
-                } else if (PlayerHome.getPlayerHome(HomePosition.TOP_LEFT).contains(pos)) {
+                } else if (ctrl.getGame().getBoard().getTopLeftHouse().contains(pos)
+                    || ctrl.getGame().getBoard().getTopLeftSafePath().contains(pos)) {
                     bt.setStyle(BG_COLOR_CSS + BColor.RED.get() + BG_RADIUS_CSS);
-                    bt.setOnMouseEntered(e -> bt.setCursor(null));
-                } else if (PlayerSafePath.getPath(HomePosition.TOP_LEFT).contains(pos)) {
-                    bt.setStyle(BG_COLOR_CSS + BColor.RED.get() + BG_RADIUS_CSS);
-                } else if (PlayerHome.getPlayerHome(HomePosition.TOP_RIGHT).contains(pos)) {
+
+                } else if (ctrl.getGame().getBoard().getTopRightHouse().contains(pos)
+                    || ctrl.getGame().getBoard().getTopRightSafePath().contains(pos)) {
                     bt.setStyle(BG_COLOR_CSS + BColor.GREEN.get() + BG_RADIUS_CSS);
                     bt.setOnMouseEntered(e -> bt.setCursor(null));
-                } else if (PlayerSafePath.getPath(HomePosition.TOP_RIGHT).contains(pos)) {
-                    bt.setStyle(BG_COLOR_CSS + BColor.GREEN.get() + BG_RADIUS_CSS);
-                } else if (PlayerHome.getPlayerHome(HomePosition.BOTTOM_RIGHT).contains(pos)) {
-                    bt.setStyle(BG_COLOR_CSS + BColor.YELLOW.get() + BG_RADIUS_CSS);
-                    bt.setOnMouseEntered(e -> bt.setCursor(null));
-                } else if (PlayerSafePath.getPath(HomePosition.BOTTOM_RIGHT).contains(pos)) {
+
+                } else if (ctrl.getGame().getBoard().getBottomRightHouse().contains(pos)
+                    || ctrl.getGame().getBoard().getBottomRighSafePath().contains(pos)) {
                     bt.setStyle(BG_COLOR_CSS + BColor.YELLOW.get() + BG_RADIUS_CSS);
                 }
+
                 bt.setPrefSize(CELL_WIDTH, CELL_WIDTH);
                 bt.setCursor(Cursor.HAND);
 
-                // this.cells.put(bt, new CellImpl());
                 this.boardPanel.add(bt, j, i);
             }
         }
@@ -170,7 +165,7 @@ public class BoardScene extends Scene {
 
     /**
      * Sets the pawn in the initial position in each player home.
-     */
+    */
     private void initPawns() {
 
         for (int i = 0; i < Constants.CELLS_NUMBER; i++) {
@@ -183,7 +178,7 @@ public class BoardScene extends Scene {
                 pawn.setOnMouseEntered(event -> pawn.setCursor(Cursor.HAND));
 
                 pawn.setOnMouseDragged(event ->  {
-                    LOGGER.error("-- moving pawn");
+                    //LOGGER.error("-- moving pawn");
                     pawn.setTranslateX(event.getX() + pawn.getTranslateX());
                     pawn.setTranslateY(event.getY() + pawn.getTranslateY());
                     event.consume();
