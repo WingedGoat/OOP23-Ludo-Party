@@ -2,7 +2,8 @@ package model;
 
 import model.PlayerHome.HomePosition;
 import model.api.Pawn;
-import utility.Position;
+import utility.BColor;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public final class PawnImpl implements Pawn {
     private Position currentPosition;
     private final int itemNo;
     private final HomePosition homePosition;
-    private final Color color;
+    private final BColor color;
     private static final List<List<Position>> PATH_COLORS = new ArrayList<>();
 
     /**
@@ -30,7 +31,7 @@ public final class PawnImpl implements Pawn {
      * @param color
      *                the color of the pawn
      */
-    public PawnImpl(final Position pos, final int index, final HomePosition homePos, final Color color) {
+    public PawnImpl(final Position pos, final int index, final HomePosition homePos, final BColor color) {
         this.startPosition = pos;
         this.currentPosition = pos;
         this.itemNo = index;
@@ -59,7 +60,7 @@ public final class PawnImpl implements Pawn {
     }
 
     @Override
-    public Color getColor() {
+    public BColor getColor() {
         return color;
     }
 
@@ -68,29 +69,24 @@ public final class PawnImpl implements Pawn {
         return homePosition;
     }
 
-    /**
-     * Moves the pawn.
-     * 
-     * @param unknownPlayerPawn player pawn
-     * @param diceResult        dice result
-     */
-    public void move(final PawnImpl unknownPlayerPawn, final int diceResult) {
+    @Override
+    public void move(final Pawn unknownPlayerPawn, final int diceResult) {
 
         switch (unknownPlayerPawn.getColor()) {
             case RED:
-                movePawn(unknownPlayerPawn, Color.RED, diceResult);
+                movePawn(unknownPlayerPawn, BColor.RED, diceResult);
                 break;
 
             case GREEN:
-                movePawn(unknownPlayerPawn, Color.GREEN, diceResult);
+                movePawn(unknownPlayerPawn, BColor.GREEN, diceResult);
                 break;
 
             case BLUE:
-                movePawn(unknownPlayerPawn, Color.BLUE, diceResult);
+                movePawn(unknownPlayerPawn, BColor.BLUE, diceResult);
                 break;
 
             case YELLOW:
-                movePawn(unknownPlayerPawn, Color.YELLOW, diceResult);
+                movePawn(unknownPlayerPawn, BColor.YELLOW, diceResult);
                 break;
 
             default:
@@ -107,7 +103,7 @@ public final class PawnImpl implements Pawn {
      * @param color
      * @param diceResult
      */
-    private void movePawn(final PawnImpl pawn, final Color color, final int diceResult) {
+    private void movePawn(final Pawn pawn, final BColor color, final int diceResult) {
 
         if (pawn.getPosition().equals(pawn.getStartPosition())) {
             pawn.setPosition(PATH_COLORS.get(color.ordinal()).get(0));

@@ -46,7 +46,7 @@ public final class InventoryImpl implements Inventory {
     }
 
     @Override
-    public Map<Integer, Item> getInventory() {
+    public Map<Integer, Item> getInventory() { 
         return inventory;
     }
 

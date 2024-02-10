@@ -6,48 +6,23 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import utility.Position;
+import utility.Index;
 
 /**
  * Generate the house positions once.
  */
+
 public final class PlayerHome {
 
-    private static Set<Position> bottomLeftHouse;
-    private static Set<Position> topLeftHouse;
-    private static Set<Position> topRightHouse;
-    private static Set<Position> bottomRightHouse;
-
-    /**
-     * Index 2.
-     */
-    private static final int TWO = 2;
-    /**
-     * Index 3.
-     */
-    private static final int THREE = 3;
-    /**
-     * Index 11.
-     */
-    private static final int ELEVEN = 11;
-    /**
-     * Index 12.
-     */
-    private static final int TWELVE = 12;
-    /**
-     * Index six.
-     */
-    private static final int SIX = 6;
-    /**
-     * Index nine.
-     */
-    private static final int NINE = 9;
     /**
      * Cells number.
      */
     private static final int NCELLS = 15;
 
+    private static Set<Position> bottomLeftHouse;
+    private static Set<Position> topLeftHouse;
+    private static Set<Position> topRightHouse;
+    private static Set<Position> bottomRightHouse;
 
     static {
         bottomLeftHouse = createBottomLeftHouse();
@@ -68,23 +43,23 @@ public final class PlayerHome {
         /**
          * Home positioned at bottom left corner.
          */
-        BOTTOM_LEFT(new Position(TWO, ELEVEN), new Position(THREE, ELEVEN), 
-                    new Position(TWO, TWELVE), new Position(THREE, TWELVE)),
+        BOTTOM_LEFT(new Position(Index.TWO, Index.ELEVEN), new Position(Index.THREE, Index.ELEVEN), 
+                    new Position(Index.TWO, Index.TWELVE), new Position(Index.THREE, Index.TWELVE)),
         /**
          * Home positioned at top left corner.
          */
-        TOP_LEFT(new Position(TWO, TWO), new Position(TWO, THREE), 
-                 new Position(THREE, TWO), new Position(THREE, THREE)),
+        TOP_LEFT(new Position(Index.TWO, Index.TWO), new Position(Index.TWO, Index.THREE), 
+                 new Position(Index.THREE, Index.TWO), new Position(Index.THREE, Index.THREE)),
         /**
          * Home positioned at top right corner.
          */
-        TOP_RIGHT(new Position(ELEVEN, TWO), new Position(TWELVE, TWO), 
-                  new Position(ELEVEN, THREE), new Position(TWELVE, THREE)),
+        TOP_RIGHT(new Position(Index.ELEVEN, Index.TWO), new Position(Index.TWELVE, Index.TWO), 
+                  new Position(Index.ELEVEN, Index.THREE), new Position(Index.TWELVE, Index.THREE)),
         /**
          * Home positioned at bottom right corner.
          */
-        BOTTOM_RIGHT(new Position(ELEVEN, ELEVEN), new Position(TWELVE, ELEVEN), 
-                     new Position(ELEVEN, TWELVE), new Position(TWELVE, TWELVE));
+        BOTTOM_RIGHT(new Position(Index.ELEVEN, Index.ELEVEN), new Position(Index.TWELVE, Index.ELEVEN), 
+                     new Position(Index.ELEVEN, Index.TWELVE), new Position(Index.TWELVE, Index.TWELVE));
 
         private List<Position> pawnPositions = new ArrayList<>();
 
@@ -105,24 +80,13 @@ public final class PlayerHome {
     private PlayerHome() { }
 
     /**
-     * Return the set of positions of the player home at {@link HomePosition pos}.
-     * 
-     * @param pos the position
-     * 
-     * @return the set of positions of the player home
-     */
-    public static Set<Position> getPlayerHome(final HomePosition pos) {
-        return getHome(pos);
-    }
-
-    /**
      * Returns the house at the specified position.
      * 
      * @param pos the position
      * 
      * @return the set of positions of the specified house
      */
-    private static Set<Position> getHome(final HomePosition pos) {
+    public static Set<Position> getPlayerHome(final HomePosition pos) {
 
         Set<Position> home = null;
         switch (pos) {
@@ -139,7 +103,7 @@ public final class PlayerHome {
                 home = bottomRightHouse;
                 break;
             default:
-                // error FIXME
+                // error
         }
 
         return home;
@@ -152,9 +116,9 @@ public final class PlayerHome {
      */
     private static Set<Position> createBottomLeftHouse() {
 
-        return IntStream.range(NINE, NCELLS)
+        return IntStream.range(Index.NINE, NCELLS)
                 .mapToObj(i -> i)
-                .flatMap(i -> IntStream.range(0, SIX)
+                .flatMap(i -> IntStream.range(0, Index.SIX)
                         .mapToObj(j -> new Position(i, j)))
                 .collect(Collectors.toCollection(() -> new HashSet<>()));
     }
@@ -166,9 +130,9 @@ public final class PlayerHome {
      */
     private static Set<Position> createTopLeftHouse() {
 
-        return IntStream.range(0, SIX)
+        return IntStream.range(0, Index.SIX)
                 .mapToObj(i -> i)
-                .flatMap(i -> IntStream.range(0, SIX)
+                .flatMap(i -> IntStream.range(0, Index.SIX)
                         .mapToObj(j -> new Position(i, j)))
                 .collect(Collectors.toCollection(() -> new HashSet<>()));
     }
@@ -180,9 +144,9 @@ public final class PlayerHome {
      */
     private static Set<Position> createTopRightHouse() {
 
-        return IntStream.range(0, SIX)
+        return IntStream.range(0, Index.SIX)
                 .mapToObj(i -> i)
-                .flatMap(i -> IntStream.range(NINE, NCELLS)
+                .flatMap(i -> IntStream.range(Index.NINE, NCELLS)
                         .mapToObj(j -> new Position(i, j)))
                 .collect(Collectors.toCollection(() -> new HashSet<>()));
     }
@@ -194,9 +158,9 @@ public final class PlayerHome {
      */
     private static Set<Position> createBottomRightHouse() {
 
-        return IntStream.range(NINE, NCELLS)
+        return IntStream.range(Index.NINE, NCELLS)
                 .mapToObj(i -> i)
-                .flatMap(i -> IntStream.range(NINE, NCELLS)
+                .flatMap(i -> IntStream.range(Index.NINE, NCELLS)
                         .mapToObj(j -> new Position(i, j)))
                 .collect(Collectors.toCollection(() -> new HashSet<>()));
     }

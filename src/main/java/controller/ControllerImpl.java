@@ -2,25 +2,18 @@ package controller;
 
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import java.util.HashMap;
-import java.util.Map;
 
-import model.CellImpl;
+import controller.api.Controller;
 import model.Game;
-import model.PlayerImpl;
-import model.Turn;
-import model.api.Cell;
 import model.api.Item;
 import model.api.Player;
-import controller.api.Controller;
 import view.ViewUtility;
-import utility.Position;
 
 /**
  * Controller used to coordinate model and view.
  */
 public class ControllerImpl implements Controller {
-
+/*
     private static final int CELL_ONE = 1;
     private static final int CELL_TWO = 2;
     private static final int CELL_SIX = 6;
@@ -33,33 +26,32 @@ public class ControllerImpl implements Controller {
     private static final String DUPLICATE = "ATTENZIONE! HAI GIA' QUESTO OGGETTO NEL TUO INVENTARIO!";
 
     private final String playerName;
+*/
     private final int playersNumber;
     private final Game game;
-    private final Turn turn;
-    private final Map<Button, Cell> cells = new HashMap<>();
-    private boolean diceRolled;
+//    private final Turn turn;
+//    private final Map<Button, Cell> cells = new HashMap<>();
+//    private boolean diceRolled;
+
     private boolean malusClicked;
     private Item itemToUse;
 
     /**
-     * Controller Impl constructor.
+     * Constructor.
      * 
-     * @param stage
-     *          the stage
-     * @param playerName
-     *          the player name
-     * @param playersNumber
-     *          the number of players of the game
+     * @param stage the stage
+     * @param playerName the player name
+     * @param playersNumber the number of players of the game
      */
     public ControllerImpl(final Stage stage, final String playerName, final int playersNumber) {
-        this.playerName = playerName;
-        this.playersNumber = playersNumber;
 
+        this.playersNumber = playersNumber; //FIXME potrei prenderlo direttamente dal Game
         this.game = new Game(playerName, playersNumber);
+
         ViewUtility.createBoardScene(this, stage);
 
-        this.game.setCells(getCells().values());
-        this.turn = new Turn();
+        //this.game.setCells(getCells().values());
+        //this.turn = new Turn();
 
         // giocatore muove pedina
         // giocatore completa turno (compra o usa carte)
@@ -67,33 +59,31 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-    public final String getHumanPlayerName() {
-        return this.playerName;
+    public final int getPlayersNumber() {
+        return this.playersNumber;
     }
 
     @Override
-    public final int getPlayersNumber() {
-        return this.playersNumber;
+    public final Game getGame() {
+        return this.game;
     }
 
     /**
      * Returns the cells of the board.
      * 
-     * @return the board cells.
-     */
+     * @return the cells of the board
+
     public final Map<Button, Cell> getCells() {
-        final Map<Button, Cell> myCells = new HashMap<>();
-        myCells.putAll(this.cells);
-        return myCells;
+        return new HashMap<>(this.cells);
     }
 
     /**
      * Add to cells Map a new button and his Cell.
      * 
-     * @param button the button to add to Map cells.
-     * @param i      the y coordinate of the new Button.
-     * @param j      the x coordinate of the new Button.
-     */
+     * @param button the button to add to Map cells
+     * @param i      the y coordinate of the new Button
+     * @param j      the x coordinate of the new Button
+
     public void addToCells(final Button button, final int i, final int j) {
         final Cell cell;
         if (i < CELL_SIX && (j < CELL_SIX || j >= CELL_NINE)
@@ -111,14 +101,15 @@ public class ControllerImpl implements Controller {
         }
         this.cells.put(button, cell);
     }
-
+     */
     /**
      * Handles the click of each of the Shop buttons.
      * They are clicked when User tries to buy an Item.
      * 
-     * @param clickedButton the Shop Button which was clicked.
-     * @return true if the User manages to buy the Item.
-     */
+     * @param clickedButton the Shop Button which was clicked
+     * 
+     * @return true if the User manages to buy the Item
+
     public Boolean clickShopButton(final Button clickedButton) {
         if (!this.diceRolled) {
             return false;
@@ -138,6 +129,7 @@ public class ControllerImpl implements Controller {
         }
         return true;
     }
+    */
 
     /**
      * Checks whether the User clicked an Item Button with a bonus.
@@ -156,7 +148,7 @@ public class ControllerImpl implements Controller {
             malusClicked = true;
             return false;
         }
-        humanPlayer.useItem(itemToUse, (PlayerImpl) humanPlayer);
+        humanPlayer.useItem(itemToUse, (Player) humanPlayer);
         return true;
     }
 
@@ -176,52 +168,59 @@ public class ControllerImpl implements Controller {
 
     /**
      * Checks if the User can roll the Dice.
-     * @return true if the roll-Dice Button has been clicked at the right time.
-     */
-    public Boolean clickRollDiceButton() {
+     * 
+     * @return true if the roll-Dice Button has been clicked at the right time
+
+    public boolean clickRollDiceButton() {
         if (this.diceRolled) {
             return false;
         }
         this.diceRolled = true;
         return true;
     }
-
+     */
     /**
      * Handles the click of any Button of the board.
      * 
-     * @param clickedButton the button of the board which was clicked.
-     * @return true if the board Button was rightfully clicked.
-     */
-    public Boolean clickBoardButton(final Button clickedButton) {
+     * @param clickedButton the button of the board which was clicked
+     * 
+     * @return true if the board Button was rightfully clicked
+
+    public boolean clickBoardButton(final Button clickedButton) {
         return true;
     }
-
+     */
     /**
      * Checks if it's the right moment to press ENTER.
-     * @return true if ENTER key is pressed when it's actually possible to change turn.
-     */
-    public Boolean pressEnterKey() {
+     * 
+     * @return true if ENTER key is pressed when it's actually possible to change turn
+
+    public boolean pressEnterKey() {
         if (!this.diceRolled) {
             return false;
         }
         this.diceRolled = false;
         return true;
     }
-
-    /**
-     * A computer plays its turn.
-     * @param i the computer player's index.
      */
+    /**
+     * A computer player plays its turn.
+     * 
+     * @param i the computer player's index
+
     public void playTurn(final int i) {
         turn.setShowcase(game.getShowcase());
         turn.play(game.getPlayers().get(i), this.game);
     }
+    */
 
     /**
      * Provides the GUI a String containing a Player and its Dice result.
-     * @param i index of the current Player.
-     * @return a String with the Player's name and its Dice result.
-     */
+     * 
+     * @param i index of the current player
+     * 
+     * @return a String with the player's name and its dice result
+
     public String getDiceResult(final int i) {
         final String result = "Risultato " + game.getPlayers().get(i).getName() + ": ";
         if (i == 0) {
@@ -229,5 +228,5 @@ public class ControllerImpl implements Controller {
         }
         return result + turn.getDiceResult();
     }
-
+     */
 }

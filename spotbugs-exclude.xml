@@ -19,7 +19,7 @@
 
   <Match>
     <Class name="model.InventoryImpl" />
-    <Bug code="EI,ER" />
+    <Bug code="EI" />
   </Match>
 
   <!-- Match all XYZ violations. -->
