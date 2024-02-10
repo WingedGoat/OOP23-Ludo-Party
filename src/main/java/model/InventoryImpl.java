@@ -27,9 +27,9 @@ public final class InventoryImpl implements Inventory {
                 2);
         final Item bastione = new ItemImpl(ItemName.BASTIONE, ItemDescription.BASTIONE_DESC, 500, ItemType.BONUS, 3);
         final Item tagliatelo = new ItemImpl(ItemName.TAGLIATELO, ItemDescription.TAGLIATELO_DESC, 300, ItemType.MALUS,
-                4);
+                5);
         final Item laRegolaDei4 = new ItemImpl(ItemName.REGOLA_DEI_4, ItemDescription.REGOLA_DEI_4_DESC, 450,
-                ItemType.MALUS, 5);
+                ItemType.MALUS, 4);
         final Item ariete = new ItemImpl(ItemName.ARIETE, ItemDescription.ARIETE_DESC, 600, ItemType.MALUS, 6);
         items = Map.of(daduplo.getId(), daduplo, abbondanza.getId(), abbondanza, bastione.getId(), bastione,
                 tagliatelo.getId(), tagliatelo, laRegolaDei4.getId(), laRegolaDei4, ariete.getId(), ariete);

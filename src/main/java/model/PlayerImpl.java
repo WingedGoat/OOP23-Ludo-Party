@@ -173,9 +173,10 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public void useItem(final Item item, final Player player) { 
+    public void useItem(final Item item, final Player player /*final Pawn pawn*/) { 
         final int bastioneId = 3;
         final int arieteId = 6;
+        //final int regolaId = 4;
         inventory.getInventory().remove(item.getId(), item);
         if (item.isBonus()) {
             player.addToItemsApplied(item);
@@ -184,7 +185,9 @@ public final class PlayerImpl implements Player {
         } else if (item.getId() == arieteId) {
             player.getItemsApplied().remove(inventory.getItems().get(bastioneId));
             player.addToItemsApplied(item);
-        }
+        } //else if (item.getId() == regolaId){
+           // pawn.move(pawn, -regolaId);
+       // }
     } 
 
     @Override
