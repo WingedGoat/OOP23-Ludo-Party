@@ -103,7 +103,7 @@ public final class PawnImpl implements Pawn {
      * @param color
      * @param diceResult
      */
-    private void movePawn(final Pawn pawn, final Color color, final int diceResult) {
+    private void movePawn(final Pawn pawn, final BColor color, final int diceResult) {
 
         if (pawn.getPosition().equals(pawn.getStartPosition())) {
             pawn.setPosition(PATH_COLORS.get(color.ordinal()).get(0));

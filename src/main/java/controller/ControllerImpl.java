@@ -1,16 +1,19 @@
 package controller;
 
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-import model.Game;
 import controller.api.Controller;
+import model.Game;
+import model.api.Item;
+import model.api.Player;
 import view.ViewUtility;
 
 /**
  * Controller used to coordinate model and view.
  */
 public class ControllerImpl implements Controller {
-/* 
+/*
     private static final int CELL_ONE = 1;
     private static final int CELL_TWO = 2;
     private static final int CELL_SIX = 6;
@@ -23,11 +26,13 @@ public class ControllerImpl implements Controller {
     private static final String DUPLICATE = "ATTENZIONE! HAI GIA' QUESTO OGGETTO NEL TUO INVENTARIO!";
 
     private final String playerName;
+*/
     private final int playersNumber;
     private final Game game;
-    private final Turn turn;
-    private final Map<Button, Cell> cells = new HashMap<>();
-    private boolean diceRolled;
+//    private final Turn turn;
+//    private final Map<Button, Cell> cells = new HashMap<>();
+//    private boolean diceRolled;
+
     private boolean malusClicked;
     private Item itemToUse;
 
@@ -71,7 +76,7 @@ public class ControllerImpl implements Controller {
     public final Map<Button, Cell> getCells() {
         return new HashMap<>(this.cells);
     }
-     */
+
     /**
      * Add to cells Map a new button and his Cell.
      * 
@@ -124,6 +129,7 @@ public class ControllerImpl implements Controller {
         }
         return true;
     }
+    */
 
     /**
      * Checks whether the User clicked an Item Button with a bonus.
@@ -142,7 +148,7 @@ public class ControllerImpl implements Controller {
             malusClicked = true;
             return false;
         }
-        humanPlayer.useItem(itemToUse, (PlayerImpl) humanPlayer);
+        humanPlayer.useItem(itemToUse, (Player) humanPlayer);
         return true;
     }
 
@@ -159,7 +165,7 @@ public class ControllerImpl implements Controller {
         malusClicked = false;
         return true;
     }
-     */
+
     /**
      * Checks if the User can roll the Dice.
      * 
