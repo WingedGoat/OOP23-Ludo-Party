@@ -109,32 +109,44 @@ public final class BoardImpl implements Board {
 
     @Override
     public Set<Position> getTopLeftHouse() {
-        return Set.copyOf(this.topLeftHouse);
+        final var set = new HashSet<Position>();
+        set.addAll(this.topLeftHouse);
+        return set;
     }
 
     @Override
     public Set<Position> getTopLeftSafePath() {
-        return Set.copyOf(this.topLeftSafePath);
+        final var set = new HashSet<Position>();
+        set.addAll(this.topLeftSafePath);
+        return set;
     }
 
     @Override
     public Set<Position> getTopRightHouse() {
-        return Set.copyOf(this.topRightHouse);
+        final var set = new HashSet<Position>();
+        set.addAll(this.topRightHouse);
+        return set;
     }
 
     @Override
     public Set<Position> getTopRightSafePath() {
-        return Set.copyOf(this.topRightSafePath);
+        final var set = new HashSet<Position>();
+        set.addAll(this.topRightSafePath);
+        return set;
     }
 
     @Override
     public Set<Position> getBottomRightHouse() {
-        return Set.copyOf(this.bottomRightHouse);
+        final var set = new HashSet<Position>();
+        set.addAll(this.bottomRightHouse);
+        return set;
     }
 
     @Override
     public Set<Position> getBottomRighSafePath() {
-        return Set.copyOf(this.bottomRighSafePath);
+        final var set = new HashSet<Position>();
+        set.addAll(this.bottomRighSafePath);
+        return set;
     }
 
     @Override
@@ -142,6 +154,7 @@ public final class BoardImpl implements Board {
         return Set.copyOf(this.cells);
     }
 
+    // create methods
     /**
      * Returns the positions of the house at {@link HomePosition#BOTTOM_LEFT}
      * corner.
@@ -270,12 +283,10 @@ public final class BoardImpl implements Board {
 
     private Set<Position> createShops() {
         final Set<Position> sh = new HashSet<>();
-        sh.addAll(Set.of(
-            new Position(Index.EIGHT, 0),
-            new Position(0, Index.SIX),
-            new Position(Index.SIX, Index.FOURTEEN),
-            new Position(Index.FOURTEEN, Index.EIGHT)
-        ));
+        sh.add(new Position(Index.EIGHT, 0));
+        sh.add(new Position(0, Index.SIX));
+        sh.add(new Position(Index.SIX, Index.FOURTEEN));
+        sh.add(new Position(Index.FOURTEEN, Index.EIGHT));
 
         return sh;
     }
