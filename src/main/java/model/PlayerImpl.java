@@ -134,11 +134,12 @@ public final class PlayerImpl implements Player {
 
     @Override
     public int rollDice() {
-        if (itemsApplied.contains(inventory.getItems().get(1)) && itemsApplied.contains(inventory.getItems().get(5))) {
+        final int tagliateloId = 5;
+        if (itemsApplied.contains(inventory.getItems().get(1)) && itemsApplied.contains(inventory.getItems().get(tagliateloId))) {
             return this.getDice().roll();
         } else if (itemsApplied.contains(inventory.getItems().get(1))) {
             return this.getDice().roll() + this.getDice().roll();
-        } else if (itemsApplied.contains(inventory.getItems().get(5))) {
+        } else if (itemsApplied.contains(inventory.getItems().get(tagliateloId))) {
             return this.getDice().roll() / 2;
         } 
         return this.getDice().roll();
