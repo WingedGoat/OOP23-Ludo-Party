@@ -3,7 +3,7 @@ package view;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import controller.ControllerImpl;
+import controller.api.Controller;
 
 /**
  * Utility class used to create the views of the game.
@@ -56,7 +56,7 @@ public final class ViewUtility {
      * 
      * @return a new BoardScene
      */
-    public static Scene createBoardScene(final ControllerImpl controller, final Stage stage) {
+    public static Scene createBoardScene(final Controller controller, final Stage stage) {
         return new BoardScene(controller, stage);
     }
 

@@ -1,145 +1,191 @@
 package view;
 
-import javafx.scene.Group;
-import javafx.scene.control.Button;
+import java.io.File;
+import java.nio.file.Path;
+
+import javafx.scene.Cursor;
 import javafx.scene.control.Label;
+import javafx.scene.effect.Glow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-
-import utility.Position;
-
+import model.Position;
 /**
- * The side panel with the player info.
+ * Player panel basic class.
  */
-public final class PlayerPanel extends AnchorPane {
-
-    private static final int PANE_HEIGHT = 600;
+public class PlayerPanel extends AnchorPane {
+    /**
+     * file separator.
+     */
+    protected static final String FILE_SEPARATOR = System.getProperty("file.separator");
+    /**
+     * image path.
+     */
+    protected static final String START_DICE_IMAGE_PATH = Path.of("." + FILE_SEPARATOR + "resources" + FILE_SEPARATOR
+        + "images" + FILE_SEPARATOR + "dices" + FILE_SEPARATOR + "dice-1.png").toString();
+    /**
+     * pane height.
+     */
+    protected static final int PANE_HEIGHT = 600;
     // circle props
-    private static final int CIRCLE_RADIUS = 80;
-    private static final int INNER_CIRCLE_RADIUS = 77;
-    private static final String CIRCLE_COLOR = "#555555";
-    private static final String INNER_CIRCLE_COLOR = "#F1F1F1";
+    /**
+     * circle radius.
+     */
+    protected static final int CIRCLE_RADIUS = 80;
+    /**
+     * inner circle radius.
+     */
+    protected static final int INNER_CIRCLE_RADIUS = 77;
+    /**
+     * circle color.
+     */
+    protected static final String CIRCLE_COLOR = "#555555";
+    /**
+     * inner circle color.
+     */
+    protected static final String INNER_CIRCLE_COLOR = "#F1F1F1";
     // components positions
-    private static final int LABEL_X_LAYOUT = 85;
-    private static final int LABEL_TOP_NAME_Y_LAYOUT = 230;
-    private static final int LABEL_TOP_COINS_Y_LAYOUT = 250;
-    private static final int LABEL_BOTTOM_NAME_Y_LAYOUT = 350;
-    private static final int LABEL_BOTTOM_COINS_Y_LAYOUT = 370;
-
-    private final String playerTopName;
-    private final String playerBottomName;
+    /**
+     * x.
+     */
+    protected static final int LABEL_X_LAYOUT = 60;
+    /**
+     * AA.
+     */
+    protected static final int LABEL_TOP_NAME_Y_LAYOUT = 230;
+    /**
+     * AA.
+     */
+    protected static final int LABEL_TOP_COINS_Y_LAYOUT = 250;
+    /**
+     * AA.
+     */
+    protected static final int LABEL_BOTTOM_NAME_Y_LAYOUT = 350;
+    /**
+     * AA.
+     */
+    protected static final int LABEL_BOTTOM_COINS_Y_LAYOUT = 370;
+    /**
+     * AA.
+     */
+    protected static final int DICE_WIDTH = 40;
+    /**
+     * AA.
+     */
+    protected static final int DICE_HEIGHT = 40;
+//    protected static final int DICE_X_LAYOUT = 120;
+//    protected static final int DICE_TOP_Y_LAYOUT = 210;
+//    protected static final int DICE_BOTTOM_Y_LAYOUT = 340;
+    /**
+     * AA.
+     */
+    protected static final int CENTOSETTANTA = 170;
+    //private static final int DUEEVENTI = 220;
+    /**
+     * AA.
+     */
+    protected static final int TREEQUARANTA = 340;
+    /**
+     * AA.
+     */
+    protected static final int DUEESESSANTA = 260;
 
     /**
-     * Constructor of the board side panel with the players info.
+     * Creates the outer circle of the player avatar.
      * 
-     * @param playerTopName name of the player showed on the top of the panel
-     * @param playerBottomName name of the player showed on the bottom of the panel
-     */
-    public PlayerPanel(final String playerTopName, final String playerBottomName) {
-
-        this.playerTopName = playerTopName;
-        this.playerBottomName = playerBottomName;
-
-        this.setPrefHeight(PANE_HEIGHT);
-
-        this.addChildren();
-    }
-
-    private void addChildren() {
-        final Group groupTop = getTopGroup();
-        final Group groupBottom = getBottomGroup();
-
-        this.getChildren().addAll(groupTop, groupBottom);
-    }
-
-    /**
-     * Return the button pressed for rolling the Dice.
-     * @return the button used for Dice rolling
-     */
-    public Button getRollDiceButton() {
-        return (Button) this.getChildren().get(0);
-    }
-
-    /**
-     * Return the label showing the Dice result.
-     * @return the label with Dice result
-     */
-    public Label getDiceLabel() {
-        return (Label) this.getChildren().get(1);
-    }
-
-    /**
-     * Creates and return the group displayed on top of the panel.
-     * The group contains the player's avatar, its name and the 
-     * amount of coins picked up durign the game.
+     * @param pos pos
      * 
-     * @return the top Group
+     * @return the player avatar
      */
-    private Group getTopGroup() {
-        final Group g = new Group();
-
-        final Position topPos = new Position(110, 120);
-
-        final Circle playerAvatarTop = new Circle(topPos.getX(), topPos.getY(), CIRCLE_RADIUS, Color.valueOf(CIRCLE_COLOR));
-        final Circle playerAvatarTopInner = 
-            new Circle(topPos.getX(), topPos.getY(), INNER_CIRCLE_RADIUS, Color.valueOf(INNER_CIRCLE_COLOR));
-
-        final Label playerTopName = new Label(this.playerTopName);
-        playerTopName.setLayoutX(LABEL_X_LAYOUT);
-        playerTopName.setLayoutY(LABEL_TOP_NAME_Y_LAYOUT);
-
-        final Label playerTopCoins = new Label("Ludollari: 0");
-        playerTopCoins.setLayoutX(LABEL_X_LAYOUT);
-        playerTopCoins.setLayoutY(LABEL_TOP_COINS_Y_LAYOUT);
-
-        AnchorPane.setLeftAnchor(playerTopName, 0.0);
-        AnchorPane.setRightAnchor(playerTopName, 0.0);
-
-        AnchorPane.setLeftAnchor(playerTopCoins, 0.0);
-        AnchorPane.setRightAnchor(playerTopCoins, 0.0);
-
-        g.getChildren().addAll(playerAvatarTop, playerAvatarTopInner, playerTopName, playerTopCoins);
-
-        return g;
+    protected Circle createPlayerAvatar(final Position pos) {
+        return new Circle(pos.getX(), pos.getY(), CIRCLE_RADIUS, Color.valueOf(CIRCLE_COLOR));
     }
 
     /**
-     * Creates and return the group displayed at the bottom of the panel.
-     * The group contains the player's avatar, its name and the 
-     * amount of coins picked up durign the game.
+     * Creates the inner circle of the player avatar.
      * 
-     * @return the bottom Group
+     * @param pos pos
+     * 
+     * @return the player avatar
      */
-    private Group getBottomGroup() {
-        final Group g = new Group();
+    protected Circle createPlayerInnerAvatar(final Position pos) {
+        return new Circle(pos.getX(), pos.getY(), INNER_CIRCLE_RADIUS, Color.valueOf(INNER_CIRCLE_COLOR));
+    }
 
-        final Position bottomPos = new Position(110, 480);
+    /**
+     * Creates the label with the name of the player.
+     * 
+     * @param name the player name
+     * 
+     * @return the label with the player name
+     */
+    protected Label createNameLabelTopPanel(final String name) {
+        final Label playerName = new Label(name);
+        playerName.setLayoutX(LABEL_X_LAYOUT);
+        playerName.setLayoutY(LABEL_TOP_NAME_Y_LAYOUT);
 
-        final Circle playerAvatarBottom = 
-            new Circle(bottomPos.getX(), bottomPos.getY(), CIRCLE_RADIUS, Color.valueOf(CIRCLE_COLOR));
-        final Circle playerAvatarBottomInner = 
-            new Circle(bottomPos.getX(), bottomPos.getY(), INNER_CIRCLE_RADIUS, Color.valueOf(INNER_CIRCLE_COLOR));
+        return playerName;
+    }
 
-        final Label playerBottomName = new Label(this.playerBottomName);
-        playerBottomName.setLayoutX(LABEL_X_LAYOUT);
-        playerBottomName.setLayoutY(LABEL_BOTTOM_NAME_Y_LAYOUT);
-        //playerBottomName.setAlignment(Pos.CENTER);
+    /**
+     * Creates the label with the coin quantity of the player.
+     * 
+     * @param coins the amount of coins owned by the player
+     * 
+     * @return label with the coin amount
+     */
+    protected Label createCoinLabelTopPanel(final int coins) {
+        final Label playerCoins = new Label("Ludollari: " + coins);
+        playerCoins.setLayoutX(LABEL_X_LAYOUT);
+        playerCoins.setLayoutY(LABEL_TOP_COINS_Y_LAYOUT);
 
-        final Label playerBottomCoins = new Label("Ludollari: 0");
-        playerBottomCoins.setLayoutX(LABEL_X_LAYOUT);
-        playerBottomCoins.setLayoutY(LABEL_BOTTOM_COINS_Y_LAYOUT);
-        //playerBottomName.setAlignment(Pos.CENTER);
+        return playerCoins;
+    }
 
-        AnchorPane.setLeftAnchor(playerBottomName, 0.0);
-        AnchorPane.setRightAnchor(playerBottomName, 0.0);
+    /**
+     * Creates the dice image to show at the player side.
+     * 
+     * @return the dice image
+     */
+    protected ImageView createDicImageView() {
+        final ImageView diceImage = new ImageView();
 
-        AnchorPane.setLeftAnchor(playerBottomCoins, 0.0);
-        AnchorPane.setRightAnchor(playerBottomCoins, 0.0);
+        final File file =  new File(START_DICE_IMAGE_PATH);
+        diceImage.setImage(new Image(file.toURI().toString()));
+        diceImage.setFitHeight(DICE_HEIGHT);
+        diceImage.setFitWidth(DICE_WIDTH);
 
-        g.getChildren().addAll(playerAvatarBottom, playerAvatarBottomInner, playerBottomName, playerBottomCoins);
+        final Glow glow = new Glow(.8);
+        diceImage.setOnMouseEntered(mouseEvent -> {
+            diceImage.setEffect(glow);
+            diceImage.setCursor(Cursor.HAND);
+        });
+        diceImage.setOnMouseExited(mouseEvent -> {
+            diceImage.setEffect(null);
+        });
 
-        return g;
+        return diceImage;
+    }
+
+    /**
+     * Change the dice number on the dice image showed.
+     * 
+     * @param diceImage the old dice image
+     * @param number the new number to show
+     * 
+     * @return the dice image with the new value of the dice
+     */
+    protected ImageView showDiceNumber(final ImageView diceImage, final int number) {
+
+        final String diceImagePath = Path.of("." + FILE_SEPARATOR + "resources" + FILE_SEPARATOR
+            + "images" + FILE_SEPARATOR + "dices" + FILE_SEPARATOR + "dice-" + number + ".png").toString();
+
+        final File file =  new File(diceImagePath);
+        diceImage.setImage(new Image(file.toURI().toString()));
+
+        return diceImage;
     }
 
 }

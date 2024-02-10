@@ -11,39 +11,51 @@ import model.api.Item;
 import model.api.Pawn;
 import model.api.Player;
 import model.api.Wallet;
+import utility.BColor;
 
 /**
  * Player Implementation class.
  */
-@SuppressWarnings("all")
 public final class PlayerImpl implements Player {
 
     private final String name;
     private final PlayerType type;
-    private final Color color;
+    private final BColor color;
     private final HomePosition homePosition;
-    // private final List<Pair<Integer,Integer>> safePath;
+    //private final Set<Position> safePath;
     private final List<Pawn> pawns;
+    private final Dice dice;
     private int coins;
     private boolean isPlayerTurn;
-    private Dice dice;
-    private Inventory inventory = new InventoryImpl();
-    private List<Item> itemsApplied = new ArrayList<>();
 
+    private final Inventory inventory = new InventoryImpl();
+    private final List<Item> itemsApplied = new ArrayList<>();
+
+    /**
+     * Constructor.
+     * @param p the player
+     */
+    public PlayerImpl(final Player p) {
+        this.name = p.getName();
+        this.type = p.getType();
+        this.color = p.getColor();
+        this.homePosition = p.getHomePosition();
+
+        this.pawns = new ArrayList<>();
+        this.coins = 0;
+        this.isPlayerTurn = false;
+        this.dice = new BasicDiceImpl();
+    }
     /**
      * Player constructor.
      * 
-     * @param name
-     *          the player name
-     * @param type
-     *          the player type
-     * @param color
-     *          the player color
-     * @param homePosition
-     *          the position of the player's house
+     * @param name the player name
+     * @param type the player type
+     * @param color the player color
+     * @param homePosition the position of the player's house
      */
     public PlayerImpl(final String name, final PlayerType type,
-            final Color color, final HomePosition homePosition) {
+            final BColor color, final HomePosition homePosition) {
         this.name = name;
         this.type = type;
         this.color = color;
@@ -51,7 +63,7 @@ public final class PlayerImpl implements Player {
 
         this.pawns = new ArrayList<>();
         for (int i = 0; i < homePosition.getPawnPositions().size(); i++) {
-            pawns.add(new PawnImpl(homePosition.getPawnPositions().get(i), i, homePosition, color));
+            this.pawns.add(new PawnImpl(homePosition.getPawnPositions().get(i), i, homePosition, color));
         }
 
         this.coins = 0;
@@ -72,7 +84,7 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public Color getColor() {
+    public BColor getColor() {
         return color;
     }
 
@@ -102,10 +114,14 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
+    public void setPlayerTurn() {
+        this.isPlayerTurn = true;
+    }
+
+    @Override
     public Dice getDice() {
         return this.dice;
     }
-
 
     @Override
     public String toString() {
@@ -132,7 +148,7 @@ public final class PlayerImpl implements Player {
     }
 
     @Override 
-    public Map<Integer, Item>  getPlayerInventory() { 
+    public Map<Integer, Item> getPlayerInventory() { 
         return inventory.getInventory();
     }
 
@@ -173,7 +189,7 @@ public final class PlayerImpl implements Player {
 
     @Override
     public void malusExpired() { 
-        for (Item i : itemsApplied) { 
+        for (final Item i : itemsApplied) { 
             if (!i.isBonus()) {
                 itemsApplied.remove(i); 
             }
@@ -182,7 +198,7 @@ public final class PlayerImpl implements Player {
 
     @Override
     public void bonusExpired() { 
-        for (Item i : itemsApplied) { 
+        for (final Item i : itemsApplied) { 
             if (i.isBonus()) {
                 itemsApplied.remove(i); 
             }

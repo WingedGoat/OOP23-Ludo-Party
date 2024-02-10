@@ -3,8 +3,8 @@ package model.api;
 import java.util.List;
 import java.util.Map;
 
-import model.Color;
 import model.PlayerHome.HomePosition;
+import utility.BColor;
 
 /**
  * Represents a player.
@@ -44,7 +44,7 @@ public interface Player {
      * 
      * @return the color
      */
-    Color getColor();
+    BColor getColor();
 
     /**
      * Gets the position of the house cell.
@@ -81,6 +81,11 @@ public interface Player {
      * @return true if it's the player turn
      */
     boolean isPlayerTurn();
+
+    /**
+     * Sets the isPlayerTurn field to true.
+     */
+    void setPlayerTurn();
 
     /**
      * Returns the type of Dice the player owns,
