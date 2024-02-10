@@ -68,13 +68,8 @@ public final class PawnImpl implements Pawn {
         return homePosition;
     }
 
-    /**
-     * Moves the pawn.
-     * 
-     * @param unknownPlayerPawn player pawn
-     * @param diceResult        dice result
-     */
-    public void move(final PawnImpl unknownPlayerPawn, final int diceResult) {
+    @Override
+    public void move(final Pawn unknownPlayerPawn, final int diceResult) {
 
         switch (unknownPlayerPawn.getColor()) {
             case RED:
@@ -107,7 +102,7 @@ public final class PawnImpl implements Pawn {
      * @param color
      * @param diceResult
      */
-    private void movePawn(final PawnImpl pawn, final Color color, final int diceResult) {
+    private void movePawn(final Pawn pawn, final Color color, final int diceResult) {
 
         if (pawn.getPosition().equals(pawn.getStartPosition())) {
             pawn.setPosition(PATH_COLORS.get(color.ordinal()).get(0));

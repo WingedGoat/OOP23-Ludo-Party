@@ -52,4 +52,12 @@ public interface Pawn {
      */
     HomePosition getHomePosition();
 
+    /**
+     * Moves the pawn.
+     * 
+     * @param unknownPlayerPawn player pawn
+     * @param diceResult        dice result
+     */
+    void move(Pawn unknownPlayerPawn, int diceResult);
+
 }
