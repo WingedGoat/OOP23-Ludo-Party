@@ -127,6 +127,7 @@ public class BoardScene extends Scene {
      * @param ctrl the controller
      */
     private void createBoard(final Controller ctrl) {
+        LOGGER.error("log something");
 
         for (int i = 0; i < Constants.CELLS_NUMBER; i++) {
             for (int j = 0; j < Constants.CELLS_NUMBER; j++) {
