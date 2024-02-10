@@ -11,6 +11,47 @@ import model.Position;
 public interface Cell {
 
     /**
+     * Cell Type.
+     */
+    enum Type {
+        /**
+         * Bottom left house.
+         */
+        BOTTOM_LEFT_HOUSE,
+        /**
+         * Bottom left safe path.
+         */
+        BOTTOM_LEFT_SAFE_PATH,
+        /**
+         * Top left house.
+         */
+        TOP_LEFT_HOUSE,
+        /**
+         * Top left safe path.
+         */
+        TOP_LEFT_SAFE_PATH,
+        /**
+         * Top right house.
+         */
+        TOP_RIGHT_HOUSE,
+        /**
+         * Top right safe path.
+         */
+        TOP_RIGHT_SAFE_PATH,
+        /**
+         * Bottom right house.
+         */
+        BOTTOM_RIGHT_HOUSE,
+        /**
+         * Bottom right safe path.
+         */
+        BOTTOM_RIGHT_SAFE_PATH,
+        /**
+         * White path.
+         */
+        WHITE_PATH
+    }
+    /**
      * Returns the cell position.
      * 
      * @return the cell position

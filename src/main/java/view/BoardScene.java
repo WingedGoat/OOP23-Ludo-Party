@@ -14,6 +14,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import model.PlayerHome;
 import model.Position;
@@ -23,6 +24,9 @@ import controller.api.Controller;
 import utility.BColor;
 import utility.Constants;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * Board Scene represents the third Scene
  * contained by the Stage. It's the view
@@ -30,14 +34,19 @@ import utility.Constants;
  */
 public class BoardScene extends Scene {
 
-    private static final int BOARD_CENTRAL_PANEL_WIDTH = 600;
-    private static final int BOARD_SIDEPANEL_WIDTH = 220;
+    private static final Logger LOGGER = LogManager.getRootLogger();
+
+    private static final int BOARD_PANEL_WIDTH = 600;
+    private static final int PLAYER_PANEL_WIDTH = 220;
     private static final int CELL_WIDTH = 40;
+    private static final int CELL_CENTER_POINT = 20;
+    private static final int CIRCLE_RADIUS = 14;
 
     private static final double BORDER_WIDTH = 0.5;
     private static final String BG_COLOR_CSS = "-fx-background-color: ";
     private static final String BG_RADIUS_CSS = "; -fx-border-color: #5A5858; -fx-border-width: 0.3px; "
         + "-fx-background-radius: 0";
+    private final GridPane boardPanel;
 
     /**
      * Constructor.
@@ -52,26 +61,27 @@ public class BoardScene extends Scene {
 
         // borderpane - container
         final BorderPane borderPane = (BorderPane) this.getRoot();
-        borderPane.setMinSize(BOARD_CENTRAL_PANEL_WIDTH, BOARD_CENTRAL_PANEL_WIDTH);
+        borderPane.setMinSize(BOARD_PANEL_WIDTH, BOARD_PANEL_WIDTH);
         borderPane.setPadding(new Insets(Constants.INSET_OS));
 
         final var border = new Border(new BorderStroke(
                 Color.valueOf("#202020"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(BORDER_WIDTH)));
 
         // gridpane - central panel
-        final GridPane centralPane = new GridPane();
-        centralPane.setMinSize(BOARD_CENTRAL_PANEL_WIDTH, BOARD_CENTRAL_PANEL_WIDTH);
-        createBoard(centralPane);
-        centralPane.setBorder(border);
-        borderPane.setCenter(centralPane);
+        boardPanel = new GridPane();
+        createBoard();
+        initPawns();
+        boardPanel.setMinSize(BOARD_PANEL_WIDTH, BOARD_PANEL_WIDTH);
+        boardPanel.setBorder(border);
+        borderPane.setCenter(boardPanel);
 
         // lateral panels for Players
         final PlayerPanelLeft leftPane = new PlayerPanelLeft(controller);
-        leftPane.setPrefWidth(BOARD_SIDEPANEL_WIDTH);
+        leftPane.setPrefWidth(PLAYER_PANEL_WIDTH);
         borderPane.setLeft(leftPane);
 
         final PlayerPanelRight rightPane = new PlayerPanelRight(controller);
-        rightPane.setPrefWidth(BOARD_SIDEPANEL_WIDTH);
+        rightPane.setPrefWidth(PLAYER_PANEL_WIDTH);
         borderPane.setRight(rightPane);
 
         // hbox - bottom panel for Player Bonus/Malus
@@ -108,50 +118,74 @@ public class BoardScene extends Scene {
         });
     }
 
-    // private void createBoard(final GridPane panel, final Controller controller) {
-    private void createBoard(final GridPane panel) {
-        /*
-         * final EventHandler<ActionEvent> buttonClicked = new EventHandler<>() {
-         * 
-         * @Override
-         * public void handle(final ActionEvent e) {
-         * //final Button clicked = (Button) e.getSource();
-         * if (controller.clickBoardButton(clicked)) {
-         * borderPane.requestFocus();
-         * }
-         * }
-         * };
-         */
-        for (int i = 0; i < Constants.BOARD_CELLS; i++) {
-            for (int j = 0; j < Constants.BOARD_CELLS; j++) {
+    /**
+     * Creates the game board, with the colored houses
+     * and the safe path for each player.
+     */
+    private void createBoard() { // final Controller ctrl
+
+        for (int i = 0; i < Constants.CELLS_NUMBER; i++) {
+            for (int j = 0; j < Constants.CELLS_NUMBER; j++) {
                 final Button bt = new Button(" ");
                 bt.setStyle("-fx-background-color: #fdfcfc;"
                         + "-fx-border-color: #5A5858; -fx-border-width: 0.5px; " + BG_RADIUS_CSS);
-                //bt.setOnAction(e -> System.out.println("-clickato"));
+                // bt.setOnAction(e -> System.out.println("-clickato"));
 
                 final Position pos = new Position(i, j);
 
-                if (PlayerHome.getPlayerHome(HomePosition.BOTTOM_LEFT).contains(pos) 
-                    || PlayerSafePath.getPath(HomePosition.BOTTOM_LEFT).contains(pos)) {
+                // player home 1 --
+                if (PlayerHome.getPlayerHome(HomePosition.BOTTOM_LEFT).contains(pos)) {
                     bt.setStyle(BG_COLOR_CSS + BColor.BLUE.get() + BG_RADIUS_CSS);
-                }
-                if (PlayerHome.getPlayerHome(HomePosition.TOP_LEFT).contains(pos) 
-                    || PlayerSafePath.getPath(HomePosition.TOP_LEFT).contains(pos)) {
+                    bt.setOnMouseEntered(e -> bt.setCursor(null));
+                } else if (PlayerSafePath.getPath(HomePosition.BOTTOM_LEFT).contains(pos)) {
+                    bt.setStyle(BG_COLOR_CSS + BColor.BLUE.get() + BG_RADIUS_CSS);
+                } else if (PlayerHome.getPlayerHome(HomePosition.TOP_LEFT).contains(pos)) {
                     bt.setStyle(BG_COLOR_CSS + BColor.RED.get() + BG_RADIUS_CSS);
-                }
-                if (PlayerHome.getPlayerHome(HomePosition.TOP_RIGHT).contains(pos) 
-                    || PlayerSafePath.getPath(HomePosition.TOP_RIGHT).contains(pos)) {
+                    bt.setOnMouseEntered(e -> bt.setCursor(null));
+                } else if (PlayerSafePath.getPath(HomePosition.TOP_LEFT).contains(pos)) {
+                    bt.setStyle(BG_COLOR_CSS + BColor.RED.get() + BG_RADIUS_CSS);
+                } else if (PlayerHome.getPlayerHome(HomePosition.TOP_RIGHT).contains(pos)) {
                     bt.setStyle(BG_COLOR_CSS + BColor.GREEN.get() + BG_RADIUS_CSS);
-                }
-                if (PlayerHome.getPlayerHome(HomePosition.BOTTOM_RIGHT).contains(pos) 
-                    || PlayerSafePath.getPath(HomePosition.BOTTOM_RIGHT).contains(pos)) {
+                    bt.setOnMouseEntered(e -> bt.setCursor(null));
+                } else if (PlayerSafePath.getPath(HomePosition.TOP_RIGHT).contains(pos)) {
+                    bt.setStyle(BG_COLOR_CSS + BColor.GREEN.get() + BG_RADIUS_CSS);
+                } else if (PlayerHome.getPlayerHome(HomePosition.BOTTOM_RIGHT).contains(pos)) {
+                    bt.setStyle(BG_COLOR_CSS + BColor.YELLOW.get() + BG_RADIUS_CSS);
+                    bt.setOnMouseEntered(e -> bt.setCursor(null));
+                } else if (PlayerSafePath.getPath(HomePosition.BOTTOM_RIGHT).contains(pos)) {
                     bt.setStyle(BG_COLOR_CSS + BColor.YELLOW.get() + BG_RADIUS_CSS);
                 }
                 bt.setPrefSize(CELL_WIDTH, CELL_WIDTH);
                 bt.setCursor(Cursor.HAND);
 
                 // this.cells.put(bt, new CellImpl());
-                panel.add(bt, j, i);
+                this.boardPanel.add(bt, j, i);
+            }
+        }
+    }
+
+    /**
+     * Sets the pawn in the initial position in each player home.
+     */
+    private void initPawns() {
+
+        for (int i = 0; i < Constants.CELLS_NUMBER; i++) {
+            for (int j = 0; j < Constants.CELLS_NUMBER; j++) {
+
+                //if()
+
+                //Circle pawn = new Circle(CELL_WIDTH * i + CELL_CENTER_POINT, CELL_WIDTH * j + CELL_CENTER_POINT, CIRCLE_RADIUS);
+                final Circle pawn = new Circle(CELL_WIDTH + CELL_CENTER_POINT, CELL_WIDTH + CELL_CENTER_POINT, CIRCLE_RADIUS);
+                pawn.setOnMouseEntered(event -> pawn.setCursor(Cursor.HAND));
+
+                pawn.setOnMouseDragged(event ->  {
+                    LOGGER.error("-- moving pawn");
+                    pawn.setTranslateX(event.getX() + pawn.getTranslateX());
+                    pawn.setTranslateY(event.getY() + pawn.getTranslateY());
+                    event.consume();
+                });
+
+                this.boardPanel.add(pawn, 1, 1);
             }
         }
     }

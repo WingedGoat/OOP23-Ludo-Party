@@ -22,7 +22,7 @@ public final class PlayerImpl implements Player {
     private final PlayerType type;
     private final BColor color;
     private final HomePosition homePosition;
-    // private final List<Pair<Integer,Integer>> safePath;
+    //private final Set<Position> safePath;
     private final List<Pawn> pawns;
     private final Dice dice;
     private int coins;
@@ -63,7 +63,7 @@ public final class PlayerImpl implements Player {
 
         this.pawns = new ArrayList<>();
         for (int i = 0; i < homePosition.getPawnPositions().size(); i++) {
-            pawns.add(new PawnImpl(homePosition.getPawnPositions().get(i), i, homePosition, color));
+            this.pawns.add(new PawnImpl(homePosition.getPawnPositions().get(i), i, homePosition, color));
         }
 
         this.coins = 0;
