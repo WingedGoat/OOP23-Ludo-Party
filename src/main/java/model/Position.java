@@ -58,7 +58,7 @@ public final class Position {
             return false;
         }
         final Position other = (Position) obj;
-        return x == other.x;
+        return x == other.getX() && y == other.getY();
     }
 
     @Override
