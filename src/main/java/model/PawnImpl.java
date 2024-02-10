@@ -1,6 +1,6 @@
 package model;
 
-import model.PlayerHome.HomePosition;
+import model.api.Cell.Type;
 import model.api.Pawn;
 import utility.BColor;
 
@@ -15,7 +15,7 @@ public final class PawnImpl implements Pawn {
     private final Position startPosition;
     private Position currentPosition;
     private final int itemNo;
-    private final HomePosition homePosition;
+    private final Type playerHouse;
     private final BColor color;
     private static final List<List<Position>> PATH_COLORS = new ArrayList<>();
 
@@ -26,16 +26,16 @@ public final class PawnImpl implements Pawn {
      *                the position of the pawn in the board
      * @param index
      *                the index of the pawn in the list
-     * @param homePos
+     * @param playerHouse
      *                the home position in the board
      * @param color
      *                the color of the pawn
      */
-    public PawnImpl(final Position pos, final int index, final HomePosition homePos, final BColor color) {
+    public PawnImpl(final Position pos, final int index, final Type playerHouse, final BColor color) {
         this.startPosition = pos;
         this.currentPosition = pos;
         this.itemNo = index;
-        this.homePosition = homePos;
+        this.playerHouse = playerHouse;
         this.color = color;
     }
 
@@ -65,8 +65,8 @@ public final class PawnImpl implements Pawn {
     }
 
     @Override
-    public HomePosition getHomePosition() {
-        return homePosition;
+    public Type getPlayerHouse() {
+        return playerHouse;
     }
 
     @Override
@@ -120,6 +120,12 @@ public final class PawnImpl implements Pawn {
         }
     }
 
+    @Override
+    public String toString() {
+        return "PawnImpl [startPosition=" + startPosition + ", currentPosition=" + currentPosition + ", itemNo="
+                + itemNo + ", playerHouse=" + playerHouse + ", color=" + color + "]";
+    }
+
     /**
      * Move the given pawn and checks.
      * there is whether or not an enemy.
@@ -139,11 +145,5 @@ public final class PawnImpl implements Pawn {
      * 
      * }
      */
-
-    @Override
-    public String toString() {
-        return "PawnImpl [startPosition=" + startPosition + ", currentPosition=" + currentPosition + ", itemNo="
-                + itemNo + ", homePosition=" + homePosition + ", color=" + color + "]";
-    }
 
 }

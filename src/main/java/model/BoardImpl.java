@@ -5,11 +5,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import model.PlayerHome.HomePosition;
-import model.api.Board;
-
 //import org.apache.logging.log4j.LogManager;
 //import org.apache.logging.log4j.Logger;
+
+import model.api.Board;
+import model.api.Cell;
+import model.api.Cell.Type;
 
 import utility.Constants;
 import utility.Index;
@@ -18,10 +19,9 @@ import utility.Index;
  * Game Board Builder.
  */
 public final class BoardImpl implements Board {
-    // private static final Logger LOGGER = LogManager.getRootLogger();
-    // LOGGER.error("cells: " + cells.toString());
+    //private static final Logger LOGGER = LogManager.getRootLogger();
 
-    private final Set<Position> cells;
+    private final Set<Cell> cells = new HashSet<>();
     private final Set<Position> bottomLeftHouse;
     private final Set<Position> bottomLeftSafePath;
 
@@ -34,17 +34,13 @@ public final class BoardImpl implements Board {
     private final Set<Position> bottomRightHouse;
     private final Set<Position> bottomRighSafePath;
 
+    private final Set<Position> shops;
+
     /**
      * Constructor.
      */
     public BoardImpl() {
-        /*
-         * this.cells = IntStream.range(0, Constants.CELLS_NUMBER)
-         * .mapToObj(i -> i)
-         * .flatMap(i -> IntStream.range(0, Constants.CELLS_NUMBER)
-         * .mapToObj(j -> new Position(i, j)))
-         * .collect(Collectors.toCollection(() -> new HashSet<>()));
-         */
+
         this.bottomLeftHouse = createBottomLeftHouse();
         this.bottomLeftSafePath = createBottomLeftSafePath();
 
@@ -57,19 +53,58 @@ public final class BoardImpl implements Board {
         this.bottomRightHouse = createBottomRightHouse();
         this.bottomRighSafePath = createBottomRightSafePath();
 
-        this.cells = new HashSet<>();
+        this.shops = createShops();
+
+        fillBoard();
+    }
+
+    private void fillBoard() {
+        for (int i = 0; i < Constants.CELLS_NUMBER; i++) {
+            for (int j = 0; j < Constants.CELLS_NUMBER; j++) {
+                final Position pos = new Position(i, j);
+
+                Cell cell;
+                if (this.bottomLeftHouse.contains(pos)) {
+                    cell = new CellImpl(pos, Type.BOTTOM_LEFT_HOUSE);
+                } else if (this.topLeftHouse.contains(pos)) {
+                    cell = new CellImpl(pos, Type.TOP_LEFT_HOUSE);
+                } else if (this.topRightHouse.contains(pos)) {
+                    cell = new CellImpl(pos, Type.TOP_RIGHT_HOUSE);
+                } else if (this.bottomRightHouse.contains(pos)) {
+                    cell = new CellImpl(pos, Type.BOTTOM_RIGHT_HOUSE);
+                } else if (this.bottomLeftSafePath.contains(pos)) {
+                    cell = new CellImpl(pos, true, Type.BOTTOM_LEFT_SAFE_PATH);
+                } else if (this.topLeftSafePath.contains(pos)) {
+                    cell = new CellImpl(pos, true, Type.TOP_LEFT_SAFE_PATH);
+                } else if (this.topRightSafePath.contains(pos)) {
+                    cell = new CellImpl(pos, true, Type.TOP_RIGHT_SAFE_PATH);
+                } else if (this.bottomRighSafePath.contains(pos)) {
+                    cell = new CellImpl(pos, true, Type.BOTTOM_RIGHT_SAFE_PATH);
+                } else if (this.shops.contains(pos)) {
+                    cell = new CellImpl(pos, false, true, false, Type.WHITE_PATH);
+                } else {
+                    cell = new CellImpl(pos, false, false, false, Type.WHITE_PATH);
+                }
+
+                this.cells.add(cell);
+            }
+        }
     }
 
     // getters
 
     @Override
     public Set<Position> getBottomLeftHouse() {
-        return Set.copyOf(this.bottomLeftHouse);
+        final var set = new HashSet<Position>();
+        set.addAll(this.bottomLeftHouse);
+        return set;
     }
 
     @Override
     public Set<Position> getBottomLeftSafePath() {
-        return Set.copyOf(this.bottomLeftSafePath);
+        final var set = new HashSet<Position>();
+        set.addAll(this.bottomLeftSafePath);
+        return set;
     }
 
     @Override
@@ -103,8 +138,8 @@ public final class BoardImpl implements Board {
     }
 
     @Override
-    public Set<Position> getCells() {
-        return Set.copyOf(cells);
+    public Set<Cell> getCells() {
+        return Set.copyOf(this.cells);
     }
 
     /**
@@ -231,6 +266,18 @@ public final class BoardImpl implements Board {
         }
 
         return safePath;
+    }
+
+    private Set<Position> createShops() {
+        final Set<Position> sh = new HashSet<>();
+        sh.addAll(Set.of(
+            new Position(Index.EIGHT, 0),
+            new Position(0, Index.SIX),
+            new Position(Index.SIX, Index.FOURTEEN),
+            new Position(Index.FOURTEEN, Index.EIGHT)
+        ));
+
+        return sh;
     }
 /* 
     private Set<Position> createBottomLeftPawnsStartPosition() {

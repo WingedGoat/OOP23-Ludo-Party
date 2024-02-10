@@ -1,7 +1,7 @@
 package model.api;
 
 import model.Position;
-import model.PlayerHome.HomePosition;
+import model.api.Cell.Type;
 import utility.BColor;
 
 /**
@@ -46,11 +46,11 @@ public interface Pawn {
     BColor getColor();
 
     /**
-     * Gets the position of the pawn in the board.
+     * Gets the player house of the pawn in the board.
      * 
-     * @return the position
+     * @return the player house
      */
-    HomePosition getHomePosition();
+    Type getPlayerHouse();
 
     /**
      * Moves the pawn.

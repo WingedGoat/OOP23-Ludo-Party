@@ -6,7 +6,7 @@ import model.api.Cell;
 import model.api.Pawn;
 
 /**
- * 
+ * Cell Impl.
  */
 public final class CellImpl implements Cell {
 
@@ -15,41 +15,47 @@ public final class CellImpl implements Cell {
     private final boolean isShop;
     private final boolean isEmpty;
     private final boolean isHome;
-    private final List<Pawn> pawnList;
-
-    /**
-     * Constructor.
-     * 
-     * @param pos
-     *          the position of the cell
-     * @param isSafe
-     *          marks the cell as safe if it is true
-     * @param isShop
-     *          marks the cell as shop if it is true
-     * @param isHome
-     *          marks the cell as home if it is true
-     */
-    public CellImpl(final Position pos, final boolean isSafe, final boolean isShop, final boolean isHome) {
-        this.position = pos;
-        this.isSafe = isSafe;
-        this.isShop = isShop;
-        this.isHome = isHome;
-        this.isEmpty = true;
-        this.pawnList = new ArrayList<>();
-    }
+    private final Type type;
+    private final List<Pawn> pawns;
 
     /**
      * Constructor.
      * 
      * @param pos the position of the cell
+     * @param isSafe marks the cell as safe if it is true
+     * @param isShop marks the cell as shop if it is true
+     * @param isHome marks the cell as home if it is true
+     * @param type the cell type
      */
-    public CellImpl(final Position pos) {
+    public CellImpl(final Position pos, final boolean isSafe, final boolean isShop, final boolean isHome, final Type type) {
         this.position = pos;
-        this.isSafe = false;
-        this.isShop = false;
-        this.isHome = false;
+        this.isSafe = isSafe;
+        this.isShop = isShop;
+        this.isHome = isHome;
+        this.type = type;
         this.isEmpty = true;
-        this.pawnList = new ArrayList<>();
+        this.pawns = new ArrayList<>();
+    }
+
+    /**
+     * Constructor for home cells.
+     * 
+     * @param pos the 2D position
+     * @param type the cell type { @link Cell.Type }
+     */
+    public CellImpl(final Position pos, final Type type) {
+        this(pos, false, false, true, type);
+    }
+
+    /**
+     * Constructor for safe cells.
+     * 
+     * @param pos the 2D position
+     * @param isSafe is safe cell
+     * @param type the cell type { @link Cell.Type }
+     */
+    public CellImpl(final Position pos, final boolean isSafe, final Type type) {
+        this(pos, isSafe, false, false, type);
     }
 
     @Override
@@ -78,14 +84,19 @@ public final class CellImpl implements Cell {
     }
 
     @Override
+    public Type getType() {
+        return type;
+    }
+
+    @Override
     public List<Pawn> getPawns() {
-        return List.copyOf(this.pawnList);
+        return List.copyOf(this.pawns);
     }
 
     @Override
     public String toString() {
         return "CellImpl [position=" + position + ", isSafe=" + isSafe + ", isShop=" + isShop + ", isEmpty=" + isEmpty
-                + ", isHome=" + isHome + ", pawnList=" + pawnList + "]";
+                + ", isHome=" + isHome + ", pawnList=" + pawns + "]";
     }
 
 }
