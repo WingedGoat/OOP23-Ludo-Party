@@ -49,6 +49,10 @@ public final class Index {
      * Index 13.
      */
     public static final int THIRTEEN = 13;
+    /**
+     * Index 14.
+     */
+    public static final int FOURTEEN = 14;
 
     private Index() { }
 

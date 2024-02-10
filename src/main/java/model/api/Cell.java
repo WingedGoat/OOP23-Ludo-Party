@@ -51,6 +51,7 @@ public interface Cell {
          */
         WHITE_PATH
     }
+
     /**
      * Returns the cell position.
      * 
@@ -92,5 +93,11 @@ public interface Cell {
      * @return list with pawns
      */
     List<Pawn> getPawns();
+
+    /**
+     * Gets the type of the cell.
+     * @return the cell type
+     */
+    Type getType();
 
 }

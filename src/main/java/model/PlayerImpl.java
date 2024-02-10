@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import model.PlayerHome.HomePosition;
 import model.api.Dice;
 import model.api.Inventory;
 import model.api.Item;
+import model.api.Cell.Type;
 import model.api.Pawn;
 import model.api.Player;
 import model.api.Wallet;
@@ -21,7 +21,7 @@ public final class PlayerImpl implements Player {
     private final String name;
     private final PlayerType type;
     private final BColor color;
-    private final HomePosition homePosition;
+    private final Type playerHouse;
     //private final Set<Position> safePath;
     private final List<Pawn> pawns;
     private final Dice dice;
@@ -39,7 +39,7 @@ public final class PlayerImpl implements Player {
         this.name = p.getName();
         this.type = p.getType();
         this.color = p.getColor();
-        this.homePosition = p.getHomePosition();
+        this.playerHouse = p.getHomePosition();
 
         this.pawns = new ArrayList<>();
         this.coins = 0;
@@ -52,19 +52,21 @@ public final class PlayerImpl implements Player {
      * @param name the player name
      * @param type the player type
      * @param color the player color
-     * @param homePosition the position of the player's house
+     * @param playerHouse the position of the player's house
      */
     public PlayerImpl(final String name, final PlayerType type,
-            final BColor color, final HomePosition homePosition) {
+            final BColor color, final Type playerHouse) {
         this.name = name;
         this.type = type;
         this.color = color;
-        this.homePosition = homePosition;
+        this.playerHouse = playerHouse;
 
         this.pawns = new ArrayList<>();
-        for (int i = 0; i < homePosition.getPawnPositions().size(); i++) {
-            this.pawns.add(new PawnImpl(homePosition.getPawnPositions().get(i), i, homePosition, color));
+        /*
+        for (int i = 0; i < playerHouse.getPawnPositions().size(); i++) {
+            this.pawns.add(new PawnImpl(playerHouse.getPawnPositions().get(i), i, playerHouse, color));
         }
+        */
 
         this.coins = 0;
         this.isPlayerTurn = false;
@@ -89,8 +91,8 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public HomePosition getHomePosition() {
-        return homePosition;
+    public Type getHomePosition() {
+        return playerHouse;
     }
 
     @Override
@@ -125,8 +127,9 @@ public final class PlayerImpl implements Player {
 
     @Override
     public String toString() {
-        return "PlayerImpl [name=" + name + ", type=" + type + ", color=" + color + ", homePosition=" + homePosition
-                + ", pawns=" + pawns + ", coins=" + coins + ", isPlayerTurn=" + isPlayerTurn + "]";
+        return "PlayerImpl [name=" + name + ", type=" + type + ", color=" + color + ", playerHouse=" + playerHouse
+                + ", pawns=" + pawns + ", dice=" + dice + ", coins=" + coins + ", isPlayerTurn=" + isPlayerTurn
+                + ", inventory=" + inventory + ", itemsApplied=" + itemsApplied + "]";
     }
 
     @Override

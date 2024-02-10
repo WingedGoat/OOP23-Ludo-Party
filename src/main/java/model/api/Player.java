@@ -3,7 +3,7 @@ package model.api;
 import java.util.List;
 import java.util.Map;
 
-import model.PlayerHome.HomePosition;
+import model.api.Cell.Type;
 import utility.BColor;
 
 /**
@@ -12,7 +12,7 @@ import utility.BColor;
 public interface Player {
 
     /**
-     * Enum player type.
+     * Player Type.
      */
     enum PlayerType {
         /**
@@ -25,6 +25,33 @@ public interface Player {
         COMPUTER;
     }
 
+    /**
+     * Home Position.
+     *
+     * {@link #BOTTOM_LEFT},
+     * {@link #TOP_LEFT},
+     * {@link #TOP_RIGHT},
+     * {@link #BOTTOM_RIGHT}
+
+    public enum HomePosition {
+
+         * Home positioned at bottom left corner.
+
+        BOTTOM_LEFT,
+
+         * Home positioned at top left corner.
+
+        TOP_LEFT,
+
+         * Home positioned at top right corner.
+
+        TOP_RIGHT,
+
+         * Home positioned at bottom right corner.
+
+        BOTTOM_RIGHT;
+    }
+    */
     /**
      * Gets the name of the player.
      * 
@@ -51,7 +78,7 @@ public interface Player {
      * 
      * @return the position of the house cell
      */
-    HomePosition getHomePosition();
+    Type getHomePosition();
 
     /**
      * Get the pawns of the current player.
@@ -140,9 +167,10 @@ public interface Player {
 
     /**
      * Returns the list of applied items.
+     * 
      * @return the list of applied items
      */
-    List<Item> getItemsApplied(); 
+    List<Item> getItemsApplied();
 
     /**
      * Active the item on the designed player.
