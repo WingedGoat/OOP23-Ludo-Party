@@ -20,7 +20,7 @@ Per poter liberare una pedina dalla propria casa, è necessario ottenere un 6. I
 Ogni volta che si tira un 1, si lancia nuovamente il dado.
 Se non è possibile muovere con il tiro ottenuto, si passa il turno. Quando però un movimento è possibile, esso è obbligatorio e non si può passare il turno prima di averlo effettuato.
 Una pedina può venire spostata in una cella occupata da altre del suo stesso colore; se invece raggiunge la posizione di una pedina avversaria, quest'ultima viene "mangiata" e ricollocata nella casa di partenza.
-Qualora una pedina raggiungesse una cella occupata da 2 (o più) pedine avversarie, nessuna verrebbe mangiata.
+Qualora una pedina possa raggiungere una cella occupata da 2 (o più) pedine avversarie, questa non può venir mossa e il giocatore dovrà muovere un'altra pedina disponibile.
 Al termine di un giro completo, una pedina entra nelle celle finali del suo colore. Questa parte di percorso è l'unica a poter essere attraversata solo dalle proprie pedine.
 Ci sono postazioni sicure nelle quali non si può venire mangiati, oltre alle celle finali: la propria cella iniziale e le case speciali Shop.
 Le case Shop sono 4 celle ubicate lungo il percorso. Quando un giocatore ne raggiunge una con una propria pedina, nel solo turno in cui ha raggiunto la casa Shop, ha la possibilità di servirsi dello Shop del gioco per comprare Bonus/Malus da utilizzare in partita.
