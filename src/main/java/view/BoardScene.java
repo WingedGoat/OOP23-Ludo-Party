@@ -21,6 +21,7 @@ import model.Position;
 import controller.api.Controller;
 import utility.BColor;
 import utility.Constants;
+import utility.Index;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -43,7 +44,7 @@ public class BoardScene extends Scene {
     private static final double BORDER_WIDTH = 0.5;
     private static final String BG_COLOR_CSS = "-fx-background-color: ";
     private static final String BG_RADIUS_CSS = "; -fx-border-color: #5A5858; -fx-border-width: 0.3px; "
-        + "-fx-background-radius: 0";
+            + "-fx-background-radius: 0";
     private final GridPane boardPanel;
 
     /**
@@ -68,7 +69,7 @@ public class BoardScene extends Scene {
         // gridpane - central panel
         boardPanel = new GridPane();
         createBoard(controller);
-        initPawns();
+        initPawns(controller);
         boardPanel.setMinSize(BOARD_PANEL_WIDTH, BOARD_PANEL_WIDTH);
         boardPanel.setBorder(border);
         borderPane.setCenter(boardPanel);
@@ -139,19 +140,19 @@ public class BoardScene extends Scene {
                 final Position pos = new Position(i, j);
 
                 if (ctrl.getGame().getBoard().getBottomLeftHouse().contains(pos)
-                    || ctrl.getGame().getBoard().getBottomLeftSafePath().contains(pos)) {
+                        || ctrl.getGame().getBoard().getBottomLeftSafePath().contains(pos)) {
                     bt.setStyle(BG_COLOR_CSS + BColor.BLUE.get() + BG_RADIUS_CSS);
                     bt.setOnMouseEntered(e -> bt.setCursor(null));
                 } else if (ctrl.getGame().getBoard().getTopLeftHouse().contains(pos)
-                    || ctrl.getGame().getBoard().getTopLeftSafePath().contains(pos)) {
+                        || ctrl.getGame().getBoard().getTopLeftSafePath().contains(pos)) {
                     bt.setStyle(BG_COLOR_CSS + BColor.RED.get() + BG_RADIUS_CSS);
                     bt.setOnMouseEntered(e -> bt.setCursor(null));
                 } else if (ctrl.getGame().getBoard().getTopRightHouse().contains(pos)
-                    || ctrl.getGame().getBoard().getTopRightSafePath().contains(pos)) {
+                        || ctrl.getGame().getBoard().getTopRightSafePath().contains(pos)) {
                     bt.setStyle(BG_COLOR_CSS + BColor.GREEN.get() + BG_RADIUS_CSS);
                     bt.setOnMouseEntered(e -> bt.setCursor(null));
                 } else if (ctrl.getGame().getBoard().getBottomRightHouse().contains(pos)
-                    || ctrl.getGame().getBoard().getBottomRighSafePath().contains(pos)) {
+                        || ctrl.getGame().getBoard().getBottomRighSafePath().contains(pos)) {
                     bt.setStyle(BG_COLOR_CSS + BColor.YELLOW.get() + BG_RADIUS_CSS);
                     bt.setOnMouseEntered(e -> bt.setCursor(null));
                 }
@@ -166,28 +167,36 @@ public class BoardScene extends Scene {
 
     /**
      * Sets the pawn in the initial position in each player home.
-    */
-    private void initPawns() {
+     * 
+     * @param controller
+     */
+    private void initPawns(final Controller controller) {
 
-        for (int i = 0; i < Constants.CELLS_NUMBER; i++) {
-            for (int j = 0; j < Constants.CELLS_NUMBER; j++) {
+        for (int i = 0; i < controller.getPlayersNumber() * Constants.PLAYER_PAWNS; i++) {
 
-                //if()
+            // if()
 
-                //Circle pawn = new Circle(CELL_WIDTH * i + CELL_CENTER_POINT, CELL_WIDTH * j + CELL_CENTER_POINT, CIRCLE_RADIUS);
-                final Circle pawn = new Circle(CELL_WIDTH + CELL_CENTER_POINT, CELL_WIDTH + CELL_CENTER_POINT, CIRCLE_RADIUS);
-                pawn.setOnMouseEntered(event -> pawn.setCursor(Cursor.HAND));
+            // Circle pawn = new Circle(CELL_WIDTH * i + CELL_CENTER_POINT, CELL_WIDTH * j +
+            // CELL_CENTER_POINT, CIRCLE_RADIUS);
+            final Circle pawn = new Circle(CELL_WIDTH + CELL_CENTER_POINT, CELL_WIDTH + CELL_CENTER_POINT,
+                    CIRCLE_RADIUS);
+            pawn.setOnMouseEntered(event -> pawn.setCursor(Cursor.HAND));
 
-                pawn.setOnMouseDragged(event ->  {
-                    //LOGGER.error("-- moving pawn");
-                    pawn.setTranslateX(event.getX() + pawn.getTranslateX());
-                    pawn.setTranslateY(event.getY() + pawn.getTranslateY());
-                    event.consume();
-                });
+            // model.Movement m = new model.Movement(); (da usare successivamente per
+            // testare se va)
 
-                this.boardPanel.add(pawn, 1, 1);
-            }
+            pawn.setOnMouseClicked(event -> {
+                // m.move();
+                // LOGGER.error("-- moving pawn");
+                pawn.setTranslateX(controller.getPlayersNumber());
+                pawn.setTranslateY(pawn.getTranslateX() + Index.FIVE);
+                event.consume();
+            });
+
+            this.boardPanel.add(pawn, 1, 1);
+
+            // 12
+            // 03
         }
     }
-
 }

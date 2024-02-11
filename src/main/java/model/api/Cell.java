@@ -5,7 +5,7 @@ import java.util.List;
 import model.Position;
 
 /**
- * Rapresents a Cell with a position and some flags 
+ * Rapresents a Cell with a position and some flags
  * (e.g. isSafe) which indicate the type of the cell.
  */
 public interface Cell {
@@ -96,8 +96,22 @@ public interface Cell {
 
     /**
      * Gets the type of the cell.
+     * 
      * @return the cell type
      */
     Type getType();
 
+    /**
+     * Adds a pawn to a cell.
+     * 
+     * @param p
+     */
+    void addPawn(Pawn p);
+
+    /**
+     * Removes a pawn from the cell.
+     * 
+     * @param p
+     */
+    void removePawn(Pawn p);
 }

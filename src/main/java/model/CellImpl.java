@@ -21,13 +21,14 @@ public final class CellImpl implements Cell {
     /**
      * Constructor.
      * 
-     * @param pos the position of the cell
+     * @param pos    the position of the cell
      * @param isSafe marks the cell as safe if it is true
      * @param isShop marks the cell as shop if it is true
      * @param isHome marks the cell as home if it is true
-     * @param type the cell type
+     * @param type   the cell type
      */
-    public CellImpl(final Position pos, final boolean isSafe, final boolean isShop, final boolean isHome, final Type type) {
+    public CellImpl(final Position pos, final boolean isSafe, final boolean isShop, final boolean isHome,
+            final Type type) {
         this.position = pos;
         this.isSafe = isSafe;
         this.isShop = isShop;
@@ -40,7 +41,7 @@ public final class CellImpl implements Cell {
     /**
      * Constructor for home cells.
      * 
-     * @param pos the 2D position
+     * @param pos  the 2D position
      * @param type the cell type { @link Cell.Type }
      */
     public CellImpl(final Position pos, final Type type) {
@@ -50,9 +51,9 @@ public final class CellImpl implements Cell {
     /**
      * Constructor for safe cells.
      * 
-     * @param pos the 2D position
+     * @param pos    the 2D position
      * @param isSafe is safe cell
-     * @param type the cell type { @link Cell.Type }
+     * @param type   the cell type { @link Cell.Type }
      */
     public CellImpl(final Position pos, final boolean isSafe, final Type type) {
         this(pos, isSafe, false, false, type);
@@ -91,6 +92,16 @@ public final class CellImpl implements Cell {
     @Override
     public List<Pawn> getPawns() {
         return List.copyOf(this.pawns);
+    }
+
+    @Override
+    public void addPawn(final Pawn p) {
+        pawns.add(p);
+    }
+
+    @Override
+    public void removePawn(final Pawn p) {
+        pawns.remove(p);
     }
 
     @Override
