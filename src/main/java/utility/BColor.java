@@ -1,4 +1,5 @@
 package utility;
+
 /**
  * Board Colors.
  */
@@ -20,9 +21,9 @@ public enum BColor {
      */
     YELLOW("#fec00f"),
     /**
-     * Gray color, the default one.
+     * Grey color, the default one.
      */
-    GRAY("#f1f1f1");
+    GREY("#f1f1f1");
 
     private String hexColor;
  
