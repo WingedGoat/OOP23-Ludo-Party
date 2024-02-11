@@ -5,17 +5,17 @@ package utility;
  */
 public enum BColor {
     /**
-     * Green color.
+     * Blue color.
      */
-    GREEN("#10793e"),
+    BLUE("#2575ba"),
     /**
      * Red color.
      */
     RED("#e42e25"),
     /**
-     * Blue color.
+     * Green color.
      */
-    BLUE("#2575ba"),
+    GREEN("#10793e"),
     /**
      * Yellow color.
      */
@@ -26,9 +26,10 @@ public enum BColor {
     GREY("#f1f1f1");
 
     private String hexColor;
- 
+
     /**
      * Constructor.
+     * 
      * @param hex hex color
      */
     BColor(final String hex) {
@@ -38,10 +39,10 @@ public enum BColor {
 
     /**
      * Gets the color.
+     * 
      * @return the color
      */
     public String get() {
         return hexColor;
     }
-
 }
