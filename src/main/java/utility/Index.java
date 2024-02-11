@@ -6,6 +6,10 @@ package utility;
 public final class Index {
 
     /**
+     * Index 0.
+     */
+    public static final int ZERO = 0;
+    /**
      * Index 1.
      */
     public static final int ONE = 1;
@@ -17,6 +21,14 @@ public final class Index {
      * Index 3.
      */
     public static final int THREE = 3;
+    /**
+     * Index 4.
+     */
+    public static final int FOUR = 4;
+    /**
+     * Index 5.
+     */
+    public static final int FIVE = 5;
     /**
      * Index six.
      */
@@ -53,6 +65,18 @@ public final class Index {
      * Index 14.
      */
     public static final int FOURTEEN = 14;
+    /**
+     * Index 15.
+     */
+    public static final int FIFTEEN = 15;
+    /**
+     * Index 18.
+     */
+    public static final int EIGHTEEN = 18;
+    /**
+     * Index 40.
+     */
+    public static final int FORTY = 40;
 
     private Index() { }
 
