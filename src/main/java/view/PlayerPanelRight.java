@@ -1,11 +1,11 @@
 package view;
 
-import controller.api.Controller;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
+
+import controller.api.Controller;
 import model.Position;
 
 /**
@@ -20,26 +20,17 @@ public final class PlayerPanelRight extends PlayerPanel {
      */
     public PlayerPanelRight(final Controller controller) {
 
-        this.setPrefHeight(PANE_HEIGHT);
-
-        final Position bottomPos = new Position(110, 480);
-        final Position topPos = new Position(110, 120);
-
-        final Group g3 = createTopRightPlayer(topPos, controller);
-
+        final Group g3 = createTopPlayer(this.getTopPos(), controller);
         this.getChildren().add(g3);
 
         if (controller.getGame().getPlayers().size() > 2) {
-            //add also top RIGHT group
-            //and bottom LEFT group
-            final Group g4 = createBottomRightPlayer(bottomPos, controller);
+            final Group g4 = createBottomPlayer(this.getBottomPos(), controller);
             this.getChildren().add(g4);
         }
     }
 
-    // COMPUTER PLAYER (in TOP RIGHT position) [g2]
-    private Group createTopRightPlayer(final Position pos, final Controller ctrl) {
-        final Group g = new Group();
+    @Override
+    protected Group createTopPlayer(final Position pos, final Controller ctrl) {
 
         final Circle playerAvatar = createPlayerAvatar(pos);
         final Circle playerAvatarInner = createPlayerInnerAvatar(pos);
@@ -49,63 +40,52 @@ public final class PlayerPanelRight extends PlayerPanel {
             name = ctrl.getGame().getPlayers().get(2).getName();
         }
         final Label playerName = createNameLabelTopPanel(name);
+        setNodeAnchors(playerName, 0.0);
 
         int coins = ctrl.getGame().getPlayers().get(1).getCoins();
         if (ctrl.getPlayersNumber() > 2) {
             coins = ctrl.getGame().getPlayers().get(2).getCoins();
         }
-        final Label playerCoins = createCoinLabelTopPanel(coins);
+        final Label playerCoins = createCoinsLabelTopPanel(coins);
+        setNodeAnchors(playerCoins, 0.0);
 
-        AnchorPane.setLeftAnchor(playerName, 0.0);
-        AnchorPane.setRightAnchor(playerName, 0.0);
-
-        AnchorPane.setLeftAnchor(playerCoins, 0.0);
-        AnchorPane.setRightAnchor(playerCoins, 0.0);
-
-        // dice
         final ImageView diceImage = createDicImageView();
-        diceImage.setLayoutX(CENTOSETTANTA);
-        diceImage.setLayoutY(DUEESESSANTA);
+        diceImage.setLayoutX(DICE_X_LAYOUT);
+        diceImage.setLayoutY(DICE_Y_LAYOUT_TOP);
 
+        //if controller -> player  rolls the dice --
         diceImage.setOnMouseClicked(mouseEvent -> {
             //controller.get
         });
 
+        final Group g = new Group();
         g.getChildren().addAll(playerAvatar, playerAvatarInner, playerName, playerCoins, diceImage);
 
         return g;
     }
 
-    // COMPUTER PLAYER (in BOTTOM TOP position) [g4]
-    private Group createBottomRightPlayer(final Position pos, final Controller ctrl) {
-        final Group g = new Group();
+    @Override
+    protected Group createBottomPlayer(final Position pos, final Controller ctrl) {
 
         final Circle playerAvatar = createPlayerAvatar(pos);
         final Circle playerAvatarInner = createPlayerInnerAvatar(pos);
 
-        final Label playerName = new Label(ctrl.getGame().getPlayers().get(3).getName());
-        playerName.setLayoutX(LABEL_X_LAYOUT);
-        playerName.setLayoutY(LABEL_BOTTOM_NAME_Y_LAYOUT);
+        final Label playerName = createNameLabelTopPanel(ctrl.getGame().getPlayers().get(3).getName());
+        setNodeAnchors(playerName, 0.0);
 
-        final Label playerCoins = new Label("Ludollari: " + ctrl.getGame().getPlayers().get(3).getCoins());
-        playerCoins.setLayoutX(LABEL_X_LAYOUT);
-        playerCoins.setLayoutY(LABEL_BOTTOM_COINS_Y_LAYOUT);
+        final Label playerCoins = createCoinsLabelTopPanel(ctrl.getGame().getPlayers().get(3).getCoins());
+        setNodeAnchors(playerCoins, 0.0);
 
-        AnchorPane.setLeftAnchor(playerName, 0.0);
-        AnchorPane.setRightAnchor(playerName, 0.0);
-
-        AnchorPane.setLeftAnchor(playerCoins, 0.0);
-        AnchorPane.setRightAnchor(playerCoins, 0.0);
-
-        // dice
         final ImageView diceImage = createDicImageView();
-        diceImage.setLayoutX(CENTOSETTANTA);
-        diceImage.setLayoutY(TREEQUARANTA);
+        diceImage.setLayoutX(DICE_X_LAYOUT);
+        diceImage.setLayoutY(DICE_Y_LAYOUT_BOTTOM);
 
+        //if controller -> player  rolls the dice --
         diceImage.setOnMouseClicked(mouseEvent -> {
             // controller.get
         });
 
+        final Group g = new Group();
         g.getChildren().addAll(playerAvatar, playerAvatarInner, playerName, playerCoins, diceImage);
 
         return g;
