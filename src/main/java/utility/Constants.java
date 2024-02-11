@@ -24,7 +24,15 @@ public final class Constants {
     /**
      * Board bottom height.
      */
-    public static final int BOARD_BOTTOM_HEIGHT = 50;
+    public static final int BOARD_BOTTOM_HEIGHT = 200; 
+    /**
+     * Button height.
+     */
+    //public static final int BUTTON_HEIGHT = 95;
+    /**
+     * button widht.
+     */
+    //public static final int BUTTON_WIDHT = 400;
     /**
      * Inset offset.
      */
