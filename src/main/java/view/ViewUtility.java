@@ -1,5 +1,7 @@
 package view;
 
+import java.nio.file.Path;
+
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -9,6 +11,16 @@ import controller.api.Controller;
  * Utility class used to create the views of the game.
  */
 public final class ViewUtility {
+
+    /**
+     * file separator.
+     */
+    public static final String FILE_SEPARATOR = System.getProperty("file.separator");
+    /**
+     * background image path.
+     */
+    public static final String BACKGROUND_IMG_PATH = Path.of("." + ViewUtility.FILE_SEPARATOR + "resources" 
+        + ViewUtility.FILE_SEPARATOR + "images" + ViewUtility.FILE_SEPARATOR + "space-bg.png").toString();
 
     private ViewUtility() { }
 

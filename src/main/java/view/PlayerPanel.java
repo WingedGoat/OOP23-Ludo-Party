@@ -16,15 +16,14 @@ import model.Position;
  * Player panel basic class.
  */
 public class PlayerPanel extends AnchorPane {
-    /**
-     * file separator.
-     */
-    protected static final String FILE_SEPARATOR = System.getProperty("file.separator");
+
     /**
      * image path.
      */
-    protected static final String START_DICE_IMAGE_PATH = Path.of("." + FILE_SEPARATOR + "resources" + FILE_SEPARATOR
-        + "images" + FILE_SEPARATOR + "dices" + FILE_SEPARATOR + "dice-1.png").toString();
+    protected static final String DICE_IMAGE_FOLDER = Path.of("." + ViewUtility.FILE_SEPARATOR 
+        + "resources" + ViewUtility.FILE_SEPARATOR
+        + "images" + ViewUtility.FILE_SEPARATOR 
+        + "dices").toString();
     /**
      * pane height.
      */
@@ -152,7 +151,7 @@ public class PlayerPanel extends AnchorPane {
     protected ImageView createDicImageView() {
         final ImageView diceImage = new ImageView();
 
-        final File file =  new File(START_DICE_IMAGE_PATH);
+        final File file =  new File(DICE_IMAGE_FOLDER + ViewUtility.FILE_SEPARATOR + "dice-1.png");
         diceImage.setImage(new Image(file.toURI().toString()));
         diceImage.setFitHeight(DICE_HEIGHT);
         diceImage.setFitWidth(DICE_WIDTH);
@@ -179,9 +178,8 @@ public class PlayerPanel extends AnchorPane {
      */
     protected ImageView showDiceNumber(final ImageView diceImage, final int number) {
 
-        final String diceImagePath = Path.of("." + FILE_SEPARATOR + "resources" + FILE_SEPARATOR
-            + "images" + FILE_SEPARATOR + "dices" + FILE_SEPARATOR + "dice-" + number + ".png").toString();
-
+        final String diceImagePath = 
+            Path.of(DICE_IMAGE_FOLDER + ViewUtility.FILE_SEPARATOR + "dice-" + number + ".png").toString();
         final File file =  new File(diceImagePath);
         diceImage.setImage(new Image(file.toURI().toString()));
 

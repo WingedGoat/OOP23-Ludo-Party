@@ -1,10 +1,18 @@
 package view;
 
+import java.io.File;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -37,6 +45,7 @@ public class ChoosePlayerNumberScene extends Scene {
 
     /**
      * Constructor.
+     * 
      * @param stage the stage
      * @param playerName the player name
      */
@@ -71,7 +80,12 @@ public class ChoosePlayerNumberScene extends Scene {
         vbox.getChildren().add(twoPlayersBt);
         vbox.getChildren().add(fourPlayersBt);
 
-        this.setFill(Color.valueOf("0077b6"));
+        final Image img = new Image(new File(ViewUtility.BACKGROUND_IMG_PATH).toURI().toString()); 
+            final BackgroundImage bgImg = new BackgroundImage(img, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, 
+                BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+        vbox.setBackground(new Background(bgImg));
+
+        this.setFill(Color.valueOf("#282a35"));
     }
 
 }
