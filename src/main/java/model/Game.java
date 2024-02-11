@@ -12,6 +12,7 @@ import model.api.Cell.Type;
 import model.api.Item;
 import model.api.Player;
 import model.api.Player.PlayerType;
+import model.api.Shop;
 import utility.BColor;
 
 /**
@@ -40,7 +41,7 @@ public final class Game {
     private final Turn turn;
 
     private final Set<Cell> cells = new HashSet<>();
-    private final ShopImpl shop;
+    private final Shop shop;
 
     /**
      * Constructor.
@@ -141,8 +142,8 @@ public final class Game {
      * @param item to be bought by the Player.
      * @return a string representing the outcome of the transaction.
      */
-    public String sellingItem(final Player player, final Item item) {
-        return this.shop.sellingItem((PlayerImpl) player, item);
+    public String buyItem(final Player player, final Item item) {
+        return this.shop.sellItem((PlayerImpl) player, item);
     }
 
     /**

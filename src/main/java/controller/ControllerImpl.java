@@ -139,12 +139,12 @@ public class ControllerImpl implements Controller {
      */
     public Boolean clickBonusButton(final Button clickedButton) {
         final Player humanPlayer = game.getPlayers().get(0);
-        for (final Item item : humanPlayer.getPlayerInventory().values()) {
+        for (final Item item : humanPlayer.getPlayerItems()) {
             if (item.getName().equals(clickedButton.getText())) {
                 this.itemToUse = item;
             }
         }
-        if (!itemToUse.isBonus()) {
+        if (itemToUse.getType() == Item.Type.MALUS) {
             malusClicked = true;
             return false;
         }
