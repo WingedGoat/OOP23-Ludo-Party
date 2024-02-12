@@ -28,11 +28,11 @@ public final class Constants {
     /**
      * Button height.
      */
-    //public static final int BUTTON_HEIGHT = 95;
+    public static final int BUTTON_HEIGHT = 95;
     /**
      * button widht.
      */
-    //public static final int BUTTON_WIDHT = 400;
+    public static final int BUTTON_WIDHT = 400;
     /**
      * Inset offset.
      */
