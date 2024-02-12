@@ -12,7 +12,7 @@ import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+//import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -83,14 +83,16 @@ public class BoardScene extends Scene {
         rightPane.setPrefWidth(PLAYER_PANEL_WIDTH);
         borderPane.setRight(rightPane);
 
-        // hbox - bottom panel for the shop
-        final Button item1 = new Button("first item");
-        final Button item2 = new Button("second item");
-        final Button item3 = new Button("thord item");
-        final HBox bottomPane = new HBox(item1, item2, item3);
+        // hbox - bottom panel for Player Bonus/Malus and Shop
+        final InventoryPane inventoryPane = new InventoryPane(/*controller*/);
+        final ShopPane shopPane = new ShopPane(controller);
+        final BorderPane bottomPane = new BorderPane();
+        bottomPane.setTop(inventoryPane);
+        bottomPane.setBottom(shopPane);
 
         bottomPane.setPrefHeight(Constants.BOARD_BOTTOM_HEIGHT);
         bottomPane.setBorder(border);
+
         borderPane.setBottom(bottomPane);
 
         this.setFill(Color.valueOf("0077b6"));

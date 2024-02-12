@@ -30,7 +30,7 @@ public final class Constants {
     /**
      * button widht.
      */
-    public static final int BUTTON_WIDHT = 400;
+    public static final int BUTTON_WIDHT = 100;
     /**
      * Inset offset.
      */
