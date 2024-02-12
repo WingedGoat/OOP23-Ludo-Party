@@ -178,7 +178,7 @@ public final class Movement {
     }
 
     private List<Position> buildRed() {
-        final PathBuilder pb = new PathBuilder(Index.SIX, Index.THIRTEEN);
+        final PathBuilder pb = new PathBuilder(Index.ONE, Index.SIX);
         pb.addRight(Index.FIVE);
         pb.addUp(Index.SIX);
         pb.addRight(Index.TWO);
@@ -196,7 +196,7 @@ public final class Movement {
     }
 
     private List<Position> buildGreen() {
-        final PathBuilder pb = new PathBuilder(Index.SIX, Index.THIRTEEN);
+        final PathBuilder pb = new PathBuilder(Index.EIGHT, Index.ONE);
         pb.addDown(Index.FIVE);
         pb.addRight(Index.SIX);
         pb.addDown(Index.TWO);
@@ -214,7 +214,7 @@ public final class Movement {
     }
 
     private List<Position> buildYellow() {
-        final PathBuilder pb = new PathBuilder(Index.SIX, Index.THIRTEEN);
+        final PathBuilder pb = new PathBuilder(Index.THIRTEEN, Index.EIGHT);
         pb.addLeft(Index.FIVE);
         pb.addDown(Index.SIX);
         pb.addLeft(Index.TWO);
