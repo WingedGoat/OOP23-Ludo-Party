@@ -1,5 +1,6 @@
 package model;
 
+import model.api.Game;
 import model.api.Pawn;
 import utility.BColor;
 import java.util.List;
@@ -70,7 +71,7 @@ public final class Movement {
      */
 
     private void step(final Pawn p, final Game g, final int index) {
-        for (final var c : g.getCells()) {
+        for (final var c : g.getBoardCells()) {
             if (c.getPosition().equals(p.getPosition())) {
                 c.removePawn(p);
             }
@@ -78,7 +79,7 @@ public final class Movement {
 
         p.setPosition(pathColors.get(p.getColor().ordinal()).get(index));
 
-        for (final var c : g.getCells()) {
+        for (final var c : g.getBoardCells()) {
             if (c.getPosition().equals(p.getPosition())) {
                 c.addPawn(p);
             }
@@ -101,8 +102,8 @@ public final class Movement {
         return null;
     }
 
-    private void homeStep(final Pawn p, final Game g) {
-        for (final var c : g.getCells()) {
+    private void homeStep(final Pawn p, final Game game) {
+        for (final var c : game.getBoardCells()) {
             if (c.getPosition().equals(p.getPosition())) {
                 c.removePawn(p);
             }
@@ -110,7 +111,7 @@ public final class Movement {
 
         p.setPosition(p.getStartPosition());
 
-        for (final var c : g.getCells()) {
+        for (final var c : game.getBoardCells()) {
             if (c.getPosition().equals(p.getPosition())) {
                 c.addPawn(p);
             }
@@ -145,7 +146,7 @@ public final class Movement {
     }
 
     private boolean notSafe(final Position pos, final Game game) {
-        for (final var c : game.getCells()) {
+        for (final var c : game.getBoardCells()) {
             if (c.getPosition().equals(pos)) {
                 return !c.isSafe();
             }
