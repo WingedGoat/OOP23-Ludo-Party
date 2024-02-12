@@ -8,7 +8,7 @@
   </Match>
 
   <Match>
-    <Class name="model.Game" />
+    <Class name="model.GameImpl" />
     <Bug code="EI2,EI" />
   </Match>
 
@@ -18,7 +18,12 @@
   </Match>
 
   <Match>
-    <Class name="model.InventoryImpl" />
+    <Class name="model.ShopImpl" />
+    <Bug code="EI" />
+  </Match>
+
+  <Match>
+    <Class name="model.PlayerImpl" />
     <Bug code="EI" />
   </Match>
 

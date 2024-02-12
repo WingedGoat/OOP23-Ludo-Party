@@ -1,7 +1,6 @@
 package model.api;
 
 import java.util.List;
-import java.util.Map;
 
 import model.api.Cell.Type;
 import utility.BColor;
@@ -137,13 +136,6 @@ public interface Player {
     Wallet getWallet();
 
     /**
-     * Returns the player inventory.
-     * 
-     * @return the player inventory
-     */
-    Map<Integer, Item> getPlayerInventory();
-
-    /**
      * Modify the amount of coins.
      * 
      * @param value
@@ -151,12 +143,18 @@ public interface Player {
     void modifyCoins(int value);
 
     /**
+     * Return the player items.
+     * 
+     * @return the player items
+     */
+    List<Item> getPlayerItems();
+
+    /**
      * Add an item in the player's inventory.
      * 
-     * @param id
      * @param item
      */
-    void addItemPlayer(Integer id, Item item);
+    void addItemPlayer(Item item);
 
     /**
      * Add the item in the List of item activated on the player.
@@ -178,7 +176,7 @@ public interface Player {
      * @param item
      * @param player
      */
-    void useItem(Item item, Player player);
+    void useItem(Item item, Player player/*, Pawn pawn */);
 
     /**
      * Remove the malus on the player after it is expired.
