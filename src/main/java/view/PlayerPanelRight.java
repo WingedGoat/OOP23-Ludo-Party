@@ -53,10 +53,7 @@ public final class PlayerPanelRight extends PlayerPanel {
         diceImage.setLayoutX(DICE_X_LAYOUT);
         diceImage.setLayoutY(DICE_Y_LAYOUT_TOP);
 
-        //if controller -> player  rolls the dice --
-        diceImage.setOnMouseClicked(mouseEvent -> {
-            //controller.get
-        });
+        //TODO Change dice image when it is computer player turn
 
         final Group g = new Group();
         g.getChildren().addAll(playerAvatar, playerAvatarInner, playerName, playerCoins, diceImage);
@@ -70,20 +67,17 @@ public final class PlayerPanelRight extends PlayerPanel {
         final Circle playerAvatar = createPlayerAvatar(pos);
         final Circle playerAvatarInner = createPlayerInnerAvatar(pos);
 
-        final Label playerName = createNameLabelTopPanel(ctrl.getGame().getPlayers().get(3).getName());
+        final Label playerName = createNameLabelBottomPanel(ctrl.getGame().getPlayers().get(3).getName());
         setNodeAnchors(playerName, 0.0);
 
-        final Label playerCoins = createCoinsLabelTopPanel(ctrl.getGame().getPlayers().get(3).getCoins());
+        final Label playerCoins = createCoinsLabelBottomPanel(ctrl.getGame().getPlayers().get(3).getCoins());
         setNodeAnchors(playerCoins, 0.0);
 
         final ImageView diceImage = createDicImageView();
         diceImage.setLayoutX(DICE_X_LAYOUT);
         diceImage.setLayoutY(DICE_Y_LAYOUT_BOTTOM);
 
-        //if controller -> player  rolls the dice --
-        diceImage.setOnMouseClicked(mouseEvent -> {
-            // controller.get
-        });
+        //TODO Change dice image when it is computer player turn
 
         final Group g = new Group();
         g.getChildren().addAll(playerAvatar, playerAvatarInner, playerName, playerCoins, diceImage);

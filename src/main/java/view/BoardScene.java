@@ -74,7 +74,7 @@ public class BoardScene extends Scene {
         boardPanel.setBorder(border);
         borderPane.setCenter(boardPanel);
 
-        // lateral panels for Players
+        // lateral panels for the players
         final PlayerPanelLeft leftPane = new PlayerPanelLeft(controller);
         leftPane.setPrefWidth(PLAYER_PANEL_WIDTH);
         borderPane.setLeft(leftPane);
@@ -83,13 +83,11 @@ public class BoardScene extends Scene {
         rightPane.setPrefWidth(PLAYER_PANEL_WIDTH);
         borderPane.setRight(rightPane);
 
-        // hbox - bottom panel for Player Bonus/Malus
-        final Button playerButton = new Button("ciao");
-        playerButton.setDisable(true);
-        final Button item1 = new Button();
-        final Button item2 = new Button();
-        final Button item3 = new Button();
-        final HBox bottomPane = new HBox(playerButton, item1, item2, item3);
+        // hbox - bottom panel for the shop
+        final Button item1 = new Button("first item");
+        final Button item2 = new Button("second item");
+        final Button item3 = new Button("thord item");
+        final HBox bottomPane = new HBox(item1, item2, item3);
 
         bottomPane.setPrefHeight(Constants.BOARD_BOTTOM_HEIGHT);
         bottomPane.setBorder(border);
@@ -173,8 +171,6 @@ public class BoardScene extends Scene {
     private void initPawns(final Controller controller) {
 
         for (int i = 0; i < controller.getPlayersNumber() * Constants.PLAYER_PAWNS; i++) {
-
-            // if()
 
             // Circle pawn = new Circle(CELL_WIDTH * i + CELL_CENTER_POINT, CELL_WIDTH * j +
             // CELL_CENTER_POINT, CIRCLE_RADIUS);
