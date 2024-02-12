@@ -168,6 +168,34 @@ public abstract class PlayerPanel extends AnchorPane {
     }
 
     /**
+     * Creates the label with the name of the player.
+     * 
+     * @param name the player name
+     * @return the label with the player name
+     */
+    protected Label createNameLabelBottomPanel(final String name) {
+        final Label playerName = new Label(name);
+        playerName.setLayoutX(LABEL_X_LAYOUT);
+        playerName.setLayoutY(LABEL_BOTTOM_NAME_Y_LAYOUT);
+
+        return playerName;
+    }
+
+    /**
+     * Creates the label with the coin quantity of the player.
+     * 
+     * @param coins the amount of coins owned by the player
+     * @return label with the coin amount
+     */
+    protected Label createCoinsLabelBottomPanel(final int coins) {
+        final Label playerCoins = new Label("Ludollari: " + coins);
+        playerCoins.setLayoutX(LABEL_X_LAYOUT);
+        playerCoins.setLayoutY(LABEL_BOTTOM_COINS_Y_LAYOUT);
+
+        return playerCoins;
+    }
+
+    /**
      * Creates the dice image to show at the player side.
      * 
      * @return the dice image

@@ -1,10 +1,12 @@
 package model;
 
+import model.api.Game;
 import model.api.Pawn;
 import utility.BColor;
 import java.util.List;
 import java.util.ArrayList;
 import utility.Constants;
+import utility.Index;
 
 /**
  * This class handles the movement of the whole pawn system.
@@ -17,10 +19,10 @@ public final class Movement {
      * The constructor of the class Movement.
      */
     public Movement() {
-        pathColors.add(Constants.BLUE_STREET);
-        pathColors.add(Constants.RED_STREET);
-        pathColors.add(Constants.GREEN_STREET);
-        pathColors.add(Constants.YELLOW_STREET);
+        pathColors.add(buildBlue());
+        pathColors.add(buildRed());
+        pathColors.add(buildGreen());
+        pathColors.add(buildYellow());
     }
 
     /**
@@ -70,7 +72,7 @@ public final class Movement {
      */
 
     private void step(final Pawn p, final Game g, final int index) {
-        for (final var c : g.getCells()) {
+        for (final var c : g.getBoardCells()) {
             if (c.getPosition().equals(p.getPosition())) {
                 c.removePawn(p);
             }
@@ -78,7 +80,7 @@ public final class Movement {
 
         p.setPosition(pathColors.get(p.getColor().ordinal()).get(index));
 
-        for (final var c : g.getCells()) {
+        for (final var c : g.getBoardCells()) {
             if (c.getPosition().equals(p.getPosition())) {
                 c.addPawn(p);
             }
@@ -101,8 +103,8 @@ public final class Movement {
         return null;
     }
 
-    private void homeStep(final Pawn p, final Game g) {
-        for (final var c : g.getCells()) {
+    private void homeStep(final Pawn p, final Game game) {
+        for (final var c : game.getBoardCells()) {
             if (c.getPosition().equals(p.getPosition())) {
                 c.removePawn(p);
             }
@@ -110,7 +112,7 @@ public final class Movement {
 
         p.setPosition(p.getStartPosition());
 
-        for (final var c : g.getCells()) {
+        for (final var c : game.getBoardCells()) {
             if (c.getPosition().equals(p.getPosition())) {
                 c.addPawn(p);
             }
@@ -145,7 +147,7 @@ public final class Movement {
     }
 
     private boolean notSafe(final Position pos, final Game game) {
-        for (final var c : game.getCells()) {
+        for (final var c : game.getBoardCells()) {
             if (c.getPosition().equals(pos)) {
                 return !c.isSafe();
             }
@@ -155,5 +157,77 @@ public final class Movement {
 
     private Pawn getPawn(final int k, final Game game) {
         return game.getPlayers().get(k / game.getPlayers().size()).getPawns().get(k % Constants.PLAYER_PAWNS);
+    }
+
+    private List<Position> buildBlue() {
+        final PathBuilder pb = new PathBuilder(Index.SIX, Index.THIRTEEN);
+        pb.addUp(Index.FIVE);
+        pb.addLeft(Index.SIX);
+        pb.addUp(Index.TWO);
+        pb.addRight(Index.SIX);
+        pb.addUp(Index.SIX);
+        pb.addRight(Index.TWO);
+        pb.addDown(Index.SIX);
+        pb.addRight(Index.SIX);
+        pb.addDown(Index.TWO);
+        pb.addLeft(Index.SIX);
+        pb.addDown(Index.SIX);
+        pb.addLeft(Index.ONE);
+        pb.addUp(Index.SEVEN);
+        return List.copyOf(pb.getPath());
+    }
+
+    private List<Position> buildRed() {
+        final PathBuilder pb = new PathBuilder(Index.ONE, Index.SIX);
+        pb.addRight(Index.FIVE);
+        pb.addUp(Index.SIX);
+        pb.addRight(Index.TWO);
+        pb.addDown(Index.SIX);
+        pb.addRight(Index.SIX);
+        pb.addDown(Index.TWO);
+        pb.addLeft(Index.SIX);
+        pb.addDown(Index.SIX);
+        pb.addLeft(Index.TWO);
+        pb.addUp(Index.SIX);
+        pb.addLeft(Index.SIX);
+        pb.addUp(Index.ONE);
+        pb.addRight(Index.SEVEN);
+        return List.copyOf(pb.getPath());
+    }
+
+    private List<Position> buildGreen() {
+        final PathBuilder pb = new PathBuilder(Index.EIGHT, Index.ONE);
+        pb.addDown(Index.FIVE);
+        pb.addRight(Index.SIX);
+        pb.addDown(Index.TWO);
+        pb.addLeft(Index.SIX);
+        pb.addDown(Index.SIX);
+        pb.addLeft(Index.TWO);
+        pb.addUp(Index.SIX);
+        pb.addLeft(Index.SIX);
+        pb.addUp(Index.TWO);
+        pb.addRight(Index.SIX);
+        pb.addUp(Index.SIX);
+        pb.addRight(Index.ONE);
+        pb.addDown(Index.SEVEN);
+        return List.copyOf(pb.getPath());
+    }
+
+    private List<Position> buildYellow() {
+        final PathBuilder pb = new PathBuilder(Index.THIRTEEN, Index.EIGHT);
+        pb.addLeft(Index.FIVE);
+        pb.addDown(Index.SIX);
+        pb.addLeft(Index.TWO);
+        pb.addUp(Index.SIX);
+        pb.addLeft(Index.SIX);
+        pb.addUp(Index.TWO);
+        pb.addRight(Index.SIX);
+        pb.addUp(Index.SIX);
+        pb.addRight(Index.TWO);
+        pb.addDown(Index.SIX);
+        pb.addRight(Index.SIX);
+        pb.addDown(Index.ONE);
+        pb.addLeft(Index.SEVEN);
+        return List.copyOf(pb.getPath());
     }
 }

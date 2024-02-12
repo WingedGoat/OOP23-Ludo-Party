@@ -35,10 +35,10 @@ public final class PlayerPanelLeft extends PlayerPanel {
         final Circle playerAvatar = createPlayerAvatar(pos);
         final Circle playerAvatarInner = createPlayerInnerAvatar(pos);
 
-        final Label playerName = createNameLabelTopPanel(ctrl.getGame().getHumanPlayer().getName());
+        final Label playerName = createNameLabelBottomPanel(ctrl.getGame().getHumanPlayer().getName());
         setNodeAnchors(playerName, 0.0);
 
-        final Label playerCoins = createCoinsLabelTopPanel(ctrl.getGame().getHumanPlayer().getCoins());
+        final Label playerCoins = createCoinsLabelBottomPanel(ctrl.getGame().getHumanPlayer().getCoins());
         setNodeAnchors(playerCoins, 0.0);
 
         final ImageView diceImage = createDicImageView();
@@ -73,10 +73,7 @@ public final class PlayerPanelLeft extends PlayerPanel {
         diceImage.setLayoutX(DICE_X_LAYOUT);
         diceImage.setLayoutY(DICE_Y_LAYOUT_TOP);
 
-        //TODO
-        diceImage.setOnMouseClicked(mouseEvent -> {
-            // controller.get
-        });
+        //TODO Change dice image when it is computer player turn
 
         final Group g = new Group();
         g.getChildren().addAll(playerAvatar, playerAvatarInner, playerName, playerCoins, diceImage);

@@ -1,8 +1,6 @@
 package utility;
 
 import java.nio.file.Path;
-import java.util.List;
-import model.Position;
 
 /**
  * Class containing useful constants.
@@ -53,24 +51,8 @@ public final class Constants {
      * Number of cells of the board.
      */
     public static final int CELLS_NUMBER = 15;
-    /**
-     * The path that must be followed by green pawns.
-     */
-    public static final List<Position> BLUE_STREET = List.of(); // = new ArrayList<>()
-    /**
-     * The path that must be followed by red pawns.
-     */
-    public static final List<Position> RED_STREET = List.of(); // = new ArrayList<>()
-    /**
-     * The path that must be followed by blue pawns.
-     */
-    public static final List<Position> GREEN_STREET = List.of(); // = new ArrayList<>()
-    /**
-     * The path that must be followed by yellow pawns.
-     */
-    public static final List<Position> YELLOW_STREET = List.of(); // = new ArrayList<>()
 
     private Constants() {
-    }
 
+    }
 }

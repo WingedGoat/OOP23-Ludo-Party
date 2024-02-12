@@ -3,6 +3,7 @@ package model;
 import java.util.Map;
 import java.util.HashMap;
 
+import model.api.Game;
 import model.api.Item;
 import model.api.Player;
 

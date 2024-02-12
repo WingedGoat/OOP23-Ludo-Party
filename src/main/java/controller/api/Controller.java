@@ -1,6 +1,6 @@
 package controller.api;
 
-import model.Game;
+import model.api.Game;
 
 /**
  * Controller.
