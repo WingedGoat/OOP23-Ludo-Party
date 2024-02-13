@@ -26,6 +26,7 @@ public final class PlayerImpl implements Player {
     private final Dice dice;
     private int coins;
     private boolean isPlayerTurn;
+    private int diceResult;
 
     private final List<Item> playerItems = new ArrayList<>();
     private final List<Item> itemsApplied = new ArrayList<>();
@@ -140,15 +141,24 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
+    public int getDiceResult() {
+        return this.diceResult;
+    }
+
+    @Override
     public int rollDice() {
         if (itemsApplied.contains(Item.DADUPLO) && itemsApplied.contains(Item.TAGLIATELO)) {
-            return this.getDice().roll();
+            diceResult = this.getDice().roll();
+            return diceResult;
         } else if (itemsApplied.contains(Item.DADUPLO)) {
-            return this.getDice().roll() + this.getDice().roll();
+            diceResult = this.getDice().roll() + this.getDice().roll();
+            return diceResult;
         } else if (itemsApplied.contains(Item.TAGLIATELO)) {
-            return this.getDice().roll() / 2;
-        } 
-        return this.getDice().roll();
+            diceResult = this.getDice().roll() / 2;
+            return diceResult;
+        }
+        diceResult = this.getDice().roll();
+        return diceResult;
     }
 
     @Override

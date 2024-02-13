@@ -25,6 +25,7 @@ public final class GameImpl implements Game {
     private final List<Player> players;
     private final Turn turn;
     private final Shop shop;
+    private final Movement movement;
 
     /**
      * Constructor.
@@ -57,6 +58,7 @@ public final class GameImpl implements Game {
         //turn.passTurnTo(this.humanPlayer);
 
         shop = new ShopImpl();
+        movement = new Movement();
     }
 
     @Override
@@ -87,6 +89,11 @@ public final class GameImpl implements Game {
     @Override
     public Map<Integer, Item> getShowcase() {
         return this.shop.getShowcase();
+    }
+
+    @Override
+    public Movement getMovement() {
+        return this.movement;
     }
 
     @Override

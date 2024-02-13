@@ -106,6 +106,12 @@ public interface Player {
     Dice getDice();
 
     /**
+     * Return the last result of the Dice.
+     * @return the Dice result.
+     */
+    int getDiceResult();
+
+    /**
      * Returns the value of the dice thrown.
      * 
      * @return the value of the dice.

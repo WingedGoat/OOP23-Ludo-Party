@@ -2,8 +2,10 @@ package view;
 
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
@@ -101,7 +103,25 @@ public class BoardScene extends Scene {
         this.setOnKeyPressed(e -> {
             if (e.getCode().equals(KeyCode.ENTER)) { // && controller.pressEnterKey()) {
                 for (int i = 1; i < controller.getPlayersNumber(); i++) {
-                    i = 2;
+                    controller.getGame().getTurn().passTurnTo(controller.getGame().getPlayers().get(i));
+                    ImageView diceImage = null;
+                    if (controller.getPlayersNumber() == 2) {
+                        diceImage = (ImageView) ((Group) (rightPane.getChildren().get(0))).getChildren().get(4);
+                    } else {
+                        switch (i) {
+                            case 1:
+                            diceImage = (ImageView) ((Group) (leftPane.getChildren().get(1))).getChildren().get(4);
+                            break;
+                            case 2:
+                            diceImage = (ImageView) ((Group) (rightPane.getChildren().get(0))).getChildren().get(4);
+                            break;
+                            default:
+                            diceImage = (ImageView) ((Group) (rightPane.getChildren().get(1))).getChildren().get(4);
+                            break;
+                        }
+                    }
+                    final int diceResult = controller.getGame().getTurn().getCurrentPlayer().rollDice();
+                    leftPane.showDiceNumber(diceImage, diceResult);
                     /*
                      * controller.playTurn(i);
                      * vBoxLeft.getDiceLabel().setText(
@@ -113,8 +133,8 @@ public class BoardScene extends Scene {
                 // rollDiceButton.requestFocus();
             }
         });
-
         stage.show();
+        borderPane.requestFocus();
 
         stage.setOnCloseRequest(e -> {
             // System.exit(0);
@@ -176,7 +196,14 @@ public class BoardScene extends Scene {
             for (int i = 0; i < player.getPawns().size(); i++) {
                 final Circle pawn = createPawn(player.getColor());
                 pawn.setOnMouseEntered(event -> pawn.setCursor(Cursor.HAND));
-                pawn.setOnMouseClicked(e -> LOGGER.error("Stampo X: " + e.getX()));
+                final int index = i;
+                pawn.setOnMouseClicked(e -> {
+                    controller.getGame().getMovement().move(player.getPawns().get(index),
+                        player.getDiceResult(), controller.getGame());
+                    final Circle newPawn = createPawn(player.getColor());
+                    final Position newPos = player.getPawns().get(index).getPosition();
+                    this.boardPanel.add(newPawn, newPos.getY(), newPos.getX());
+                });
 
                 final Position pos = player.getPawns().get(i).getStartPosition();
                 this.boardPanel.add(pawn, pos.getY(), pos.getX()); // inverted X and Y
