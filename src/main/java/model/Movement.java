@@ -48,11 +48,13 @@ public final class Movement {
      */
     private void movePawn(final Pawn pawn, final BColor color, final int diceResult, final Game game) {
 
-        if (pawn.getPosition().equals(pawn.getStartPosition())) {
+        if (diceResult == Index.SIX && pawn.getPosition().equals(pawn.getStartPosition())) {
             step(pawn, game, 0);
             eatenPawns(pawn, game);
         } else {
             final int j = pathColors.get(color.ordinal()).indexOf(pawn.getPosition());
+            // forse questo for va sostituito con un semplice if con la stessa condizione
+            // del for e che ti mette la pedina nel punto attuale + diceResult
             for (int i = j + 1; i < pathColors.get(color.ordinal()).size(); i++) {
                 if (i - j <= diceResult) {
                     step(pawn, game, i);
@@ -156,8 +158,13 @@ public final class Movement {
     }
 
     private Pawn getPawn(final int k, final Game game) {
-        return game.getPlayers().get(k / game.getPlayers().size()).getPawns().get(k % Constants.PLAYER_PAWNS);
+        return game.getPlayers().get(k / Constants.PLAYER_PAWNS).getPawns().get(k % Constants.PLAYER_PAWNS);
     }
+
+    // provare ad aiutare chi gestisce i turni e le win
+    // facendo un metodo pubblico che ritorna se un player ha vinto
+    // con tutte e 4 le pedine al centro e magari pure in
+    // ordine in base a chi ha finito prima
 
     private List<Position> buildBlue() {
         final PathBuilder pb = new PathBuilder(Index.SIX, Index.THIRTEEN);
