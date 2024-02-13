@@ -14,8 +14,8 @@ public interface Player {
 
     /**
      * Player Type.
-     * {@see HUMAN},
-     * {@see COMPUTER}
+     * @see HUMAN
+     * @see COMPUTER
      */
     enum PlayerType {
         /**
