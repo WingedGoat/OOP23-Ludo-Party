@@ -1,6 +1,8 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -22,17 +24,22 @@ public final class BoardImpl implements Board {
     //private static final Logger LOGGER = LogManager.getRootLogger();
 
     private final Set<Cell> cells = new HashSet<>();
+
     private final Set<Position> bottomLeftHouse;
     private final Set<Position> bottomLeftSafePath;
+    private final List<Position> bottomLeftPawnsStartPos;
 
     private final Set<Position> topLeftHouse;
     private final Set<Position> topLeftSafePath;
+    private final List<Position> topLeftPawnsStartPos;
 
     private final Set<Position> topRightHouse;
     private final Set<Position> topRightSafePath;
+    private final List<Position> topRightPawnsStartPos;
 
     private final Set<Position> bottomRightHouse;
     private final Set<Position> bottomRighSafePath;
+    private final List<Position> bottomRightPawnsStartPos;
 
     private final Set<Position> shops;
 
@@ -43,15 +50,19 @@ public final class BoardImpl implements Board {
 
         this.bottomLeftHouse = createBottomLeftHouse();
         this.bottomLeftSafePath = createBottomLeftSafePath();
+        this.bottomLeftPawnsStartPos = createBottomLeftPawnsStartPosition();
 
         this.topLeftHouse = createTopLeftHouse();
         this.topLeftSafePath = createTopLeftSafePath();
+        this.topLeftPawnsStartPos = createTopLeftPawnsStartPosition();
 
         this.topRightHouse = createTopRightHouse();
         this.topRightSafePath = createTopRightSafePath();
+        this.topRightPawnsStartPos = createTopRightPawnsStartPosition();
 
         this.bottomRightHouse = createBottomRightHouse();
         this.bottomRighSafePath = createBottomRightSafePath();
+        this.bottomRightPawnsStartPos = createBottomRightPawnsPosition();
 
         this.shops = createShops();
 
@@ -150,11 +161,37 @@ public final class BoardImpl implements Board {
     }
 
     @Override
+    public List<Position> getBottomLeftPawnsStartPos() {
+        return List.copyOf(this.bottomLeftPawnsStartPos);
+    }
+
+    @Override
+    public List<Position> getTopLeftPawnsStartPos() {
+        return List.copyOf(this.topLeftPawnsStartPos);
+    }
+
+    @Override
+    public List<Position> getTopRightPawnsStartPos() {
+        return List.copyOf(this.topRightPawnsStartPos);
+    }
+
+    @Override
+    public List<Position> getBottomRightPawnsStartPos() {
+        return List.copyOf(this.bottomRightPawnsStartPos);
+    }
+
+    @Override
+    public Set<Position> getShops() {
+        return Set.copyOf(this.shops);
+    }
+
+    @Override
     public Set<Cell> getCells() {
         return Set.copyOf(this.cells);
     }
 
     // create methods
+
     /**
      * Returns the positions of the house at {@link HomePosition#BOTTOM_LEFT}
      * corner.
@@ -290,9 +327,11 @@ public final class BoardImpl implements Board {
 
         return sh;
     }
-/* 
-    private Set<Position> createBottomLeftPawnsStartPosition() {
-        final Set<Position> startPositions = new HashSet<>();
+ 
+    // pawns start positions
+
+    private List<Position> createBottomLeftPawnsStartPosition() {
+        final List<Position> startPositions = new ArrayList<>();
         startPositions.addAll(Set.of(
                 new Position(Index.TWO, Index.ELEVEN),
                 new Position(Index.THREE, Index.ELEVEN),
@@ -302,8 +341,8 @@ public final class BoardImpl implements Board {
         return startPositions;
     }
 
-    private Set<Position> createTopLeftPawnsStartPosition() {
-        final Set<Position> startPositions = new HashSet<>();
+    private List<Position> createTopLeftPawnsStartPosition() {
+        final List<Position> startPositions = new ArrayList<>();
         startPositions.addAll(Set.of(
                 new Position(Index.TWO, Index.TWO),
                 new Position(Index.TWO, Index.THREE),
@@ -313,8 +352,8 @@ public final class BoardImpl implements Board {
         return startPositions;
     }
 
-    private Set<Position> createTopRightPawnsStartPosition() {
-        final Set<Position> startPositions = new HashSet<>();
+    private List<Position> createTopRightPawnsStartPosition() {
+        final List<Position> startPositions = new ArrayList<>();
         startPositions.addAll(Set.of(
                 new Position(Index.ELEVEN, Index.TWO),
                 new Position(Index.TWELVE, Index.TWO),
@@ -324,8 +363,8 @@ public final class BoardImpl implements Board {
         return startPositions;
     }
 
-    private Set<Position> createBottomRightPawnsPosition() {
-        final Set<Position> startPositions = new HashSet<>();
+    private List<Position> createBottomRightPawnsPosition() {
+        final List<Position> startPositions = new ArrayList<>();
         startPositions.addAll(Set.of(
                 new Position(Index.ELEVEN, Index.ELEVEN),
                 new Position(Index.TWELVE, Index.ELEVEN),
@@ -334,5 +373,5 @@ public final class BoardImpl implements Board {
 
         return startPositions;
     }
-*/
+
 }
