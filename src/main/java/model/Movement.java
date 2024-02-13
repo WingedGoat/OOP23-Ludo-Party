@@ -52,8 +52,8 @@ public final class Movement {
             step(pawn, game, 0);
             eatenPawns(pawn, game);
         } else {
-            if (pathColors.get(color.ordinal()).indexOf(pawn.getPosition()) + diceResult < pathColors
-                    .get(color.ordinal()).size()) {
+            final int index = pathColors.get(color.ordinal()).indexOf(pawn.getPosition());
+            if (index + diceResult < pathColors.get(color.ordinal()).size() && index + diceResult >= 0) {
                 step(pawn, game, pathColors.get(color.ordinal()).indexOf(pawn.getPosition()) + diceResult);
                 eatenPawns(pawn, game);
             }

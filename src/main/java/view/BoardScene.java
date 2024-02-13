@@ -24,6 +24,7 @@ import model.api.Player;
 import controller.api.Controller;
 import utility.BColor;
 import utility.Constants;
+import utility.Index;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -86,7 +87,7 @@ public class BoardScene extends Scene {
         borderPane.setRight(rightPane);
 
         // hbox - bottom panel for Player Bonus/Malus and Shop
-        final InventoryPane inventoryPane = new InventoryPane(/*controller*/);
+        final InventoryPane inventoryPane = new InventoryPane(/* controller */);
         final ShopPane shopPane = new ShopPane(controller);
         final BorderPane bottomPane = new BorderPane();
         bottomPane.setTop(inventoryPane);
@@ -110,14 +111,14 @@ public class BoardScene extends Scene {
                     } else {
                         switch (i) {
                             case 1:
-                            diceImage = (ImageView) ((Group) (leftPane.getChildren().get(1))).getChildren().get(4);
-                            break;
+                                diceImage = (ImageView) ((Group) (leftPane.getChildren().get(1))).getChildren().get(4);
+                                break;
                             case 2:
-                            diceImage = (ImageView) ((Group) (rightPane.getChildren().get(0))).getChildren().get(4);
-                            break;
+                                diceImage = (ImageView) ((Group) (rightPane.getChildren().get(0))).getChildren().get(4);
+                                break;
                             default:
-                            diceImage = (ImageView) ((Group) (rightPane.getChildren().get(1))).getChildren().get(4);
-                            break;
+                                diceImage = (ImageView) ((Group) (rightPane.getChildren().get(1))).getChildren().get(4);
+                                break;
                         }
                     }
                     final int diceResult = controller.getGame().getTurn().getCurrentPlayer().rollDice();
@@ -199,27 +200,32 @@ public class BoardScene extends Scene {
                 final int index = i;
                 pawn.setOnMouseClicked(e -> {
                     controller.getGame().getMovement().move(player.getPawns().get(index),
-                        player.getDiceResult(), controller.getGame());
+                            Index.ONE/* player.getDiceResult() */, controller.getGame());
+                    // System.out.println("Posizione attuale: " +
+                    // player.getPawns().get(index).getPosition());
                     final Circle newPawn = createPawn(player.getColor());
                     final Position newPos = player.getPawns().get(index).getPosition();
-                    this.boardPanel.add(newPawn, newPos.getY(), newPos.getX());
+                    // promemoria di tentare a fare una sorta di metodo ricorsivo
+                    // newPawn.setOnMouseClicked(getOnDragDetected());
+                    this.boardPanel.add(newPawn, newPos.getX(), newPos.getY());
+                    // this.boardPanel.getChildren().remove(pawn);
                 });
 
                 final Position pos = player.getPawns().get(i).getStartPosition();
-                this.boardPanel.add(pawn, pos.getY(), pos.getX()); // inverted X and Y
+                this.boardPanel.add(pawn, pos.getX(), pos.getY()); // inverted X and Y
 
                 /*
-                model.Movement m = new model.Movement(); (da usare successivamente per
-                testare se va)
-
-                pawn.setOnMouseClicked(event -> {
-                    // m.move();
-                    // LOGGER.error("-- moving pawn");
-                    pawn.setTranslateX(controller.getPlayersNumber());
-                    pawn.setTranslateY(pawn.getTranslateX() + Index.FIVE);
-                    event.consume();
-                });
-                */
+                 * model.Movement m = new model.Movement(); (da usare successivamente per
+                 * testare se va)
+                 * 
+                 * pawn.setOnMouseClicked(event -> {
+                 * // m.move();
+                 * // LOGGER.error("-- moving pawn");
+                 * pawn.setTranslateX(controller.getPlayersNumber());
+                 * pawn.setTranslateY(pawn.getTranslateX() + Index.FIVE);
+                 * event.consume();
+                 * });
+                 */
             }
         }
     }
