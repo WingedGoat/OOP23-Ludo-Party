@@ -52,14 +52,10 @@ public final class Movement {
             step(pawn, game, 0);
             eatenPawns(pawn, game);
         } else {
-            final int j = pathColors.get(color.ordinal()).indexOf(pawn.getPosition());
-            // forse questo for va sostituito con un semplice if con la stessa condizione
-            // del for e che ti mette la pedina nel punto attuale + diceResult
-            for (int i = j + 1; i < pathColors.get(color.ordinal()).size(); i++) {
-                if (i - j <= diceResult) {
-                    step(pawn, game, i);
-                    eatenPawns(pawn, game);
-                }
+            if (pathColors.get(color.ordinal()).indexOf(pawn.getPosition()) + diceResult < pathColors
+                    .get(color.ordinal()).size()) {
+                step(pawn, game, pathColors.get(color.ordinal()).indexOf(pawn.getPosition()) + diceResult);
+                eatenPawns(pawn, game);
             }
         }
     }
