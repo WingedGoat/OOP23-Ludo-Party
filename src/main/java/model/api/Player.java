@@ -14,6 +14,8 @@ public interface Player {
 
     /**
      * Player Type.
+     * {@see HUMAN},
+     * {@see COMPUTER}
      */
     enum PlayerType {
         /**
@@ -56,6 +58,7 @@ public interface Player {
 
     /**
      * Gets the player safe path on the board.
+     * 
      * @return the safe path
      */
     Set<Position> getSafePath();
@@ -157,7 +160,7 @@ public interface Player {
      * @param item
      * @param player
      */
-    void useItem(Item item, Player player/*, Pawn pawn */);
+    void useItem(Item item, Player player/* , Pawn pawn */);
 
     /**
      * Remove the malus on the player after it is expired.
