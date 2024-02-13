@@ -196,7 +196,14 @@ public class BoardScene extends Scene {
             for (int i = 0; i < player.getPawns().size(); i++) {
                 final Circle pawn = createPawn(player.getColor());
                 pawn.setOnMouseEntered(event -> pawn.setCursor(Cursor.HAND));
-                pawn.setOnMouseClicked(e -> LOGGER.error("Stampo X: " + e.getX()));
+                final int index = i;
+                pawn.setOnMouseClicked(e -> {
+                    controller.getGame().getMovement().move(player.getPawns().get(index),
+                        player.getDiceResult(), controller.getGame());
+                    final Circle newPawn = createPawn(player.getColor());
+                    final Position newPos = player.getPawns().get(index).getPosition();
+                    this.boardPanel.add(newPawn, newPos.getY(), newPos.getX());
+                });
 
                 final Position pos = player.getPawns().get(i).getStartPosition();
                 this.boardPanel.add(pawn, pos.getY(), pos.getX()); // inverted X and Y
