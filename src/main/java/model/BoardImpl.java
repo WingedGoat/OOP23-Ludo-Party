@@ -21,7 +21,7 @@ import utility.Index;
  * Game Board Builder.
  */
 public final class BoardImpl implements Board {
-    //private static final Logger LOGGER = LogManager.getRootLogger();
+    // private static final Logger LOGGER = LogManager.getRootLogger();
 
     private final Set<Cell> cells = new HashSet<>();
 
@@ -193,8 +193,7 @@ public final class BoardImpl implements Board {
     // create methods
 
     /**
-     * Returns the positions of the house at {@link HomePosition#BOTTOM_LEFT}
-     * corner.
+     * Creates the positions of the house at bottom left corner.
      * 
      * @return the house positions at bottom left corner
      */
@@ -208,7 +207,7 @@ public final class BoardImpl implements Board {
     }
 
     /**
-     * Returns the positions of the house at {@link HomePosition#TOP_LEFT} corner.
+     * Creates the positions of the house at top left corner.
      * 
      * @return the house positions at top left corner
      */
@@ -222,7 +221,7 @@ public final class BoardImpl implements Board {
     }
 
     /**
-     * Returns the positions of the house at {@link HomePosition#TOP_RIGHT} corner.
+     * Creates the positions of the house at top right corner.
      * 
      * @return the house positions at top right corner
      */
@@ -236,8 +235,7 @@ public final class BoardImpl implements Board {
     }
 
     /**
-     * Returns the positions of the house at {@link HomePosition#BOTTOM_RIGHT}
-     * corner.
+     * Creates the positions of the house at bottom right corner.
      * 
      * @return the house positions at bottom right corner
      */
@@ -251,8 +249,7 @@ public final class BoardImpl implements Board {
     }
 
     /**
-     * Returns the safe path of the {@link HomePosition#BOTTOM_LEFT} player.
-     * {@see The BLUE player}
+     * Creates the safe path of the player at bottom left corner.
      * 
      * @return the safe path of the bottom left player (the human)
      */
@@ -268,8 +265,7 @@ public final class BoardImpl implements Board {
     }
 
     /**
-     * Returns the safe path of the {@link HomePosition#TOP_LEFT} player.
-     * {@see The RED player}
+     * Creates the safe path of the player at top left corner.
      * 
      * @return the safe path of the top left player
      */
@@ -285,8 +281,7 @@ public final class BoardImpl implements Board {
     }
 
     /**
-     * Returns the safe path of the {@link HomePosition#TOP_RIGHT} player.
-     * {@see The GREEN player}
+     * Creates the safe path of the player at top right corner.
      * 
      * @return the safe path of the top right player
      */
@@ -302,8 +297,7 @@ public final class BoardImpl implements Board {
     }
 
     /**
-     * Returns the safe path of the {@link HomePosition#BOTTOM_RIGHT} player.
-     * {@see The YELLOW player}
+     * Creates the safe path of the player at bottom right corner.
      * 
      * @return the safe path of the bottom right player
      */
@@ -327,16 +321,16 @@ public final class BoardImpl implements Board {
 
         return sh;
     }
- 
+
     // pawns start positions
 
     private List<Position> createBottomLeftPawnsStartPosition() {
         final List<Position> startPositions = new ArrayList<>();
         startPositions.addAll(Set.of(
-                new Position(Index.TWO, Index.ELEVEN),
-                new Position(Index.THREE, Index.ELEVEN),
-                new Position(Index.TWO, Index.TWELVE),
-                new Position(Index.THREE, Index.TWELVE)));
+                new Position(Index.TEN, Index.ONE),
+                new Position(Index.TEN, Index.FOUR),
+                new Position(Index.THIRTEEN, Index.ONE),
+                new Position(Index.THIRTEEN, Index.FOUR)));
 
         return startPositions;
     }
@@ -344,10 +338,10 @@ public final class BoardImpl implements Board {
     private List<Position> createTopLeftPawnsStartPosition() {
         final List<Position> startPositions = new ArrayList<>();
         startPositions.addAll(Set.of(
-                new Position(Index.TWO, Index.TWO),
-                new Position(Index.TWO, Index.THREE),
-                new Position(Index.THREE, Index.TWO),
-                new Position(Index.THREE, Index.THREE)));
+                new Position(Index.ONE, Index.ONE),
+                new Position(Index.ONE, Index.FOUR),
+                new Position(Index.FOUR, Index.ONE),
+                new Position(Index.FOUR, Index.FOUR)));
 
         return startPositions;
     }
@@ -355,10 +349,10 @@ public final class BoardImpl implements Board {
     private List<Position> createTopRightPawnsStartPosition() {
         final List<Position> startPositions = new ArrayList<>();
         startPositions.addAll(Set.of(
-                new Position(Index.ELEVEN, Index.TWO),
-                new Position(Index.TWELVE, Index.TWO),
-                new Position(Index.ELEVEN, Index.THREE),
-                new Position(Index.TWELVE, Index.THREE)));
+                new Position(Index.ONE, Index.TEN),
+                new Position(Index.ONE, Index.THIRTEEN),
+                new Position(Index.FOUR, Index.TEN),
+                new Position(Index.FOUR, Index.THIRTEEN)));
 
         return startPositions;
     }
@@ -366,10 +360,10 @@ public final class BoardImpl implements Board {
     private List<Position> createBottomRightPawnsPosition() {
         final List<Position> startPositions = new ArrayList<>();
         startPositions.addAll(Set.of(
-                new Position(Index.ELEVEN, Index.ELEVEN),
-                new Position(Index.TWELVE, Index.ELEVEN),
-                new Position(Index.ELEVEN, Index.TWELVE),
-                new Position(Index.TWELVE, Index.TWELVE)));
+                new Position(Index.TEN, Index.TEN),
+                new Position(Index.TEN, Index.THIRTEEN),
+                new Position(Index.THIRTEEN, Index.TEN),
+                new Position(Index.THIRTEEN, Index.THIRTEEN)));
 
         return startPositions;
     }
