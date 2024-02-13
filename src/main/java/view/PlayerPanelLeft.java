@@ -48,6 +48,7 @@ public final class PlayerPanelLeft extends PlayerPanel {
         //TODO
         diceImage.setOnMouseClicked(mouseEvent -> {
             final int diceResult = ctrl.getGame().getTurn().getCurrentPlayer().rollDice();
+            ctrl.getGame().getTurn().setDiceResult(diceResult);
             showDiceNumber(diceImage, diceResult);
         });
 

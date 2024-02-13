@@ -199,10 +199,10 @@ public class BoardScene extends Scene {
                 final int index = i;
                 pawn.setOnMouseClicked(e -> {
                     controller.getGame().getMovement().move(player.getPawns().get(index),
-                        player.getDiceResult(), controller.getGame());
+                        controller.getGame().getTurn().getDiceResult(), controller.getGame());
                     final Circle newPawn = createPawn(player.getColor());
                     final Position newPos = player.getPawns().get(index).getPosition();
-                    this.boardPanel.add(newPawn, newPos.getY(), newPos.getX());
+                    this.boardPanel.add(newPawn, newPos.getX(), newPos.getY());
                 });
 
                 final Position pos = player.getPawns().get(i).getStartPosition();

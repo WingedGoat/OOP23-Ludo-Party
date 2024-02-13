@@ -73,4 +73,12 @@ public final class Turn {
         this.currentPlayer = player;
     }
 
+    /**
+     * Set the last Dice result.
+     * @param diceResult the last Dice result.
+     */
+    public void setDiceResult(final int diceResult) {
+        this.diceResult = diceResult;
+    }
+
 }
