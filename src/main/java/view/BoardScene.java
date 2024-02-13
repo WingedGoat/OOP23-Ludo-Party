@@ -2,8 +2,10 @@ package view;
 
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
@@ -99,7 +101,25 @@ public class BoardScene extends Scene {
         this.setOnKeyPressed(e -> {
             if (e.getCode().equals(KeyCode.ENTER)) { // && controller.pressEnterKey()) {
                 for (int i = 1; i < controller.getPlayersNumber(); i++) {
-                    i = 2;
+                    controller.getGame().getTurn().passTurnTo(controller.getGame().getPlayers().get(i));
+                    ImageView diceImage = null;
+                    if (controller.getPlayersNumber() == 2) {
+                        diceImage = (ImageView) ((Group) (rightPane.getChildren().get(0))).getChildren().get(4);
+                    } else {
+                        switch (i) {
+                            case 1:
+                            diceImage = (ImageView) ((Group) (leftPane.getChildren().get(1))).getChildren().get(4);
+                            break;
+                            case 2:
+                            diceImage = (ImageView) ((Group) (rightPane.getChildren().get(0))).getChildren().get(4);
+                            break;
+                            default:
+                            diceImage = (ImageView) ((Group) (rightPane.getChildren().get(1))).getChildren().get(4);
+                            break;
+                        }
+                    }
+                    final int diceResult = controller.getGame().getTurn().getCurrentPlayer().rollDice();
+                    leftPane.showDiceNumber(diceImage, diceResult);
                     /*
                      * controller.playTurn(i);
                      * vBoxLeft.getDiceLabel().setText(
@@ -111,8 +131,8 @@ public class BoardScene extends Scene {
                 // rollDiceButton.requestFocus();
             }
         });
-
         stage.show();
+        borderPane.requestFocus();
 
         stage.setOnCloseRequest(e -> {
             // System.exit(0);
