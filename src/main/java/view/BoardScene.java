@@ -18,10 +18,10 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import model.Position;
+import model.api.Player;
 import controller.api.Controller;
 import utility.BColor;
 import utility.Constants;
-import utility.Index;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -172,13 +172,21 @@ public class BoardScene extends Scene {
      */
     private void initPawns(final Controller controller) {
 
+        for (final Player player : controller.getGame().getPlayers()) {
+            for (int i = 0; i < player.getPawns().size(); i++) {
+                final Circle pawn = new Circle(CELL_WIDTH + CELL_CENTER_POINT, CELL_WIDTH + CELL_CENTER_POINT, CIRCLE_RADIUS);
+                pawn.setOnMouseEntered(event -> pawn.setCursor(Cursor.HAND));
+                final Position pos = player.getPawns().get(i).getStartPosition();
+                this.boardPanel.add(pawn, pos.getX(), pos.getY());
+            }
+        }
+        /*
         for (int i = 0; i < controller.getPlayersNumber() * Constants.PLAYER_PAWNS; i++) {
 
             // Circle pawn = new Circle(CELL_WIDTH * i + CELL_CENTER_POINT, CELL_WIDTH * j +
             // CELL_CENTER_POINT, CIRCLE_RADIUS);
             final Circle pawn = new Circle(CELL_WIDTH + CELL_CENTER_POINT, CELL_WIDTH + CELL_CENTER_POINT,
                     CIRCLE_RADIUS);
-            pawn.setOnMouseEntered(event -> pawn.setCursor(Cursor.HAND));
 
             // model.Movement m = new model.Movement(); (da usare successivamente per
             // testare se va)
@@ -192,9 +200,8 @@ public class BoardScene extends Scene {
             });
 
             this.boardPanel.add(pawn, 1, 1);
-
-            // 12
-            // 03
         }
+    */
     }
+
 }

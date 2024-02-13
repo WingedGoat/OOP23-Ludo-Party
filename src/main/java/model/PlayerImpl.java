@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import model.api.Dice;
 import model.api.Item;
@@ -20,7 +21,7 @@ public final class PlayerImpl implements Player {
     private final PlayerType type;
     private final BColor color;
     private final Type playerHouse;
-    //private final Set<Position> safePath;
+    private final Set<Position> safePath;
     private final List<Pawn> pawns;
     private final Dice dice;
     private int coins;
@@ -30,6 +31,34 @@ public final class PlayerImpl implements Player {
     private final List<Item> itemsApplied = new ArrayList<>();
 
     /**
+     * Player constructor.
+     * 
+     * @param name the player name
+     * @param type the player type
+     * @param color the player color
+     * @param playerHouse the position of the player's house
+     * @param safePath the safe path
+     * @param pawnsStartPos the player pawns start positions
+     */
+    public PlayerImpl(final String name, final PlayerType type,
+            final BColor color, final Type playerHouse, final Set<Position> safePath, final List<Position> pawnsStartPos) {
+        this.name = name;
+        this.type = type;
+        this.color = color;
+        this.playerHouse = playerHouse;
+        this.safePath = Set.copyOf(safePath);
+        this.pawns = new ArrayList<>();
+
+        for (int i = 0; i < pawnsStartPos.size(); i++) {
+            this.pawns.add(new PawnImpl(pawnsStartPos.get(i), i, playerHouse, color));
+        }
+
+        this.coins = 0;
+        this.isPlayerTurn = false;
+        this.dice = new BasicDiceImpl();
+    }
+
+    /**
      * Constructor.
      * @param p the player
      */
@@ -37,38 +66,12 @@ public final class PlayerImpl implements Player {
         this.name = p.getName();
         this.type = p.getType();
         this.color = p.getColor();
-        this.playerHouse = p.getHomePosition();
-
-        this.pawns = new ArrayList<>();
-        this.coins = 0;
-        this.isPlayerTurn = false;
-        this.dice = new BasicDiceImpl();
-    }
-    /**
-     * Player constructor.
-     * 
-     * @param name the player name
-     * @param type the player type
-     * @param color the player color
-     * @param playerHouse the position of the player's house
-     */
-    public PlayerImpl(final String name, final PlayerType type,
-            final BColor color, final Type playerHouse) {
-        this.name = name;
-        this.type = type;
-        this.color = color;
-        this.playerHouse = playerHouse;
-
-        this.pawns = new ArrayList<>();
-        /*
-        for (int i = 0; i < playerHouse.getPawnPositions().size(); i++) {
-            this.pawns.add(new PawnImpl(playerHouse.getPawnPositions().get(i), i, playerHouse, color));
-        }
-        */
-
-        this.coins = 0;
-        this.isPlayerTurn = false;
-        this.dice = new BasicDiceImpl();
+        this.playerHouse = p.getPlayerHouse();
+        this.safePath = p.getSafePath();
+        this.pawns = p.getPawns();
+        this.coins = p.getCoins();
+        this.isPlayerTurn = p.isPlayerTurn();
+        this.dice = p.getDice();
     }
 
     // getters
@@ -89,8 +92,13 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public Type getHomePosition() {
+    public Type getPlayerHouse() {
         return playerHouse;
+    }
+
+    @Override
+    public Set<Position> getSafePath() {
+        return safePath;
     }
 
     @Override
@@ -126,8 +134,9 @@ public final class PlayerImpl implements Player {
     @Override
     public String toString() {
         return "PlayerImpl [name=" + name + ", type=" + type + ", color=" + color + ", playerHouse=" + playerHouse
-                + ", pawns=" + pawns + ", dice=" + dice + ", coins=" + coins + ", isPlayerTurn=" + isPlayerTurn
-                + ", playerItems=" + playerItems + ", itemsApplied=" + itemsApplied + "]";
+                + ", safePath=" + safePath + ", pawns=" + pawns + ", dice=" + dice + ", coins=" + coins
+                + ", isPlayerTurn=" + isPlayerTurn + ", playerItems=" + playerItems + ", itemsApplied=" + itemsApplied
+                + "]";
     }
 
     @Override
