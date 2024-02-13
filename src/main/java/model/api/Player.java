@@ -1,7 +1,9 @@
 package model.api;
 
 import java.util.List;
+import java.util.Set;
 
+import model.Position;
 import model.api.Cell.Type;
 import utility.BColor;
 
@@ -12,6 +14,8 @@ public interface Player {
 
     /**
      * Player Type.
+     * @see HUMAN
+     * @see COMPUTER
      */
     enum PlayerType {
         /**
@@ -24,33 +28,6 @@ public interface Player {
         COMPUTER;
     }
 
-    /**
-     * Home Position.
-     *
-     * {@link #BOTTOM_LEFT},
-     * {@link #TOP_LEFT},
-     * {@link #TOP_RIGHT},
-     * {@link #BOTTOM_RIGHT}
-
-    public enum HomePosition {
-
-         * Home positioned at bottom left corner.
-
-        BOTTOM_LEFT,
-
-         * Home positioned at top left corner.
-
-        TOP_LEFT,
-
-         * Home positioned at top right corner.
-
-        TOP_RIGHT,
-
-         * Home positioned at bottom right corner.
-
-        BOTTOM_RIGHT;
-    }
-    */
     /**
      * Gets the name of the player.
      * 
@@ -77,7 +54,14 @@ public interface Player {
      * 
      * @return the position of the house cell
      */
-    Type getHomePosition();
+    Type getPlayerHouse();
+
+    /**
+     * Gets the player safe path on the board.
+     * 
+     * @return the safe path
+     */
+    Set<Position> getSafePath();
 
     /**
      * Get the pawns of the current player.
@@ -176,7 +160,7 @@ public interface Player {
      * @param item
      * @param player
      */
-    void useItem(Item item, Player player/*, Pawn pawn */);
+    void useItem(Item item, Player player/* , Pawn pawn */);
 
     /**
      * Remove the malus on the player after it is expired.

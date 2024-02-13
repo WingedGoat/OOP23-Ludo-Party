@@ -38,16 +38,16 @@ public final class GameImpl implements Game {
 
         // add players
         this.humanPlayer = new PlayerImpl(playerName, PlayerType.HUMAN, 
-            BColor.BLUE, Type.BOTTOM_LEFT_HOUSE);
+            BColor.BLUE, Type.BOTTOM_LEFT_HOUSE, board.getBottomLeftSafePath(), board.getBottomLeftPawnsStartPos());
         final Player p1 = new PlayerImpl("Player 2", PlayerType.COMPUTER, 
-            BColor.YELLOW, Type.TOP_LEFT_HOUSE);
+            BColor.GREEN, Type.TOP_RIGHT_HOUSE, board.getTopRightSafePath(), board.getTopRightPawnsStartPos());
         this.players = new ArrayList<>(List.of(this.humanPlayer, p1));
 
         if (playersNumber > players.size()) {
             final Player p2 = new PlayerImpl("Player 3", PlayerType.COMPUTER, 
-                BColor.GREEN, Type.TOP_LEFT_HOUSE);
+                BColor.RED, Type.TOP_LEFT_HOUSE, board.getTopLeftSafePath(), board.getTopLeftPawnsStartPos());
             final Player p3 = new PlayerImpl("Player 4", PlayerType.COMPUTER, 
-                BColor.RED, Type.BOTTOM_RIGHT_HOUSE);
+                BColor.YELLOW, Type.BOTTOM_RIGHT_HOUSE, board.getBottomRighSafePath(), board.getBottomRightPawnsStartPos());
             this.players.add(p2);
             this.players.add(p3);
         }

@@ -1,6 +1,8 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -19,20 +21,25 @@ import utility.Index;
  * Game Board Builder.
  */
 public final class BoardImpl implements Board {
-    //private static final Logger LOGGER = LogManager.getRootLogger();
+    // private static final Logger LOGGER = LogManager.getRootLogger();
 
     private final Set<Cell> cells = new HashSet<>();
+
     private final Set<Position> bottomLeftHouse;
     private final Set<Position> bottomLeftSafePath;
+    private final List<Position> bottomLeftPawnsStartPos;
 
     private final Set<Position> topLeftHouse;
     private final Set<Position> topLeftSafePath;
+    private final List<Position> topLeftPawnsStartPos;
 
     private final Set<Position> topRightHouse;
     private final Set<Position> topRightSafePath;
+    private final List<Position> topRightPawnsStartPos;
 
     private final Set<Position> bottomRightHouse;
     private final Set<Position> bottomRighSafePath;
+    private final List<Position> bottomRightPawnsStartPos;
 
     private final Set<Position> shops;
 
@@ -43,15 +50,19 @@ public final class BoardImpl implements Board {
 
         this.bottomLeftHouse = createBottomLeftHouse();
         this.bottomLeftSafePath = createBottomLeftSafePath();
+        this.bottomLeftPawnsStartPos = createBottomLeftPawnsStartPosition();
 
         this.topLeftHouse = createTopLeftHouse();
         this.topLeftSafePath = createTopLeftSafePath();
+        this.topLeftPawnsStartPos = createTopLeftPawnsStartPosition();
 
         this.topRightHouse = createTopRightHouse();
         this.topRightSafePath = createTopRightSafePath();
+        this.topRightPawnsStartPos = createTopRightPawnsStartPosition();
 
         this.bottomRightHouse = createBottomRightHouse();
         this.bottomRighSafePath = createBottomRightSafePath();
+        this.bottomRightPawnsStartPos = createBottomRightPawnsPosition();
 
         this.shops = createShops();
 
@@ -150,14 +161,39 @@ public final class BoardImpl implements Board {
     }
 
     @Override
+    public List<Position> getBottomLeftPawnsStartPos() {
+        return List.copyOf(this.bottomLeftPawnsStartPos);
+    }
+
+    @Override
+    public List<Position> getTopLeftPawnsStartPos() {
+        return List.copyOf(this.topLeftPawnsStartPos);
+    }
+
+    @Override
+    public List<Position> getTopRightPawnsStartPos() {
+        return List.copyOf(this.topRightPawnsStartPos);
+    }
+
+    @Override
+    public List<Position> getBottomRightPawnsStartPos() {
+        return List.copyOf(this.bottomRightPawnsStartPos);
+    }
+
+    @Override
+    public Set<Position> getShops() {
+        return Set.copyOf(this.shops);
+    }
+
+    @Override
     public Set<Cell> getCells() {
         return Set.copyOf(this.cells);
     }
 
     // create methods
+
     /**
-     * Returns the positions of the house at {@link HomePosition#BOTTOM_LEFT}
-     * corner.
+     * Creates the positions of the house at bottom left corner.
      * 
      * @return the house positions at bottom left corner
      */
@@ -171,7 +207,7 @@ public final class BoardImpl implements Board {
     }
 
     /**
-     * Returns the positions of the house at {@link HomePosition#TOP_LEFT} corner.
+     * Creates the positions of the house at top left corner.
      * 
      * @return the house positions at top left corner
      */
@@ -185,7 +221,7 @@ public final class BoardImpl implements Board {
     }
 
     /**
-     * Returns the positions of the house at {@link HomePosition#TOP_RIGHT} corner.
+     * Creates the positions of the house at top right corner.
      * 
      * @return the house positions at top right corner
      */
@@ -199,8 +235,7 @@ public final class BoardImpl implements Board {
     }
 
     /**
-     * Returns the positions of the house at {@link HomePosition#BOTTOM_RIGHT}
-     * corner.
+     * Creates the positions of the house at bottom right corner.
      * 
      * @return the house positions at bottom right corner
      */
@@ -214,8 +249,7 @@ public final class BoardImpl implements Board {
     }
 
     /**
-     * Returns the safe path of the {@link HomePosition#BOTTOM_LEFT} player.
-     * {@see The BLUE player}
+     * Creates the safe path of the player at bottom left corner.
      * 
      * @return the safe path of the bottom left player (the human)
      */
@@ -231,8 +265,7 @@ public final class BoardImpl implements Board {
     }
 
     /**
-     * Returns the safe path of the {@link HomePosition#TOP_LEFT} player.
-     * {@see The RED player}
+     * Creates the safe path of the player at top left corner.
      * 
      * @return the safe path of the top left player
      */
@@ -248,8 +281,7 @@ public final class BoardImpl implements Board {
     }
 
     /**
-     * Returns the safe path of the {@link HomePosition#TOP_RIGHT} player.
-     * {@see The GREEN player}
+     * Creates the safe path of the player at top right corner.
      * 
      * @return the safe path of the top right player
      */
@@ -265,8 +297,7 @@ public final class BoardImpl implements Board {
     }
 
     /**
-     * Returns the safe path of the {@link HomePosition#BOTTOM_RIGHT} player.
-     * {@see The YELLOW player}
+     * Creates the safe path of the player at bottom right corner.
      * 
      * @return the safe path of the bottom right player
      */
@@ -290,49 +321,51 @@ public final class BoardImpl implements Board {
 
         return sh;
     }
-/* 
-    private Set<Position> createBottomLeftPawnsStartPosition() {
-        final Set<Position> startPositions = new HashSet<>();
+
+    // pawns start positions
+
+    private List<Position> createBottomLeftPawnsStartPosition() {
+        final List<Position> startPositions = new ArrayList<>();
         startPositions.addAll(Set.of(
-                new Position(Index.TWO, Index.ELEVEN),
-                new Position(Index.THREE, Index.ELEVEN),
-                new Position(Index.TWO, Index.TWELVE),
-                new Position(Index.THREE, Index.TWELVE)));
+                new Position(Index.TEN, Index.ONE),
+                new Position(Index.TEN, Index.FOUR),
+                new Position(Index.THIRTEEN, Index.ONE),
+                new Position(Index.THIRTEEN, Index.FOUR)));
 
         return startPositions;
     }
 
-    private Set<Position> createTopLeftPawnsStartPosition() {
-        final Set<Position> startPositions = new HashSet<>();
+    private List<Position> createTopLeftPawnsStartPosition() {
+        final List<Position> startPositions = new ArrayList<>();
         startPositions.addAll(Set.of(
-                new Position(Index.TWO, Index.TWO),
-                new Position(Index.TWO, Index.THREE),
-                new Position(Index.THREE, Index.TWO),
-                new Position(Index.THREE, Index.THREE)));
+                new Position(Index.ONE, Index.ONE),
+                new Position(Index.ONE, Index.FOUR),
+                new Position(Index.FOUR, Index.ONE),
+                new Position(Index.FOUR, Index.FOUR)));
 
         return startPositions;
     }
 
-    private Set<Position> createTopRightPawnsStartPosition() {
-        final Set<Position> startPositions = new HashSet<>();
+    private List<Position> createTopRightPawnsStartPosition() {
+        final List<Position> startPositions = new ArrayList<>();
         startPositions.addAll(Set.of(
-                new Position(Index.ELEVEN, Index.TWO),
-                new Position(Index.TWELVE, Index.TWO),
-                new Position(Index.ELEVEN, Index.THREE),
-                new Position(Index.TWELVE, Index.THREE)));
+                new Position(Index.ONE, Index.TEN),
+                new Position(Index.ONE, Index.THIRTEEN),
+                new Position(Index.FOUR, Index.TEN),
+                new Position(Index.FOUR, Index.THIRTEEN)));
 
         return startPositions;
     }
 
-    private Set<Position> createBottomRightPawnsPosition() {
-        final Set<Position> startPositions = new HashSet<>();
+    private List<Position> createBottomRightPawnsPosition() {
+        final List<Position> startPositions = new ArrayList<>();
         startPositions.addAll(Set.of(
-                new Position(Index.ELEVEN, Index.ELEVEN),
-                new Position(Index.TWELVE, Index.ELEVEN),
-                new Position(Index.ELEVEN, Index.TWELVE),
-                new Position(Index.TWELVE, Index.TWELVE)));
+                new Position(Index.TEN, Index.TEN),
+                new Position(Index.TEN, Index.THIRTEEN),
+                new Position(Index.THIRTEEN, Index.TEN),
+                new Position(Index.THIRTEEN, Index.THIRTEEN)));
 
         return startPositions;
     }
-*/
+
 }

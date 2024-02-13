@@ -2,6 +2,12 @@ package model.api;
 
 /**
  * Enum item.
+ * @see DADUPLO
+ * @see ABBONDANZA
+ * @see BASTIONE
+ * @see REGOLA_DEI_4
+ * @see TAGLIATELO
+ * @see ARIETE
  */
 public enum Item {
 
@@ -121,6 +127,8 @@ public enum Item {
 
     /**
      * Enum item type.
+     * @see BONUS
+     * @see MALUS
      */
     public enum Type {
         /**

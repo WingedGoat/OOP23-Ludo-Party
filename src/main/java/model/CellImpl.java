@@ -42,7 +42,7 @@ public final class CellImpl implements Cell {
      * Constructor for home cells.
      * 
      * @param pos  the 2D position
-     * @param type the cell type { @link Cell.Type }
+     * @param type the cell type {@link Type }
      */
     public CellImpl(final Position pos, final Type type) {
         this(pos, false, false, true, type);
@@ -53,7 +53,7 @@ public final class CellImpl implements Cell {
      * 
      * @param pos    the 2D position
      * @param isSafe is safe cell
-     * @param type   the cell type { @link Cell.Type }
+     * @param type   the cell type {@link Type }
      */
     public CellImpl(final Position pos, final boolean isSafe, final Type type) {
         this(pos, isSafe, false, false, type);

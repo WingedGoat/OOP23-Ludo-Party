@@ -14,16 +14,16 @@ import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+//import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import model.Position;
+import model.api.Player;
 import controller.api.Controller;
 import utility.BColor;
 import utility.Constants;
-import utility.Index;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -40,8 +40,8 @@ public class BoardScene extends Scene {
     private static final int BOARD_PANEL_WIDTH = 600;
     private static final int PLAYER_PANEL_WIDTH = 220;
     private static final int CELL_WIDTH = 40;
-    private static final int CELL_CENTER_POINT = 20;
-    private static final int CIRCLE_RADIUS = 14;
+    private static final int PAWN_POSITION = 60;
+    private static final int CIRCLE_RADIUS = 18;
 
     private static final double BORDER_WIDTH = 0.5;
     private static final String BG_COLOR_CSS = "-fx-background-color: ";
@@ -85,14 +85,16 @@ public class BoardScene extends Scene {
         rightPane.setPrefWidth(PLAYER_PANEL_WIDTH);
         borderPane.setRight(rightPane);
 
-        // hbox - bottom panel for the shop
-        final Button item1 = new Button("first item");
-        final Button item2 = new Button("second item");
-        final Button item3 = new Button("thord item");
-        final HBox bottomPane = new HBox(item1, item2, item3);
+        // hbox - bottom panel for Player Bonus/Malus and Shop
+        final InventoryPane inventoryPane = new InventoryPane(/*controller*/);
+        final ShopPane shopPane = new ShopPane(controller);
+        final BorderPane bottomPane = new BorderPane();
+        bottomPane.setTop(inventoryPane);
+        bottomPane.setBottom(shopPane);
 
         bottomPane.setPrefHeight(Constants.BOARD_BOTTOM_HEIGHT);
         bottomPane.setBorder(border);
+
         borderPane.setBottom(bottomPane);
 
         this.setFill(Color.valueOf("0077b6"));
@@ -190,29 +192,56 @@ public class BoardScene extends Scene {
      */
     private void initPawns(final Controller controller) {
 
-        for (int i = 0; i < controller.getPlayersNumber() * Constants.PLAYER_PAWNS; i++) {
+        for (final Player player : controller.getGame().getPlayers()) {
+            for (int i = 0; i < player.getPawns().size(); i++) {
+                final Circle pawn = createPawn(player.getColor());
+                pawn.setOnMouseEntered(event -> pawn.setCursor(Cursor.HAND));
+                pawn.setOnMouseClicked(e -> LOGGER.error("Stampo X: " + e.getX()));
 
-            // Circle pawn = new Circle(CELL_WIDTH * i + CELL_CENTER_POINT, CELL_WIDTH * j +
-            // CELL_CENTER_POINT, CIRCLE_RADIUS);
-            final Circle pawn = new Circle(CELL_WIDTH + CELL_CENTER_POINT, CELL_WIDTH + CELL_CENTER_POINT,
-                    CIRCLE_RADIUS);
-            pawn.setOnMouseEntered(event -> pawn.setCursor(Cursor.HAND));
+                final Position pos = player.getPawns().get(i).getStartPosition();
+                this.boardPanel.add(pawn, pos.getY(), pos.getX()); // inverted X and Y
 
-            // model.Movement m = new model.Movement(); (da usare successivamente per
-            // testare se va)
+                /*
+                model.Movement m = new model.Movement(); (da usare successivamente per
+                testare se va)
 
-            pawn.setOnMouseClicked(event -> {
-                // m.move();
-                // LOGGER.error("-- moving pawn");
-                pawn.setTranslateX(controller.getPlayersNumber());
-                pawn.setTranslateY(pawn.getTranslateX() + Index.FIVE);
-                event.consume();
-            });
-
-            this.boardPanel.add(pawn, 1, 1);
-
-            // 12
-            // 03
+                pawn.setOnMouseClicked(event -> {
+                    // m.move();
+                    // LOGGER.error("-- moving pawn");
+                    pawn.setTranslateX(controller.getPlayersNumber());
+                    pawn.setTranslateY(pawn.getTranslateX() + Index.FIVE);
+                    event.consume();
+                });
+                */
+            }
         }
     }
+
+    private Circle createPawn(final BColor color) {
+        BColor newColor;
+
+        switch (color) {
+            case BLUE:
+                newColor = BColor.DARK_BLUE;
+                break;
+            case RED:
+                newColor = BColor.DARK_RED;
+                break;
+            case GREEN:
+                newColor = BColor.DARK_GREEN;
+                break;
+            case YELLOW:
+                newColor = BColor.DARK_YELLOW;
+                break;
+            default:
+                newColor = BColor.GREY;
+                break;
+        }
+
+        final Circle c = new Circle(PAWN_POSITION, PAWN_POSITION, CIRCLE_RADIUS, Color.valueOf(BColor.DARK_GREY.get()));
+        c.setStroke(Color.valueOf(newColor.get()));
+        c.setStrokeWidth(3.0);
+        return c;
+    }
+
 }
