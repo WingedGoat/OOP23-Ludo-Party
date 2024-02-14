@@ -180,11 +180,35 @@ public final class Movement {
                 }
             } else {
                 final Position pawnPos = p.getPawns().get(i).getPosition();
-                final int lastCellPos = pathColors.get(p.getColor().ordinal()).size() - 1;
+                final int lastCellIndex = pathColors.get(p.getColor().ordinal()).size() - 1;
 
-                if (!pawnPos.equals(pathColors.get(p.getColor().ordinal()).get(lastCellPos))) {
+                if (!pawnPos.equals(pathColors.get(p.getColor().ordinal()).get(lastCellIndex))) {
                     return true;
                 }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if the player of a particular turn can move their pawns.
+     * 
+     * @param pawn
+     * @param diceResult
+     * @return if the player can move the given pawn
+     */
+    public boolean playerCanMoveThePawn(final Pawn pawn, final int diceResult) {
+        if (pawn.getPosition().equals(pawn.getStartPosition())) {
+            if (diceResult == Index.SIX) {
+                return true;
+            }
+        } else {
+            final Position pawnPos = pawn.getPosition();
+            final int lastCellIndex = pathColors.get(pawn.getColor().ordinal()).size() - 1;
+
+            if (!pawnPos.equals(pathColors.get(pawn.getColor().ordinal()).get(lastCellIndex))) {
+                return true;
             }
         }
 
