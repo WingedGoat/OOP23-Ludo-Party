@@ -139,11 +139,15 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-    public final boolean canMovePawn() {
+    public final boolean canMovePawn(final String hexColor) {
         if (!this.diceRolled || this.pawnMoved) {
             return false;
         }
-        this.pawnMoved = true;
+        final int diceResult = getGame().getTurn().getDiceResult();
+        final Player humanPlayer = getGame().getPlayers().get(0);
+        if (!getGame().getMovement().playerCanMovePawns(diceResult, humanPlayer)) {
+            this.pawnMoved = true;
+        }
         return true;
     }
 

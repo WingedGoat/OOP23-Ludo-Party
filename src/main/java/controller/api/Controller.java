@@ -30,9 +30,10 @@ public interface Controller {
 
     /**
      * Checks if the User can move the clicked Pawn.
+     * @param hexColor the hex string of this Pawn's color.
      * @return true if a Pawn has been clicked at the right time.
      */
-    boolean canMovePawn();
+    boolean canMovePawn(String hexColor);
 
     /**
      * Checks if the User can pass the Turn by pressing ENTER.

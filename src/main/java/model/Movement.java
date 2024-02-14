@@ -2,6 +2,7 @@ package model;
 
 import model.api.Game;
 import model.api.Pawn;
+import model.api.Player;
 import utility.BColor;
 import java.util.List;
 import java.util.ArrayList;
@@ -171,7 +172,7 @@ public final class Movement {
      * @param p
      * @return if the player has to move a pawn
      */
-    public boolean playerCanMovePawns(final int diceResult, final PlayerImpl p) {
+    public boolean playerCanMovePawns(final int diceResult, final Player p) {
 
         for (int i = 0; i < p.getPawns().size(); i++) {
             if (p.getPawns().get(i).getPosition().equals(p.getPawns().get(i).getStartPosition())) {
