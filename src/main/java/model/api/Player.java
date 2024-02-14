@@ -113,13 +113,6 @@ public interface Player {
     int rollDice();
 
     /**
-     * Returns a wallet.
-     * 
-     * @return a wallet
-     */
-    Wallet getWallet();
-
-    /**
      * Modify the amount of coins.
      * 
      * @param value
