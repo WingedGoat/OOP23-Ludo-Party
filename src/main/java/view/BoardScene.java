@@ -24,6 +24,7 @@ import model.api.Player;
 import controller.api.Controller;
 import utility.BColor;
 import utility.Constants;
+import utility.Index;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -122,9 +123,10 @@ public class BoardScene extends Scene {
                     }
                     final int diceResult = controller.getGame().getTurn().getCurrentPlayer().rollDice();
                     leftPane.showDiceNumber(diceImage, diceResult);
-                    //al momento il computer muove solo la sua prima pedina. da implementare una scelta più ragionata.
+                    // al momento il computer muove solo la sua prima pedina. da implementare una
+                    // scelta più ragionata.
                     controller.getGame().getMovement().move(controller.getGame().getPlayers().get(i).getPawns().get(0),
-                        diceResult, controller.getGame());
+                            diceResult, controller.getGame());
                     final Circle newPawn = createPawn(controller.getGame().getPlayers().get(i).getColor());
                     final Position newPos = controller.getGame().getPlayers().get(i).getPawns().get(0).getPosition();
                     this.boardPanel.add(newPawn, newPos.getX(), newPos.getY());
@@ -205,17 +207,37 @@ public class BoardScene extends Scene {
                 final int index = i;
 
                 pawn.setOnMouseClicked(e -> {
+                    // ora solo se nella home il dado da 6 può muoversi
                     if (controller.canMovePawn()) {
+                        Position actualPos = player.getPawns().get(index).getPosition();
                         controller.getGame().getMovement().move(player.getPawns().get(index),
-                            controller.getGame().getTurn().getDiceResult(), controller.getGame());
-                        final Circle newPawn = createPawn(player.getColor());
-                        final Position newPos = player.getPawns().get(index).getPosition();
-                        this.boardPanel.add(newPawn, newPos.getX(), newPos.getY());
+                                6/* controller.getGame().getTurn().getDiceResult() */, controller.getGame());
+
+                        Position newPos = player.getPawns().get(index).getPosition();
+
+                        pawn.setTranslateX((newPos.getX() - actualPos.getX()) * CELL_WIDTH);
+                        pawn.setTranslateY((newPos.getY() - actualPos.getY()) * CELL_WIDTH);
+
+                        /*
+                         * pawn.setTranslateX(
+                         * player.getPawns().get(index).getPosition().getX() * CELL_WIDTH -
+                         * pawn.getCenterX());
+                         * pawn.setTranslateY(
+                         * player.getPawns().get(index).getPosition().getY() * CELL_WIDTH -
+                         * pawn.getCenterY());
+                         */
+
+                        System.out.println("Final position: " + player.getPawns().get(index).getPosition());
+                        /*
+                         * final Circle newPawn = createPawn(player.getColor());
+                         * final Position newPos = player.getPawns().get(index).getPosition();
+                         * this.boardPanel.add(newPawn, newPos.getX(), newPos.getY());
+                         */
                     }
                 });
 
                 final Position pos = player.getPawns().get(i).getStartPosition();
-                this.boardPanel.add(pawn, pos.getY(), pos.getX()); // inverted X and Y
+                this.boardPanel.add(pawn, pos.getX(), pos.getY()); // inverted X and Y
 
                 /*
                  * model.Movement m = new model.Movement(); (da usare successivamente per

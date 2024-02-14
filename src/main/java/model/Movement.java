@@ -48,9 +48,11 @@ public final class Movement {
      */
     private void movePawn(final Pawn pawn, final BColor color, final int diceResult, final Game game) {
 
-        if (diceResult == Index.SIX && pawn.getPosition().equals(pawn.getStartPosition())) {
-            step(pawn, game, 0);
-            eatenPawns(pawn, game);
+        if (pawn.getPosition().equals(pawn.getStartPosition())) {
+            if (diceResult == Index.SIX) {
+                step(pawn, game, 0);
+                eatenPawns(pawn, game);
+            }
         } else {
             final int index = pathColors.get(color.ordinal()).indexOf(pawn.getPosition());
             if (index + diceResult < pathColors.get(color.ordinal()).size() && index + diceResult >= 0) {
