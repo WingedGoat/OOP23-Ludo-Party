@@ -18,6 +18,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import java.util.List;
+import java.util.ArrayList;
 
 import model.Position;
 import model.api.Player;
@@ -48,6 +50,7 @@ public class BoardScene extends Scene {
     private static final String BG_RADIUS_CSS = "; -fx-border-color: #5A5858; -fx-border-width: 0.3px; "
             + "-fx-background-radius: 0";
     private final GridPane boardPanel;
+    private final List<Circle> pawns = new ArrayList<>();
 
     /**
      * Constructor.
@@ -103,6 +106,11 @@ public class BoardScene extends Scene {
         this.setOnKeyPressed(e -> {
             if (e.getCode().equals(KeyCode.ENTER) && controller.canPassTurn()) {
                 for (int i = 1; i < controller.getPlayersNumber(); i++) {
+                    final Position pos = controller.getGame().getPlayers().get(i).getPawns().get(0).getStartPosition();
+
+                    // final Circle pawn = createPawn(player.getColor());
+                    // pawn.setOnMouseEntered(event -> pawn.setCursor(Cursor.HAND));
+
                     controller.getGame().getTurn().passTurnTo(controller.getGame().getPlayers().get(i));
                     ImageView diceImage = null;
                     if (controller.getPlayersNumber() == 2) {
@@ -126,9 +134,21 @@ public class BoardScene extends Scene {
                     // scelta più ragionata.
                     controller.getGame().getMovement().move(controller.getGame().getPlayers().get(i).getPawns().get(0),
                             diceResult, controller.getGame());
-                    final Circle newPawn = createPawn(controller.getGame().getPlayers().get(i).getColor());
                     final Position newPos = controller.getGame().getPlayers().get(i).getPawns().get(0).getPosition();
-                    this.boardPanel.add(newPawn, newPos.getX(), newPos.getY());
+
+                    this.boardPanel.getChildren().get(i);
+
+                    pawns.get(i * Constants.PLAYER_PAWNS).setTranslateX((newPos.getX() - pos.getX()) * CELL_WIDTH);
+                    pawns.get(i * Constants.PLAYER_PAWNS).setTranslateY((newPos.getY() - pos.getY()) * CELL_WIDTH);
+
+                    // pawn.setTranslateX((newPos.getX() - pos.getX()) * CELL_WIDTH);
+                    // pawn.setTranslateY((newPos.getY() - pos.getY()) * CELL_WIDTH);
+
+                    // final Circle newPawn =
+                    // createPawn(controller.getGame().getPlayers().get(i).getColor());
+                    // final Position newPos =
+                    // controller.getGame().getPlayers().get(i).getPawns().get(0).getPosition();
+                    // this.boardPanel.add(newPawn, newPos.getX(), newPos.getY());
                     /*
                      * controller.playTurn(i);
                      * vBoxLeft.getDiceLabel().setText(
@@ -220,6 +240,8 @@ public class BoardScene extends Scene {
                         pawn.setTranslateY((newPos.getY() - pos.getY()) * CELL_WIDTH);
                     }
                 });
+
+                pawns.add(pawn);
 
                 this.boardPanel.add(pawn, pos.getX(), pos.getY()); // inverted X and Y
 
