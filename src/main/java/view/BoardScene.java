@@ -201,42 +201,26 @@ public class BoardScene extends Scene {
 
         for (final Player player : controller.getGame().getPlayers()) {
             for (int i = 0; i < player.getPawns().size(); i++) {
+                final Position pos = player.getPawns().get(i).getStartPosition();
                 final Circle pawn = createPawn(player.getColor());
                 pawn.setOnMouseEntered(event -> pawn.setCursor(Cursor.HAND));
                 final int index = i;
 
                 pawn.setOnMouseClicked(e -> {
-                    // ora solo se nella home il dado da 6 può muoversi
                     if (controller.canMovePawn()) {
-                        final Position actualPos = player.getPawns().get(index).getPosition();
+                        // final Position actualPos = player.getPawns().get(index).getPosition();
                         controller.getGame().getMovement().move(player.getPawns().get(index),
                                 controller.getGame().getTurn().getDiceResult(), controller.getGame());
 
                         final Position newPos = player.getPawns().get(index).getPosition();
 
-                        pawn.setTranslateX((newPos.getX() - actualPos.getX()) * CELL_WIDTH);
-                        pawn.setTranslateY((newPos.getY() - actualPos.getY()) * CELL_WIDTH);
+                        // actualPos = newPos;
 
-                        /*
-                         * pawn.setTranslateX(
-                         * player.getPawns().get(index).getPosition().getX() * CELL_WIDTH -
-                         * pawn.getCenterX());
-                         * pawn.setTranslateY(
-                         * player.getPawns().get(index).getPosition().getY() * CELL_WIDTH -
-                         * pawn.getCenterY());
-                         */
-
-                        // System.out.println("Final position: " +
-                        // player.getPawns().get(index).getPosition());
-                        /*
-                         * final Circle newPawn = createPawn(player.getColor());
-                         * final Position newPos = player.getPawns().get(index).getPosition();
-                         * this.boardPanel.add(newPawn, newPos.getX(), newPos.getY());
-                         */
+                        pawn.setTranslateX((newPos.getX() - pos.getX()) * CELL_WIDTH);
+                        pawn.setTranslateY((newPos.getY() - pos.getY()) * CELL_WIDTH);
                     }
                 });
 
-                final Position pos = player.getPawns().get(i).getStartPosition();
                 this.boardPanel.add(pawn, pos.getX(), pos.getY()); // inverted X and Y
 
                 /*
