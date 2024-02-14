@@ -110,10 +110,10 @@ public class BoardScene extends Scene {
                     } else {
                         switch (i) {
                             case 1:
-                                diceImage = (ImageView) ((Group) (leftPane.getChildren().get(1))).getChildren().get(4);
+                                diceImage = (ImageView) ((Group) (rightPane.getChildren().get(0))).getChildren().get(4);
                                 break;
                             case 2:
-                                diceImage = (ImageView) ((Group) (rightPane.getChildren().get(0))).getChildren().get(4);
+                                diceImage = (ImageView) ((Group) (leftPane.getChildren().get(1))).getChildren().get(4);
                                 break;
                             default:
                                 diceImage = (ImageView) ((Group) (rightPane.getChildren().get(1))).getChildren().get(4);
@@ -122,6 +122,12 @@ public class BoardScene extends Scene {
                     }
                     final int diceResult = controller.getGame().getTurn().getCurrentPlayer().rollDice();
                     leftPane.showDiceNumber(diceImage, diceResult);
+                    //al momento il computer muove solo la sua prima pedina. da implementare una scelta più ragionata.
+                    controller.getGame().getMovement().move(controller.getGame().getPlayers().get(i).getPawns().get(0),
+                        diceResult, controller.getGame());
+                    final Circle newPawn = createPawn(controller.getGame().getPlayers().get(i).getColor());
+                    final Position newPos = controller.getGame().getPlayers().get(i).getPawns().get(0).getPosition();
+                    this.boardPanel.add(newPawn, newPos.getX(), newPos.getY());
                     /*
                      * controller.playTurn(i);
                      * vBoxLeft.getDiceLabel().setText(
@@ -197,6 +203,7 @@ public class BoardScene extends Scene {
                 final Circle pawn = createPawn(player.getColor());
                 pawn.setOnMouseEntered(event -> pawn.setCursor(Cursor.HAND));
                 final int index = i;
+
                 pawn.setOnMouseClicked(e -> {
                     if (controller.canMovePawn()) {
                         controller.getGame().getMovement().move(player.getPawns().get(index),
@@ -208,7 +215,7 @@ public class BoardScene extends Scene {
                 });
 
                 final Position pos = player.getPawns().get(i).getStartPosition();
-                this.boardPanel.add(pawn, pos.getX(), pos.getY()); // inverted X and Y
+                this.boardPanel.add(pawn, pos.getY(), pos.getX()); // inverted X and Y
 
                 /*
                  * model.Movement m = new model.Movement(); (da usare successivamente per
