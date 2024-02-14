@@ -24,7 +24,6 @@ import model.api.Player;
 import controller.api.Controller;
 import utility.BColor;
 import utility.Constants;
-import utility.Index;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -102,7 +101,7 @@ public class BoardScene extends Scene {
 
         // when finish the turn
         this.setOnKeyPressed(e -> {
-            if (e.getCode().equals(KeyCode.ENTER)) { // && controller.pressEnterKey()) {
+            if (e.getCode().equals(KeyCode.ENTER) && controller.canPassTurn()) {
                 for (int i = 1; i < controller.getPlayersNumber(); i++) {
                     controller.getGame().getTurn().passTurnTo(controller.getGame().getPlayers().get(i));
                     ImageView diceImage = null;
@@ -199,11 +198,13 @@ public class BoardScene extends Scene {
                 pawn.setOnMouseEntered(event -> pawn.setCursor(Cursor.HAND));
                 final int index = i;
                 pawn.setOnMouseClicked(e -> {
-                    controller.getGame().getMovement().move(player.getPawns().get(index),
-                        controller.getGame().getTurn().getDiceResult(), controller.getGame());
-                    final Circle newPawn = createPawn(player.getColor());
-                    final Position newPos = player.getPawns().get(index).getPosition();
-                    this.boardPanel.add(newPawn, newPos.getX(), newPos.getY());
+                    if (controller.canMovePawn()) {
+                        controller.getGame().getMovement().move(player.getPawns().get(index),
+                            controller.getGame().getTurn().getDiceResult(), controller.getGame());
+                        final Circle newPawn = createPawn(player.getColor());
+                        final Position newPos = player.getPawns().get(index).getPosition();
+                        this.boardPanel.add(newPawn, newPos.getX(), newPos.getY());
+                    }
                 });
 
                 final Position pos = player.getPawns().get(i).getStartPosition();

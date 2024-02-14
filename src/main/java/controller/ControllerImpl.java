@@ -21,7 +21,8 @@ public class ControllerImpl implements Controller {
 */
     private final int playersNumber;
     private final Game game;
-//    private boolean diceRolled;
+    private boolean diceRolled;
+    private boolean pawnMoved;
 
     private boolean malusClicked;
     private Item itemToUse;
@@ -121,43 +122,34 @@ public class ControllerImpl implements Controller {
         return true;
     }
 
-    /**
-     * Checks if the User can roll the Dice.
-     * 
-     * @return true if the roll-Dice Button has been clicked at the right time
-
-    public boolean clickRollDiceButton() {
+    @Override
+    public final boolean canRollDice() {
         if (this.diceRolled) {
             return false;
         }
         this.diceRolled = true;
         return true;
     }
-     */
-    /**
-     * Handles the click of any Button of the board.
-     * 
-     * @param clickedButton the button of the board which was clicked
-     * 
-     * @return true if the board Button was rightfully clicked
 
-    public boolean clickBoardButton(final Button clickedButton) {
+    @Override
+    public final boolean canMovePawn() {
+        if (!this.diceRolled || this.pawnMoved) {
+            return false;
+        }
+        this.pawnMoved = true;
         return true;
     }
-     */
-    /**
-     * Checks if it's the right moment to press ENTER.
-     * 
-     * @return true if ENTER key is pressed when it's actually possible to change turn
 
-    public boolean pressEnterKey() {
-        if (!this.diceRolled) {
+    @Override
+    public final boolean canPassTurn() {
+        if (!this.pawnMoved) {
             return false;
         }
         this.diceRolled = false;
+        this.pawnMoved = false;
         return true;
     }
-     */
+
     /**
      * A computer player plays its turn.
      * 
