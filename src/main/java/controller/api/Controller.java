@@ -1,6 +1,7 @@
 package controller.api;
 
 import model.api.Game;
+import model.api.Pawn;
 
 /**
  * Controller.
@@ -30,10 +31,10 @@ public interface Controller {
 
     /**
      * Checks if the User can move the clicked Pawn.
-     * @param hexColor the hex string of this Pawn's color.
-     * @return true if a Pawn has been clicked at the right time.
+     * @param pawn the clicked Pawn.
+     * @return true if the clicked Pawn can be moved.
      */
-    boolean canMovePawn(String hexColor);
+    boolean canMovePawn(Pawn pawn);
 
     /**
      * Checks if the User can pass the Turn by pressing ENTER.
