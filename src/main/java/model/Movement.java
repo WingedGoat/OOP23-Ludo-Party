@@ -164,6 +164,35 @@ public final class Movement {
     // con tutte e 4 le pedine al centro e magari pure in
     // ordine in base a chi ha finito prima
 
+    /**
+     * Checks if the player of a particular turn can move their pawns.
+     * 
+     * @param diceResult
+     * @param p
+     * @return if the player has to move a pawn
+     */
+    public boolean playerCanMovePawns(final int diceResult, final PlayerImpl p) {
+
+        for (int i = 0; i < p.getPawns().size(); i++) {
+            if (p.getPawns().get(i).getPosition().equals(p.getPawns().get(i).getStartPosition())) {
+                if (diceResult == Index.SIX) {
+                    return true;
+                }
+            } else {
+                final Position pawnPos = p.getPawns().get(i).getPosition();
+                final int lastCellPos = pathColors.get(p.getColor().ordinal()).size() - 1;
+
+                if (!pawnPos.equals(pathColors.get(p.getColor().ordinal()).get(lastCellPos))) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    // fine degli aiuti
+
     private List<Position> buildBlue() {
         final PathBuilder pb = new PathBuilder(Index.SIX, Index.THIRTEEN);
         pb.addUp(Index.FIVE);

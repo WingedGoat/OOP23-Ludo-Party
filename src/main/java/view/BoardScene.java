@@ -24,7 +24,6 @@ import model.api.Player;
 import controller.api.Controller;
 import utility.BColor;
 import utility.Constants;
-import utility.Index;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -209,11 +208,11 @@ public class BoardScene extends Scene {
                 pawn.setOnMouseClicked(e -> {
                     // ora solo se nella home il dado da 6 può muoversi
                     if (controller.canMovePawn()) {
-                        Position actualPos = player.getPawns().get(index).getPosition();
+                        final Position actualPos = player.getPawns().get(index).getPosition();
                         controller.getGame().getMovement().move(player.getPawns().get(index),
-                                6/* controller.getGame().getTurn().getDiceResult() */, controller.getGame());
+                                controller.getGame().getTurn().getDiceResult(), controller.getGame());
 
-                        Position newPos = player.getPawns().get(index).getPosition();
+                        final Position newPos = player.getPawns().get(index).getPosition();
 
                         pawn.setTranslateX((newPos.getX() - actualPos.getX()) * CELL_WIDTH);
                         pawn.setTranslateY((newPos.getY() - actualPos.getY()) * CELL_WIDTH);
@@ -227,7 +226,8 @@ public class BoardScene extends Scene {
                          * pawn.getCenterY());
                          */
 
-                        System.out.println("Final position: " + player.getPawns().get(index).getPosition());
+                        // System.out.println("Final position: " +
+                        // player.getPawns().get(index).getPosition());
                         /*
                          * final Circle newPawn = createPawn(player.getColor());
                          * final Position newPos = player.getPawns().get(index).getPosition();
