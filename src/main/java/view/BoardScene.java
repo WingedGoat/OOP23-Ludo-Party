@@ -16,19 +16,19 @@ import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
-//import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import java.util.List;
 import java.util.ArrayList;
 
+import controller.api.Controller;
 import model.Position;
 import model.api.Pawn;
 import model.api.Player;
-import controller.api.Controller;
-import utility.BColor;
-import utility.Constants;
+import utils.BColor;
+import utils.Constants;
+import view.utils.ViewUtility;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -69,7 +69,7 @@ public class BoardScene extends Scene {
         // borderpane - container
         final BorderPane borderPane = (BorderPane) this.getRoot();
         borderPane.setMinSize(BOARD_PANEL_WIDTH, BOARD_PANEL_WIDTH);
-        borderPane.setPadding(new Insets(Constants.INSET_OS));
+        borderPane.setPadding(new Insets(ViewUtility.INSET_OS));
 
         final var border = new Border(new BorderStroke(
                 Color.valueOf("#202020"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(BORDER_WIDTH)));
@@ -97,7 +97,7 @@ public class BoardScene extends Scene {
         final BorderPane bottomPane = new BorderPane();
         bottomPane.setTop(inventoryPane);
         bottomPane.setBottom(shopPane);
-        bottomPane.setPrefHeight(Constants.BOARD_BOTTOM_HEIGHT);
+        bottomPane.setPrefHeight(ViewUtility.BOARD_BOTTOM_HEIGHT);
         bottomPane.setBorder(border);
 
         borderPane.setBottom(bottomPane);
@@ -278,8 +278,8 @@ public class BoardScene extends Scene {
                 break;
         }
 
-        final Circle c = new Circle(PAWN_POSITION, PAWN_POSITION, CIRCLE_RADIUS, Color.valueOf(BColor.DARK_GREY.get()));
-        c.setStroke(Color.valueOf(newColor.get()));
+        final Circle c = new Circle(PAWN_POSITION, PAWN_POSITION, CIRCLE_RADIUS, BColor.DARK_GREY.get());
+        c.setStroke(newColor.get());
         c.setStrokeWidth(3.0);
         return c;
     }

@@ -4,18 +4,20 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
-import utility.Constants;
-import java.util.List;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import java.util.HashMap;
 import model.api.Item;
+import view.utils.ViewUtility;
 /** 
  * 
 */
 public class BottomPane extends BorderPane {
 
+    //private static final double ITEM_BUTTON_WIDHT = 0;
     private Button leftButton = new Button();
     private Button centerButton = new Button();
     private Button rightButton = new Button();
@@ -29,11 +31,11 @@ public class BottomPane extends BorderPane {
      * The contructor for the BottomPane.
     */
     BottomPane() {
-        leftButton.setPrefSize(Constants.BUTTON_WIDHT, Constants.BUTTON_HEIGHT);
+        leftButton.setPrefSize(ViewUtility.ITEM_BUTTON_WIDHT, ViewUtility.ITEM_BUTTON_HEIGTH);
         leftButton.setDisable(true);
-        centerButton.setPrefSize(Constants.BUTTON_WIDHT, Constants.BUTTON_HEIGHT);
+        leftButton.setPrefSize(ViewUtility.ITEM_BUTTON_WIDHT, ViewUtility.ITEM_BUTTON_HEIGTH);
         centerButton.setDisable(true);
-        rightButton.setPrefSize(Constants.BUTTON_WIDHT, Constants.BUTTON_HEIGHT);
+        leftButton.setPrefSize(ViewUtility.ITEM_BUTTON_WIDHT, ViewUtility.ITEM_BUTTON_HEIGTH);
         rightButton.setDisable(true);
         this.setLeft(leftButton);
         this.setCenter(centerButton);
@@ -191,4 +193,5 @@ public class BottomPane extends BorderPane {
             button.setDisable(false);
         }
     }
+
 }
