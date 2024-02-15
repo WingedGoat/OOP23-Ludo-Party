@@ -108,4 +108,8 @@ public final class GameImpl implements Game {
         return res == Result.WIN;
     }
 
+    @Override
+    public Shop getShop() {
+        return this.shop;
+    }
 }

@@ -87,4 +87,10 @@ public interface Game {
      */
     boolean isOver(Result res);
 
+    /**
+     * To access the Shop class methods.
+     * @return the Shop
+     */
+    Shop getShop();
+
 }

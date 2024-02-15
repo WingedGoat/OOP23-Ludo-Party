@@ -193,5 +193,4 @@ public class BottomPane extends BorderPane {
             button.setDisable(false);
         }
     }
-
 }

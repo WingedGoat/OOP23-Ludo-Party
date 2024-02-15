@@ -43,4 +43,18 @@ public interface Shop {
      * @return a new random key
      */
     int getNewKey();
+
+    /**
+     * Retun the new item putted in the showcase.
+     * 
+     * @return the new item
+     */
+    Item getNewItem();
+
+    /**
+     * Set the new item putted in teh showcase.
+     * 
+     * @param item the new item
+     */
+    void setNewItem(Item item);
 }

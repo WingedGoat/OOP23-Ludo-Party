@@ -51,9 +51,8 @@ public class InventoryPane extends BottomPane {
                 ctrl.getGame().getHumanPlayer().useItem(item, null, null, ctrl.getGame());
                 getAlert().setContentText("Hai usato " + item.getName() + ".");
                 ordinateUsedInventory(newButton);
-            } else {
-                ctrl.setItemToUse(item);
-            }
+            } 
+            ctrl.setItemToUse(item);
             ordinateUsedInventory(newButton);
         });
 
@@ -74,16 +73,16 @@ public class InventoryPane extends BottomPane {
     /**
      * Reordinate the inventory view on base of the button used.
      * 
-     * @param buttonused
+     * @param buttonUsed
      */
-    public void ordinateUsedInventory(final Button buttonused) {
+    public void ordinateUsedInventory(final Button buttonUsed) {
         final Button center = getCenterButton(), right = getRightButton();
         setRightButton(this.getEmpyButton());
         replaceItemButtonsMap(getRightButton(), null);
-        if (!buttonused.equals(right)) {
+        if (!buttonUsed.equals(right)) {
             setCenterButton(right);
             replaceItemButtonsMap(getCenterButton(), getButtonMap().get(right));
-            if (!buttonused.equals(center)) {
+            if (!buttonUsed.equals(center)) {
                 setLeftButton(center);
                 replaceItemButtonsMap(getLeftButton(), getButtonMap().get(center));
             }

@@ -19,6 +19,7 @@ public final class ShopImpl implements Shop {
     private final Random r = new Random();
     private final Map<Integer, Item> showcase = new HashMap<>(); //3
     private final Map<Integer, Item> items = new HashMap<>(); //6
+    private Item newItem;
 
     /**
      * Constructor for the shop.
@@ -69,12 +70,13 @@ public final class ShopImpl implements Shop {
 
     @Override
     public void newItem(final Item itemselled) {
+
         Integer newkey = itemselled.getId();
 
         while (showcase.containsKey(newkey)) {
             newkey = getNewKey();
         }
-
+        setNewItem(items.get(newkey));
         showcase.remove(itemselled.getId(), itemselled);
         showcase.put(newkey, items.get(newkey));
     }
@@ -88,4 +90,14 @@ public final class ShopImpl implements Shop {
     public int getNewKey() {
         return this.r.nextInt(Index.SIX);
     } 
+
+    @Override
+    public Item getNewItem() {
+        return this.newItem;
+    }
+
+    @Override
+    public void setNewItem(final Item item) {
+        this.newItem = item;
+    }
 } 
