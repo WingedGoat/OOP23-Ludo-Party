@@ -9,8 +9,8 @@ import model.api.Game;
 import model.api.Item;
 import model.api.Pawn;
 import model.api.Player;
-import utility.BColor;
-import view.ViewUtility;
+import utils.BColor;
+import view.utils.ViewUtility;
 
 /**
  * Controller used to coordinate model and view.

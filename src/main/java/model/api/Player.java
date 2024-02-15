@@ -5,7 +5,7 @@ import java.util.Set;
 
 import model.Position;
 import model.api.Cell.Type;
-import utility.BColor;
+import utils.BColor;
 
 /**
  * Represents a player.

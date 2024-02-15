@@ -9,7 +9,7 @@ import java.util.Set;
 import model.api.Item;
 import model.api.Player;
 import model.api.Shop;
-import utility.Index; 
+import utils.Index; 
 
 /**
  * 

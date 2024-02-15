@@ -8,10 +8,11 @@ import model.api.Dice;
 import model.api.Game;
 import model.api.Item;
 import model.api.Cell.Type;
+import utils.BColor;
+import utils.Constants;
+import utils.Index;
 import model.api.Pawn;
 import model.api.Player;
-import utility.BColor;
-import utility.Index;
 
 /**
  * Player Implementation class.
@@ -51,7 +52,7 @@ public final class PlayerImpl implements Player {
         this.safePath = Set.copyOf(safePath);
         this.pawns = new ArrayList<>();
 
-        for (int i = 0; i < pawnsStartPos.size(); i++) {
+        for (int i = 0; i < Constants.PLAYER_PAWNS; i++) {
             this.pawns.add(new PawnImpl(pawnsStartPos.get(i), i, playerHouse, color));
         }
 

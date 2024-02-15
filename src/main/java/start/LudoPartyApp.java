@@ -2,7 +2,7 @@ package start;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import view.ViewUtility;
+import view.utils.ViewUtility;
 
 /**
  * Ludo Party App.

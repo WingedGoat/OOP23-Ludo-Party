@@ -2,7 +2,7 @@ package model.api;
 
 import model.Position;
 import model.api.Cell.Type;
-import utility.BColor;
+import utils.BColor;
 
 /**
  * Represents the pawn of a player, which is moved in the board.
