@@ -111,12 +111,14 @@ public class BoardScene extends Scene {
             if (e.getCode().equals(KeyCode.ENTER) && controller.canPassTurn()) {
                 LOGGER.error(" -- end of turn -- ");
                 for (int i = 1; i < controller.getPlayersNumber(); i++) {
-                    /*change inner player avatar color FIXME
-                    Circle c = (Circle) ((Group) (rightPane.getChildren().get(0))).getChildren().get(1);
-                    c.setFill(BColor.GREY.toString()));
-                    ((Group) (rightPane.getChildren().get(0))).getChildren().remove(1);
-                    ((Group) (rightPane.getChildren().get(0))).getChildren().add(1, c);
-                    */
+                    /*
+                     * change inner player avatar color FIXME
+                     * Circle c = (Circle) ((Group)
+                     * (rightPane.getChildren().get(0))).getChildren().get(1);
+                     * c.setFill(BColor.GREY.toString()));
+                     * ((Group) (rightPane.getChildren().get(0))).getChildren().remove(1);
+                     * ((Group) (rightPane.getChildren().get(0))).getChildren().add(1, c);
+                     */
 
                     controller.getGame().getTurn().passTurnTo(controller.getGame().getPlayers().get(i));
                     ImageView diceImage = null;
@@ -145,25 +147,31 @@ public class BoardScene extends Scene {
                      * ne ha altri che POSSONO effettuare un movimento
                      */
                     while (!controller.getGame().getMovement().playerCanMoveThePawn(
-                                controller.getGame().getPlayers().get(i).getPawns().get(indexPawnToMove), diceResult
-                        ) && controller.getGame().getMovement().playerCanMovePawns(
-                                diceResult, controller.getGame().getPlayers().get(i)
-                        )) {
+                            controller.getGame().getPlayers().get(i).getPawns().get(indexPawnToMove), diceResult)
+                            && controller.getGame().getMovement().playerCanMovePawns(
+                                    diceResult, controller.getGame().getPlayers().get(i))) {
                         indexPawnToMove = r.nextInt(controller.getGame().getPlayers().get(i).getPawns().size());
                     }
-                    final Position pos = controller.getGame().getPlayers().get(i)
-                        .getPawns().get(indexPawnToMove).getStartPosition();
+                    /*
+                     * final Position pos = controller.getGame().getPlayers().get(i)
+                     * .getPawns().get(indexPawnToMove).getStartPosition();
+                     */
                     controller.getGame().getMovement().move(controller.getGame().getPlayers().get(i)
-                        .getPawns().get(indexPawnToMove), diceResult, controller.getGame());
-                    final Position newPos = controller.getGame().getPlayers().get(i)
-                        .getPawns().get(indexPawnToMove).getPosition();
+                            .getPawns().get(indexPawnToMove), diceResult, controller.getGame());
 
-                    //this.boardPanel.getChildren().get(i);
+                    updatePawnPositions(controller);
 
-                    pawns.get(i * Constants.PLAYER_PAWNS + indexPawnToMove)
-                        .setTranslateX((newPos.getX() - pos.getX()) * CELL_WIDTH);
-                    pawns.get(i * Constants.PLAYER_PAWNS + indexPawnToMove).
-                        setTranslateY((newPos.getY() - pos.getY()) * CELL_WIDTH);
+                    /*
+                     * final Position newPos = controller.getGame().getPlayers().get(i)
+                     * .getPawns().get(indexPawnToMove).getPosition();
+                     * 
+                     * this.boardPanel.getChildren().get(i);
+                     * 
+                     * pawns.get(i * Constants.PLAYER_PAWNS + indexPawnToMove)
+                     * .setTranslateX((newPos.getX() - pos.getX()) * CELL_WIDTH);
+                     * pawns.get(i * Constants.PLAYER_PAWNS + indexPawnToMove)
+                     * .setTranslateY((newPos.getY() - pos.getY()) * CELL_WIDTH);
+                     */
                 }
             }
         });
@@ -240,18 +248,23 @@ public class BoardScene extends Scene {
                         // final Position actualPos = player.getPawns().get(index).getPosition();
                         controller.getGame().getMovement().move(player.getPawns().get(index),
                                 controller.getGame().getTurn().getDiceResult(), controller.getGame());
-                        final Position newPos = player.getPawns().get(index).getPosition();
-
-                        // actualPos = newPos;
-
-                        pawn.setTranslateX((newPos.getX() - pos.getX()) * CELL_WIDTH);
-                        pawn.setTranslateY((newPos.getY() - pos.getY()) * CELL_WIDTH);
-                    } else if (controller.getMalusClicked() 
-                        && !player.equals(controller.getGame().getTurn().getCurrentPlayer())) {
+                        updatePawnPositions(controller);
+                        /*
+                         * final Position newPos = player.getPawns().get(index).getPosition();
+                         * 
+                         * // actualPos = newPos;
+                         * 
+                         * pawn.setTranslateX((newPos.getX() - pos.getX()) * CELL_WIDTH);
+                         * pawn.setTranslateY((newPos.getY() - pos.getY()) * CELL_WIDTH);
+                         */
+                    } else if (controller.getMalusClicked()
+                            && !player.equals(controller.getGame().getTurn().getCurrentPlayer())) {
                         controller.getGame().getTurn().getCurrentPlayer().useItem(
-                        controller.getItemToUse(), player, logicPawn, controller.getGame());
-                        new Alert(AlertType.NONE).setContentText(controller.getGame().getTurn().getCurrentPlayer().getName()
-                            + " ha usato " + controller.getItemToUse().getName() + " su " + player.getName());
+                                controller.getItemToUse(), player, logicPawn, controller.getGame());
+                        new Alert(AlertType.NONE)
+                                .setContentText(controller.getGame().getTurn().getCurrentPlayer().getName()
+                                        + " ha usato " + controller.getItemToUse().getName() + " su "
+                                        + player.getName());
                     }
                 });
 
@@ -300,6 +313,17 @@ public class BoardScene extends Scene {
         c.setStroke(newColor.get());
         c.setStrokeWidth(3.0);
         return c;
+    }
+
+    private void updatePawnPositions(final Controller controller) {
+        for (int j = 0; j < controller.getPlayersNumber() * Constants.PLAYER_PAWNS; j++) {
+            final Position startPos = controller.getGame().getPlayers().get(j / Constants.PLAYER_PAWNS)
+                    .getPawns().get(j % Constants.PLAYER_PAWNS).getStartPosition();
+            final Position actualPos = controller.getGame().getPlayers().get(j / Constants.PLAYER_PAWNS)
+                    .getPawns().get(j % Constants.PLAYER_PAWNS).getPosition();
+            pawns.get(j).setTranslateX((actualPos.getX() - startPos.getX()) * CELL_WIDTH);
+            pawns.get(j).setTranslateY((actualPos.getY() - startPos.getY()) * CELL_WIDTH);
+        }
     }
 
 }
