@@ -94,7 +94,6 @@ public class BoardScene extends Scene {
         final BorderPane bottomPane = new BorderPane();
         bottomPane.setTop(inventoryPane);
         bottomPane.setBottom(shopPane);
-
         bottomPane.setPrefHeight(Constants.BOARD_BOTTOM_HEIGHT);
         bottomPane.setBorder(border);
 
@@ -105,11 +104,15 @@ public class BoardScene extends Scene {
         // when finish the turn
         this.setOnKeyPressed(e -> {
             if (e.getCode().equals(KeyCode.ENTER) && controller.canPassTurn()) {
+                LOGGER.error(" -- end of turn -- ");
                 for (int i = 1; i < controller.getPlayersNumber(); i++) {
+                    /*change inner player avatar color FIXME
+                    Circle c = (Circle) ((Group) (rightPane.getChildren().get(0))).getChildren().get(1);
+                    c.setFill(Color.valueOf(BColor.GREY.get()));
+                    ((Group) (rightPane.getChildren().get(0))).getChildren().remove(1);
+                    ((Group) (rightPane.getChildren().get(0))).getChildren().add(1, c);
+                    */
                     final Position pos = controller.getGame().getPlayers().get(i).getPawns().get(0).getStartPosition();
-
-                    // final Circle pawn = createPawn(player.getColor());
-                    // pawn.setOnMouseEntered(event -> pawn.setCursor(Cursor.HAND));
 
                     controller.getGame().getTurn().passTurnTo(controller.getGame().getPlayers().get(i));
                     ImageView diceImage = null;
@@ -140,24 +143,7 @@ public class BoardScene extends Scene {
 
                     pawns.get(i * Constants.PLAYER_PAWNS).setTranslateX((newPos.getX() - pos.getX()) * CELL_WIDTH);
                     pawns.get(i * Constants.PLAYER_PAWNS).setTranslateY((newPos.getY() - pos.getY()) * CELL_WIDTH);
-
-                    // pawn.setTranslateX((newPos.getX() - pos.getX()) * CELL_WIDTH);
-                    // pawn.setTranslateY((newPos.getY() - pos.getY()) * CELL_WIDTH);
-
-                    // final Circle newPawn =
-                    // createPawn(controller.getGame().getPlayers().get(i).getColor());
-                    // final Position newPos =
-                    // controller.getGame().getPlayers().get(i).getPawns().get(0).getPosition();
-                    // this.boardPanel.add(newPawn, newPos.getX(), newPos.getY());
-                    /*
-                     * controller.playTurn(i);
-                     * vBoxLeft.getDiceLabel().setText(
-                     * vBoxLeft.getDiceLabel().getText() + "\n"
-                     * + controller.getDiceResult(i)
-                     * );
-                     */
                 }
-                // rollDiceButton.requestFocus();
             }
         });
         stage.show();
@@ -182,7 +168,6 @@ public class BoardScene extends Scene {
                 final Button bt = new Button(" ");
                 bt.setStyle("-fx-background-color: #fdfcfc;"
                         + "-fx-border-color: #5A5858; -fx-border-width: 0.5px; " + BG_RADIUS_CSS);
-                // bt.setOnAction(e -> System.out.println("-clickato"));
 
                 final Position pos = new Position(i, j);
 
@@ -227,11 +212,12 @@ public class BoardScene extends Scene {
                 final int index = i;
 
                 pawn.setOnMouseClicked(e -> {
+
+                    LOGGER.error("Click..");
                     if (controller.canMovePawn(player.getPawns().get(index))) {
                         // final Position actualPos = player.getPawns().get(index).getPosition();
                         controller.getGame().getMovement().move(player.getPawns().get(index),
                                 controller.getGame().getTurn().getDiceResult(), controller.getGame());
-
                         final Position newPos = player.getPawns().get(index).getPosition();
 
                         // actualPos = newPos;
@@ -243,7 +229,7 @@ public class BoardScene extends Scene {
 
                 pawns.add(pawn);
 
-                this.boardPanel.add(pawn, pos.getX(), pos.getY()); // inverted X and Y
+                this.boardPanel.add(pawn, pos.getX(), pos.getY());
 
                 /*
                  * model.Movement m = new model.Movement(); (da usare successivamente per
