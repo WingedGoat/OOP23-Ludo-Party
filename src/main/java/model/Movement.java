@@ -88,7 +88,8 @@ public final class Movement {
     }
 
     private void eatenPawns(final Pawn pawn, final Game game) {
-        if (enemyIsAlone(pawn, game) && notSafe(pawn.getPosition(), game)) {
+        if (enemyIsAlone(pawn, game) && notSafe(pawn.getPosition(), game)
+                && !pawn.getPosition().equals(new Position(Index.SEVEN, Index.SEVEN))) {
             homeStep(getEnemyPawn(pawn, game), game);
         }
     }
