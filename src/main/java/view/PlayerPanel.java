@@ -216,7 +216,7 @@ public abstract class PlayerPanel extends AnchorPane {
     protected ImageView showDiceNumber(final ImageView diceImage, final int number) {
 
         final String diceImagePath = 
-            Path.of(ResourcePath.DICE_IMG_FOLDER + System.getProperty("file.separator") + "dice-" + number + ".png").toString();
+            Path.of(ResourcePath.DICE_IMG_FOLDER.getPath() + System.getProperty("file.separator") + "dice-" + number + ".png").toString();
         final File file = new File(diceImagePath);
         diceImage.setImage(new Image(file.toURI().toString()));
 
