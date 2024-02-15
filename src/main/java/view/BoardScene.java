@@ -111,7 +111,7 @@ public class BoardScene extends Scene {
                 for (int i = 1; i < controller.getPlayersNumber(); i++) {
                     /*change inner player avatar color FIXME
                     Circle c = (Circle) ((Group) (rightPane.getChildren().get(0))).getChildren().get(1);
-                    c.setFill(Color.valueOf(BColor.GREY.get()));
+                    c.setFill(BColor.GREY.toString()));
                     ((Group) (rightPane.getChildren().get(0))).getChildren().remove(1);
                     ((Group) (rightPane.getChildren().get(0))).getChildren().add(1, c);
                     */
@@ -176,19 +176,19 @@ public class BoardScene extends Scene {
 
                 if (ctrl.getGame().getBoard().getBottomLeftHouse().contains(pos)
                         || ctrl.getGame().getBoard().getBottomLeftSafePath().contains(pos)) {
-                    bt.setStyle(BG_COLOR_CSS + BColor.BLUE.get() + BG_RADIUS_CSS);
+                    bt.setStyle(BG_COLOR_CSS + BColor.BLUE.toString() + BG_RADIUS_CSS);
                     bt.setOnMouseEntered(e -> bt.setCursor(null));
                 } else if (ctrl.getGame().getBoard().getTopLeftHouse().contains(pos)
                         || ctrl.getGame().getBoard().getTopLeftSafePath().contains(pos)) {
-                    bt.setStyle(BG_COLOR_CSS + BColor.RED.get() + BG_RADIUS_CSS);
+                    bt.setStyle(BG_COLOR_CSS + BColor.RED.toString() + BG_RADIUS_CSS);
                     bt.setOnMouseEntered(e -> bt.setCursor(null));
                 } else if (ctrl.getGame().getBoard().getTopRightHouse().contains(pos)
                         || ctrl.getGame().getBoard().getTopRightSafePath().contains(pos)) {
-                    bt.setStyle(BG_COLOR_CSS + BColor.GREEN.get() + BG_RADIUS_CSS);
+                    bt.setStyle(BG_COLOR_CSS + BColor.GREEN.toString() + BG_RADIUS_CSS);
                     bt.setOnMouseEntered(e -> bt.setCursor(null));
                 } else if (ctrl.getGame().getBoard().getBottomRightHouse().contains(pos)
                         || ctrl.getGame().getBoard().getBottomRighSafePath().contains(pos)) {
-                    bt.setStyle(BG_COLOR_CSS + BColor.YELLOW.get() + BG_RADIUS_CSS);
+                    bt.setStyle(BG_COLOR_CSS + BColor.YELLOW.toString() + BG_RADIUS_CSS);
                     bt.setOnMouseEntered(e -> bt.setCursor(null));
                 }
 
