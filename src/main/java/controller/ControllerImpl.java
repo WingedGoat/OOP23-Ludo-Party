@@ -1,21 +1,29 @@
 package controller;
 
+import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
+
+import java.util.Random;
 
 import controller.api.Controller;
 import model.GameImpl;
+import model.Position;
 import model.api.Game;
 import model.api.Item;
 import model.api.Pawn;
 import model.api.Player;
 import utils.BColor;
+import utils.Constants;
+import view.BoardScene;
 import view.utils.ViewUtility;
 
 /**
  * Controller used to coordinate model and view.
  */
-public final class ControllerImpl implements Controller {
+public final class ControllerImpl implements Controller, Runnable {
 
     private static final String NOT_ENOUGH_SPACE = "ATTENZIONE! NON HAI ABBASTANZA SPAZIO NELL'INVENTARIO!";
     private static final String NOT_ENOUGH_MONEY = "ATTENZIONE! NON HAI ABBASTANZA LUDOLLARI!";
@@ -23,12 +31,13 @@ public final class ControllerImpl implements Controller {
 
     private final int playersNumber;
     private final Game game;
+    private final BoardScene view;
     private boolean diceRolled;
     private boolean pawnMoved;
-
     private boolean malusClicked;
     private Item itemToUse;
     private String outcome;
+    private final Random r = new Random();
 
     /**
      * Constructor.
@@ -41,8 +50,8 @@ public final class ControllerImpl implements Controller {
 
         this.playersNumber = playersNumber;
         this.game = new GameImpl(playerName, playersNumber);
-
-        ViewUtility.createBoardScene(this, stage);
+        this.view = ViewUtility.createBoardScene(this, stage);
+        this.setInputHandler();
 
         // giocatore muove pedina
         // giocatore completa turno (compra o usa carte)
@@ -57,6 +66,82 @@ public final class ControllerImpl implements Controller {
     @Override
     public Game getGame() {
         return this.game;
+    }
+
+    private void setInputHandler() {
+        // when finish the turn
+        this.view.setOnKeyPressed(e -> {
+            if (e.getCode().equals(KeyCode.ENTER) && canPassTurn()) {
+                //LOGGER.error(" -- end of turn -- ");
+                for (int i = 1; i < getPlayersNumber(); i++) {
+                    /*
+                     * change inner player avatar color FIXME
+                     * Circle c = (Circle) ((Group)
+                     * (rightPane.getChildren().get(0))).getChildren().get(1);
+                     * c.setFill(BColor.GREY.toString()));
+                     * ((Group) (rightPane.getChildren().get(0))).getChildren().remove(1);
+                     * ((Group) (rightPane.getChildren().get(0))).getChildren().add(1, c);
+                     */
+
+                    getGame().getTurn().passTurnTo(getGame().getPlayers().get(i));
+                    ImageView diceImage = null;
+                    if (getPlayersNumber() == 2) {
+                        diceImage = (ImageView) ((Group) (this.view.getLeftPane().getChildren().get(0)))
+                            .getChildren().get(4);
+                    } else {
+                        switch (i) {
+                            case 1:
+                                diceImage = (ImageView) ((Group) (this.view.getRightPane().getChildren().get(0)))
+                                    .getChildren().get(4);
+                                break;
+                            case 2:
+                                diceImage = (ImageView) ((Group) (this.view.getLeftPane().getChildren().get(1)))
+                                    .getChildren().get(4);
+                                break;
+                            default:
+                                diceImage = (ImageView) ((Group) (this.view.getRightPane().getChildren().get(1)))
+                                    .getChildren().get(4);
+                                break;
+                        }
+                    }
+                    final int diceResult = getGame().getTurn().getCurrentPlayer().rollDice();
+                    this.view.getLeftPane().showDiceNumber(diceImage, diceResult);
+
+                    int indexPawnToMove = r.nextInt(getGame().getPlayers().get(i).getPawns().size());
+                    /*
+                     * Il Computer cambia la scelta del Pawn da muovere, finché:
+                     * continua a sceglierne uno che NON si può muovere, però
+                     * ne ha altri che POSSONO effettuare un movimento
+                     */
+                    while (!getGame().getMovement().playerCanMoveThePawn(
+                            getGame().getPlayers().get(i).getPawns().get(indexPawnToMove), diceResult)
+                            && getGame().getMovement().playerCanMovePawns(
+                                    diceResult, getGame().getPlayers().get(i))) {
+                        indexPawnToMove = r.nextInt(getGame().getPlayers().get(i).getPawns().size());
+                    }
+                    /*
+                     * final Position pos = controller.getGame().getPlayers().get(i)
+                     * .getPawns().get(indexPawnToMove).getStartPosition();
+                     */
+                    getGame().getMovement().move(getGame().getPlayers().get(i)
+                            .getPawns().get(indexPawnToMove), diceResult, getGame());
+
+                    updatePawnPositions();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void updatePawnPositions() {
+        for (int j = 0; j < getPlayersNumber() * Constants.PLAYER_PAWNS; j++) {
+            final Position startPos = getGame().getPlayers().get(j / Constants.PLAYER_PAWNS)
+                    .getPawns().get(j % Constants.PLAYER_PAWNS).getStartPosition();
+            final Position actualPos = getGame().getPlayers().get(j / Constants.PLAYER_PAWNS)
+                    .getPawns().get(j % Constants.PLAYER_PAWNS).getPosition();
+            this.view.getPawns().get(j).setTranslateX((actualPos.getX() - startPos.getX()) * ViewUtility.CELL_WIDTH);
+            this.view.getPawns().get(j).setTranslateY((actualPos.getY() - startPos.getY()) * ViewUtility.CELL_WIDTH);
+        }
     }
 
     @Override
@@ -193,6 +278,12 @@ public final class ControllerImpl implements Controller {
     @Override
     public void setShopMessage(final String newMessage) {
         this.outcome = newMessage;
+    }
+
+    @Override
+    public void run() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'run'");
     }
 
 }
