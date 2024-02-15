@@ -54,7 +54,7 @@ public final class PlayerPanelRight extends PlayerPanel {
         diceImage.setLayoutY(DICE_Y_LAYOUT_TOP);
 
         //TODO Change dice image when it is computer player turn
-
+        //TODO add another dice image when is used DADUPLO
         final Group g = new Group();
         g.getChildren().addAll(playerAvatar, playerAvatarInner, playerName, playerCoins, diceImage);
 
@@ -78,7 +78,7 @@ public final class PlayerPanelRight extends PlayerPanel {
         diceImage.setLayoutY(DICE_Y_LAYOUT_BOTTOM);
 
         //TODO Change dice image when it is computer player turn
-
+        //TODO add another dice image when is used DADUPLO
         final Group g = new Group();
         g.getChildren().addAll(playerAvatar, playerAvatarInner, playerName, playerCoins, diceImage);
 
