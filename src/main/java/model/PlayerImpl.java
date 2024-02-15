@@ -9,7 +9,6 @@ import model.api.Item;
 import model.api.Cell.Type;
 import model.api.Pawn;
 import model.api.Player;
-import model.api.Wallet;
 import utility.BColor;
 
 /**
@@ -149,12 +148,6 @@ public final class PlayerImpl implements Player {
             return this.getDice().roll() / 2;
         }
         return this.getDice().roll();
-    }
-
-    @Override
-    public Wallet getWallet() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getWallet'");
     }
 
     @Override

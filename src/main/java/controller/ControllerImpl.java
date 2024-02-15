@@ -7,7 +7,9 @@ import controller.api.Controller;
 import model.GameImpl;
 import model.api.Game;
 import model.api.Item;
+import model.api.Pawn;
 import model.api.Player;
+import utility.BColor;
 import view.ViewUtility;
 
 /**
@@ -139,11 +141,26 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-    public final boolean canMovePawn() {
+    public final boolean canMovePawn(final Pawn pawn) {
         if (!this.diceRolled || this.pawnMoved) {
             return false;
         }
-        this.pawnMoved = true;
+        if (pawn.getColor() != BColor.BLUE) {
+            return false;
+        }
+        final int diceResult = getGame().getTurn().getDiceResult();
+        final Player humanPlayer = getGame().getPlayers().get(0);
+        /*
+         * Si ottiene il flag "pawnMoved" che consente di passare il turno, se:
+         * 
+         * NON è possibile muovere ALCUNA pedina, oppure
+         * E' possibile muovere la pedina cliccata (e quindi viene mossa).
+         * 
+         */
+        if (!getGame().getMovement().playerCanMovePawns(diceResult, humanPlayer)
+                || getGame().getMovement().playerCanMoveThePawn(pawn, diceResult)) {
+            this.pawnMoved = true;
+        }
         return true;
     }
 

@@ -227,7 +227,7 @@ public class BoardScene extends Scene {
                 final int index = i;
 
                 pawn.setOnMouseClicked(e -> {
-                    if (controller.canMovePawn()) {
+                    if (controller.canMovePawn(player.getPawns().get(index))) {
                         // final Position actualPos = player.getPawns().get(index).getPosition();
                         controller.getGame().getMovement().move(player.getPawns().get(index),
                                 controller.getGame().getTurn().getDiceResult(), controller.getGame());
