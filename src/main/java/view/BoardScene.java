@@ -3,7 +3,9 @@ package view;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
@@ -18,6 +20,7 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import model.Position;
+import model.api.Pawn;
 import model.api.Player;
 import controller.api.Controller;
 import utility.BColor;
@@ -84,8 +87,8 @@ public class BoardScene extends Scene {
         borderPane.setRight(rightPane);
 
         // hbox - bottom panel for Player Bonus/Malus and Shop
-        final InventoryPane inventoryPane = new InventoryPane(/*controller*/);
-        final ShopPane shopPane = new ShopPane(controller);
+        final InventoryPane inventoryPane = new InventoryPane();
+        final ShopPane shopPane = new ShopPane(controller, inventoryPane);
         final BorderPane bottomPane = new BorderPane();
         bottomPane.setTop(inventoryPane);
         bottomPane.setBottom(shopPane);
@@ -175,9 +178,17 @@ public class BoardScene extends Scene {
         for (final Player player : controller.getGame().getPlayers()) {
             for (int i = 0; i < player.getPawns().size(); i++) {
                 final Circle pawn = createPawn(player.getColor());
+                final Pawn logicPawn = player.getPawns().get(i);
                 pawn.setOnMouseEntered(event -> pawn.setCursor(Cursor.HAND));
                 pawn.setOnMouseClicked(e -> LOGGER.error("Stampo X: " + e.getX()));
-
+                pawn.setOnMouseClicked(mouseEvent -> {
+                    if (controller.getMalusClicked() && !player.equals(controller.getGame().getTurn().getCurrentPlayer())) {
+                        controller.getGame().getTurn().getCurrentPlayer().useItem(
+                        controller.getItemToUse(), player, logicPawn, controller.getGame());
+                        new Alert(AlertType.NONE).setContentText(controller.getGame().getTurn().getCurrentPlayer().getName()
+                            + " ha usato " + controller.getItemToUse().getName() + " su " + player.getName());
+                    }
+                });
                 final Position pos = player.getPawns().get(i).getStartPosition();
                 this.boardPanel.add(pawn, pos.getY(), pos.getX()); // inverted X and Y
 

@@ -136,7 +136,7 @@ public abstract class PlayerPanel extends AnchorPane {
      * @return the player avatar
      */
     protected Circle createPlayerInnerAvatar(final Position pos) {
-        return new Circle(pos.getX(), pos.getY(), INNER_CIRCLE_RADIUS, Color.valueOf(INNER_CIRCLE_COLOR));
+        return new Circle(pos.getX(), pos.getY(), INNER_CIRCLE_RADIUS, Color.valueOf(INNER_CIRCLE_COLOR)); 
     }
 
     /**
@@ -237,5 +237,4 @@ public abstract class PlayerPanel extends AnchorPane {
 
         return diceImage;
     }
-
 }

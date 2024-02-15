@@ -159,8 +159,10 @@ public interface Player {
      * 
      * @param item
      * @param player
+     * @param pawn
+     * @param game
      */
-    void useItem(Item item, Player player/* , Pawn pawn */);
+    void useItem(Item item, Player player, Pawn pawn, Game game);
 
     /**
      * Remove the malus on the player after it is expired.
