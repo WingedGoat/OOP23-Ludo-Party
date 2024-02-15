@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.Map;
 
 import model.api.Item;
-import view.utils.ViewUtility;
 /** 
  * 
 */
 public class BottomPane extends BorderPane {
 
-    //private static final double ITEM_BUTTON_WIDHT = 0;
+    private static final int ITEM_BUTTON_WIDHT = 250;
+    private static final int ITEM_BUTTON_HEIGTH = 95;
     private Button leftButton = new Button();
     private Button centerButton = new Button();
     private Button rightButton = new Button();
@@ -31,11 +31,11 @@ public class BottomPane extends BorderPane {
      * The contructor for the BottomPane.
     */
     BottomPane() {
-        leftButton.setPrefSize(ViewUtility.ITEM_BUTTON_WIDHT, ViewUtility.ITEM_BUTTON_HEIGTH);
+        leftButton.setPrefSize(ITEM_BUTTON_WIDHT, ITEM_BUTTON_HEIGTH);
         leftButton.setDisable(true);
-        leftButton.setPrefSize(ViewUtility.ITEM_BUTTON_WIDHT, ViewUtility.ITEM_BUTTON_HEIGTH);
+        leftButton.setPrefSize(ITEM_BUTTON_WIDHT, ITEM_BUTTON_HEIGTH);
         centerButton.setDisable(true);
-        leftButton.setPrefSize(ViewUtility.ITEM_BUTTON_WIDHT, ViewUtility.ITEM_BUTTON_HEIGTH);
+        leftButton.setPrefSize(ITEM_BUTTON_WIDHT, ITEM_BUTTON_HEIGTH);
         rightButton.setDisable(true);
         this.setLeft(leftButton);
         this.setCenter(centerButton);

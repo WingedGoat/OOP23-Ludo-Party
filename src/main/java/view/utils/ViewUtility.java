@@ -40,14 +40,7 @@ public final class ViewUtility {
      * Inset offset.
      */
     public static final int INSET_OS = 10;
-    /**
-     * Item button width.
-     */
-    public static final int ITEM_BUTTON_WIDHT = 250;
-    /**
-     * Item button height.
-     */
-    public static final int ITEM_BUTTON_HEIGTH = 95;
+
 
     private ViewUtility() { }
 

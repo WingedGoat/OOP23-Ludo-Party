@@ -13,7 +13,6 @@ import javafx.scene.paint.Color;
  * @see DARK_RED
  * @see DARK_GREEN
  * @see DARK_YELLOW
-			
  * @see DARK_GREY
  * @see LIGHT_BLACK
  */
@@ -71,7 +70,6 @@ public enum BColor {
      * @param hex hex color
      */
     BColor(final String hex) {
-												  
         this.hexColor = hex;
     }
 
@@ -83,4 +81,5 @@ public enum BColor {
     public Color get() {
         return Color.valueOf(hexColor);
     }
+
 }
