@@ -1,17 +1,21 @@
 package utility;
 
+import javafx.scene.paint.Color;
+
 /**
  * Board Colors.
  * @see BLUE
  * @see RED
  * @see GREEN
  * @see YELLOW
+ * @see GREY
  * @see DARK_BLUE
  * @see DARK_RED
  * @see DARK_GREEN
  * @see DARK_YELLOW
- * @see GREY
+			
  * @see DARK_GREY
+ * @see LIGHT_BLACK
  */
 public enum BColor {
     /**
@@ -53,7 +57,11 @@ public enum BColor {
     /**
      * Dark grey.
      */
-    DARK_GREY("#363230");
+    DARK_GREY("#363230"),
+    /**
+     * Light black.
+     */
+    LIGHT_BLACK("#282a35");
 
     private String hexColor;
 
@@ -63,7 +71,7 @@ public enum BColor {
      * @param hex hex color
      */
     BColor(final String hex) {
-        // This constructor is intentionally empty
+												  
         this.hexColor = hex;
     }
 
@@ -72,7 +80,7 @@ public enum BColor {
      * 
      * @return the color
      */
-    public String get() {
-        return hexColor;
+    public Color get() {
+        return Color.valueOf(hexColor);
     }
 }
