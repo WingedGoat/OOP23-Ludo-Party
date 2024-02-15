@@ -2,13 +2,10 @@ package view;
 
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.BorderStroke;
@@ -20,7 +17,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import java.util.List;
-import java.util.Random;
 import java.util.ArrayList;
 
 import controller.api.Controller;
@@ -54,8 +50,12 @@ public class BoardScene extends Scene {
     private static final String BG_RADIUS_CSS = "; -fx-border-color: #5A5858; -fx-border-width: 0.3px; "
             + "-fx-background-radius: 0";
     private final GridPane boardPanel;
+    private final PlayerPanelLeft leftPane;
+    private final PlayerPanelRight rightPane;
+    private final InventoryPane inventoryPane;
+    private final ShopPane shopPane;
+
     private final List<Circle> pawns = new ArrayList<>();
-    private final Random r = new Random();
 
     /**
      * Constructor.
@@ -74,7 +74,7 @@ public class BoardScene extends Scene {
         borderPane.setPadding(new Insets(ViewUtility.INSET_OS));
 
         final var border = new Border(new BorderStroke(
-                BColor.DARK_GREY.get(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(BORDER_WIDTH)));
+            BColor.DARK_GREY.get(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(BORDER_WIDTH)));
 
         // gridpane - central panel
         boardPanel = new GridPane();
@@ -85,17 +85,17 @@ public class BoardScene extends Scene {
         borderPane.setCenter(boardPanel);
 
         // lateral panels for the players
-        final PlayerPanelLeft leftPane = new PlayerPanelLeft(controller);
-        leftPane.setPrefWidth(PLAYER_PANEL_WIDTH);
+        this.leftPane = new PlayerPanelLeft(controller);
+        this.leftPane.setPrefWidth(PLAYER_PANEL_WIDTH);
         borderPane.setLeft(leftPane);
 
-        final PlayerPanelRight rightPane = new PlayerPanelRight(controller);
-        rightPane.setPrefWidth(PLAYER_PANEL_WIDTH);
+        this.rightPane = new PlayerPanelRight(controller);
+        this.rightPane.setPrefWidth(PLAYER_PANEL_WIDTH);
         borderPane.setRight(rightPane);
 
         // hbox - bottom panel for Player Bonus/Malus and Shop
-        final InventoryPane inventoryPane = new InventoryPane();
-        final ShopPane shopPane = new ShopPane(controller, inventoryPane);
+        this.inventoryPane = new InventoryPane();
+        this.shopPane = new ShopPane(controller, inventoryPane);
         final BorderPane bottomPane = new BorderPane();
         bottomPane.setTop(inventoryPane);
         bottomPane.setBottom(shopPane);
@@ -106,73 +106,48 @@ public class BoardScene extends Scene {
 
         this.setFill(Color.valueOf("0077b6"));
 
-        // when finish the turn
-        this.setOnKeyPressed(e -> {
-            if (e.getCode().equals(KeyCode.ENTER) && controller.canPassTurn()) {
-                LOGGER.error(" -- end of turn -- ");
-                for (int i = 1; i < controller.getPlayersNumber(); i++) {
-                    /*change inner player avatar color FIXME
-                    Circle c = (Circle) ((Group) (rightPane.getChildren().get(0))).getChildren().get(1);
-                    c.setFill(BColor.GREY.toString()));
-                    ((Group) (rightPane.getChildren().get(0))).getChildren().remove(1);
-                    ((Group) (rightPane.getChildren().get(0))).getChildren().add(1, c);
-                    */
-
-                    controller.getGame().getTurn().passTurnTo(controller.getGame().getPlayers().get(i));
-                    ImageView diceImage = null;
-                    if (controller.getPlayersNumber() == 2) {
-                        diceImage = (ImageView) ((Group) (rightPane.getChildren().get(0))).getChildren().get(4);
-                    } else {
-                        switch (i) {
-                            case 1:
-                                diceImage = (ImageView) ((Group) (rightPane.getChildren().get(0))).getChildren().get(4);
-                                break;
-                            case 2:
-                                diceImage = (ImageView) ((Group) (leftPane.getChildren().get(1))).getChildren().get(4);
-                                break;
-                            default:
-                                diceImage = (ImageView) ((Group) (rightPane.getChildren().get(1))).getChildren().get(4);
-                                break;
-                        }
-                    }
-                    final int diceResult = controller.getGame().getTurn().getCurrentPlayer().rollDice();
-                    leftPane.showDiceNumber(diceImage, diceResult);
-
-                    int indexPawnToMove = r.nextInt(controller.getGame().getPlayers().get(i).getPawns().size());
-                    /*
-                     * Il Computer cambia la scelta del Pawn da muovere, finché:
-                     * continua a sceglierne uno che NON si può muovere, però
-                     * ne ha altri che POSSONO effettuare un movimento
-                     */
-                    while (!controller.getGame().getMovement().playerCanMoveThePawn(
-                                controller.getGame().getPlayers().get(i).getPawns().get(indexPawnToMove), diceResult
-                        ) && controller.getGame().getMovement().playerCanMovePawns(
-                                diceResult, controller.getGame().getPlayers().get(i)
-                        )) {
-                        indexPawnToMove = r.nextInt(controller.getGame().getPlayers().get(i).getPawns().size());
-                    }
-                    final Position pos = controller.getGame().getPlayers().get(i)
-                        .getPawns().get(indexPawnToMove).getStartPosition();
-                    controller.getGame().getMovement().move(controller.getGame().getPlayers().get(i)
-                        .getPawns().get(indexPawnToMove), diceResult, controller.getGame());
-                    final Position newPos = controller.getGame().getPlayers().get(i)
-                        .getPawns().get(indexPawnToMove).getPosition();
-
-                    //this.boardPanel.getChildren().get(i);
-
-                    pawns.get(i * Constants.PLAYER_PAWNS + indexPawnToMove)
-                        .setTranslateX((newPos.getX() - pos.getX()) * CELL_WIDTH);
-                    pawns.get(i * Constants.PLAYER_PAWNS + indexPawnToMove).
-                        setTranslateY((newPos.getY() - pos.getY()) * CELL_WIDTH);
-                }
-            }
-        });
         stage.show();
         borderPane.requestFocus();
+    }
 
-        stage.setOnCloseRequest(e -> {
-            // System.exit(0);
-        });
+    /**
+     * Return the left panel.
+     * @return the left panel
+     */
+    public PlayerPanelLeft getLeftPane() {
+        return leftPane;
+    }
+
+    /**
+     * Return the right panel.
+     * @return the right panel
+     */
+    public PlayerPanelRight getRightPane() {
+        return rightPane;
+    }
+
+    /**
+     * Return the inventory panel.
+     * @return the inventory panel
+     */
+    public InventoryPane getInventoryPane() {
+        return inventoryPane;
+    }
+
+    /**
+     * Return the shop panel.
+     * @return the shop panel
+     */
+    public ShopPane getShopPane() {
+        return shopPane;
+    }
+
+    /**
+     * Return a list of circles representing the pawns.
+     * @return a list of circles
+     */
+    public List<Circle> getPawns() {
+        return pawns;
     }
 
     /**
@@ -240,18 +215,15 @@ public class BoardScene extends Scene {
                         // final Position actualPos = player.getPawns().get(index).getPosition();
                         controller.getGame().getMovement().move(player.getPawns().get(index),
                                 controller.getGame().getTurn().getDiceResult(), controller.getGame());
-                        final Position newPos = player.getPawns().get(index).getPosition();
-
-                        // actualPos = newPos;
-
-                        pawn.setTranslateX((newPos.getX() - pos.getX()) * CELL_WIDTH);
-                        pawn.setTranslateY((newPos.getY() - pos.getY()) * CELL_WIDTH);
-                    } else if (controller.getMalusClicked() 
-                        && !player.equals(controller.getGame().getTurn().getCurrentPlayer())) {
+                        controller.updatePawnPositions();
+                    } else if (controller.getMalusClicked()
+                            && !player.equals(controller.getGame().getTurn().getCurrentPlayer())) {
                         controller.getGame().getTurn().getCurrentPlayer().useItem(
-                        controller.getItemToUse(), player, logicPawn, controller.getGame());
-                        new Alert(AlertType.NONE).setContentText(controller.getGame().getTurn().getCurrentPlayer().getName()
-                            + " ha usato " + controller.getItemToUse().getName() + " su " + player.getName());
+                                controller.getItemToUse(), player, logicPawn, controller.getGame());
+                        new Alert(AlertType.NONE)
+                                .setContentText(controller.getGame().getTurn().getCurrentPlayer().getName()
+                                        + " ha usato " + controller.getItemToUse().getName() + " su "
+                                        + player.getName());
                     }
                 });
 
@@ -301,5 +273,4 @@ public class BoardScene extends Scene {
         c.setStrokeWidth(3.0);
         return c;
     }
-
 }

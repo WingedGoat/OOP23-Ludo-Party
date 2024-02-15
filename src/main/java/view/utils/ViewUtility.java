@@ -40,7 +40,10 @@ public final class ViewUtility {
      * Inset offset.
      */
     public static final int INSET_OS = 10;
-
+    /**
+     * Cell width.
+     */
+    public static final int CELL_WIDTH = 40;
 
     private ViewUtility() { }
 
@@ -88,7 +91,7 @@ public final class ViewUtility {
      * 
      * @return a new BoardScene
      */
-    public static Scene createBoardScene(final Controller controller, final Stage stage) {
+    public static BoardScene createBoardScene(final Controller controller, final Stage stage) {
         return new BoardScene(controller, stage);
     }
 

@@ -113,4 +113,9 @@ public interface Controller {
      */
     void setPawnMoved(boolean b);
 
+    /**
+     * Update pawns positions.
+     */
+    void updatePawnPositions();
+
 }

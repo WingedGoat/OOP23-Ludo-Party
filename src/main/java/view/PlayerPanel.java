@@ -214,7 +214,7 @@ public abstract class PlayerPanel extends AnchorPane {
      * 
      * @return the dice image with the new value of the dice
      */
-    protected ImageView showDiceNumber(final ImageView diceImage, final int number) {
+    public ImageView showDiceNumber(final ImageView diceImage, final int number) {
 
         final String diceImagePath = Path.of(ResourcePath.DICE_IMG_FOLDER.getPath() + System.getProperty("file.separator") 
             + "dice-" + number + ".png").toString();
