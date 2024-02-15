@@ -60,7 +60,11 @@ public enum BColor {
     /**
      * Light black.
      */
-    LIGHT_BLACK("#282a35");
+    LIGHT_BLACK("#282a35"),
+    /**
+     * Grey circle.
+     */
+    GREY_CIRCLE("#555555");
 
     private String hexColor;
 

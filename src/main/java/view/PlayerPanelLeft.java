@@ -36,7 +36,7 @@ public final class PlayerPanelLeft extends PlayerPanel {
     protected Group createBottomPlayer(final Position pos, final Controller ctrl) {
 
         final Circle playerAvatar = createPlayerAvatar(pos);
-        final Circle playerAvatarInner = new Circle(pos.getX(), pos.getY(), INNER_CIRCLE_RADIUS, Color.valueOf("#B3D1F2"));
+        final Circle playerAvatarInner = new Circle(pos.getX(), pos.getY(), INNER_CIRCLE_RADIUS, Color.LIGHTBLUE);
 
         final Label playerName = createNameLabelBottomPanel(ctrl.getGame().getHumanPlayer().getName());
         setNodeAnchors(playerName, 0.0);

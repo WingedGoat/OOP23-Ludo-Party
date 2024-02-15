@@ -13,6 +13,7 @@ import javafx.scene.shape.Circle;
 
 import controller.api.Controller;
 import model.Position;
+import utils.BColor;
 import view.utils.ResourcePath;
 /**
  * Abstract Player panel class.
@@ -25,8 +26,8 @@ public abstract class PlayerPanel extends AnchorPane {
      * The inner circle radius.
      */
     protected static final int INNER_CIRCLE_RADIUS = 77;
-    private static final String CIRCLE_COLOR = "#555555";
-    private static final String INNER_CIRCLE_COLOR = "#F1F1F1";
+    private static final String CIRCLE_COLOR = BColor.GREY_CIRCLE.getHexColor();
+    private static final String INNER_CIRCLE_COLOR = BColor.GREY.getHexColor();
 
     private static final int LABEL_X_LAYOUT = 60;
     private static final int LABEL_TOP_NAME_Y_LAYOUT = 230;
@@ -215,9 +216,8 @@ public abstract class PlayerPanel extends AnchorPane {
      */
     protected ImageView showDiceNumber(final ImageView diceImage, final int number) {
 
-        final String diceImagePath = 
-            Path.of(ResourcePath.DICE_IMG_FOLDER.getPath() + System.getProperty("file.separator") 
-                    + "dice-" + number + ".png").toString();
+        final String diceImagePath = Path.of(ResourcePath.DICE_IMG_FOLDER.getPath() + System.getProperty("file.separator") 
+            + "dice-" + number + ".png").toString();
         final File file = new File(diceImagePath);
         diceImage.setImage(new Image(file.toURI().toString()));
 
