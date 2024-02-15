@@ -12,8 +12,8 @@ import model.api.Game;
 import model.api.Item;
 import model.api.Player;
 import model.api.Player.PlayerType;
+import utils.BColor;
 import model.api.Shop;
-import utility.BColor;
 
 /**
  * Game Implementation class.

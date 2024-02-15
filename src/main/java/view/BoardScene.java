@@ -4,7 +4,9 @@ import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Border;
@@ -14,7 +16,6 @@ import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
-//import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -22,11 +23,13 @@ import java.util.List;
 import java.util.Random;
 import java.util.ArrayList;
 
-import model.Position;
-import model.api.Player;
 import controller.api.Controller;
-import utility.BColor;
-import utility.Constants;
+import model.Position;
+import model.api.Pawn;
+import model.api.Player;
+import utils.BColor;
+import utils.Constants;
+import view.utils.ViewUtility;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -68,10 +71,10 @@ public class BoardScene extends Scene {
         // borderpane - container
         final BorderPane borderPane = (BorderPane) this.getRoot();
         borderPane.setMinSize(BOARD_PANEL_WIDTH, BOARD_PANEL_WIDTH);
-        borderPane.setPadding(new Insets(Constants.INSET_OS));
+        borderPane.setPadding(new Insets(ViewUtility.INSET_OS));
 
         final var border = new Border(new BorderStroke(
-                Color.valueOf("#202020"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(BORDER_WIDTH)));
+                BColor.DARK_GREY.get(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(BORDER_WIDTH)));
 
         // gridpane - central panel
         boardPanel = new GridPane();
@@ -91,12 +94,12 @@ public class BoardScene extends Scene {
         borderPane.setRight(rightPane);
 
         // hbox - bottom panel for Player Bonus/Malus and Shop
-        final InventoryPane inventoryPane = new InventoryPane(/* controller */);
-        final ShopPane shopPane = new ShopPane(controller);
+        final InventoryPane inventoryPane = new InventoryPane();
+        final ShopPane shopPane = new ShopPane(controller, inventoryPane);
         final BorderPane bottomPane = new BorderPane();
         bottomPane.setTop(inventoryPane);
         bottomPane.setBottom(shopPane);
-        bottomPane.setPrefHeight(Constants.BOARD_BOTTOM_HEIGHT);
+        bottomPane.setPrefHeight(ViewUtility.BOARD_BOTTOM_HEIGHT);
         bottomPane.setBorder(border);
 
         borderPane.setBottom(bottomPane);
@@ -110,7 +113,7 @@ public class BoardScene extends Scene {
                 for (int i = 1; i < controller.getPlayersNumber(); i++) {
                     /*change inner player avatar color FIXME
                     Circle c = (Circle) ((Group) (rightPane.getChildren().get(0))).getChildren().get(1);
-                    c.setFill(Color.valueOf(BColor.GREY.get()));
+                    c.setFill(BColor.GREY.toString()));
                     ((Group) (rightPane.getChildren().get(0))).getChildren().remove(1);
                     ((Group) (rightPane.getChildren().get(0))).getChildren().add(1, c);
                     */
@@ -191,19 +194,19 @@ public class BoardScene extends Scene {
 
                 if (ctrl.getGame().getBoard().getBottomLeftHouse().contains(pos)
                         || ctrl.getGame().getBoard().getBottomLeftSafePath().contains(pos)) {
-                    bt.setStyle(BG_COLOR_CSS + BColor.BLUE.get() + BG_RADIUS_CSS);
+                    bt.setStyle(BG_COLOR_CSS + BColor.BLUE.getHexColor() + BG_RADIUS_CSS);
                     bt.setOnMouseEntered(e -> bt.setCursor(null));
                 } else if (ctrl.getGame().getBoard().getTopLeftHouse().contains(pos)
                         || ctrl.getGame().getBoard().getTopLeftSafePath().contains(pos)) {
-                    bt.setStyle(BG_COLOR_CSS + BColor.RED.get() + BG_RADIUS_CSS);
+                    bt.setStyle(BG_COLOR_CSS + BColor.RED.getHexColor() + BG_RADIUS_CSS);
                     bt.setOnMouseEntered(e -> bt.setCursor(null));
                 } else if (ctrl.getGame().getBoard().getTopRightHouse().contains(pos)
                         || ctrl.getGame().getBoard().getTopRightSafePath().contains(pos)) {
-                    bt.setStyle(BG_COLOR_CSS + BColor.GREEN.get() + BG_RADIUS_CSS);
+                    bt.setStyle(BG_COLOR_CSS + BColor.GREEN.getHexColor() + BG_RADIUS_CSS);
                     bt.setOnMouseEntered(e -> bt.setCursor(null));
                 } else if (ctrl.getGame().getBoard().getBottomRightHouse().contains(pos)
                         || ctrl.getGame().getBoard().getBottomRighSafePath().contains(pos)) {
-                    bt.setStyle(BG_COLOR_CSS + BColor.YELLOW.get() + BG_RADIUS_CSS);
+                    bt.setStyle(BG_COLOR_CSS + BColor.YELLOW.getHexColor() + BG_RADIUS_CSS);
                     bt.setOnMouseEntered(e -> bt.setCursor(null));
                 }
 
@@ -226,6 +229,7 @@ public class BoardScene extends Scene {
             for (int i = 0; i < player.getPawns().size(); i++) {
                 final Position pos = player.getPawns().get(i).getStartPosition();
                 final Circle pawn = createPawn(player.getColor());
+                final Pawn logicPawn = player.getPawns().get(i);
                 pawn.setOnMouseEntered(event -> pawn.setCursor(Cursor.HAND));
                 final int index = i;
 
@@ -242,6 +246,12 @@ public class BoardScene extends Scene {
 
                         pawn.setTranslateX((newPos.getX() - pos.getX()) * CELL_WIDTH);
                         pawn.setTranslateY((newPos.getY() - pos.getY()) * CELL_WIDTH);
+                    } else if (controller.getMalusClicked() 
+                        && !player.equals(controller.getGame().getTurn().getCurrentPlayer())) {
+                        controller.getGame().getTurn().getCurrentPlayer().useItem(
+                        controller.getItemToUse(), player, logicPawn, controller.getGame());
+                        new Alert(AlertType.NONE).setContentText(controller.getGame().getTurn().getCurrentPlayer().getName()
+                            + " ha usato " + controller.getItemToUse().getName() + " su " + player.getName());
                     }
                 });
 
@@ -286,8 +296,8 @@ public class BoardScene extends Scene {
                 break;
         }
 
-        final Circle c = new Circle(PAWN_POSITION, PAWN_POSITION, CIRCLE_RADIUS, Color.valueOf(BColor.DARK_GREY.get()));
-        c.setStroke(Color.valueOf(newColor.get()));
+        final Circle c = new Circle(PAWN_POSITION, PAWN_POSITION, CIRCLE_RADIUS, BColor.DARK_GREY.get());
+        c.setStroke(newColor.get());
         c.setStrokeWidth(3.0);
         return c;
     }

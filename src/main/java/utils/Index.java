@@ -1,4 +1,4 @@
-package utility;
+package utils;
 
 /**
  * Utility to avoid magic numbers warnings.

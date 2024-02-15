@@ -1,26 +1,46 @@
-package view;
-
-import java.nio.file.Path;
+package view.utils;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import controller.api.Controller;
+import view.BoardScene;
+import view.ChoosePlayerNumberScene;
+import view.StartScene;
 
 /**
  * Utility class used to create the views of the game.
  */
 public final class ViewUtility {
-
     /**
-     * file separator.
+     * The file separator.
      */
     public static final String FILE_SEPARATOR = System.getProperty("file.separator");
     /**
-     * background image path.
+     * The resources folder.
      */
-    public static final String BACKGROUND_IMG_PATH = Path.of("." + ViewUtility.FILE_SEPARATOR + "resources" 
-        + ViewUtility.FILE_SEPARATOR + "images" + ViewUtility.FILE_SEPARATOR + "space-bg.png").toString();
+    public static final String RESOURCES_FOLDER = "." + FILE_SEPARATOR + "resources" + FILE_SEPARATOR;
+    /**
+     * Home window width.
+     */
+    public static final int HOME_WINDOW_WIDTH = 450;
+    /**
+     * Home window height.
+     */
+    public static final int HOME_WINDOW_HEIGHT = 600;
+    /**
+     * Board bottom height.
+     */
+    public static final int BOARD_BOTTOM_HEIGHT = 200; 
+    /**
+     * Button font size.
+     */
+    public static final int BUTTON_FONT_SIZE = 14;
+    /**
+     * Inset offset.
+     */
+    public static final int INSET_OS = 10;
+
 
     private ViewUtility() { }
 

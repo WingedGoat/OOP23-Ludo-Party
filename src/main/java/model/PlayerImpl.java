@@ -5,12 +5,14 @@ import java.util.List;
 import java.util.Set;
 
 import model.api.Dice;
+import model.api.Game;
 import model.api.Item;
 import model.api.Cell.Type;
+import utils.BColor;
+import utils.Constants;
+import utils.Index;
 import model.api.Pawn;
 import model.api.Player;
-import utility.BColor;
-import utility.Index;
 
 /**
  * Player Implementation class.
@@ -50,7 +52,7 @@ public final class PlayerImpl implements Player {
         this.safePath = Set.copyOf(safePath);
         this.pawns = new ArrayList<>();
 
-        for (int i = 0; i < pawnsStartPos.size(); i++) {
+        for (int i = 0; i < Constants.PLAYER_PAWNS; i++) {
             this.pawns.add(new PawnImpl(pawnsStartPos.get(i), i, playerHouse, color));
         }
 
@@ -181,19 +183,28 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public void useItem(final Item item, final Player player /*final Pawn pawn*/) { 
+    public void useItem(final Item item, final Player player, final Pawn pawn, final Game game) { 
+
         this.playerItems.remove(item);
 
         if (item.getType().equals(Item.Type.BONUS)) {
+
             player.addToItemsApplied(item);
+
         } else if (!player.getItemsApplied().contains(Item.BASTIONE)) {
+
             player.addToItemsApplied(item);
+
         } else if (item.getId() == Item.ARIETE.getId()) {
+
             player.getItemsApplied().remove(Item.BASTIONE);
             player.addToItemsApplied(item);
-        } //else if (item.getId() == Item.REGOLA_DEI_4.getId()) {
-           // pawn.move(pawn, -regolaId);
-       // }
+
+        } else if (item.getId() == Item.REGOLA_DEI_4.getId()) {
+
+            final Movement move = new Movement();
+            move.move(pawn, Index.FOUR, game);
+       }
     } 
 
     @Override

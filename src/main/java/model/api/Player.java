@@ -5,7 +5,7 @@ import java.util.Set;
 
 import model.Position;
 import model.api.Cell.Type;
-import utility.BColor;
+import utils.BColor;
 
 /**
  * Represents a player.
@@ -152,8 +152,10 @@ public interface Player {
      * 
      * @param item
      * @param player
+     * @param pawn
+     * @param game
      */
-    void useItem(Item item, Player player/* , Pawn pawn */);
+    void useItem(Item item, Player player, Pawn pawn, Game game);
 
     /**
      * Remove the malus on the player after it is expired.

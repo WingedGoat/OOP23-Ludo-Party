@@ -13,18 +13,12 @@ import javafx.scene.shape.Circle;
 
 import controller.api.Controller;
 import model.Position;
+import utils.BColor;
+import view.utils.ResourcePath;
 /**
  * Abstract Player panel class.
  */
 public abstract class PlayerPanel extends AnchorPane {
-
-    /**
-     * dice image folder path.
-     */
-    private static final String DICE_IMAGE_FOLDER = Path.of("." + ViewUtility.FILE_SEPARATOR 
-        + "resources" + ViewUtility.FILE_SEPARATOR
-        + "images" + ViewUtility.FILE_SEPARATOR 
-        + "dices").toString();
 
     private static final int PANE_HEIGHT = 600;
     private static final int CIRCLE_RADIUS = 80;
@@ -32,8 +26,8 @@ public abstract class PlayerPanel extends AnchorPane {
      * The inner circle radius.
      */
     protected static final int INNER_CIRCLE_RADIUS = 77;
-    private static final String CIRCLE_COLOR = "#555555";
-    private static final String INNER_CIRCLE_COLOR = "#F1F1F1";
+    private static final String CIRCLE_COLOR = BColor.GREY_CIRCLE.getHexColor();
+    private static final String INNER_CIRCLE_COLOR = BColor.GREY.getHexColor();
 
     private static final int LABEL_X_LAYOUT = 60;
     private static final int LABEL_TOP_NAME_Y_LAYOUT = 230;
@@ -204,7 +198,7 @@ public abstract class PlayerPanel extends AnchorPane {
     protected ImageView createDicImageView() {
         final ImageView diceImage = new ImageView();
 
-        final File file =  new File(DICE_IMAGE_FOLDER + ViewUtility.FILE_SEPARATOR + "dice-1.png");
+        final File file = new File(ResourcePath.DICE_IMG_FACE_ONE.getPath());
         diceImage.setImage(new Image(file.toURI().toString()));
         diceImage.setFitHeight(DICE_HEIGHT);
         diceImage.setFitWidth(DICE_WIDTH);
@@ -222,9 +216,9 @@ public abstract class PlayerPanel extends AnchorPane {
      */
     protected ImageView showDiceNumber(final ImageView diceImage, final int number) {
 
-        final String diceImagePath = 
-            Path.of(DICE_IMAGE_FOLDER + ViewUtility.FILE_SEPARATOR + "dice-" + number + ".png").toString();
-        final File file =  new File(diceImagePath);
+        final String diceImagePath = Path.of(ResourcePath.DICE_IMG_FOLDER.getPath() + System.getProperty("file.separator") 
+            + "dice-" + number + ".png").toString();
+        final File file = new File(diceImagePath);
         diceImage.setImage(new Image(file.toURI().toString()));
 
         return diceImage;

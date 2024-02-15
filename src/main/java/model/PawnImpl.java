@@ -1,8 +1,8 @@
 package model;
 
 import model.api.Cell.Type;
+import utils.BColor;
 import model.api.Pawn;
-import utility.BColor;
 
 /**
  * Pawn Implementation.

@@ -27,6 +27,21 @@
     <Bug code="EI" />
   </Match>
 
+  <Match>
+    <Class name="view.ShopPane" />
+    <Bug code="MC" />
+  </Match>
+
+  <Match>
+    <Class name="view.InventoryPane" />
+    <Bug code="MC" />
+  </Match>
+
+  <Match>
+    <Class name="view.BottomPane" />
+    <Bug code="EI2,EI" />
+  </Match>
+
   <!-- Match all XYZ violations. -->
   <Match>
     <Bug code="XYZ" />

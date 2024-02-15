@@ -9,7 +9,7 @@ import java.util.Set;
 import model.api.Item;
 import model.api.Player;
 import model.api.Shop;
-import utility.Index; 
+import utils.Index; 
 
 /**
  * 
@@ -58,9 +58,9 @@ public final class ShopImpl implements Shop {
         keys.add(getNewKey());
 
         Integer currentkey = getNewKey();
-        while (keys.contains(currentkey) || keys.size() > 2) {
-            currentkey = getNewKey();
+        while (keys.size() < 3) {
             keys.add(currentkey);
+            currentkey = getNewKey();
         }
         for (final Integer k : keys) {
             showcase.put(k, items.get(k));

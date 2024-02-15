@@ -13,9 +13,8 @@ import java.util.stream.IntStream;
 import model.api.Board;
 import model.api.Cell;
 import model.api.Cell.Type;
-
-import utility.Constants;
-import utility.Index;
+import utils.Constants;
+import utils.Index;
 
 /**
  * Game Board Builder.

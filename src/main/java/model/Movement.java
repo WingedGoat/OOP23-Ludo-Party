@@ -3,11 +3,12 @@ package model;
 import model.api.Game;
 import model.api.Pawn;
 import model.api.Player;
-import utility.BColor;
+import utils.BColor;
+import utils.Constants;
+import utils.Index;
+
 import java.util.List;
 import java.util.ArrayList;
-import utility.Constants;
-import utility.Index;
 
 /**
  * This class handles the movement of the whole pawn system.
