@@ -72,7 +72,7 @@ public class BoardScene extends Scene {
         borderPane.setPadding(new Insets(ViewUtility.INSET_OS));
 
         final var border = new Border(new BorderStroke(
-                Color.valueOf("#202020"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(BORDER_WIDTH)));
+                BColor.DARK_GREY.get(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(BORDER_WIDTH)));
 
         // gridpane - central panel
         boardPanel = new GridPane();
