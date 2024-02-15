@@ -118,4 +118,10 @@ public interface Controller {
      */
     void updatePawnPositions();
 
+    /**
+     * Return the new item added in the showcase.
+     * 
+     * @return the new shop's item
+     */
+    Item getNewShopItem();
 }

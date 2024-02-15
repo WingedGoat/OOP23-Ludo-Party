@@ -281,6 +281,11 @@ public final class ControllerImpl implements Controller, Runnable {
     }
 
     @Override
+    public Item getNewShopItem() {
+        return this.game.getShop().getNewItem();
+    }
+
+    @Override
     public void run() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'run'");

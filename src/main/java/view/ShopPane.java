@@ -1,7 +1,6 @@
 package view;
 
 import controller.api.Controller;
-import javafx.application.Platform;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
