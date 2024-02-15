@@ -228,14 +228,14 @@ public class BoardScene extends Scene {
 
                         pawn.setTranslateX((newPos.getX() - pos.getX()) * CELL_WIDTH);
                         pawn.setTranslateY((newPos.getY() - pos.getY()) * CELL_WIDTH);
-                    } else if (controller.getMalusClicked() && !player.equals(controller.getGame().getTurn().getCurrentPlayer())) {
+                    } else if (controller.getMalusClicked() 
+                        && !player.equals(controller.getGame().getTurn().getCurrentPlayer())) {
                         controller.getGame().getTurn().getCurrentPlayer().useItem(
                         controller.getItemToUse(), player, logicPawn, controller.getGame());
                         new Alert(AlertType.NONE).setContentText(controller.getGame().getTurn().getCurrentPlayer().getName()
                             + " ha usato " + controller.getItemToUse().getName() + " su " + player.getName());
                     }
                 });
-                
 
                 pawns.add(pawn);
 
