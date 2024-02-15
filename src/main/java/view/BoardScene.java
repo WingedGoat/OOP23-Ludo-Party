@@ -176,19 +176,19 @@ public class BoardScene extends Scene {
 
                 if (ctrl.getGame().getBoard().getBottomLeftHouse().contains(pos)
                         || ctrl.getGame().getBoard().getBottomLeftSafePath().contains(pos)) {
-                    bt.setStyle(BG_COLOR_CSS + BColor.BLUE.toString() + BG_RADIUS_CSS);
+                    bt.setStyle(BG_COLOR_CSS + BColor.BLUE.getHexColor() + BG_RADIUS_CSS);
                     bt.setOnMouseEntered(e -> bt.setCursor(null));
                 } else if (ctrl.getGame().getBoard().getTopLeftHouse().contains(pos)
                         || ctrl.getGame().getBoard().getTopLeftSafePath().contains(pos)) {
-                    bt.setStyle(BG_COLOR_CSS + BColor.RED.toString() + BG_RADIUS_CSS);
+                    bt.setStyle(BG_COLOR_CSS + BColor.RED.getHexColor() + BG_RADIUS_CSS);
                     bt.setOnMouseEntered(e -> bt.setCursor(null));
                 } else if (ctrl.getGame().getBoard().getTopRightHouse().contains(pos)
                         || ctrl.getGame().getBoard().getTopRightSafePath().contains(pos)) {
-                    bt.setStyle(BG_COLOR_CSS + BColor.GREEN.toString() + BG_RADIUS_CSS);
+                    bt.setStyle(BG_COLOR_CSS + BColor.GREEN.getHexColor() + BG_RADIUS_CSS);
                     bt.setOnMouseEntered(e -> bt.setCursor(null));
                 } else if (ctrl.getGame().getBoard().getBottomRightHouse().contains(pos)
                         || ctrl.getGame().getBoard().getBottomRighSafePath().contains(pos)) {
-                    bt.setStyle(BG_COLOR_CSS + BColor.YELLOW.toString() + BG_RADIUS_CSS);
+                    bt.setStyle(BG_COLOR_CSS + BColor.YELLOW.getHexColor() + BG_RADIUS_CSS);
                     bt.setOnMouseEntered(e -> bt.setCursor(null));
                 }
 

@@ -26,7 +26,7 @@ public enum ResourcePath {
     /**
      * the dice image with face one.
      */
-    DICE_IMG_FACE_ONE(Path.of(DICE_IMG_FOLDER + getFileSep() + "dice-1.png"));
+    DICE_IMG_FACE_ONE(Path.of(DICE_IMG_FOLDER.getPath() + getFileSep() + "dice-1.png"));
 
 
     private final Path path;

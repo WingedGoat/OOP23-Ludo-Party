@@ -197,7 +197,7 @@ public abstract class PlayerPanel extends AnchorPane {
     protected ImageView createDicImageView() {
         final ImageView diceImage = new ImageView();
 
-        final File file =  new File(ResourcePath.DICE_IMG_FACE_ONE.getPath());
+        final File file = new File(ResourcePath.DICE_IMG_FACE_ONE.getPath());
         diceImage.setImage(new Image(file.toURI().toString()));
         diceImage.setFitHeight(DICE_HEIGHT);
         diceImage.setFitWidth(DICE_WIDTH);

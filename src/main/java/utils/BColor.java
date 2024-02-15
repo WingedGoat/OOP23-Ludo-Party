@@ -74,6 +74,14 @@ public enum BColor {
     }
 
     /**
+     * Gets the hexadecimal color.
+     * @return the hexadecimal color
+     */
+    public String getHexColor() {
+        return hexColor;
+    }
+
+    /**
      * Gets the color.
      * 
      * @return the color
