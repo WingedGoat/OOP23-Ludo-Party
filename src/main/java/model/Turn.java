@@ -61,7 +61,7 @@ public final class Turn {
      * @return the current player
      */
     public Player getCurrentPlayer() {
-        return new PlayerImpl(this.currentPlayer);
+        return this.currentPlayer;
     }
 
     /**

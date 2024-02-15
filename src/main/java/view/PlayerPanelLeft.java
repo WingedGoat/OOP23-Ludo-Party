@@ -1,8 +1,11 @@
 package view;
 
+import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 import controller.api.Controller;
@@ -33,7 +36,7 @@ public final class PlayerPanelLeft extends PlayerPanel {
     protected Group createBottomPlayer(final Position pos, final Controller ctrl) {
 
         final Circle playerAvatar = createPlayerAvatar(pos);
-        final Circle playerAvatarInner = createPlayerInnerAvatar(pos);
+        final Circle playerAvatarInner = new Circle(pos.getX(), pos.getY(), INNER_CIRCLE_RADIUS, Color.valueOf("#B3D1F2"));
 
         final Label playerName = createNameLabelBottomPanel(ctrl.getGame().getHumanPlayer().getName());
         setNodeAnchors(playerName, 0.0);
@@ -45,7 +48,15 @@ public final class PlayerPanelLeft extends PlayerPanel {
         diceImage.setLayoutX(DICE_X_LAYOUT);
         diceImage.setLayoutY(DICE_Y_LAYOUT_BOTTOM);
 
-        //TODO
+        final Glow glow = new Glow(.8);
+        diceImage.setOnMouseEntered(mouseEvent -> {
+            diceImage.setEffect(glow);
+            diceImage.setCursor(Cursor.HAND);
+        });
+        diceImage.setOnMouseExited(mouseEvent -> {
+            diceImage.setEffect(null);
+        });
+
         diceImage.setOnMouseClicked(mouseEvent -> {
             if (ctrl.canRollDice()) {
                 final int diceResult = ctrl.getGame().getTurn().getCurrentPlayer().rollDice();
