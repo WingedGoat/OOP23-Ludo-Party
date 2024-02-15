@@ -10,7 +10,6 @@ import model.api.Item;
 import model.api.Cell.Type;
 import model.api.Pawn;
 import model.api.Player;
-import model.api.Wallet;
 import utility.BColor;
 import utility.Index;
 
@@ -31,6 +30,7 @@ public final class PlayerImpl implements Player {
 
     private final List<Item> playerItems = new ArrayList<>();
     private final List<Item> itemsApplied = new ArrayList<>();
+    private boolean firstTurn = true;
 
     /**
      * Player constructor.
@@ -143,20 +143,18 @@ public final class PlayerImpl implements Player {
 
     @Override
     public int rollDice() {
+        if (firstTurn) {  // force 6 at start of game in order to move at least the first pawn
+            firstTurn = !firstTurn;
+            return Index.SIX;
+        }
         if (itemsApplied.contains(Item.DADUPLO) && itemsApplied.contains(Item.TAGLIATELO)) {
             return this.getDice().roll();
         } else if (itemsApplied.contains(Item.DADUPLO)) {
             return this.getDice().roll() + this.getDice().roll();
         } else if (itemsApplied.contains(Item.TAGLIATELO)) {
             return this.getDice().roll() / 2;
-        } 
+        }
         return this.getDice().roll();
-    }
-
-    @Override
-    public Wallet getWallet() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getWallet'");
     }
 
     @Override

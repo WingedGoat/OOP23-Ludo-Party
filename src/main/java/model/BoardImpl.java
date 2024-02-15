@@ -327,10 +327,10 @@ public final class BoardImpl implements Board {
     private List<Position> createBottomLeftPawnsStartPosition() {
         final List<Position> startPositions = new ArrayList<>();
         startPositions.addAll(Set.of(
-                new Position(Index.TEN, Index.ONE),
-                new Position(Index.TEN, Index.FOUR),
-                new Position(Index.THIRTEEN, Index.ONE),
-                new Position(Index.THIRTEEN, Index.FOUR)));
+                new Position(Index.ONE, Index.TEN),
+                new Position(Index.ONE, Index.THIRTEEN),
+                new Position(Index.FOUR, Index.TEN),
+                new Position(Index.FOUR, Index.THIRTEEN)));
 
         return startPositions;
     }
@@ -349,10 +349,10 @@ public final class BoardImpl implements Board {
     private List<Position> createTopRightPawnsStartPosition() {
         final List<Position> startPositions = new ArrayList<>();
         startPositions.addAll(Set.of(
-                new Position(Index.ONE, Index.TEN),
-                new Position(Index.ONE, Index.THIRTEEN),
-                new Position(Index.FOUR, Index.TEN),
-                new Position(Index.FOUR, Index.THIRTEEN)));
+                new Position(Index.TEN, Index.ONE),
+                new Position(Index.TEN, Index.FOUR),
+                new Position(Index.THIRTEEN, Index.ONE),
+                new Position(Index.THIRTEEN, Index.FOUR)));
 
         return startPositions;
     }

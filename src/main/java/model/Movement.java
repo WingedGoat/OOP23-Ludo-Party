@@ -2,6 +2,7 @@ package model;
 
 import model.api.Game;
 import model.api.Pawn;
+import model.api.Player;
 import utility.BColor;
 import java.util.List;
 import java.util.ArrayList;
@@ -49,15 +50,15 @@ public final class Movement {
     private void movePawn(final Pawn pawn, final BColor color, final int diceResult, final Game game) {
 
         if (pawn.getPosition().equals(pawn.getStartPosition())) {
-            step(pawn, game, 0);
-            eatenPawns(pawn, game);
+            if (diceResult == Index.SIX) {
+                step(pawn, game, 0);
+                eatenPawns(pawn, game);
+            }
         } else {
-            final int j = pathColors.get(color.ordinal()).indexOf(pawn.getPosition());
-            for (int i = j + 1; i < pathColors.get(color.ordinal()).size(); i++) {
-                if (i - j <= diceResult) {
-                    step(pawn, game, i);
-                    eatenPawns(pawn, game);
-                }
+            final int index = pathColors.get(color.ordinal()).indexOf(pawn.getPosition());
+            if (index + diceResult < pathColors.get(color.ordinal()).size() && index + diceResult >= 0) {
+                step(pawn, game, pathColors.get(color.ordinal()).indexOf(pawn.getPosition()) + diceResult);
+                eatenPawns(pawn, game);
             }
         }
     }
@@ -88,7 +89,8 @@ public final class Movement {
     }
 
     private void eatenPawns(final Pawn pawn, final Game game) {
-        if (enemyIsAlone(pawn, game) && notSafe(pawn.getPosition(), game)) {
+        if (enemyIsAlone(pawn, game) && notSafe(pawn.getPosition(), game)
+                && !pawn.getPosition().equals(new Position(Index.SEVEN, Index.SEVEN))) {
             homeStep(getEnemyPawn(pawn, game), game);
         }
     }
@@ -156,8 +158,66 @@ public final class Movement {
     }
 
     private Pawn getPawn(final int k, final Game game) {
-        return game.getPlayers().get(k / game.getPlayers().size()).getPawns().get(k % Constants.PLAYER_PAWNS);
+        return game.getPlayers().get(k / Constants.PLAYER_PAWNS).getPawns().get(k % Constants.PLAYER_PAWNS);
     }
+
+    // provare ad aiutare chi gestisce i turni e le win
+    // facendo un metodo pubblico che ritorna se un player ha vinto
+    // con tutte e 4 le pedine al centro e magari pure in
+    // ordine in base a chi ha finito prima
+
+    /**
+     * Checks if the player of a particular turn can move their pawns.
+     * 
+     * @param diceResult
+     * @param p
+     * @return if the player has to move a pawn
+     */
+    public boolean playerCanMovePawns(final int diceResult, final Player p) {
+
+        for (int i = 0; i < p.getPawns().size(); i++) {
+            if (p.getPawns().get(i).getPosition().equals(p.getPawns().get(i).getStartPosition())) {
+                if (diceResult == Index.SIX) {
+                    return true;
+                }
+            } else {
+                final Position pawnPos = p.getPawns().get(i).getPosition();
+                final int lastCellIndex = pathColors.get(p.getColor().ordinal()).size() - 1;
+
+                if (!pawnPos.equals(pathColors.get(p.getColor().ordinal()).get(lastCellIndex))) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if the player of a particular turn can move their pawns.
+     * 
+     * @param pawn
+     * @param diceResult
+     * @return if the player can move the given pawn
+     */
+    public boolean playerCanMoveThePawn(final Pawn pawn, final int diceResult) {
+        if (pawn.getPosition().equals(pawn.getStartPosition())) {
+            if (diceResult == Index.SIX) {
+                return true;
+            }
+        } else {
+            final Position pawnPos = pawn.getPosition();
+            final int lastCellIndex = pathColors.get(pawn.getColor().ordinal()).size() - 1;
+
+            if (!pawnPos.equals(pathColors.get(pawn.getColor().ordinal()).get(lastCellIndex))) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // fine degli aiuti
 
     private List<Position> buildBlue() {
         final PathBuilder pb = new PathBuilder(Index.SIX, Index.THIRTEEN);

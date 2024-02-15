@@ -2,10 +2,12 @@ package view;
 
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
@@ -18,6 +20,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import java.util.List;
+import java.util.ArrayList;
 
 import model.Position;
 import model.api.Pawn;
@@ -49,6 +53,7 @@ public class BoardScene extends Scene {
     private static final String BG_RADIUS_CSS = "; -fx-border-color: #5A5858; -fx-border-width: 0.3px; "
             + "-fx-background-radius: 0";
     private final GridPane boardPanel;
+    private final List<Circle> pawns = new ArrayList<>();
 
     /**
      * Constructor.
@@ -92,7 +97,6 @@ public class BoardScene extends Scene {
         final BorderPane bottomPane = new BorderPane();
         bottomPane.setTop(inventoryPane);
         bottomPane.setBottom(shopPane);
-
         bottomPane.setPrefHeight(Constants.BOARD_BOTTOM_HEIGHT);
         bottomPane.setBorder(border);
 
@@ -102,22 +106,51 @@ public class BoardScene extends Scene {
 
         // when finish the turn
         this.setOnKeyPressed(e -> {
-            if (e.getCode().equals(KeyCode.ENTER)) { // && controller.pressEnterKey()) {
+            if (e.getCode().equals(KeyCode.ENTER) && controller.canPassTurn()) {
+                LOGGER.error(" -- end of turn -- ");
                 for (int i = 1; i < controller.getPlayersNumber(); i++) {
-                    i = 2;
-                    /*
-                     * controller.playTurn(i);
-                     * vBoxLeft.getDiceLabel().setText(
-                     * vBoxLeft.getDiceLabel().getText() + "\n"
-                     * + controller.getDiceResult(i)
-                     * );
-                     */
+                    /*change inner player avatar color FIXME
+                    Circle c = (Circle) ((Group) (rightPane.getChildren().get(0))).getChildren().get(1);
+                    c.setFill(Color.valueOf(BColor.GREY.get()));
+                    ((Group) (rightPane.getChildren().get(0))).getChildren().remove(1);
+                    ((Group) (rightPane.getChildren().get(0))).getChildren().add(1, c);
+                    */
+                    final Position pos = controller.getGame().getPlayers().get(i).getPawns().get(0).getStartPosition();
+
+                    controller.getGame().getTurn().passTurnTo(controller.getGame().getPlayers().get(i));
+                    ImageView diceImage = null;
+                    if (controller.getPlayersNumber() == 2) {
+                        diceImage = (ImageView) ((Group) (rightPane.getChildren().get(0))).getChildren().get(4);
+                    } else {
+                        switch (i) {
+                            case 1:
+                                diceImage = (ImageView) ((Group) (rightPane.getChildren().get(0))).getChildren().get(4);
+                                break;
+                            case 2:
+                                diceImage = (ImageView) ((Group) (leftPane.getChildren().get(1))).getChildren().get(4);
+                                break;
+                            default:
+                                diceImage = (ImageView) ((Group) (rightPane.getChildren().get(1))).getChildren().get(4);
+                                break;
+                        }
+                    }
+                    final int diceResult = controller.getGame().getTurn().getCurrentPlayer().rollDice();
+                    leftPane.showDiceNumber(diceImage, diceResult);
+                    // al momento il computer muove solo la sua prima pedina. da implementare una
+                    // scelta più ragionata.
+                    controller.getGame().getMovement().move(controller.getGame().getPlayers().get(i).getPawns().get(0),
+                            diceResult, controller.getGame());
+                    final Position newPos = controller.getGame().getPlayers().get(i).getPawns().get(0).getPosition();
+
+                    this.boardPanel.getChildren().get(i);
+
+                    pawns.get(i * Constants.PLAYER_PAWNS).setTranslateX((newPos.getX() - pos.getX()) * CELL_WIDTH);
+                    pawns.get(i * Constants.PLAYER_PAWNS).setTranslateY((newPos.getY() - pos.getY()) * CELL_WIDTH);
                 }
-                // rollDiceButton.requestFocus();
             }
         });
-
         stage.show();
+        borderPane.requestFocus();
 
         stage.setOnCloseRequest(e -> {
             // System.exit(0);
@@ -138,7 +171,6 @@ public class BoardScene extends Scene {
                 final Button bt = new Button(" ");
                 bt.setStyle("-fx-background-color: #fdfcfc;"
                         + "-fx-border-color: #5A5858; -fx-border-width: 0.5px; " + BG_RADIUS_CSS);
-                // bt.setOnAction(e -> System.out.println("-clickato"));
 
                 final Position pos = new Position(i, j);
 
@@ -177,33 +209,50 @@ public class BoardScene extends Scene {
 
         for (final Player player : controller.getGame().getPlayers()) {
             for (int i = 0; i < player.getPawns().size(); i++) {
+                final Position pos = player.getPawns().get(i).getStartPosition();
                 final Circle pawn = createPawn(player.getColor());
                 final Pawn logicPawn = player.getPawns().get(i);
                 pawn.setOnMouseEntered(event -> pawn.setCursor(Cursor.HAND));
-                pawn.setOnMouseClicked(e -> LOGGER.error("Stampo X: " + e.getX()));
-                pawn.setOnMouseClicked(mouseEvent -> {
-                    if (controller.getMalusClicked() && !player.equals(controller.getGame().getTurn().getCurrentPlayer())) {
+                final int index = i;
+
+                pawn.setOnMouseClicked(e -> {
+
+                    LOGGER.error("Click..");
+                    if (controller.canMovePawn(player.getPawns().get(index))) {
+                        // final Position actualPos = player.getPawns().get(index).getPosition();
+                        controller.getGame().getMovement().move(player.getPawns().get(index),
+                                controller.getGame().getTurn().getDiceResult(), controller.getGame());
+                        final Position newPos = player.getPawns().get(index).getPosition();
+
+                        // actualPos = newPos;
+
+                        pawn.setTranslateX((newPos.getX() - pos.getX()) * CELL_WIDTH);
+                        pawn.setTranslateY((newPos.getY() - pos.getY()) * CELL_WIDTH);
+                    } else if (controller.getMalusClicked() && !player.equals(controller.getGame().getTurn().getCurrentPlayer())) {
                         controller.getGame().getTurn().getCurrentPlayer().useItem(
                         controller.getItemToUse(), player, logicPawn, controller.getGame());
                         new Alert(AlertType.NONE).setContentText(controller.getGame().getTurn().getCurrentPlayer().getName()
                             + " ha usato " + controller.getItemToUse().getName() + " su " + player.getName());
                     }
                 });
-                final Position pos = player.getPawns().get(i).getStartPosition();
-                this.boardPanel.add(pawn, pos.getY(), pos.getX()); // inverted X and Y
+                
+
+                pawns.add(pawn);
+
+                this.boardPanel.add(pawn, pos.getX(), pos.getY());
 
                 /*
-                model.Movement m = new model.Movement(); (da usare successivamente per
-                testare se va)
-
-                pawn.setOnMouseClicked(event -> {
-                    // m.move();
-                    // LOGGER.error("-- moving pawn");
-                    pawn.setTranslateX(controller.getPlayersNumber());
-                    pawn.setTranslateY(pawn.getTranslateX() + Index.FIVE);
-                    event.consume();
-                });
-                */
+                 * model.Movement m = new model.Movement(); (da usare successivamente per
+                 * testare se va)
+                 * 
+                 * pawn.setOnMouseClicked(event -> {
+                 * // m.move();
+                 * // LOGGER.error("-- moving pawn");
+                 * pawn.setTranslateX(controller.getPlayersNumber());
+                 * pawn.setTranslateY(pawn.getTranslateX() + Index.FIVE);
+                 * event.consume();
+                 * });
+                 */
             }
         }
     }

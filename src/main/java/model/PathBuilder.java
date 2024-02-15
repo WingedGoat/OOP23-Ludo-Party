@@ -22,6 +22,8 @@ public final class PathBuilder {
     public PathBuilder(final int x, final int y) {
         positions.clear();
         positions.add(new Position(x, y));
+        this.x = x;
+        this.y = y;
     }
 
     /**

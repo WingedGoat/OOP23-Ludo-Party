@@ -7,7 +7,9 @@ import controller.api.Controller;
 import model.GameImpl;
 import model.api.Game;
 import model.api.Item;
+import model.api.Pawn;
 import model.api.Player;
+import utility.BColor;
 import view.ViewUtility;
 
 /**
@@ -22,6 +24,7 @@ public final class ControllerImpl implements Controller {
     private final int playersNumber;
     private final Game game;
     private boolean diceRolled;
+    private boolean pawnMoved;
 
     private boolean malusClicked;
     private Item itemToUse;
@@ -30,8 +33,8 @@ public final class ControllerImpl implements Controller {
     /**
      * Constructor.
      * 
-     * @param stage the stage
-     * @param playerName the player name
+     * @param stage         the stage
+     * @param playerName    the player name
      * @param playersNumber the number of players of the game
      */
     public ControllerImpl(final Stage stage, final String playerName, final int playersNumber) {
@@ -86,16 +89,13 @@ public final class ControllerImpl implements Controller {
         if (!malusClicked) {
             return false;
         }
+        //implementare in base a quale stringa conterrà il Button dei Player avversari
         malusClicked = false;
         return true;
     }
 
-    /**
-     * Checks if the User can roll the Dice.
-     * 
-     * @return true if the roll-Dice Button has been clicked at the right time
-    */
-    public boolean clickRollDiceButton() {
+    @Override
+    public boolean canRollDice() {
         if (this.diceRolled) {
             return false;
         }
@@ -103,40 +103,55 @@ public final class ControllerImpl implements Controller {
         return true;
     }
 
-    /*
-     * Handles the click of any Button of the board.
-     * 
-     * @param clickedButton the button of the board which was clicked
-     * 
-     * @return true if the board Button was rightfully clicked
-
-    public boolean clickBoardButton(final Button clickedButton) {
+    @Override
+    public boolean canMovePawn(final Pawn pawn) {
+        if (!this.diceRolled || this.pawnMoved) {
+            return false;
+        }
+        if (pawn.getColor() != BColor.BLUE) {
+            return false;
+        }
+        final int diceResult = getGame().getTurn().getDiceResult();
+        /*
+         * Se è possibile muovere la pedina cliccata, imposto pawnMoved a true.
+         * Già verificata (in PlayerPanelLeft) la casistica in cui non è possibile muovere nessuna pedina.
+         */
+        if (getGame().getMovement().playerCanMoveThePawn(pawn, diceResult)) {
+            this.pawnMoved = true;
+        }
         return true;
     }
-     */
-    /*
+
+    /**
      * Checks if it's the right moment to press ENTER.
      * 
      * @return true if ENTER key is pressed when it's actually possible to change turn
-
-    public boolean pressEnterKey() {
-        if (!this.diceRolled) {
+    */
+    @Override
+    public boolean canPassTurn() {
+        if (!this.pawnMoved) {
             return false;
         }
         this.diceRolled = false;
+        this.pawnMoved = false;
         return true;
     }
-     */
-    /*
+
+    @Override
+    public void setPawnMoved(final boolean b) {
+        this.pawnMoved = b;
+    }
+
+    /**
      * A computer player plays its turn.
      * 
      * @param i the computer player's index
-
-    public void playTurn(final int i) {
-        turn.setShowcase(game.getShowcase());
-        turn.play(game.getPlayers().get(i), this.game);
-    }
-    */
+     * 
+     *          public void playTurn(final int i) {
+     *          turn.setShowcase(game.getShowcase());
+     *          turn.play(game.getPlayers().get(i), this.game);
+     *          }
+     */
 
     /*
      * Provides the GUI a String containing a Player and its Dice result.
@@ -144,14 +159,15 @@ public final class ControllerImpl implements Controller {
      * @param i index of the current player
      * 
      * @return a String with the player's name and its dice result
-
-    public String getDiceResult(final int i) {
-        final String result = "Risultato " + game.getPlayers().get(i).getName() + ": ";
-        if (i == 0) {
-            return result + game.getPlayers().get(i).rollDice();
-        }
-        return result + turn.getDiceResult();
-    }
+     * 
+     *         public String getDiceResult(final int i) {
+     *         final String result = "Risultato " +
+     *         game.getPlayers().get(i).getName() + ": ";
+     *         if (i == 0) {
+     *         return result + game.getPlayers().get(i).rollDice();
+     *         }
+     *         return result + turn.getDiceResult();
+     *         }
      */
 
     @Override

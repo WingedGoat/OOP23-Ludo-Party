@@ -61,7 +61,7 @@ public final class Turn {
      * @return the current player
      */
     public Player getCurrentPlayer() {
-        return new PlayerImpl(this.currentPlayer);
+        return this.currentPlayer;
     }
 
     /**
@@ -71,6 +71,14 @@ public final class Turn {
      */
     public void passTurnTo(final Player player) {
         this.currentPlayer = player;
+    }
+
+    /**
+     * Set the last Dice result.
+     * @param diceResult the last Dice result.
+     */
+    public void setDiceResult(final int diceResult) {
+        this.diceResult = diceResult;
     }
 
 }

@@ -3,10 +3,8 @@ package view;
 import java.io.File;
 import java.nio.file.Path;
 
-import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
-import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -30,7 +28,10 @@ public abstract class PlayerPanel extends AnchorPane {
 
     private static final int PANE_HEIGHT = 600;
     private static final int CIRCLE_RADIUS = 80;
-    private static final int INNER_CIRCLE_RADIUS = 77;
+    /**
+     * The inner circle radius.
+     */
+    protected static final int INNER_CIRCLE_RADIUS = 77;
     private static final String CIRCLE_COLOR = "#555555";
     private static final String INNER_CIRCLE_COLOR = "#F1F1F1";
 
@@ -207,15 +208,6 @@ public abstract class PlayerPanel extends AnchorPane {
         diceImage.setImage(new Image(file.toURI().toString()));
         diceImage.setFitHeight(DICE_HEIGHT);
         diceImage.setFitWidth(DICE_WIDTH);
-
-        final Glow glow = new Glow(.8);
-        diceImage.setOnMouseEntered(mouseEvent -> {
-            diceImage.setEffect(glow);
-            diceImage.setCursor(Cursor.HAND);
-        });
-        diceImage.setOnMouseExited(mouseEvent -> {
-            diceImage.setEffect(null);
-        });
 
         return diceImage;
     }
