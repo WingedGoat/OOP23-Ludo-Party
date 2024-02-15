@@ -19,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import java.util.List;
+import java.util.Random;
 import java.util.ArrayList;
 
 import model.Position;
@@ -51,6 +52,7 @@ public class BoardScene extends Scene {
             + "-fx-background-radius: 0";
     private final GridPane boardPanel;
     private final List<Circle> pawns = new ArrayList<>();
+    private final Random r = new Random();
 
     /**
      * Constructor.
@@ -112,7 +114,6 @@ public class BoardScene extends Scene {
                     ((Group) (rightPane.getChildren().get(0))).getChildren().remove(1);
                     ((Group) (rightPane.getChildren().get(0))).getChildren().add(1, c);
                     */
-                    final Position pos = controller.getGame().getPlayers().get(i).getPawns().get(0).getStartPosition();
 
                     controller.getGame().getTurn().passTurnTo(controller.getGame().getPlayers().get(i));
                     ImageView diceImage = null;
@@ -133,16 +134,33 @@ public class BoardScene extends Scene {
                     }
                     final int diceResult = controller.getGame().getTurn().getCurrentPlayer().rollDice();
                     leftPane.showDiceNumber(diceImage, diceResult);
-                    // al momento il computer muove solo la sua prima pedina. da implementare una
-                    // scelta più ragionata.
-                    controller.getGame().getMovement().move(controller.getGame().getPlayers().get(i).getPawns().get(0),
-                            diceResult, controller.getGame());
-                    final Position newPos = controller.getGame().getPlayers().get(i).getPawns().get(0).getPosition();
 
-                    this.boardPanel.getChildren().get(i);
+                    int indexPawnToMove = r.nextInt(controller.getGame().getPlayers().get(i).getPawns().size());
+                    /*
+                     * Il Computer cambia la scelta del Pawn da muovere, finché:
+                     * continua a sceglierne uno che NON si può muovere, però
+                     * ne ha altri che POSSONO effettuare un movimento
+                     */
+                    while (!controller.getGame().getMovement().playerCanMoveThePawn(
+                                controller.getGame().getPlayers().get(i).getPawns().get(indexPawnToMove), diceResult
+                        ) && controller.getGame().getMovement().playerCanMovePawns(
+                                diceResult, controller.getGame().getPlayers().get(i)
+                        )) {
+                        indexPawnToMove = r.nextInt(controller.getGame().getPlayers().get(i).getPawns().size());
+                    }
+                    final Position pos = controller.getGame().getPlayers().get(i)
+                        .getPawns().get(indexPawnToMove).getStartPosition();
+                    controller.getGame().getMovement().move(controller.getGame().getPlayers().get(i)
+                        .getPawns().get(indexPawnToMove), diceResult, controller.getGame());
+                    final Position newPos = controller.getGame().getPlayers().get(i)
+                        .getPawns().get(indexPawnToMove).getPosition();
 
-                    pawns.get(i * Constants.PLAYER_PAWNS).setTranslateX((newPos.getX() - pos.getX()) * CELL_WIDTH);
-                    pawns.get(i * Constants.PLAYER_PAWNS).setTranslateY((newPos.getY() - pos.getY()) * CELL_WIDTH);
+                    //this.boardPanel.getChildren().get(i);
+
+                    pawns.get(i * Constants.PLAYER_PAWNS + indexPawnToMove)
+                        .setTranslateX((newPos.getX() - pos.getX()) * CELL_WIDTH);
+                    pawns.get(i * Constants.PLAYER_PAWNS + indexPawnToMove).
+                        setTranslateY((newPos.getY() - pos.getY()) * CELL_WIDTH);
                 }
             }
         });
