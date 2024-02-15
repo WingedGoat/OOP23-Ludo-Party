@@ -43,4 +43,10 @@ public interface Controller {
      */
     boolean canPassTurn();
 
+    /**
+     * Set the pawnMoved field of controller.
+     * @param b the boolean value to set.
+     */
+    void setPawnMoved(boolean b);
+
 }

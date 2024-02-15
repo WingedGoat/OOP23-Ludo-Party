@@ -149,16 +149,11 @@ public class ControllerImpl implements Controller {
             return false;
         }
         final int diceResult = getGame().getTurn().getDiceResult();
-        final Player humanPlayer = getGame().getPlayers().get(0);
         /*
-         * Si ottiene il flag "pawnMoved" che consente di passare il turno, se:
-         * 
-         * NON è possibile muovere ALCUNA pedina, oppure
-         * E' possibile muovere la pedina cliccata (e quindi viene mossa).
-         * 
+         * Se è possibile muovere la pedina cliccata, imposto pawnMoved a true.
+         * Già verificata (in PlayerPanelLeft) la casistica in cui non è possibile muovere nessuna pedina.
          */
-        if (!getGame().getMovement().playerCanMovePawns(diceResult, humanPlayer)
-                || getGame().getMovement().playerCanMoveThePawn(pawn, diceResult)) {
+        if (getGame().getMovement().playerCanMoveThePawn(pawn, diceResult)) {
             this.pawnMoved = true;
         }
         return true;
@@ -172,6 +167,11 @@ public class ControllerImpl implements Controller {
         this.diceRolled = false;
         this.pawnMoved = false;
         return true;
+    }
+
+    @Override
+    public final void setPawnMoved(final boolean b) {
+        this.pawnMoved = b;
     }
 
     /**

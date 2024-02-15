@@ -51,6 +51,13 @@ public final class PlayerPanelLeft extends PlayerPanel {
                 final int diceResult = ctrl.getGame().getTurn().getCurrentPlayer().rollDice();
                 ctrl.getGame().getTurn().setDiceResult(diceResult);
                 showDiceNumber(diceImage, diceResult);
+                /*
+                 * Se con il risultato ottenuto non è possibile muovere pedine,
+                 * imposto pawnMoved a true, così è già possibile premere ENTER e passare il turno (senza cliccare Pawn).
+                 */
+                if (!ctrl.getGame().getMovement().playerCanMovePawns(diceResult, ctrl.getGame().getPlayers().get(0))) {
+                    ctrl.setPawnMoved(true);
+                }
             }
         });
 
