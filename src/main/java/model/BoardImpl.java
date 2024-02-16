@@ -105,58 +105,42 @@ public final class BoardImpl implements Board {
 
     @Override
     public Set<Position> getBottomLeftHouse() {
-        final var set = new HashSet<Position>();
-        set.addAll(this.bottomLeftHouse);
-        return set;
+        return Set.copyOf(this.bottomLeftHouse);
     }
 
     @Override
     public Set<Position> getBottomLeftSafePath() {
-        final var set = new HashSet<Position>();
-        set.addAll(this.bottomLeftSafePath);
-        return set;
+        return Set.copyOf(this.bottomLeftSafePath);
     }
 
     @Override
     public Set<Position> getTopLeftHouse() {
-        final var set = new HashSet<Position>();
-        set.addAll(this.topLeftHouse);
-        return set;
+        return Set.copyOf(this.topLeftHouse);
     }
 
     @Override
     public Set<Position> getTopLeftSafePath() {
-        final var set = new HashSet<Position>();
-        set.addAll(this.topLeftSafePath);
-        return set;
+        return Set.copyOf(this.topLeftSafePath);
     }
 
     @Override
     public Set<Position> getTopRightHouse() {
-        final var set = new HashSet<Position>();
-        set.addAll(this.topRightHouse);
-        return set;
+        return Set.copyOf(this.topRightHouse);
     }
 
     @Override
     public Set<Position> getTopRightSafePath() {
-        final var set = new HashSet<Position>();
-        set.addAll(this.topRightSafePath);
-        return set;
+        return Set.copyOf(this.topRightSafePath);
     }
 
     @Override
     public Set<Position> getBottomRightHouse() {
-        final var set = new HashSet<Position>();
-        set.addAll(this.bottomRightHouse);
-        return set;
+        return Set.copyOf(this.bottomRightHouse);
     }
 
     @Override
     public Set<Position> getBottomRighSafePath() {
-        final var set = new HashSet<Position>();
-        set.addAll(this.bottomRighSafePath);
-        return set;
+        return Set.copyOf(this.bottomRighSafePath);
     }
 
     @Override
