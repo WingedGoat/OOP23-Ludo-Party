@@ -167,4 +167,28 @@ public interface Player {
      */
     void bonusExpired();
 
+    /**
+     * Set the value of the first dice when Daduplo is activated.
+     * @param diceResult the value of the first dice
+     */
+    void setDice1(int diceResult);
+
+    /**
+     * Set the value of the second dice when Daduplo is activated.
+     * @param diceResult the value of the second dice
+     */
+    void setDice2(int diceResult);
+
+    /**
+     * Return the value of the first dice when Daduplo is activated.
+     * @return the value of the first dice
+     */
+    int getDice1();
+
+    /**
+     * Return the value of the second dice when Daduplo is activated.
+     * @return the value of the second dice
+     */
+    int getDice2();
+
 }

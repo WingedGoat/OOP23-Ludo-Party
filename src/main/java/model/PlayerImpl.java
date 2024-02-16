@@ -32,6 +32,7 @@ public final class PlayerImpl implements Player {
     private final List<Item> playerItems = new ArrayList<>();
     private final List<Item> itemsApplied = new ArrayList<>();
     private boolean firstTurn = true;
+    private int dice1, dice2;
 
     /**
      * Player constructor.
@@ -149,11 +150,15 @@ public final class PlayerImpl implements Player {
             return Index.SIX;
         }
         if (itemsApplied.contains(Item.DADUPLO) && itemsApplied.contains(Item.TAGLIATELO)) {
-            return this.getDice().roll();
+            setDice1(this.getDice().roll() / 2); 
+            setDice2(this.getDice().roll() / 2);
+            return getDice1() + getDice2();
         } else if (itemsApplied.contains(Item.DADUPLO)) {
-            return this.getDice().roll() + this.getDice().roll();
+            setDice1(this.getDice().roll()); 
+            setDice2(this.getDice().roll());
+            return getDice1() + getDice2();
         } else if (itemsApplied.contains(Item.TAGLIATELO)) {
-            return this.getDice().roll() / 2;
+            return (this.getDice().roll() / 2);
         }
         return this.getDice().roll();
     }
@@ -225,4 +230,23 @@ public final class PlayerImpl implements Player {
         }
     }
 
+    @Override
+    public void setDice1(final int diceResult) {
+        this.dice1 = diceResult;
+    }
+
+    @Override
+    public void setDice2(final int diceResult) {
+        this.dice2 = diceResult;
+    }
+
+    @Override
+    public int getDice1() {
+        return this.dice1;
+    }
+
+    @Override
+    public int getDice2() {
+        return this.dice2;
+    }
 }
