@@ -47,6 +47,8 @@ public class BoardScene extends Scene {
     private static final String BG_RADIUS_CSS = "; -fx-border-color: #5A5858; -fx-border-width: 0.3px; "
             + "-fx-background-radius: 0";
     private final GridPane boardPanel;
+    private final BorderPane borderPane;
+
     private final PlayerPanelLeft leftPane;
     private final PlayerPanelRight rightPane;
     private final InventoryPane inventoryPane;
@@ -66,7 +68,7 @@ public class BoardScene extends Scene {
         stage.setTitle("Board");
 
         // borderpane - container
-        final BorderPane borderPane = (BorderPane) this.getRoot();
+        borderPane = (BorderPane) this.getRoot();
         borderPane.setMinSize(BOARD_PANEL_WIDTH, BOARD_PANEL_WIDTH);
         borderPane.setPadding(new Insets(ViewUtility.INSET_OS));
 
@@ -106,6 +108,14 @@ public class BoardScene extends Scene {
 
         stage.show();
         borderPane.requestFocus();
+    }
+
+    /**
+     * Return the borderpane.
+     * @return the borderpane
+     */
+    public BorderPane getBorderPane() {
+        return borderPane;
     }
 
     /**
@@ -181,7 +191,9 @@ public class BoardScene extends Scene {
                         || ctrl.getGame().getBoard().getBottomRighSafePath().contains(pos)) {
                     bt.setStyle(BG_COLOR_CSS + BColor.YELLOW.getHexColor() + BG_RADIUS_CSS);
                     bt.setOnMouseEntered(e -> bt.setCursor(null));
-                }
+                } //else if (ctrl.getGame().getBoard().getShops().contains(pos)) {
+
+                //}
 
                 bt.setPrefSize(CELL_WIDTH, CELL_WIDTH);
                 bt.setCursor(Cursor.HAND);
