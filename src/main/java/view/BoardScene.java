@@ -3,9 +3,7 @@ package view;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.BorderStroke;
@@ -21,7 +19,6 @@ import java.util.ArrayList;
 
 import controller.api.Controller;
 import model.Position;
-import model.api.Pawn;
 import model.api.Player;
 import utils.BColor;
 import utils.Constants;
@@ -204,29 +201,6 @@ public class BoardScene extends Scene {
             for (int i = 0; i < player.getPawns().size(); i++) {
                 final Position pos = player.getPawns().get(i).getStartPosition();
                 final Circle pawn = createPawn(player.getColor());
-                final Pawn logicPawn = player.getPawns().get(i);
-                pawn.setOnMouseEntered(event -> pawn.setCursor(Cursor.HAND));
-                final int index = i;
-
-                pawn.setOnMouseClicked(e -> {
-
-                    LOGGER.error("Click..");
-                    if (controller.canMovePawn(player.getPawns().get(index))) {
-                        // final Position actualPos = player.getPawns().get(index).getPosition();
-                        controller.getGame().getMovement().move(player.getPawns().get(index),
-                                controller.getGame().getTurn().getDiceResult(), controller.getGame());
-                        controller.updatePawnPositions();
-                    } else if (controller.getMalusClicked()
-                            && !player.equals(controller.getGame().getTurn().getCurrentPlayer())) {
-                        controller.getGame().getTurn().getCurrentPlayer().useItem(
-                                controller.getItemToUse(), player, logicPawn, controller.getGame());
-                        new Alert(AlertType.NONE)
-                                .setContentText(controller.getGame().getTurn().getCurrentPlayer().getName()
-                                        + " ha usato " + controller.getItemToUse().getName() + " su "
-                                        + player.getName());
-                    }
-                });
-
                 pawns.add(pawn);
 
                 this.boardPanel.add(pawn, pos.getX(), pos.getY());

@@ -88,7 +88,7 @@ public final class ShopImpl implements Shop {
 
     @Override
     public int getNewKey() {
-        return this.r.nextInt(Index.SIX);
+        return this.r.nextInt(Index.SIX) + 1;
     } 
 
     @Override

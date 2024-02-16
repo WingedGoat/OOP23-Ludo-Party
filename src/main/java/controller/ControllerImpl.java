@@ -1,9 +1,13 @@
 package controller;
 
+import javafx.scene.Cursor;
 import javafx.scene.Group;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import java.util.Random;
@@ -86,7 +90,7 @@ public final class ControllerImpl implements Controller, Runnable {
                     getGame().getTurn().passTurnTo(getGame().getPlayers().get(i));
                     ImageView diceImage = null;
                     if (getPlayersNumber() == 2) {
-                        diceImage = (ImageView) ((Group) (this.view.getLeftPane().getChildren().get(0)))
+                        diceImage = (ImageView) ((Group) (this.view.getRightPane().getChildren().get(0)))
                             .getChildren().get(4);
                     } else {
                         switch (i) {
@@ -130,6 +134,30 @@ public final class ControllerImpl implements Controller, Runnable {
                 }
             }
         });
+
+        for (int i = 0; i < this.view.getPawns().size(); i++) {
+            final Circle circle = this.view.getPawns().get(i);
+            final Player player = this.getGame().getPlayers().get(i / Constants.PLAYER_PAWNS);
+            final Pawn pawn = player.getPawns().get(i % Constants.PLAYER_PAWNS);
+
+            circle.setOnMouseEntered(event -> circle.setCursor(Cursor.HAND));
+
+            circle.setOnMouseClicked(e -> {
+                if (canMovePawn(pawn)) {
+                    // final Position actualPos = player.getPawns().get(index).getPosition();
+                    getGame().getMovement().move(pawn, getGame().getTurn().getDiceResult(), getGame());
+                    updatePawnPositions();
+                } else if (getMalusClicked()
+                        && !player.equals(getGame().getTurn().getCurrentPlayer())) {
+                    getGame().getTurn().getCurrentPlayer().useItem(
+                            getItemToUse(), player, pawn, getGame());
+                    new Alert(AlertType.NONE)
+                            .setContentText(getGame().getTurn().getCurrentPlayer().getName()
+                                    + " ha usato " + getItemToUse().getName() + " su "
+                                    + player.getName());
+                }
+            });
+        }
     }
 
     @Override

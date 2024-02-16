@@ -42,8 +42,8 @@ public class ShopPane extends BottomPane {
      * @param ctrl
      * @param plinp
      */
-    void createShopButton(final Item item, final Button button, 
-    final Controller ctrl, final InventoryPane plinp) {
+    final void createShopButton(final Item item, final Button button, 
+            final Controller ctrl, final InventoryPane plinp) {
         button.setText(item.getName() + ". \nCosto: " + item.getPrice() + " ludollari.");
         button.setTooltip(new Tooltip(item.getDescription() + "\n" + item.getType().name()));
         this.getButtonMap().put(button, item);
@@ -61,7 +61,7 @@ public class ShopPane extends BottomPane {
      * @param ctrl
      * @param plinp
      */
-    void setMousePressed(final Item item, final Button button, 
+    final void setMousePressed(final Item item, final Button button, 
             final Controller ctrl, final InventoryPane plinp) {
         button.setOnMousePressed(e -> {
             if (ctrl.humanClickShopButton(button, item)) {
