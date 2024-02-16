@@ -53,6 +53,7 @@ public final class ControllerImpl implements Controller, Runnable {
         this.view = ViewUtility.createBoardScene(this, stage);
         this.setInputHandler();
 
+        //this.view.getShopPane().refresh(null);
         // giocatore muove pedina
         // giocatore completa turno (compra o usa carte)
         // giocatore segnala fine turno (boolean turnIsOver) e win/continue

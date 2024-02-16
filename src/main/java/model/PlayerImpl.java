@@ -158,7 +158,7 @@ public final class PlayerImpl implements Player {
             setDice2(this.getDice().roll());
             return getDice1() + getDice2();
         } else if (itemsApplied.contains(Item.TAGLIATELO)) {
-            return (this.getDice().roll() / 2);
+            return this.getDice().roll() / 2;
         }
         return this.getDice().roll();
     }

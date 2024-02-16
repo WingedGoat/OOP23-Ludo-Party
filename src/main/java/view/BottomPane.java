@@ -24,13 +24,14 @@ public class BottomPane extends BorderPane {
     private final List<Button> buttons = new ArrayList<>();
     private final Map<Button, Item> buttonsMap = new HashMap<>();
     private final Button empybutton = new Button();
-    private Map<Button, Boolean> buttonPressed = new HashMap<>();
+    private Button buttonPressed;
     private final Alert allert = new Alert(AlertType.NONE);
 
     /** 
      * The contructor for the BottomPane.
     */
-    BottomPane() {
+    public BottomPane() {
+
         leftButton.setPrefSize(ITEM_BUTTON_WIDHT, ITEM_BUTTON_HEIGTH);
         leftButton.setDisable(true);
         centerButton.setPrefSize(ITEM_BUTTON_WIDHT, ITEM_BUTTON_HEIGTH);
@@ -43,12 +44,12 @@ public class BottomPane extends BorderPane {
         buttons.add(leftButton);
         buttons.add(centerButton);
         buttons.add(rightButton);
-        buttonPressed = Map.of(leftButton, false, centerButton, false, rightButton, false);
         buttonsMap.put(leftButton, null);
         buttonsMap.put(centerButton, null);
         buttonsMap.put(rightButton, null);
         this.empybutton.setText("*");
         this.empybutton.setDisable(true);
+        this.buttonPressed = null;
     }
     /** 
      * @return a copy of the left button
@@ -156,7 +157,16 @@ public class BottomPane extends BorderPane {
      * @param button
      */
     public void buttonPressed(final Button button) {
-        buttonPressed.replace(button, true);
+        this.buttonPressed = button;
+    }
+
+    /**
+     * Return the last button pressed.
+     * 
+     * @return the last button pressed
+     */
+    public Button getButtonPressed() {
+        return this.buttonPressed;
     }
 
     /**
