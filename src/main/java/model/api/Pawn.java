@@ -1,7 +1,7 @@
 package model.api;
 
 import model.Position;
-import model.api.Cell.Type;
+import model.api.Cell.CellType;
 import utils.BColor;
 
 /**
@@ -31,13 +31,6 @@ public interface Pawn {
     void setPosition(Position position);
 
     /**
-     * Returns the index of the pawn in the pawn list.
-     * 
-     * @return itemNo
-     */
-    int getItemNo();
-
-    /**
      * Returns the color of the pawn,
      * equals to the color associated to the player.
      * 
@@ -50,6 +43,6 @@ public interface Pawn {
      * 
      * @return the player house
      */
-    Type getPlayerHouse();
+    CellType getPlayerHouse();
 
 }

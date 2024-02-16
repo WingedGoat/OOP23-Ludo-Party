@@ -7,7 +7,7 @@ import java.util.Set;
 import model.api.Dice;
 import model.api.Game;
 import model.api.Item;
-import model.api.Cell.Type;
+import model.api.Cell.CellType;
 import utils.BColor;
 import utils.Constants;
 import utils.Index;
@@ -22,7 +22,7 @@ public final class PlayerImpl implements Player {
     private final String name;
     private final PlayerType type;
     private final BColor color;
-    private final Type playerHouse;
+    private final CellType playerHouse;
     private final Set<Position> safePath;
     private final List<Pawn> pawns;
     private final Dice dice;
@@ -45,7 +45,7 @@ public final class PlayerImpl implements Player {
      * @param pawnsStartPos the player pawns start positions
      */
     public PlayerImpl(final String name, final PlayerType type,
-            final BColor color, final Type playerHouse, final Set<Position> safePath, final List<Position> pawnsStartPos) {
+            final BColor color, final CellType playerHouse, final Set<Position> safePath, final List<Position> pawnsStartPos) {
         this.name = name;
         this.type = type;
         this.color = color;
@@ -54,28 +54,12 @@ public final class PlayerImpl implements Player {
         this.pawns = new ArrayList<>();
 
         for (int i = 0; i < Constants.PLAYER_PAWNS; i++) {
-            this.pawns.add(new PawnImpl(pawnsStartPos.get(i), i, playerHouse, color));
+            this.pawns.add(new PawnImpl(pawnsStartPos.get(i), playerHouse, color));
         }
 
         this.coins = 0;
         this.isPlayerTurn = false;
         this.dice = new BasicDiceImpl();
-    }
-
-    /**
-     * Constructor.
-     * @param p the player
-     */
-    public PlayerImpl(final Player p) {
-        this.name = p.getName();
-        this.type = p.getType();
-        this.color = p.getColor();
-        this.playerHouse = p.getPlayerHouse();
-        this.safePath = p.getSafePath();
-        this.pawns = p.getPawns();
-        this.coins = p.getCoins();
-        this.isPlayerTurn = p.isPlayerTurn();
-        this.dice = p.getDice();
     }
 
     // getters
@@ -96,7 +80,7 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public Type getPlayerHouse() {
+    public CellType getPlayerHouse() {
         return playerHouse;
     }
 
@@ -133,14 +117,6 @@ public final class PlayerImpl implements Player {
     @Override
     public Dice getDice() {
         return this.dice;
-    }
-
-    @Override
-    public String toString() {
-        return "PlayerImpl [name=" + name + ", type=" + type + ", color=" + color + ", playerHouse=" + playerHouse
-                + ", safePath=" + safePath + ", pawns=" + pawns + ", dice=" + dice + ", coins=" + coins
-                + ", isPlayerTurn=" + isPlayerTurn + ", playerItems=" + playerItems + ", itemsApplied=" + itemsApplied
-                + "]";
     }
 
     @Override
@@ -193,20 +169,13 @@ public final class PlayerImpl implements Player {
         this.playerItems.remove(item);
 
         if (item.getType().equals(Item.Type.BONUS)) {
-
             player.addToItemsApplied(item);
-
         } else if (!player.getItemsApplied().contains(Item.BASTIONE)) {
-
             player.addToItemsApplied(item);
-
         } else if (item.getId() == Item.ARIETE.getId()) {
-
             player.getItemsApplied().remove(Item.BASTIONE);
             player.addToItemsApplied(item);
-
         } else if (item.getId() == Item.REGOLA_DEI_4.getId()) {
-
             final Movement move = new Movement();
             move.move(pawn, Index.FOUR, game);
        }
@@ -249,4 +218,13 @@ public final class PlayerImpl implements Player {
     public int getDice2() {
         return this.dice2;
     }
+
+    @Override
+    public String toString() {
+        return "PlayerImpl [name=" + name + ", type=" + type + ", color=" + color + ", playerHouse=" + playerHouse
+                + ", safePath=" + safePath + ", pawns=" + pawns + ", dice=" + dice + ", coins=" + coins
+                + ", isPlayerTurn=" + isPlayerTurn + ", playerItems=" + playerItems + ", itemsApplied=" + itemsApplied
+                + ", firstTurn=" + firstTurn + ", dice1=" + dice1 + ", dice2=" + dice2 + "]";
+    }
+
 }

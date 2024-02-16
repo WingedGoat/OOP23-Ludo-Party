@@ -6,7 +6,7 @@ import model.api.Dice;
 /**
  * A standard dice with 6 possible results.
  */
-public class BasicDiceImpl implements Dice {
+public final class BasicDiceImpl implements Dice {
 
     /**
      * Number of faces.
@@ -18,10 +18,6 @@ public class BasicDiceImpl implements Dice {
      */
     private final Random r = new Random();
 
-    /**
-     * Returns a random number between 1 and 6.
-     * @return the dice result.
-     */
     @Override
     public int roll() {
         return r.nextInt(FACES) + 1;

@@ -7,7 +7,7 @@ import java.util.Set;
 
 import model.api.Board;
 import model.api.Cell;
-import model.api.Cell.Type;
+import model.api.Cell.CellType;
 import model.api.Game;
 import model.api.Item;
 import model.api.Player;
@@ -39,17 +39,17 @@ public final class GameImpl implements Game {
 
         // add players
         this.humanPlayer = new PlayerImpl(playerName, PlayerType.HUMAN,
-                BColor.BLUE, Type.BOTTOM_LEFT_HOUSE, board.getBottomLeftSafePath(),
+                BColor.BLUE, CellType.BOTTOM_LEFT_HOUSE, board.getBottomLeftSafePath(),
                 board.getBottomLeftPawnsStartPos());
         final Player p1 = new PlayerImpl("Player 2", PlayerType.COMPUTER,
-                BColor.GREEN, Type.TOP_RIGHT_HOUSE, board.getTopRightSafePath(), board.getTopRightPawnsStartPos());
+                BColor.GREEN, CellType.TOP_RIGHT_HOUSE, board.getTopRightSafePath(), board.getTopRightPawnsStartPos());
         this.players = new ArrayList<>(List.of(this.humanPlayer, p1));
 
         if (playersNumber > players.size()) {
             final Player p2 = new PlayerImpl("Player 3", PlayerType.COMPUTER,
-                    BColor.RED, Type.TOP_LEFT_HOUSE, board.getTopLeftSafePath(), board.getTopLeftPawnsStartPos());
+                    BColor.RED, CellType.TOP_LEFT_HOUSE, board.getTopLeftSafePath(), board.getTopLeftPawnsStartPos());
             final Player p3 = new PlayerImpl("Player 4", PlayerType.COMPUTER,
-                    BColor.YELLOW, Type.BOTTOM_RIGHT_HOUSE, board.getBottomRighSafePath(),
+                    BColor.YELLOW, CellType.BOTTOM_RIGHT_HOUSE, board.getBottomRighSafePath(),
                     board.getBottomRightPawnsStartPos());
             this.players.add(p2);
             this.players.add(p3);
@@ -80,7 +80,7 @@ public final class GameImpl implements Game {
 
     @Override
     public Player getHumanPlayer() {
-        return new PlayerImpl(this.humanPlayer);
+        return this.humanPlayer;
     }
 
     @Override

@@ -13,7 +13,7 @@ public interface Cell {
     /**
      * Cell Type.
      */
-    enum Type {
+    enum CellType {
         /**
          * Bottom left house.
          */
@@ -47,9 +47,9 @@ public interface Cell {
          */
         BOTTOM_RIGHT_SAFE_PATH,
         /**
-         * White path.
+         * White cell.
          */
-        WHITE_PATH
+        WHITE_CELL
     }
 
     /**
@@ -99,7 +99,7 @@ public interface Cell {
      * 
      * @return the cell type
      */
-    Type getType();
+    CellType getType();
 
     /**
      * Adds a pawn to a cell.

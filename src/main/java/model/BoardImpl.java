@@ -12,7 +12,7 @@ import java.util.stream.IntStream;
 
 import model.api.Board;
 import model.api.Cell;
-import model.api.Cell.Type;
+import model.api.Cell.CellType;
 import utils.Constants;
 import utils.Index;
 
@@ -75,25 +75,25 @@ public final class BoardImpl implements Board {
 
                 Cell cell;
                 if (this.bottomLeftHouse.contains(pos)) {
-                    cell = new CellImpl(pos, Type.BOTTOM_LEFT_HOUSE);
+                    cell = new CellImpl(pos, CellType.BOTTOM_LEFT_HOUSE);
                 } else if (this.topLeftHouse.contains(pos)) {
-                    cell = new CellImpl(pos, Type.TOP_LEFT_HOUSE);
+                    cell = new CellImpl(pos, CellType.TOP_LEFT_HOUSE);
                 } else if (this.topRightHouse.contains(pos)) {
-                    cell = new CellImpl(pos, Type.TOP_RIGHT_HOUSE);
+                    cell = new CellImpl(pos, CellType.TOP_RIGHT_HOUSE);
                 } else if (this.bottomRightHouse.contains(pos)) {
-                    cell = new CellImpl(pos, Type.BOTTOM_RIGHT_HOUSE);
+                    cell = new CellImpl(pos, CellType.BOTTOM_RIGHT_HOUSE);
                 } else if (this.bottomLeftSafePath.contains(pos)) {
-                    cell = new CellImpl(pos, true, Type.BOTTOM_LEFT_SAFE_PATH);
+                    cell = new CellImpl(pos, true, CellType.BOTTOM_LEFT_SAFE_PATH);
                 } else if (this.topLeftSafePath.contains(pos)) {
-                    cell = new CellImpl(pos, true, Type.TOP_LEFT_SAFE_PATH);
+                    cell = new CellImpl(pos, true, CellType.TOP_LEFT_SAFE_PATH);
                 } else if (this.topRightSafePath.contains(pos)) {
-                    cell = new CellImpl(pos, true, Type.TOP_RIGHT_SAFE_PATH);
+                    cell = new CellImpl(pos, true, CellType.TOP_RIGHT_SAFE_PATH);
                 } else if (this.bottomRighSafePath.contains(pos)) {
-                    cell = new CellImpl(pos, true, Type.BOTTOM_RIGHT_SAFE_PATH);
+                    cell = new CellImpl(pos, true, CellType.BOTTOM_RIGHT_SAFE_PATH);
                 } else if (this.shops.contains(pos)) {
-                    cell = new CellImpl(pos, false, true, false, Type.WHITE_PATH);
+                    cell = new CellImpl(pos, false, true, false, CellType.WHITE_CELL);
                 } else {
-                    cell = new CellImpl(pos, false, false, false, Type.WHITE_PATH);
+                    cell = new CellImpl(pos, false, false, false, CellType.WHITE_CELL);
                 }
 
                 this.cells.add(cell);
@@ -105,58 +105,42 @@ public final class BoardImpl implements Board {
 
     @Override
     public Set<Position> getBottomLeftHouse() {
-        final var set = new HashSet<Position>();
-        set.addAll(this.bottomLeftHouse);
-        return set;
+        return Set.copyOf(this.bottomLeftHouse);
     }
 
     @Override
     public Set<Position> getBottomLeftSafePath() {
-        final var set = new HashSet<Position>();
-        set.addAll(this.bottomLeftSafePath);
-        return set;
+        return Set.copyOf(this.bottomLeftSafePath);
     }
 
     @Override
     public Set<Position> getTopLeftHouse() {
-        final var set = new HashSet<Position>();
-        set.addAll(this.topLeftHouse);
-        return set;
+        return Set.copyOf(this.topLeftHouse);
     }
 
     @Override
     public Set<Position> getTopLeftSafePath() {
-        final var set = new HashSet<Position>();
-        set.addAll(this.topLeftSafePath);
-        return set;
+        return Set.copyOf(this.topLeftSafePath);
     }
 
     @Override
     public Set<Position> getTopRightHouse() {
-        final var set = new HashSet<Position>();
-        set.addAll(this.topRightHouse);
-        return set;
+        return Set.copyOf(this.topRightHouse);
     }
 
     @Override
     public Set<Position> getTopRightSafePath() {
-        final var set = new HashSet<Position>();
-        set.addAll(this.topRightSafePath);
-        return set;
+        return Set.copyOf(this.topRightSafePath);
     }
 
     @Override
     public Set<Position> getBottomRightHouse() {
-        final var set = new HashSet<Position>();
-        set.addAll(this.bottomRightHouse);
-        return set;
+        return Set.copyOf(this.bottomRightHouse);
     }
 
     @Override
     public Set<Position> getBottomRighSafePath() {
-        final var set = new HashSet<Position>();
-        set.addAll(this.bottomRighSafePath);
-        return set;
+        return Set.copyOf(this.bottomRighSafePath);
     }
 
     @Override
@@ -191,18 +175,21 @@ public final class BoardImpl implements Board {
 
     // create methods
 
+    private Set<Position> createHouse(final int startRow, final int endRow, final int startCol, final int endCol) {
+        return IntStream.range(startRow, endRow)
+                .mapToObj(i -> i)
+                .flatMap(i -> IntStream.range(startCol, endCol)
+                        .mapToObj(j -> new Position(i, j)))
+                .collect(Collectors.toCollection(() -> new HashSet<>()));
+    }
+
     /**
      * Creates the positions of the house at bottom left corner.
      * 
      * @return the house positions at bottom left corner
      */
     private Set<Position> createBottomLeftHouse() {
-
-        return IntStream.range(0, Index.SIX)
-                .mapToObj(i -> i)
-                .flatMap(i -> IntStream.range(Index.NINE, Constants.CELLS_NUMBER)
-                        .mapToObj(j -> new Position(i, j)))
-                .collect(Collectors.toCollection(() -> new HashSet<>()));
+        return createHouse(Index.ZERO, Index.SIX, Index.NINE, Index.FIFTEEN);
     }
 
     /**
@@ -211,12 +198,7 @@ public final class BoardImpl implements Board {
      * @return the house positions at top left corner
      */
     private Set<Position> createTopLeftHouse() {
-
-        return IntStream.range(0, Index.SIX)
-                .mapToObj(i -> i)
-                .flatMap(i -> IntStream.range(0, Index.SIX)
-                        .mapToObj(j -> new Position(i, j)))
-                .collect(Collectors.toCollection(() -> new HashSet<>()));
+        return createHouse(Index.ZERO, Index.SIX, Index.ZERO, Index.SIX);
     }
 
     /**
@@ -225,12 +207,7 @@ public final class BoardImpl implements Board {
      * @return the house positions at top right corner
      */
     private Set<Position> createTopRightHouse() {
-
-        return IntStream.range(Index.NINE, Constants.CELLS_NUMBER)
-                .mapToObj(i -> i)
-                .flatMap(i -> IntStream.range(0, Index.SIX)
-                        .mapToObj(j -> new Position(i, j)))
-                .collect(Collectors.toCollection(() -> new HashSet<>()));
+        return createHouse(Index.NINE, Index.FIFTEEN, Index.ZERO, Index.SIX);
     }
 
     /**
@@ -239,12 +216,7 @@ public final class BoardImpl implements Board {
      * @return the house positions at bottom right corner
      */
     private Set<Position> createBottomRightHouse() {
-
-        return IntStream.range(Index.NINE, Constants.CELLS_NUMBER)
-                .mapToObj(i -> i)
-                .flatMap(i -> IntStream.range(Index.NINE, Constants.CELLS_NUMBER)
-                        .mapToObj(j -> new Position(i, j)))
-                .collect(Collectors.toCollection(() -> new HashSet<>()));
+        return createHouse(Index.NINE, Index.FIFTEEN, Index.NINE, Index.FIFTEEN);
     }
 
     /**

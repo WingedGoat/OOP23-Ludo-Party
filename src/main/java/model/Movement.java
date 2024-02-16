@@ -183,9 +183,9 @@ public final class Movement {
                 }
             } else {
                 final Position pawnPos = p.getPawns().get(i).getPosition();
-                final int lastCellIndex = pathColors.get(p.getColor().ordinal()).size() - 1;
+                final int size = pathColors.get(p.getColor().ordinal()).size();
 
-                if (!pawnPos.equals(pathColors.get(p.getColor().ordinal()).get(lastCellIndex))) {
+                if (pathColors.get(p.getColor().ordinal()).indexOf(pawnPos) + diceResult < size) {
                     return true;
                 }
             }
@@ -208,9 +208,9 @@ public final class Movement {
             }
         } else {
             final Position pawnPos = pawn.getPosition();
-            final int lastCellIndex = pathColors.get(pawn.getColor().ordinal()).size() - 1;
+            final int size = pathColors.get(pawn.getColor().ordinal()).size();
 
-            if (!pawnPos.equals(pathColors.get(pawn.getColor().ordinal()).get(lastCellIndex))) {
+            if (pathColors.get(pawn.getColor().ordinal()).indexOf(pawnPos) + diceResult < size) {
                 return true;
             }
         }
