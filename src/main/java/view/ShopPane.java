@@ -1,6 +1,5 @@
 package view;
 
-import controller.api.Controller;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
@@ -9,25 +8,24 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
 
 import java.util.Collection;
 
-import javafx.scene.paint.Color;
-
 import model.api.Item;
+import controller.api.Controller;
 
-/** */
+/**
+ * The Shop Pane at the bottom of the board.
+ */
 public class ShopPane extends BottomPane {
 
-
-    /** 
+    /**
      * The contructor for the ShopPane.
      * 
-     * @param ctrl
-     * 
-     * @param board
-     * 
-    */
+     * @param ctrl  the controller
+     * @param board the board
+     */
     public ShopPane(final Controller ctrl, final BoardScene board) {
         super();
 
@@ -35,12 +33,11 @@ public class ShopPane extends BottomPane {
         final var items = itemsColl.stream().toList();
 
         for (int i = 0; i < itemsColl.size(); i++) {
-
             final Item item = items.get(i);
             final Button button = getButtons().get(i);
 
             buttonSetting(button, item, ctrl, board);
-        } 
+        }
     }
 
     /**

@@ -22,8 +22,6 @@ public final class Constants {
      */
     public static final int CELLS_NUMBER = 15;
 
-    private Constants() {
-
-    }
+    private Constants() { }
 
 }

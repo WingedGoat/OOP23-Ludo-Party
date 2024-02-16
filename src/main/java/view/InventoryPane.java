@@ -1,6 +1,5 @@
 package view;
 
-import controller.api.Controller;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
@@ -10,15 +9,14 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
+
+import controller.api.Controller;
 import model.api.Item;
 import utils.Index;
 
-//import model.api.Item;
-//import utility.Index;
-
-//import controller.api.Controller;
-//import javafx.scene.control.Tooltip;
-/** */
+/**
+ * The Inventory Pane at the bottom of the board.
+ */
 public class InventoryPane extends BottomPane {
 
     /**
@@ -31,20 +29,18 @@ public class InventoryPane extends BottomPane {
             final Button button = getButtons().get(i);
             button.setText("*");
         }
-
     }
 
     /**
      * Adding an item in the first empy button starting from the left to the right.
      * 
-     * @param item added in the inventory
-     * @param ctrl the controller to call
+     * @param item the item to add in the inventory
+     * @param ctrl the controller
      * @param board the board for the view interaction
      */
     public void addItem(final Item item, final Controller ctrl, final BoardScene board) { 
 
         final Button newButton = new Button();
-
         newButton.setText(item.getName());
         newButton.setTooltip(new Tooltip(item.getDescription() + item.getType()));
         newButton.setDisable(false);
@@ -105,4 +101,5 @@ public class InventoryPane extends BottomPane {
             }
         } 
     }
+
 }

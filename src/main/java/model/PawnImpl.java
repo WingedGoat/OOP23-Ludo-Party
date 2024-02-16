@@ -1,6 +1,7 @@
 package model;
 
 import model.api.Cell.CellType;
+import model.api.Game;
 import utils.BColor;
 import model.api.Pawn;
 
@@ -17,9 +18,9 @@ public final class PawnImpl implements Pawn {
     /**
      * Constructor.
      * 
-     * @param pos the position of the pawn in the board
+     * @param pos         the position of the pawn in the board
      * @param playerHouse the home position in the board
-     * @param color the color of the pawn
+     * @param color       the color of the pawn
      */
     public PawnImpl(final Position pos, final CellType playerHouse, final BColor color) {
         this.startPosition = pos;
@@ -51,6 +52,11 @@ public final class PawnImpl implements Pawn {
     @Override
     public CellType getPlayerHouse() {
         return playerHouse;
+    }
+
+    @Override
+    public void move(final int diceResult, final Game game) {
+        Movement.movePawn(this, getColor(), diceResult, game);
     }
 
 }
