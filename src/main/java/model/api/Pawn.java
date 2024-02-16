@@ -1,7 +1,7 @@
 package model.api;
 
 import model.Position;
-import model.api.Cell.Type;
+import model.api.Cell.CellType;
 import utils.BColor;
 
 /**
@@ -50,6 +50,6 @@ public interface Pawn {
      * 
      * @return the player house
      */
-    Type getPlayerHouse();
+    CellType getPlayerHouse();
 
 }

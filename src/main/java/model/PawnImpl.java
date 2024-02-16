@@ -1,6 +1,6 @@
 package model;
 
-import model.api.Cell.Type;
+import model.api.Cell.CellType;
 import utils.BColor;
 import model.api.Pawn;
 
@@ -12,7 +12,7 @@ public final class PawnImpl implements Pawn {
     private final Position startPosition;
     private Position currentPosition;
     private final int itemNo;
-    private final Type playerHouse;
+    private final CellType playerHouse;
     private final BColor color;
 
     /**
@@ -27,7 +27,7 @@ public final class PawnImpl implements Pawn {
      * @param color
      *                    the color of the pawn
      */
-    public PawnImpl(final Position pos, final int index, final Type playerHouse, final BColor color) {
+    public PawnImpl(final Position pos, final int index, final CellType playerHouse, final BColor color) {
         this.startPosition = pos;
         this.currentPosition = pos;
         this.itemNo = index;
@@ -61,7 +61,7 @@ public final class PawnImpl implements Pawn {
     }
 
     @Override
-    public Type getPlayerHouse() {
+    public CellType getPlayerHouse() {
         return playerHouse;
     }
 }

@@ -15,7 +15,7 @@ public final class CellImpl implements Cell {
     private final boolean isShop;
     private final boolean isEmpty;
     private final boolean isHome;
-    private final Type type;
+    private final CellType type;
     private final List<Pawn> pawns;
 
     /**
@@ -28,7 +28,7 @@ public final class CellImpl implements Cell {
      * @param type   the cell type
      */
     public CellImpl(final Position pos, final boolean isSafe, final boolean isShop, final boolean isHome,
-            final Type type) {
+            final CellType type) {
         this.position = pos;
         this.isSafe = isSafe;
         this.isShop = isShop;
@@ -42,9 +42,9 @@ public final class CellImpl implements Cell {
      * Constructor for home cells.
      * 
      * @param pos  the 2D position
-     * @param type the cell type {@link Type }
+     * @param type the cell type {@link CellType }
      */
-    public CellImpl(final Position pos, final Type type) {
+    public CellImpl(final Position pos, final CellType type) {
         this(pos, false, false, true, type);
     }
 
@@ -53,9 +53,9 @@ public final class CellImpl implements Cell {
      * 
      * @param pos    the 2D position
      * @param isSafe is safe cell
-     * @param type   the cell type {@link Type }
+     * @param type   the cell type {@link CellType }
      */
-    public CellImpl(final Position pos, final boolean isSafe, final Type type) {
+    public CellImpl(final Position pos, final boolean isSafe, final CellType type) {
         this(pos, isSafe, false, false, type);
     }
 
@@ -85,7 +85,7 @@ public final class CellImpl implements Cell {
     }
 
     @Override
-    public Type getType() {
+    public CellType getType() {
         return type;
     }
 

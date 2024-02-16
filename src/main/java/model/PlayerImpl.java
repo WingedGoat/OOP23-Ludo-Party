@@ -7,7 +7,7 @@ import java.util.Set;
 import model.api.Dice;
 import model.api.Game;
 import model.api.Item;
-import model.api.Cell.Type;
+import model.api.Cell.CellType;
 import utils.BColor;
 import utils.Constants;
 import utils.Index;
@@ -22,7 +22,7 @@ public final class PlayerImpl implements Player {
     private final String name;
     private final PlayerType type;
     private final BColor color;
-    private final Type playerHouse;
+    private final CellType playerHouse;
     private final Set<Position> safePath;
     private final List<Pawn> pawns;
     private final Dice dice;
@@ -45,7 +45,7 @@ public final class PlayerImpl implements Player {
      * @param pawnsStartPos the player pawns start positions
      */
     public PlayerImpl(final String name, final PlayerType type,
-            final BColor color, final Type playerHouse, final Set<Position> safePath, final List<Position> pawnsStartPos) {
+            final BColor color, final CellType playerHouse, final Set<Position> safePath, final List<Position> pawnsStartPos) {
         this.name = name;
         this.type = type;
         this.color = color;
@@ -96,7 +96,7 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public Type getPlayerHouse() {
+    public CellType getPlayerHouse() {
         return playerHouse;
     }
 

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import model.Position;
-import model.api.Cell.Type;
+import model.api.Cell.CellType;
 import utils.BColor;
 
 /**
@@ -54,7 +54,7 @@ public interface Player {
      * 
      * @return the position of the house cell
      */
-    Type getPlayerHouse();
+    CellType getPlayerHouse();
 
     /**
      * Gets the player safe path on the board.
