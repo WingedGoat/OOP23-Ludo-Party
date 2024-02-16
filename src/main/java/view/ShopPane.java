@@ -41,8 +41,6 @@ public class ShopPane extends BottomPane {
 
             buttonSetting(button, item, ctrl, board);
         } 
-
-        disableShop();
     }
 
     /**

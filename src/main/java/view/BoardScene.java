@@ -93,6 +93,7 @@ public class BoardScene extends Scene {
         // hbox - bottom panel for Player Bonus/Malus and Shop
         this.inventoryPane = new InventoryPane();
         this.shopPane = new ShopPane(controller, this);
+        this.shopPane.disableShop();
         final BorderPane bottomPane = new BorderPane();
         bottomPane.setTop(inventoryPane);
         bottomPane.setBottom(shopPane);
