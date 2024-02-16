@@ -35,11 +35,11 @@ public class BottomPane extends BorderPane {
     public BottomPane() {
 
         leftButton.setPrefSize(ITEM_BUTTON_WIDHT, ITEM_BUTTON_HEIGTH);
-        //leftButton.setDisable(true);
+        leftButton.setDisable(true);
         centerButton.setPrefSize(ITEM_BUTTON_WIDHT, ITEM_BUTTON_HEIGTH);
-        //centerButton.setDisable(true);
+        centerButton.setDisable(true);
         rightButton.setPrefSize(ITEM_BUTTON_WIDHT, ITEM_BUTTON_HEIGTH);
-        //rightButton.setDisable(true);
+        rightButton.setDisable(true);
 
         this.setLeft(leftButton);
         this.setCenter(centerButton);
