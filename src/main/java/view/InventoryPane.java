@@ -46,14 +46,19 @@ public class InventoryPane extends BottomPane {
         });
 
         newButton.setOnMousePressed(mouseEvent -> {
-            buttonPressed(newButton);
-            if (ctrl.clickBonusButton(getButtonMap().get(newButton))) {
-                ctrl.getGame().getHumanPlayer().useItem(item, null, null, ctrl.getGame());
-                getAlert().setContentText("Hai usato " + item.getName() + ".");
-                ordinateUsedInventory(newButton);
+
+            final Button pressdButton = (Button) mouseEvent.getSource();
+            final Item chooseItem = getButtonMap().get(pressdButton);
+            buttonPressed(pressdButton);
+
+            if (ctrl.clickBonusButton(chooseItem)) {
+                ctrl.getGame().getHumanPlayer().useItem(chooseItem, null, null, ctrl.getGame());
+                getAlert().setContentText("Hai usato " + chooseItem.getName() + ".");
+                ordinateUsedInventory(pressdButton);
             } 
-            ctrl.setItemToUse(item);
-            ordinateUsedInventory(newButton);
+            ctrl.setItemToUse(chooseItem);
+            pressdButton.setDisable(true);
+            ordinateUsedInventory(pressdButton);
         });
 
         if (getCenterButton().equals(this.getEmpyButton())) { 

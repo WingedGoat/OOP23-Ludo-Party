@@ -56,11 +56,6 @@ public final class ControllerImpl implements Controller, Runnable {
         this.game = new GameImpl(playerName, playersNumber);
         this.view = ViewUtility.createBoardScene(this, stage);
         this.setInputHandler();
-
-        //this.view.getShopPane().refresh(null);
-        // giocatore muove pedina
-        // giocatore completa turno (compra o usa carte)
-        // giocatore segnala fine turno (boolean turnIsOver) e win/continue
     }
 
     @Override
@@ -186,6 +181,7 @@ public final class ControllerImpl implements Controller, Runnable {
         if (NOT_ENOUGH_SPACE.equals(outcome) || NOT_ENOUGH_MONEY.equals(outcome) || DUPLICATE.equals(outcome)) {
             return false;
         }
+        this.view.getInventoryPane().addItem(itemOfClickedButton, this);
         return true;
     }
 

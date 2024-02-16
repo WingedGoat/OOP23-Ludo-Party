@@ -76,6 +76,7 @@ public final class ShopImpl implements Shop {
         while (showcase.containsKey(newkey)) {
             newkey = getNewKey();
         }
+
         setNewItem(items.get(newkey));
         showcase.remove(itemselled.getId(), itemselled);
         showcase.put(newkey, items.get(newkey));
