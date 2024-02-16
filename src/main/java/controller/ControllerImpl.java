@@ -1,12 +1,16 @@
 package controller;
 
+import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
@@ -145,12 +149,11 @@ public final class ControllerImpl implements Controller, Runnable {
                     updatePawnPositions();
                 } else if (getMalusClicked()
                         && !player.equals(getGame().getTurn().getCurrentPlayer())) {
-                    getGame().getTurn().getCurrentPlayer().useItem(
-                            getItemToUse(), player, pawn, getGame());
-                    new Alert(AlertType.NONE)
-                            .setContentText(getGame().getTurn().getCurrentPlayer().getName()
-                                    + " ha usato " + getItemToUse().getName() + " su "
-                                    + player.getName());
+                    final Label message = new Label(getGame().getTurn().getCurrentPlayer().getName() + " ha usato " 
+                            + getItemToUse().getName() + " su " + player.getName());
+                    message.setBackground(new Background(new BackgroundFill(Color.PURPLE, CornerRadii.EMPTY, Insets.EMPTY)));
+                    view.getShopPane().getPopupMessage().getContent().add(message);
+                    view.getShopPane().getPopupMessage().show(view.getWindow());
                 }
             });
         }
@@ -181,7 +184,7 @@ public final class ControllerImpl implements Controller, Runnable {
         if (NOT_ENOUGH_SPACE.equals(outcome) || NOT_ENOUGH_MONEY.equals(outcome) || DUPLICATE.equals(outcome)) {
             return false;
         }
-        this.view.getInventoryPane().addItem(itemOfClickedButton, this);
+        this.view.getInventoryPane().addItem(itemOfClickedButton, this, view);
         return true;
     }
 
@@ -194,7 +197,7 @@ public final class ControllerImpl implements Controller, Runnable {
         return true;
     }
 
-    @Override
+    @Override //FIXME sta venendo utilizzato ? 
     public Boolean clickPlayerTargetOfMalus(final Button targetPlayer) {
         if (!malusClicked) {
             return false;
