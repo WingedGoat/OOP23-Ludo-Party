@@ -11,26 +11,19 @@ public final class PawnImpl implements Pawn {
 
     private final Position startPosition;
     private Position currentPosition;
-    private final int itemNo;
     private final CellType playerHouse;
     private final BColor color;
 
     /**
      * Constructor.
      * 
-     * @param pos
-     *                    the position of the pawn in the board
-     * @param index
-     *                    the index of the pawn in the list
-     * @param playerHouse
-     *                    the home position in the board
-     * @param color
-     *                    the color of the pawn
+     * @param pos the position of the pawn in the board
+     * @param playerHouse the home position in the board
+     * @param color the color of the pawn
      */
-    public PawnImpl(final Position pos, final int index, final CellType playerHouse, final BColor color) {
+    public PawnImpl(final Position pos, final CellType playerHouse, final BColor color) {
         this.startPosition = pos;
         this.currentPosition = pos;
-        this.itemNo = index;
         this.playerHouse = playerHouse;
         this.color = color;
     }
@@ -51,11 +44,6 @@ public final class PawnImpl implements Pawn {
     }
 
     @Override
-    public int getItemNo() {
-        return itemNo;
-    }
-
-    @Override
     public BColor getColor() {
         return color;
     }
@@ -64,4 +52,5 @@ public final class PawnImpl implements Pawn {
     public CellType getPlayerHouse() {
         return playerHouse;
     }
+
 }

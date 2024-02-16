@@ -54,7 +54,7 @@ public final class PlayerImpl implements Player {
         this.pawns = new ArrayList<>();
 
         for (int i = 0; i < Constants.PLAYER_PAWNS; i++) {
-            this.pawns.add(new PawnImpl(pawnsStartPos.get(i), i, playerHouse, color));
+            this.pawns.add(new PawnImpl(pawnsStartPos.get(i), playerHouse, color));
         }
 
         this.coins = 0;
@@ -136,14 +136,6 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public String toString() {
-        return "PlayerImpl [name=" + name + ", type=" + type + ", color=" + color + ", playerHouse=" + playerHouse
-                + ", safePath=" + safePath + ", pawns=" + pawns + ", dice=" + dice + ", coins=" + coins
-                + ", isPlayerTurn=" + isPlayerTurn + ", playerItems=" + playerItems + ", itemsApplied=" + itemsApplied
-                + "]";
-    }
-
-    @Override
     public int rollDice() {
         if (firstTurn) {  // force 6 at start of game in order to move at least the first pawn
             firstTurn = !firstTurn;
@@ -193,20 +185,13 @@ public final class PlayerImpl implements Player {
         this.playerItems.remove(item);
 
         if (item.getType().equals(Item.Type.BONUS)) {
-
             player.addToItemsApplied(item);
-
         } else if (!player.getItemsApplied().contains(Item.BASTIONE)) {
-
             player.addToItemsApplied(item);
-
         } else if (item.getId() == Item.ARIETE.getId()) {
-
             player.getItemsApplied().remove(Item.BASTIONE);
             player.addToItemsApplied(item);
-
         } else if (item.getId() == Item.REGOLA_DEI_4.getId()) {
-
             final Movement move = new Movement();
             move.move(pawn, Index.FOUR, game);
        }
@@ -249,4 +234,13 @@ public final class PlayerImpl implements Player {
     public int getDice2() {
         return this.dice2;
     }
+
+    @Override
+    public String toString() {
+        return "PlayerImpl [name=" + name + ", type=" + type + ", color=" + color + ", playerHouse=" + playerHouse
+                + ", safePath=" + safePath + ", pawns=" + pawns + ", dice=" + dice + ", coins=" + coins
+                + ", isPlayerTurn=" + isPlayerTurn + ", playerItems=" + playerItems + ", itemsApplied=" + itemsApplied
+                + ", firstTurn=" + firstTurn + ", dice1=" + dice1 + ", dice2=" + dice2 + "]";
+    }
+
 }
