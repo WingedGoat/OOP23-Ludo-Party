@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import model.api.Cell.CellType;
 import model.api.Dice;
 import model.api.Game;
 import model.api.Item;
-import model.api.Cell.CellType;
+import model.api.Item.ItemType;
+import model.api.Pawn;
+import model.api.Player;
 import utils.BColor;
 import utils.Constants;
 import utils.Index;
-import model.api.Pawn;
-import model.api.Player;
 
 /**
  * Player Implementation class.
@@ -32,7 +33,8 @@ public final class PlayerImpl implements Player {
     private final List<Item> playerItems = new ArrayList<>();
     private final List<Item> itemsApplied = new ArrayList<>();
     private boolean firstTurn = true;
-    private int dice1, dice2;
+    private int firstDice;
+    private int secondDice;
 
     /**
      * Player constructor.
@@ -127,13 +129,13 @@ public final class PlayerImpl implements Player {
             return Index.SIX;
         }
         if (itemsApplied.contains(Item.DADUPLO) && itemsApplied.contains(Item.TAGLIATELO)) {
-            setDice1(this.getDice().roll() / 2);
-            setDice2(this.getDice().roll() / 2);
-            return getDice1() + getDice2();
+            setFirstDice(this.getDice().roll() / 2);
+            setSecondDice(this.getDice().roll() / 2);
+            return getFirstDice() + getSecondDice();
         } else if (itemsApplied.contains(Item.DADUPLO)) {
-            setDice1(this.getDice().roll());
-            setDice2(this.getDice().roll());
-            return getDice1() + getDice2();
+            setFirstDice(this.getDice().roll());
+            setSecondDice(this.getDice().roll());
+            return getFirstDice() + getSecondDice();
         } else if (itemsApplied.contains(Item.TAGLIATELO)) {
             return this.getDice().roll() / 2;
         }
@@ -170,7 +172,7 @@ public final class PlayerImpl implements Player {
 
         this.playerItems.remove(item);
 
-        if (item.getType().equals(Item.Type.BONUS)) {
+        if (item.getType().equals(ItemType.BONUS)) {
             player.addToItemsApplied(item);
         } else if (!player.getItemsApplied().contains(Item.BASTIONE)) {
             player.addToItemsApplied(item);
@@ -188,7 +190,7 @@ public final class PlayerImpl implements Player {
     @Override
     public void malusExpired() {
         for (final Item i : itemsApplied) {
-            if (i.getType().equals(Item.Type.MALUS)) {
+            if (i.getType().equals(Item.ItemType.MALUS)) {
                 itemsApplied.remove(i);
             }
         }
@@ -197,38 +199,46 @@ public final class PlayerImpl implements Player {
     @Override
     public void bonusExpired() {
         for (final Item i : itemsApplied) {
-            if (i.getType().equals(Item.Type.BONUS)) {
+            if (i.getType().equals(ItemType.BONUS)) {
                 itemsApplied.remove(i);
             }
         }
     }
 
-    @Override
-    public void setDice1(final int diceResult) {
-        this.dice1 = diceResult;
+    /**
+     * Sets the value of the first dice when {@link Item#DADUPLO} is activated.
+     * 
+     * @param diceResult the value of the first dice
+     */
+    public void setFirstDice(final int diceResult) {
+        this.firstDice = diceResult;
     }
 
-    @Override
-    public void setDice2(final int diceResult) {
-        this.dice2 = diceResult;
+    /**
+     * Sets the value of the second dice when {@link Item#DADUPLO} is activated.
+     * 
+     * @param diceResult the value of the second dice
+     */
+    public void setSecondDice(final int diceResult) {
+        this.secondDice = diceResult;
     }
 
-    @Override
-    public int getDice1() {
-        return this.dice1;
+    /**
+     * Gets the value of the first dice when {@link Item#DADUPLO} is activated.
+     * 
+     * @return the value of the first dice
+     */
+    private int getFirstDice() {
+        return this.firstDice;
     }
 
-    @Override
-    public int getDice2() {
-        return this.dice2;
-    }
-
-    @Override
-    public String toString() {
-        return "PlayerImpl [name=" + name + ", type=" + type + ", color=" + color + ", playerHouse=" + playerHouse
-                + ", safePath=" + safePath + ", pawns=" + pawns + ", dice=" + dice + ", coins=" + coins
-                + ", isPlayerTurn=" + isPlayerTurn + ", playerItems=" + playerItems + ", itemsApplied=" + itemsApplied
-                + ", firstTurn=" + firstTurn + ", dice1=" + dice1 + ", dice2=" + dice2 + "]";
+    /**
+     * Gets the value of the second dice when {@link Item#DADUPLO} is activated.
+     * 
+     * @return the value of the second dice
+     */
+    private int getSecondDice() {
+        return this.secondDice;
     }
 
 }

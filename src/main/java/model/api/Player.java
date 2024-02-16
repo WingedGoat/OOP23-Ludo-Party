@@ -14,6 +14,7 @@ public interface Player {
 
     /**
      * Player Type.
+     * 
      * @see HUMAN
      * @see COMPUTER
      */
@@ -36,21 +37,21 @@ public interface Player {
     String getName();
 
     /**
-     * Get the player type [HUMAN, COMPUTER].
+     * Gets the player type {@link PlayerType}.
      * 
      * @return the player type
      */
     PlayerType getType();
 
     /**
-     * Returns the color of the home box.
+     * Gets the color of the home box.
      * 
      * @return the color
      */
     BColor getColor();
 
     /**
-     * Gets the position of the house cell.
+     * Gets the position of the house cell {@link CellType}.
      * 
      * @return the position of the house cell
      */
@@ -64,23 +65,23 @@ public interface Player {
     Set<Position> getSafePath();
 
     /**
-     * Get the pawns of the current player.
+     * Gets the pawns of the player.
      * 
      * @return the pawns list
      */
     List<Pawn> getPawns();
 
     /**
-     * Returns the number of coins owned by the player.
+     * Gets the amount of coins owned by the player.
      * 
-     * @return the coins
+     * @return the amount of coins
      */
     int getCoins();
 
     /**
-     * Sets the coins of the current player.
+     * Sets the coins of the player.
      * 
-     * @param coins the coins
+     * @param coins the amount of coins
      */
     void setCoins(int coins);
 
@@ -98,97 +99,72 @@ public interface Player {
     void setPlayerTurn();
 
     /**
-     * Returns the type of Dice the player owns,
-     * everyone starts with a BasicDiceImpl.
+     * Gets the dice of the player.
      * 
-     * @return the Dice of the player.
+     * @return the dice of the player
      */
     Dice getDice();
 
     /**
      * Returns the value of the dice thrown.
      * 
-     * @return the value of the dice.
+     * @return the value of the dice
      */
     int rollDice();
 
     /**
      * Modify the amount of coins.
      * 
-     * @param value
+     * @param value the amount of coins
      */
     void modifyCoins(int value);
 
     /**
-     * Return the player items.
+     * Gets the player items.
      * 
      * @return the player items
      */
     List<Item> getPlayerItems();
 
     /**
-     * Add an item in the player's inventory.
+     * Add an item {@link Item} in the player's inventory.
      * 
-     * @param item
+     * @param item the item
      */
     void addItemPlayer(Item item);
 
     /**
-     * Add the item in the List of item activated on the player.
+     * Adds the {@link Item} in the items list activated on the player.
      * 
-     * @param item
+     * @param item the item
      */
     void addToItemsApplied(Item item);
 
     /**
-     * Returns the list of applied items.
+     * Gets the list of items applied.
      * 
      * @return the list of applied items
      */
     List<Item> getItemsApplied();
 
     /**
-     * Active the item on the designed player.
+     * Active the {@link Item} on the designed player.
      * 
-     * @param item
-     * @param player
-     * @param pawn
-     * @param game
+     * @param item   the item
+     * @param player the designed player
+     * @param pawn   the pawn affected by the item
+     * @param game   the game
      */
     void useItem(Item item, Player player, Pawn pawn, Game game);
 
     /**
-     * Remove the malus on the player after it is expired.
+     * Remove the {@link Item.ItemType#MALUS} on the player after it is expired.
      */
     void malusExpired();
 
     /**
-     * Remove the bonus on the player after it is expired.
+     * Remove the {@link Item.ItemType#BONUS} on the player after it is expired.
      */
     void bonusExpired();
-
-    /**
-     * Set the value of the first dice when Daduplo is activated.
-     * @param diceResult the value of the first dice
-     */
-    void setDice1(int diceResult);
-
-    /**
-     * Set the value of the second dice when Daduplo is activated.
-     * @param diceResult the value of the second dice
-     */
-    void setDice2(int diceResult);
-
-    /**
-     * Return the value of the first dice when Daduplo is activated.
-     * @return the value of the first dice
-     */
-    int getDice1();
-
-    /**
-     * Return the value of the second dice when Daduplo is activated.
-     * @return the value of the second dice
-     */
-    int getDice2();
 
 }
