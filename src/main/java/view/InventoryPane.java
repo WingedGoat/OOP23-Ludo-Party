@@ -28,6 +28,7 @@ public class InventoryPane extends BottomPane {
         for (int i = 0; i < this.getButtons().size(); i++) {
             final Button button = getButtons().get(i);
             button.setText("*");
+            //button.setDisable(true);
         }
     }
 
@@ -47,6 +48,7 @@ public class InventoryPane extends BottomPane {
 
         newButton.setOnMouseEntered(mouseEvent -> {
             newButton.setCursor(Cursor.HAND);
+            board.getBorderPane().requestFocus();
         });
 
         newButton.setOnMousePressed(mouseEvent -> {
@@ -67,6 +69,7 @@ public class InventoryPane extends BottomPane {
             ctrl.setItemToUse(chooseItem);
             pressdButton.setDisable(true);
             ordinateUsedInventory(pressdButton);
+            board.getBorderPane().requestFocus();
         });
 
         if (getCenterButton().equals(this.getEmpyButton())) { 

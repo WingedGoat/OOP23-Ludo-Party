@@ -155,6 +155,7 @@ public final class ControllerImpl implements Controller, Runnable {
                     view.getShopPane().getPopupMessage().getContent().add(message);
                     view.getShopPane().getPopupMessage().show(view.getWindow());
                     getGame().getTurn().getCurrentPlayer().useItem(itemToUse, player, pawn, game);
+                    view.getBorderPane().requestFocus();
                 }
             });
         }

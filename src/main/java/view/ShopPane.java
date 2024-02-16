@@ -56,6 +56,7 @@ public class ShopPane extends BottomPane {
 
         button.setOnMouseEntered(cursorHand -> {
             button.setCursor(Cursor.HAND);
+            board.getBorderPane().requestFocus();
         });
 
         button.setOnMousePressed(e -> {
@@ -83,6 +84,7 @@ public class ShopPane extends BottomPane {
                 getPopupMessage().getContent().add(message);
                 getPopupMessage().show(board.getWindow());
             }
+            board.getBorderPane().requestFocus();
         });
     }
 
