@@ -154,6 +154,7 @@ public final class ControllerImpl implements Controller, Runnable {
                     message.setBackground(new Background(new BackgroundFill(Color.PURPLE, CornerRadii.EMPTY, Insets.EMPTY)));
                     view.getShopPane().getPopupMessage().getContent().add(message);
                     view.getShopPane().getPopupMessage().show(view.getWindow());
+                    getGame().getTurn().getCurrentPlayer().useItem(itemToUse, player, pawn, game);
                 }
             });
         }
