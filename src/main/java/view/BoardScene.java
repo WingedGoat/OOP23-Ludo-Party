@@ -162,7 +162,7 @@ public class BoardScene extends Scene {
                 bt.setStyle("-fx-background-color: #fdfcfc;"
                         + "-fx-border-color: #5A5858; -fx-border-width: 0.5px; " + BG_RADIUS_CSS);
 
-                final Position pos = new Position(i, j);
+                final Position pos = new Position(j, i);
 
                 if (ctrl.getGame().getBoard().getBottomLeftHouse().contains(pos)
                         || ctrl.getGame().getBoard().getBottomLeftSafePath().contains(pos)) {

@@ -198,9 +198,9 @@ public final class BoardImpl implements Board {
      */
     private Set<Position> createBottomLeftHouse() {
 
-        return IntStream.range(Index.NINE, Constants.CELLS_NUMBER)
+        return IntStream.range(0, Index.SIX)
                 .mapToObj(i -> i)
-                .flatMap(i -> IntStream.range(0, Index.SIX)
+                .flatMap(i -> IntStream.range(Index.NINE, Constants.CELLS_NUMBER)
                         .mapToObj(j -> new Position(i, j)))
                 .collect(Collectors.toCollection(() -> new HashSet<>()));
     }
@@ -226,9 +226,9 @@ public final class BoardImpl implements Board {
      */
     private Set<Position> createTopRightHouse() {
 
-        return IntStream.range(0, Index.SIX)
+        return IntStream.range(Index.NINE, Constants.CELLS_NUMBER)
                 .mapToObj(i -> i)
-                .flatMap(i -> IntStream.range(Index.NINE, Constants.CELLS_NUMBER)
+                .flatMap(i -> IntStream.range(0, Index.SIX)
                         .mapToObj(j -> new Position(i, j)))
                 .collect(Collectors.toCollection(() -> new HashSet<>()));
     }
@@ -255,9 +255,9 @@ public final class BoardImpl implements Board {
     private Set<Position> createBottomLeftSafePath() {
 
         final Set<Position> safePath = new HashSet<>();
-        safePath.add(new Position(Index.THIRTEEN, Index.SIX));
-        for (int i = Index.EIGHT; i <= Index.THIRTEEN; i++) {
-            safePath.add(new Position(i, Index.SEVEN));
+        safePath.add(new Position(Index.SIX, Index.THIRTEEN));
+        for (int j = Index.EIGHT; j <= Index.THIRTEEN; j++) {
+            safePath.add(new Position(Index.SEVEN, j));
         }
 
         return safePath;
@@ -271,9 +271,9 @@ public final class BoardImpl implements Board {
     private Set<Position> createTopLeftSafePath() {
 
         final Set<Position> safePath = new HashSet<>();
-        safePath.add(new Position(Index.SIX, Index.ONE));
-        for (int j = Index.ONE; j <= Index.SIX; j++) {
-            safePath.add(new Position(Index.SEVEN, j));
+        safePath.add(new Position(Index.ONE, Index.SIX));
+        for (int i = Index.ONE; i <= Index.SIX; i++) {
+            safePath.add(new Position(i, Index.SEVEN));
         }
 
         return safePath;
@@ -287,9 +287,9 @@ public final class BoardImpl implements Board {
     private Set<Position> createTopRightSafePath() {
 
         final Set<Position> safePath = new HashSet<>();
-        safePath.add(new Position(Index.ONE, Index.EIGHT));
-        for (int i = Index.ONE; i <= Index.SIX; i++) {
-            safePath.add(new Position(i, Index.SEVEN));
+        safePath.add(new Position(Index.EIGHT, Index.ONE));
+        for (int j = Index.ONE; j <= Index.SIX; j++) {
+            safePath.add(new Position(Index.SEVEN, j));
         }
 
         return safePath;
@@ -303,9 +303,9 @@ public final class BoardImpl implements Board {
     private Set<Position> createBottomRightSafePath() {
 
         final Set<Position> safePath = new HashSet<>();
-        safePath.add(new Position(Index.EIGHT, Index.THIRTEEN));
-        for (int j = Index.EIGHT; j <= Index.THIRTEEN; j++) {
-            safePath.add(new Position(Index.SEVEN, j));
+        safePath.add(new Position(Index.THIRTEEN, Index.EIGHT));
+        for (int i = Index.EIGHT; i <= Index.THIRTEEN; i++) {
+            safePath.add(new Position(i, Index.SEVEN));
         }
 
         return safePath;
@@ -313,10 +313,10 @@ public final class BoardImpl implements Board {
 
     private Set<Position> createShops() {
         final Set<Position> sh = new HashSet<>();
-        sh.add(new Position(Index.EIGHT, 0));
-        sh.add(new Position(0, Index.SIX));
-        sh.add(new Position(Index.SIX, Index.FOURTEEN));
-        sh.add(new Position(Index.FOURTEEN, Index.EIGHT));
+        sh.add(new Position(0, Index.EIGHT));
+        sh.add(new Position(Index.SIX, 0));
+        sh.add(new Position(Index.FOURTEEN, Index.SIX));
+        sh.add(new Position(Index.EIGHT, Index.FOURTEEN));
 
         return sh;
     }
