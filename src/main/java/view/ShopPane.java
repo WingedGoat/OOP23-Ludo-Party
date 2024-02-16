@@ -41,6 +41,8 @@ public class ShopPane extends BottomPane {
 
             buttonSetting(button, item, ctrl, board);
         } 
+
+        disableShop();
     }
 
     /**
@@ -87,5 +89,25 @@ public class ShopPane extends BottomPane {
                 getPopupMessage().show(board.getWindow());
             }
         });
+    }
+
+     /**
+     * To able all the buttons of the shop when a pawn arrive on a the cell.
+     */
+    public void ableShop() {
+        for (int i = 0; i < this.getButtons().size(); i++) {
+            final Button button = getButtons().get(i);
+            button.setDisable(false);
+        }
+    }
+
+    /**
+     * To disable all the shop buttons at the end of the turn that a pawn arrive on a shop cell.
+     */
+    public void disableShop() {
+        for (int i = 0; i < this.getButtons().size(); i++) {
+            final Button button = getButtons().get(i);
+            button.setDisable(true);
+        }
     }
 }

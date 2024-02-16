@@ -35,11 +35,8 @@ public class BottomPane extends BorderPane {
     public BottomPane() {
 
         leftButton.setPrefSize(ITEM_BUTTON_WIDHT, ITEM_BUTTON_HEIGTH);
-        leftButton.setDisable(true);
         centerButton.setPrefSize(ITEM_BUTTON_WIDHT, ITEM_BUTTON_HEIGTH);
-        centerButton.setDisable(true);
         rightButton.setPrefSize(ITEM_BUTTON_WIDHT, ITEM_BUTTON_HEIGTH);
-        rightButton.setDisable(true);
 
         this.setLeft(leftButton);
         this.setCenter(centerButton);
@@ -182,37 +179,11 @@ public class BottomPane extends BorderPane {
     }
 
     /**
-     * To disable all the buttons.
-     * 
-     * For the inventory at the end of the human player, 
-     * for the shop at the end of the turn that a pawn arrive on a shop cell.
-     */
-    public void disableInventory() {
-        for (int i = 0; i < this.getButtons().size(); i++) {
-            final Button button = getButtons().get(i);
-            button.setDisable(true);
-        }
-    }
-
-    /**
      * Return the allert used for the message to the player.
      * 
      * @return the allert
      */
     public Popup getPopupMessage() {
         return this.popupMessage;
-    }
-
-    /**
-     * To able all the buttons of the human player at the start of the turn.
-     * 
-     * For the inventory at the start of the human player, 
-     * for the shop when a pawn arrive on a the cell.
-     */
-    public void ableInventory() {
-        for (int i = 0; i < this.getButtons().size(); i++) {
-            final Button button = getButtons().get(i);
-            button.setDisable(false);
-        }
     }
 }
