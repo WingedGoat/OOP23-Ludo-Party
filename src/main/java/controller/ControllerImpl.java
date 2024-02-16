@@ -21,6 +21,7 @@ import model.GameImpl;
 import model.Position;
 import model.api.Game;
 import model.api.Item;
+import model.api.Item.ItemType;
 import model.api.Pawn;
 import model.api.Player;
 import utils.BColor;
@@ -191,7 +192,7 @@ public final class ControllerImpl implements Controller, Runnable {
 
     @Override
     public Boolean clickBonusButton(final Item itemToUse) {
-        if (itemToUse.getType() == Item.Type.MALUS) {
+        if (itemToUse.getType() == ItemType.MALUS) {
             malusClicked = true;
             return false;
         }

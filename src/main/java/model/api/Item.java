@@ -2,6 +2,7 @@ package model.api;
 
 /**
  * Enum item.
+ * 
  * @see DADUPLO
  * @see ABBONDANZA
  * @see BASTIONE
@@ -15,64 +16,64 @@ public enum Item {
      * Daduplo.
      */
     DADUPLO(
-            Type.BONUS,
+            ItemType.BONUS,
             "Daduplo",
-            "Al prossimo tiro di dado ne puoi tirare un altro.",
+            "Al prossimo tiro di dado ne puoi tirare un altro",
             150,
             1),
     /**
      * Abbondanza.
      */
     ABBONDANZA(
-            Type.BONUS,
+            ItemType.BONUS,
             "Abbondanza",
-            "I coin raccolti raddoppiano per questo turno.",
+            "I coin raccolti raddoppiano per questo turno",
             250,
             2),
     /**
      * Bastione.
      */
-    BASTIONE(Type.BONUS,
+    BASTIONE(ItemType.BONUS,
             "Bastione",
             "Fino al tuo prossimo turno non sei targhettabile dai malus degli avversari"
-                    + "e le tue pedine non possono venir mangiate.",
+                    + "e le tue pedine non possono venir mangiate",
             500,
             3),
     /**
      * La regola dei 4.
      */
     REGOLA_DEI_4(
-            Type.MALUS,
+            ItemType.MALUS,
             "La regola dei 4",
-            "Riporta una pedina avversaria indietro di 4 caselle.",
+            "Riporta una pedina avversaria indietro di 4 caselle",
             400,
             4),
     /**
      * Tagliatelo.
      */
     TAGLIATELO(
-            Type.MALUS,
+            ItemType.MALUS,
             "Tagliatelo",
-            "Il prossimo tiro di dado dell'avversario sara' dimezzato.",
+            "Il prossimo tiro di dado dell'avversario sara' dimezzato",
             300,
             5),
     /**
      * Ariete.
      */
     ARIETE(
-            Type.MALUS,
+            ItemType.MALUS,
             "Ariete",
-            "Disattiva anticipatamente il bastione di un avversario.",
+            "Disattiva anticipatamente il bastione di un avversario",
             600,
             6);
 
-    private Type type;
+    private ItemType type;
     private String name;
     private String description;
     private int price;
     private int id;
 
-    Item(final Type type, final String name, final String description, final int price, final int id) {
+    Item(final ItemType type, final String name, final String description, final int price, final int id) {
         this.type = type;
         this.name = name;
         this.description = description;
@@ -85,7 +86,7 @@ public enum Item {
      * 
      * @return the item type
      */
-    public Type getType() {
+    public ItemType getType() {
         return type;
     }
 
@@ -130,7 +131,7 @@ public enum Item {
      * @see BONUS
      * @see MALUS
      */
-    public enum Type {
+    public enum ItemType {
         /**
          * Bonus item.
          */
