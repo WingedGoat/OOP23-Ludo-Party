@@ -63,7 +63,7 @@ public final class Position {
 
     @Override
     public String toString() {
-        return "Pair [x=" + x + ", y=" + y + "]";
+        return "Position [x=" + x + ", y=" + y + "]";
     }
 
 }
