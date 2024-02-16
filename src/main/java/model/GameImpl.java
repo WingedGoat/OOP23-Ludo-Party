@@ -80,7 +80,7 @@ public final class GameImpl implements Game {
 
     @Override
     public Player getHumanPlayer() {
-        return new PlayerImpl(this.humanPlayer);
+        return this.humanPlayer;
     }
 
     @Override

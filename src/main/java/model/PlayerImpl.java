@@ -62,22 +62,6 @@ public final class PlayerImpl implements Player {
         this.dice = new BasicDiceImpl();
     }
 
-    /**
-     * Constructor.
-     * @param p the player
-     */
-    public PlayerImpl(final Player p) {
-        this.name = p.getName();
-        this.type = p.getType();
-        this.color = p.getColor();
-        this.playerHouse = p.getPlayerHouse();
-        this.safePath = p.getSafePath();
-        this.pawns = p.getPawns();
-        this.coins = p.getCoins();
-        this.isPlayerTurn = p.isPlayerTurn();
-        this.dice = p.getDice();
-    }
-
     // getters
 
     @Override
