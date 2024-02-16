@@ -1,9 +1,8 @@
 package view;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Popup;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,13 +10,16 @@ import java.util.List;
 import java.util.Map;
 
 import model.api.Item;
+
 /** 
  * 
 */
 public class BottomPane extends BorderPane {
 
     private static final int ITEM_BUTTON_WIDHT = 250;
-    private static final int ITEM_BUTTON_HEIGTH = 95;
+    private static final int ITEM_BUTTON_HEIGTH = 80;
+    private static final int X_POS_POPUP = 632;
+    private static final int Y_POS_POPUP = 732;
     private Button leftButton = new Button();
     private Button centerButton = new Button();
     private Button rightButton = new Button();
@@ -25,7 +27,7 @@ public class BottomPane extends BorderPane {
     private final Map<Button, Item> buttonsMap = new HashMap<>();
     private final Button empybutton = new Button();
     private Button buttonPressed;
-    private final Alert allert = new Alert(AlertType.NONE);
+    private final Popup popupMessage = new Popup();
 
     /** 
      * The contructor for the BottomPane.
@@ -38,18 +40,28 @@ public class BottomPane extends BorderPane {
         centerButton.setDisable(true);
         rightButton.setPrefSize(ITEM_BUTTON_WIDHT, ITEM_BUTTON_HEIGTH);
         rightButton.setDisable(true);
+
         this.setLeft(leftButton);
         this.setCenter(centerButton);
         this.setRight(rightButton);
+
         buttons.add(leftButton);
         buttons.add(centerButton);
         buttons.add(rightButton);
+
         buttonsMap.put(leftButton, null);
         buttonsMap.put(centerButton, null);
         buttonsMap.put(rightButton, null);
+
         this.empybutton.setText("*");
         this.empybutton.setDisable(true);
+
         this.buttonPressed = null;
+
+        this.popupMessage.setX(X_POS_POPUP);
+        this.popupMessage.setY(Y_POS_POPUP);
+        this.popupMessage.setAutoHide(true);
+
     }
     /** 
      * @return a copy of the left button
@@ -187,8 +199,8 @@ public class BottomPane extends BorderPane {
      * 
      * @return the allert
      */
-    public Alert getAlert() {
-        return this.allert;
+    public Popup getPopupMessage() {
+        return this.popupMessage;
     }
 
     /**

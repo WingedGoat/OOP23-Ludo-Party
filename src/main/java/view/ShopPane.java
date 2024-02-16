@@ -1,11 +1,18 @@
 package view;
 
 import controller.api.Controller;
+import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 
 import java.util.Collection;
+
+import javafx.scene.paint.Color;
 
 import model.api.Item;
 
@@ -18,8 +25,10 @@ public class ShopPane extends BottomPane {
      * 
      * @param ctrl
      * 
+     * @param board
+     * 
     */
-    public ShopPane(final Controller ctrl) {
+    public ShopPane(final Controller ctrl, final BoardScene board) {
         super();
 
         final Collection<Item> itemsColl = ctrl.getGame().getShowcase().values();
@@ -30,7 +39,7 @@ public class ShopPane extends BottomPane {
             final Item item = items.get(i);
             final Button button = getButtons().get(i);
 
-            buttonSetting(button, item, ctrl);
+            buttonSetting(button, item, ctrl, board);
         } 
     }
 
@@ -40,15 +49,16 @@ public class ShopPane extends BottomPane {
      * @param button
      * @param item
      * @param ctrl
+     * @param board
      */
-    final void buttonSetting(final Button button, final Item item, final Controller ctrl) {
+    final void buttonSetting(final Button button, final Item item, final Controller ctrl, final BoardScene board) {
 
         button.setText(item.getName() + ". \nCosto: " + item.getPrice() + " ludollari.");
         button.setTooltip(new Tooltip(item.getDescription() + "\n" + item.getType().name()));
         replaceItemButtonsMap(button, item);
 
         button.setOnMouseEntered(cursorHand -> {
-                button.setCursor(Cursor.HAND);
+            button.setCursor(Cursor.HAND);
         });
 
         button.setOnMousePressed(e -> {
@@ -56,13 +66,25 @@ public class ShopPane extends BottomPane {
             final Button buttonpressed = (Button) e.getSource();
             final Item oldItem = getButtonMap().get(buttonpressed);
             final Item newItem = ctrl.getNewShopItem();
+            final boolean possibleSelling = ctrl.humanClickShopButton(buttonpressed, oldItem);
 
-            if (ctrl.humanClickShopButton(buttonpressed, oldItem)) {
-                getAlert().setContentText(ctrl.getShopMessage());
+            if (possibleSelling) {
+
+                final Label message = new Label(ctrl.getShopMessage());
+                message.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+
+                getPopupMessage().getContent().add(message);
+                getPopupMessage().show(board.getWindow());
+
                 buttonPressed(buttonpressed);
-                buttonSetting(buttonpressed, newItem, ctrl);
+                buttonSetting(buttonpressed, newItem, ctrl, board);
             } else {
-                getAlert().setContentText(ctrl.getShopMessage());
+
+                final Label message = new Label(ctrl.getShopMessage());
+                message.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+
+                getPopupMessage().getContent().add(message);
+                getPopupMessage().show(board.getWindow());
             }
         });
     }

@@ -174,6 +174,9 @@ public final class PlayerImpl implements Player {
             player.addToItemsApplied(item);
         } else if (!player.getItemsApplied().contains(Item.BASTIONE)) {
             player.addToItemsApplied(item);
+            if (item.getId() == Item.REGOLA_DEI_4.getId()) {
+                pawn.move(Index.FOUR, game);
+            }
         } else if (item.getId() == Item.ARIETE.getId()) {
             player.getItemsApplied().remove(Item.BASTIONE);
             player.addToItemsApplied(item);
