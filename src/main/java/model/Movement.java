@@ -15,27 +15,16 @@ import java.util.ArrayList;
  */
 public final class Movement {
 
-    private final List<List<Position>> pathColors = new ArrayList<>();
+    private static final List<List<Position>> PATH_COLORS = new ArrayList<>();
 
     /**
      * The constructor of the class Movement.
      */
     public Movement() {
-        pathColors.add(buildBlue());
-        pathColors.add(buildRed());
-        pathColors.add(buildGreen());
-        pathColors.add(buildYellow());
-    }
-
-    /**
-     * Move the given pawn if possible.
-     * 
-     * @param pawn
-     * @param diceResult
-     * @param game
-     */
-    public void move(final Pawn pawn, final int diceResult, final Game game) {
-        movePawn(pawn, pawn.getColor(), diceResult, game);
+        PATH_COLORS.add(buildBlue());
+        PATH_COLORS.add(buildRed());
+        PATH_COLORS.add(buildGreen());
+        PATH_COLORS.add(buildYellow());
     }
 
     /**
@@ -48,7 +37,7 @@ public final class Movement {
      * @param diceResult
      * @param game
      */
-    private void movePawn(final Pawn pawn, final BColor color, final int diceResult, final Game game) {
+    public static void movePawn(final Pawn pawn, final BColor color, final int diceResult, final Game game) {
 
         if (pawn.getPosition().equals(pawn.getStartPosition())) {
             if (diceResult == Index.SIX) {
@@ -56,31 +45,22 @@ public final class Movement {
                 eatenPawns(pawn, game);
             }
         } else {
-            final int index = pathColors.get(color.ordinal()).indexOf(pawn.getPosition());
-            if (index + diceResult < pathColors.get(color.ordinal()).size() && index + diceResult >= 0) {
-                step(pawn, game, pathColors.get(color.ordinal()).indexOf(pawn.getPosition()) + diceResult);
+            final int index = PATH_COLORS.get(color.ordinal()).indexOf(pawn.getPosition());
+            if (index + diceResult < PATH_COLORS.get(color.ordinal()).size() && index + diceResult >= 0) {
+                step(pawn, game, PATH_COLORS.get(color.ordinal()).indexOf(pawn.getPosition()) + diceResult);
                 eatenPawns(pawn, game);
             }
         }
     }
 
-    /*
-     * @Override
-     * public String toString() {
-     * return "PawnImpl [startPosition=" + startPosition + ", currentPosition=" +
-     * currentPosition + ", itemNo="
-     * + itemNo + ", playerHouse=" + playerHouse + ", color=" + color + "]";
-     * }
-     */
-
-    private void step(final Pawn p, final Game g, final int index) {
+    private static void step(final Pawn p, final Game g, final int index) {
         for (final var c : g.getBoardCells()) {
             if (c.getPosition().equals(p.getPosition())) {
                 c.removePawn(p);
             }
         }
 
-        p.setPosition(pathColors.get(p.getColor().ordinal()).get(index));
+        p.setPosition(PATH_COLORS.get(p.getColor().ordinal()).get(index));
 
         for (final var c : g.getBoardCells()) {
             if (c.getPosition().equals(p.getPosition())) {
@@ -89,14 +69,14 @@ public final class Movement {
         }
     }
 
-    private void eatenPawns(final Pawn pawn, final Game game) {
+    private static void eatenPawns(final Pawn pawn, final Game game) {
         if (enemyIsAlone(pawn, game) && notSafe(pawn.getPosition(), game)
                 && !pawn.getPosition().equals(new Position(Index.SEVEN, Index.SEVEN))) {
             homeStep(getEnemyPawn(pawn, game), game);
         }
     }
 
-    private Pawn getEnemyPawn(final Pawn pawn, final Game game) {
+    private static Pawn getEnemyPawn(final Pawn pawn, final Game game) {
         for (int i = 0; i < game.getPlayers().size() * Constants.PLAYER_PAWNS; i++) {
             if (!pawn.getColor().equals(getPawn(i, game).getColor())
                     && getPawn(i, game).getPosition().equals(pawn.getPosition())) {
@@ -106,7 +86,7 @@ public final class Movement {
         return null;
     }
 
-    private void homeStep(final Pawn p, final Game game) {
+    private static void homeStep(final Pawn p, final Game game) {
         for (final var c : game.getBoardCells()) {
             if (c.getPosition().equals(p.getPosition())) {
                 c.removePawn(p);
@@ -135,7 +115,7 @@ public final class Movement {
      * }
      */
 
-    private boolean enemyIsAlone(final Pawn pawn, final Game game) {
+    private static boolean enemyIsAlone(final Pawn pawn, final Game game) {
 
         int nEnemies = 0;
 
@@ -149,7 +129,7 @@ public final class Movement {
         return nEnemies == 1;
     }
 
-    private boolean notSafe(final Position pos, final Game game) {
+    private static boolean notSafe(final Position pos, final Game game) {
         for (final var c : game.getBoardCells()) {
             if (c.getPosition().equals(pos)) {
                 return !c.isSafe();
@@ -158,7 +138,7 @@ public final class Movement {
         return false;
     }
 
-    private Pawn getPawn(final int k, final Game game) {
+    private static Pawn getPawn(final int k, final Game game) {
         return game.getPlayers().get(k / Constants.PLAYER_PAWNS).getPawns().get(k % Constants.PLAYER_PAWNS);
     }
 
@@ -183,9 +163,9 @@ public final class Movement {
                 }
             } else {
                 final Position pawnPos = p.getPawns().get(i).getPosition();
-                final int size = pathColors.get(p.getColor().ordinal()).size();
+                final int size = PATH_COLORS.get(p.getColor().ordinal()).size();
 
-                if (pathColors.get(p.getColor().ordinal()).indexOf(pawnPos) + diceResult < size) {
+                if (PATH_COLORS.get(p.getColor().ordinal()).indexOf(pawnPos) + diceResult < size) {
                     return true;
                 }
             }
@@ -208,9 +188,9 @@ public final class Movement {
             }
         } else {
             final Position pawnPos = pawn.getPosition();
-            final int size = pathColors.get(pawn.getColor().ordinal()).size();
+            final int size = PATH_COLORS.get(pawn.getColor().ordinal()).size();
 
-            if (pathColors.get(pawn.getColor().ordinal()).indexOf(pawnPos) + diceResult < size) {
+            if (PATH_COLORS.get(pawn.getColor().ordinal()).indexOf(pawnPos) + diceResult < size) {
                 return true;
             }
         }
@@ -290,5 +270,10 @@ public final class Movement {
         pb.addDown(Index.ONE);
         pb.addLeft(Index.SEVEN);
         return List.copyOf(pb.getPath());
+    }
+
+    @Override
+    public String toString() {
+        return "Movement []";
     }
 }

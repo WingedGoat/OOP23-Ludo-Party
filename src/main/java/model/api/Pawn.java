@@ -45,4 +45,12 @@ public interface Pawn {
      */
     CellType getPlayerHouse();
 
+    /**
+     * Move the given pawn if possible.
+     * 
+     * @param diceResult the dice result
+     * @param game       the game
+     */
+    void move(int diceResult, Game game);
+
 }

@@ -72,7 +72,7 @@ public final class ControllerImpl implements Controller, Runnable {
         // when finish the turn
         this.view.setOnKeyPressed(e -> {
             if (e.getCode().equals(KeyCode.ENTER) && canPassTurn()) {
-                //LOGGER.error(" -- end of turn -- ");
+                // LOGGER.error(" -- end of turn -- ");
                 for (int i = 1; i < getPlayersNumber(); i++) {
                     /*
                      * change inner player avatar color FIXME
@@ -87,20 +87,20 @@ public final class ControllerImpl implements Controller, Runnable {
                     ImageView diceImage = null;
                     if (getPlayersNumber() == 2) {
                         diceImage = (ImageView) ((Group) (this.view.getRightPane().getChildren().get(0)))
-                            .getChildren().get(4);
+                                .getChildren().get(4);
                     } else {
                         switch (i) {
                             case 1:
                                 diceImage = (ImageView) ((Group) (this.view.getRightPane().getChildren().get(0)))
-                                    .getChildren().get(4);
+                                        .getChildren().get(4);
                                 break;
                             case 2:
                                 diceImage = (ImageView) ((Group) (this.view.getLeftPane().getChildren().get(1)))
-                                    .getChildren().get(4);
+                                        .getChildren().get(4);
                                 break;
                             default:
                                 diceImage = (ImageView) ((Group) (this.view.getRightPane().getChildren().get(1)))
-                                    .getChildren().get(4);
+                                        .getChildren().get(4);
                                 break;
                         }
                     }
@@ -123,8 +123,8 @@ public final class ControllerImpl implements Controller, Runnable {
                      * final Position pos = controller.getGame().getPlayers().get(i)
                      * .getPawns().get(indexPawnToMove).getStartPosition();
                      */
-                    getGame().getMovement().move(getGame().getPlayers().get(i)
-                            .getPawns().get(indexPawnToMove), diceResult, getGame());
+                    final Pawn pawnToMove = getGame().getPlayers().get(i).getPawns().get(indexPawnToMove);
+                    pawnToMove.move(diceResult, getGame());
 
                     updatePawnPositions();
                 }
@@ -141,7 +141,7 @@ public final class ControllerImpl implements Controller, Runnable {
             circle.setOnMouseClicked(e -> {
                 if (canMovePawn(pawn)) {
                     // final Position actualPos = player.getPawns().get(index).getPosition();
-                    getGame().getMovement().move(pawn, getGame().getTurn().getDiceResult(), getGame());
+                    pawn.move(getGame().getTurn().getDiceResult(), getGame());
                     updatePawnPositions();
                 } else if (getMalusClicked()
                         && !player.equals(getGame().getTurn().getCurrentPlayer())) {
@@ -186,7 +186,7 @@ public final class ControllerImpl implements Controller, Runnable {
     }
 
     @Override
-    public Boolean clickBonusButton(final Item itemToUse) { 
+    public Boolean clickBonusButton(final Item itemToUse) {
         if (itemToUse.getType() == Item.Type.MALUS) {
             malusClicked = true;
             return false;
@@ -199,7 +199,7 @@ public final class ControllerImpl implements Controller, Runnable {
         if (!malusClicked) {
             return false;
         }
-        //implementare in base a quale stringa conterrà il Button dei Player avversari
+        // implementare in base a quale stringa conterrà il Button dei Player avversari
         malusClicked = false;
         return true;
     }
@@ -224,7 +224,8 @@ public final class ControllerImpl implements Controller, Runnable {
         final int diceResult = getGame().getTurn().getDiceResult();
         /*
          * Se è possibile muovere la pedina cliccata, imposto pawnMoved a true.
-         * Già verificata (in PlayerPanelLeft) la casistica in cui non è possibile muovere nessuna pedina.
+         * Già verificata (in PlayerPanelLeft) la casistica in cui non è possibile
+         * muovere nessuna pedina.
          */
         if (getGame().getMovement().playerCanMoveThePawn(pawn, diceResult)) {
             this.pawnMoved = true;
@@ -235,8 +236,9 @@ public final class ControllerImpl implements Controller, Runnable {
     /**
      * Checks if it's the right moment to press ENTER.
      * 
-     * @return true if ENTER key is pressed when it's actually possible to change turn
-    */
+     * @return true if ENTER key is pressed when it's actually possible to change
+     *         turn
+     */
     @Override
     public boolean canPassTurn() {
         if (!this.pawnMoved) {
@@ -270,14 +272,14 @@ public final class ControllerImpl implements Controller, Runnable {
      * 
      * @return a String with the player's name and its dice result
      * 
-     *         public String getDiceResult(final int i) {
-     *         final String result = "Risultato " +
-     *         game.getPlayers().get(i).getName() + ": ";
-     *         if (i == 0) {
-     *         return result + game.getPlayers().get(i).rollDice();
-     *         }
-     *         return result + turn.getDiceResult();
-     *         }
+     * public String getDiceResult(final int i) {
+     * final String result = "Risultato " +
+     * game.getPlayers().get(i).getName() + ": ";
+     * if (i == 0) {
+     * return result + game.getPlayers().get(i).rollDice();
+     * }
+     * return result + turn.getDiceResult();
+     * }
      */
 
     @Override

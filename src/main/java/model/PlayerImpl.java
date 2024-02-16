@@ -37,15 +37,16 @@ public final class PlayerImpl implements Player {
     /**
      * Player constructor.
      * 
-     * @param name the player name
-     * @param type the player type
-     * @param color the player color
-     * @param playerHouse the position of the player's house
-     * @param safePath the safe path
+     * @param name          the player name
+     * @param type          the player type
+     * @param color         the player color
+     * @param playerHouse   the position of the player's house
+     * @param safePath      the safe path
      * @param pawnsStartPos the player pawns start positions
      */
     public PlayerImpl(final String name, final PlayerType type,
-            final BColor color, final CellType playerHouse, final Set<Position> safePath, final List<Position> pawnsStartPos) {
+            final BColor color, final CellType playerHouse, final Set<Position> safePath,
+            final List<Position> pawnsStartPos) {
         this.name = name;
         this.type = type;
         this.color = color;
@@ -121,16 +122,16 @@ public final class PlayerImpl implements Player {
 
     @Override
     public int rollDice() {
-        if (firstTurn) {  // force 6 at start of game in order to move at least the first pawn
+        if (firstTurn) { // force 6 at start of game in order to move at least the first pawn
             firstTurn = !firstTurn;
             return Index.SIX;
         }
         if (itemsApplied.contains(Item.DADUPLO) && itemsApplied.contains(Item.TAGLIATELO)) {
-            setDice1(this.getDice().roll() / 2); 
+            setDice1(this.getDice().roll() / 2);
             setDice2(this.getDice().roll() / 2);
             return getDice1() + getDice2();
         } else if (itemsApplied.contains(Item.DADUPLO)) {
-            setDice1(this.getDice().roll()); 
+            setDice1(this.getDice().roll());
             setDice2(this.getDice().roll());
             return getDice1() + getDice2();
         } else if (itemsApplied.contains(Item.TAGLIATELO)) {
@@ -140,7 +141,7 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public void modifyCoins(final int value) { 
+    public void modifyCoins(final int value) {
         this.coins = this.coins + value;
     }
 
@@ -148,13 +149,14 @@ public final class PlayerImpl implements Player {
     public List<Item> getPlayerItems() {
         return this.playerItems;
     }
-    @Override
-    public void addItemPlayer(final Item item) { 
-        this.playerItems.add(item);
-    } 
 
     @Override
-    public void addToItemsApplied(final Item item) { 
+    public void addItemPlayer(final Item item) {
+        this.playerItems.add(item);
+    }
+
+    @Override
+    public void addToItemsApplied(final Item item) {
         itemsApplied.add(item);
     }
 
@@ -164,7 +166,7 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public void useItem(final Item item, final Player player, final Pawn pawn, final Game game) { 
+    public void useItem(final Item item, final Player player, final Pawn pawn, final Game game) {
 
         this.playerItems.remove(item);
 
@@ -176,25 +178,24 @@ public final class PlayerImpl implements Player {
             player.getItemsApplied().remove(Item.BASTIONE);
             player.addToItemsApplied(item);
         } else if (item.getId() == Item.REGOLA_DEI_4.getId()) {
-            final Movement move = new Movement();
-            move.move(pawn, Index.FOUR, game);
-       }
-    } 
+            pawn.move(Index.FOUR, game);
+        }
+    }
 
     @Override
-    public void malusExpired() { 
-        for (final Item i : itemsApplied) { 
+    public void malusExpired() {
+        for (final Item i : itemsApplied) {
             if (i.getType().equals(Item.Type.MALUS)) {
-                itemsApplied.remove(i); 
+                itemsApplied.remove(i);
             }
         }
     }
 
     @Override
-    public void bonusExpired() { 
-        for (final Item i : itemsApplied) { 
+    public void bonusExpired() {
+        for (final Item i : itemsApplied) {
             if (i.getType().equals(Item.Type.BONUS)) {
-                itemsApplied.remove(i); 
+                itemsApplied.remove(i);
             }
         }
     }
