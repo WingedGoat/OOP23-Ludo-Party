@@ -175,18 +175,21 @@ public final class BoardImpl implements Board {
 
     // create methods
 
+    private Set<Position> createHouse(final int startRow, final int endRow, final int startCol, final int endCol) {
+        return IntStream.range(startRow, endRow)
+                .mapToObj(i -> i)
+                .flatMap(i -> IntStream.range(startCol, endCol)
+                        .mapToObj(j -> new Position(i, j)))
+                .collect(Collectors.toCollection(() -> new HashSet<>()));
+    }
+
     /**
      * Creates the positions of the house at bottom left corner.
      * 
      * @return the house positions at bottom left corner
      */
     private Set<Position> createBottomLeftHouse() {
-
-        return IntStream.range(0, Index.SIX)
-                .mapToObj(i -> i)
-                .flatMap(i -> IntStream.range(Index.NINE, Constants.CELLS_NUMBER)
-                        .mapToObj(j -> new Position(i, j)))
-                .collect(Collectors.toCollection(() -> new HashSet<>()));
+        return createHouse(Index.ZERO, Index.SIX, Index.NINE, Index.FIFTEEN);
     }
 
     /**
@@ -195,12 +198,7 @@ public final class BoardImpl implements Board {
      * @return the house positions at top left corner
      */
     private Set<Position> createTopLeftHouse() {
-
-        return IntStream.range(0, Index.SIX)
-                .mapToObj(i -> i)
-                .flatMap(i -> IntStream.range(0, Index.SIX)
-                        .mapToObj(j -> new Position(i, j)))
-                .collect(Collectors.toCollection(() -> new HashSet<>()));
+        return createHouse(Index.ZERO, Index.SIX, Index.ZERO, Index.SIX);
     }
 
     /**
@@ -209,12 +207,7 @@ public final class BoardImpl implements Board {
      * @return the house positions at top right corner
      */
     private Set<Position> createTopRightHouse() {
-
-        return IntStream.range(Index.NINE, Constants.CELLS_NUMBER)
-                .mapToObj(i -> i)
-                .flatMap(i -> IntStream.range(0, Index.SIX)
-                        .mapToObj(j -> new Position(i, j)))
-                .collect(Collectors.toCollection(() -> new HashSet<>()));
+        return createHouse(Index.NINE, Index.FIFTEEN, Index.ZERO, Index.SIX);
     }
 
     /**
@@ -223,12 +216,7 @@ public final class BoardImpl implements Board {
      * @return the house positions at bottom right corner
      */
     private Set<Position> createBottomRightHouse() {
-
-        return IntStream.range(Index.NINE, Constants.CELLS_NUMBER)
-                .mapToObj(i -> i)
-                .flatMap(i -> IntStream.range(Index.NINE, Constants.CELLS_NUMBER)
-                        .mapToObj(j -> new Position(i, j)))
-                .collect(Collectors.toCollection(() -> new HashSet<>()));
+        return createHouse(Index.NINE, Index.FIFTEEN, Index.NINE, Index.FIFTEEN);
     }
 
     /**
