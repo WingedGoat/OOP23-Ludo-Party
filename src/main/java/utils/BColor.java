@@ -73,7 +73,7 @@ public enum BColor {
      * 
      * @param hex hex color
      */
-    BColor(final String hex) {
+    private BColor(final String hex) {
         this.hexColor = hex;
     }
 
