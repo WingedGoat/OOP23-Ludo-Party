@@ -285,10 +285,10 @@ public final class BoardImpl implements Board {
 
     private Set<Position> createShops() {
         final Set<Position> sh = new HashSet<>();
-        sh.add(new Position(0, Index.EIGHT));
-        sh.add(new Position(Index.SIX, 0));
-        sh.add(new Position(Index.FOURTEEN, Index.SIX));
-        sh.add(new Position(Index.EIGHT, Index.FOURTEEN));
+        sh.add(new Position(Index.TWO, Index.EIGHT));
+        sh.add(new Position(Index.SIX, Index.TWO));
+        sh.add(new Position(Index.TWELVE, Index.SIX));
+        sh.add(new Position(Index.EIGHT, Index.TWELVE));
 
         return sh;
     }
