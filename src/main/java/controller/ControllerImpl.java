@@ -225,34 +225,6 @@ public final class ControllerImpl implements Controller, Runnable {
         return true;
     }
 
-    /**
-     * A computer player plays its turn.
-     * 
-     * @param i the computer player's index
-     * 
-     *          public void playTurn(final int i) {
-     *          turn.setShowcase(game.getShowcase());
-     *          turn.play(game.getPlayers().get(i), this.game);
-     *          }
-     */
-
-    /*
-     * Provides the GUI a String containing a Player and its Dice result.
-     * 
-     * @param i index of the current player
-     * 
-     * @return a String with the player's name and its dice result
-     * 
-     * public String getDiceResult(final int i) {
-     * final String result = "Risultato " +
-     * game.getPlayers().get(i).getName() + ": ";
-     * if (i == 0) {
-     * return result + game.getPlayers().get(i).rollDice();
-     * }
-     * return result + turn.getDiceResult();
-     * }
-     */
-
     @Override
     public Item getItemToUse() {
         return this.itemToUse;
