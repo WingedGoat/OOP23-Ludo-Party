@@ -58,7 +58,7 @@ public final class PlayerPanelLeft extends PlayerPanel {
         });
         //TODO add another dice image when is used DADUPLO
         diceImage.setOnMouseClicked(mouseEvent -> {
-            if (ctrl.canRollDice()) {
+            if (ctrl.getGame().getTurn().getCurrentPlayer().canRollDice()) {
                 final int diceResult = ctrl.getGame().getTurn().getCurrentPlayer().rollDice();
                 ctrl.getGame().getTurn().setDiceResult(diceResult);
                 showDiceNumber(diceImage, diceResult);
@@ -66,8 +66,8 @@ public final class PlayerPanelLeft extends PlayerPanel {
                  * Se con il risultato ottenuto non è possibile muovere pedine,
                  * imposto pawnMoved a true, così è già possibile premere ENTER e passare il turno (senza cliccare Pawn).
                  */
-                if (!ctrl.getGame().getMovement().playerCanMovePawns(diceResult, ctrl.getGame().getPlayers().get(0))) {
-                    ctrl.setPawnMoved(true);
+                if (!ctrl.getGame().getHumanPlayer().canMovePawns(diceResult)) {
+                    ctrl.getGame().getHumanPlayer().setPawnMoved(true);
                 }
             }
         });

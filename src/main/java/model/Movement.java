@@ -2,7 +2,6 @@ package model;
 
 import model.api.Game;
 import model.api.Pawn;
-import model.api.Player;
 import utils.BColor;
 import utils.Constants;
 import utils.Index;
@@ -102,19 +101,6 @@ public final class Movement {
         }
     }
 
-    /*
-     * private void eatenPawns(final Pawn pawn, final Game game) {
-     * 
-     * for (int k = 0; k < game.getPlayers().size() * Constants.PLAYER_PAWNS; k++) {
-     * if (enemyIsAlone(pawn, k, game)
-     * && !pawn.getColor().equals(getPawn(k, game).getColor())
-     * && getPawn(k, game).getPosition().equals(pawn.getPosition())) {
-     * getPawn(k, game).setPosition(getPawn(k, game).getStartPosition());
-     * }
-     * }
-     * }
-     */
-
     private static boolean enemyIsAlone(final Pawn pawn, final Game game) {
 
         int nEnemies = 0;
@@ -148,63 +134,12 @@ public final class Movement {
     // ordine in base a chi ha finito prima
 
     /**
-     * Checks if the player of a particular turn can move their pawns.
-     * 
-     * @param diceResult
-     * @param p
-     * @return if the player has to move a pawn
-     */
-    public boolean playerCanMovePawns(final int diceResult, final Player p) {
-
-        for (int i = 0; i < p.getPawns().size(); i++) {
-            if (p.getPawns().get(i).getPosition().equals(p.getPawns().get(i).getStartPosition())) {
-                if (diceResult == Index.SIX) {
-                    return true;
-                }
-            } else {
-                final Position pawnPos = p.getPawns().get(i).getPosition();
-                final int size = PATH_COLORS.get(p.getColor().ordinal()).size();
-
-                if (PATH_COLORS.get(p.getColor().ordinal()).indexOf(pawnPos) + diceResult < size) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Checks if the player of a particular turn can move their pawns.
-     * 
-     * @param pawn
-     * @param diceResult
-     * @return if the player can move the given pawn
-     */
-    public boolean playerCanMoveThePawn(final Pawn pawn, final int diceResult) {
-        if (pawn.getPosition().equals(pawn.getStartPosition())) {
-            if (diceResult == Index.SIX) {
-                return true;
-            }
-        } else {
-            final Position pawnPos = pawn.getPosition();
-            final int size = PATH_COLORS.get(pawn.getColor().ordinal()).size();
-
-            if (PATH_COLORS.get(pawn.getColor().ordinal()).indexOf(pawnPos) + diceResult < size) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * Gets the paths that the pawns of the players should follow according to their
      * color.
      * 
      * @return the paths of the players
      */
-    public List<List<Position>> getPathColors() {
+    public static  List<List<Position>> getPathColors() {
         return List.copyOf(Movement.PATH_COLORS);
     }
 

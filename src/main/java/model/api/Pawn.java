@@ -46,6 +46,15 @@ public interface Pawn {
     CellType getPlayerHouse();
 
     /**
+     * Checks if the pawn can exit from its house or 
+     * it can move from a position to another.
+     * 
+     * @param diceResult the dice result
+     * @return if the pawn can move
+     */
+    boolean canMove(int diceResult);
+
+    /**
      * Move the given pawn if possible.
      * 
      * @param diceResult the dice result
