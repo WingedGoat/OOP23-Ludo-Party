@@ -1,5 +1,6 @@
 package view;
 
+import javafx.application.Platform;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
@@ -22,11 +23,11 @@ public final class PlayerPanelLeft extends PlayerPanel {
      * @param controller the controller
      */
     public PlayerPanelLeft(final Controller controller) {
-
+        super(controller);
         final Group g1 = createBottomPlayer(this.getBottomPos(), controller);
         this.getChildren().add(g1);
 
-        if (controller.getGame().getPlayers().size() > 2) {
+        if (this.getPlayersNumber() > 2) {
             final Group g2 = createTopPlayer(this.getTopPos(), controller);
             this.getChildren().add(g2);
         }
@@ -41,8 +42,8 @@ public final class PlayerPanelLeft extends PlayerPanel {
         final Label playerName = createNameLabelBottomPanel(ctrl.getGame().getHumanPlayer().getName());
         setNodeAnchors(playerName, 0.0);
 
-        final Label playerCoins = createCoinsLabelBottomPanel(ctrl.getGame().getHumanPlayer().getCoins());
-        setNodeAnchors(playerCoins, 0.0);
+        this.createCoinsLabelBottomPanel();
+        setNodeAnchors(this.getBottomPlayerCoins(), 0.0);
 
         final ImageView diceImage = createDicImageView();
         diceImage.setLayoutX(DICE_X_LAYOUT);
@@ -73,7 +74,7 @@ public final class PlayerPanelLeft extends PlayerPanel {
         });
 
         final Group g = new Group();
-        g.getChildren().addAll(playerAvatar, playerAvatarInner, playerName, playerCoins, diceImage);
+        g.getChildren().addAll(playerAvatar, playerAvatarInner, playerName, this.getBottomPlayerCoins(), diceImage);
 
         return g;
     }
@@ -87,8 +88,8 @@ public final class PlayerPanelLeft extends PlayerPanel {
         final Label playerName = createNameLabelTopPanel(ctrl.getGame().getPlayers().get(1).getName());
         setNodeAnchors(playerName, 0.0);
 
-        final Label playerCoins = createCoinsLabelTopPanel(ctrl.getGame().getPlayers().get(1).getCoins());
-        setNodeAnchors(playerCoins, 0.0);
+        this.createCoinsLabelTopPanel();
+        setNodeAnchors(this.getTopPlayerCoins(), 0.0);
 
         final ImageView diceImage = createDicImageView();
         diceImage.setLayoutX(DICE_X_LAYOUT);
@@ -98,9 +99,22 @@ public final class PlayerPanelLeft extends PlayerPanel {
         //TODO add another dice image when is used DADUPLO
 
         final Group g = new Group();
-        g.getChildren().addAll(playerAvatar, playerAvatarInner, playerName, playerCoins, diceImage);
+        g.getChildren().addAll(playerAvatar, playerAvatarInner, playerName, this.getTopPlayerCoins(), diceImage);
 
         return g;
+    }
+
+    @Override
+    public void refresh(final int coinsBottom, final int coinsTop) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                getBottomPlayerCoins().setText("Ludollari: " + coinsBottom);
+                if (getPlayersNumber() > 2) {
+                    getTopPlayerCoins().setText("Ludollari: " + coinsTop);
+                }
+            }
+        });
     }
 
 }

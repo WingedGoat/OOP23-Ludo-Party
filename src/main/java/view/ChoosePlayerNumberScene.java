@@ -55,13 +55,13 @@ public class ChoosePlayerNumberScene extends Scene {
         final Button twoPlayersBt = createButton(Constants.PLAYERS_NUM_2);
         twoPlayersBt.setOnAction(event -> {
             stage.close();
-            new ControllerImpl(stage, playerName, Constants.PLAYERS_NUM_2);
+            new Thread(new ControllerImpl(stage, playerName, Constants.PLAYERS_NUM_2)).start();
         });
 
         final Button fourPlayersBt = createButton(Constants.PLAYERS_NUM_4);
         fourPlayersBt.setOnAction(event -> {
             stage.close();
-            new ControllerImpl(stage, playerName, Constants.PLAYERS_NUM_4);
+            new Thread(new ControllerImpl(stage, playerName, Constants.PLAYERS_NUM_4)).start();
         });
 
         vbox.getChildren().add(twoPlayersBt);

@@ -60,13 +60,41 @@ public abstract class PlayerPanel extends AnchorPane {
      */
     protected static final int DICE_Y_LAYOUT_BOTTOM = 340;
 
+    private final int playersNumber;
+    private Label bottomPlayerCoins;
+    private Label topPlayerCoins;
     private final Position bottomPos;
     private final Position topPos;
 
-    PlayerPanel() {
-        this.topPos = new Position(AVATAR_X_POSITION, AVATAR_Y_TOP_POSITION);
+    PlayerPanel(final Controller controller) {
+        this.playersNumber = controller.getGame().getPlayers().size(); 
         this.bottomPos = new Position(AVATAR_X_POSITION, AVATAR_Y_BOTTOM_POSITION);
+        this.topPos = new Position(AVATAR_X_POSITION, AVATAR_Y_TOP_POSITION);
         this.setPrefHeight(PANE_HEIGHT);
+    }
+
+    /**
+     * Gets the players number of the game.
+     * @return the players number
+     */
+    protected int getPlayersNumber() {
+        return playersNumber;
+    }
+
+    /**
+     * Gets the bottom player coins label.
+     * @return the bottom player coins label
+     */
+    protected Label getBottomPlayerCoins() {
+        return bottomPlayerCoins;
+    }
+
+    /**
+     * Gets the top player coins label.
+     * @return the top player coins label
+     */
+    protected Label getTopPlayerCoins() {
+        return topPlayerCoins;
     }
 
     /**
@@ -84,6 +112,14 @@ public abstract class PlayerPanel extends AnchorPane {
     protected Position getTopPos() {
         return this.topPos;
     }
+
+    /**
+     * Refreshes the amount of coins of the player panel.
+     * 
+     * @param coinsBottom the amount of coins of the bottom player
+     * @param coinsTop the amount of coins of the top player
+     */
+    protected abstract void refresh(int coinsBottom, int coinsTop);
 
     /**
      * Creates the player Group at bottom corner.
@@ -150,16 +186,9 @@ public abstract class PlayerPanel extends AnchorPane {
 
     /**
      * Creates the label with the coin quantity of the player.
-     * 
-     * @param coins the amount of coins owned by the player
-     * @return label with the coin amount
      */
-    protected Label createCoinsLabelTopPanel(final int coins) {
-        final Label playerCoins = new Label("Ludollari: " + coins);
-        playerCoins.setLayoutX(LABEL_X_LAYOUT);
-        playerCoins.setLayoutY(LABEL_TOP_COINS_Y_LAYOUT);
-
-        return playerCoins;
+    protected void createCoinsLabelTopPanel() {
+        this.topPlayerCoins = new CoinsLabel("Ludollari: 0", LABEL_X_LAYOUT, LABEL_TOP_COINS_Y_LAYOUT);
     }
 
     /**
@@ -178,16 +207,9 @@ public abstract class PlayerPanel extends AnchorPane {
 
     /**
      * Creates the label with the coin quantity of the player.
-     * 
-     * @param coins the amount of coins owned by the player
-     * @return label with the coin amount
      */
-    protected Label createCoinsLabelBottomPanel(final int coins) {
-        final Label playerCoins = new Label("Ludollari: " + coins);
-        playerCoins.setLayoutX(LABEL_X_LAYOUT);
-        playerCoins.setLayoutY(LABEL_BOTTOM_COINS_Y_LAYOUT);
-
-        return playerCoins;
+    protected void createCoinsLabelBottomPanel() {
+        this.bottomPlayerCoins = new CoinsLabel("Ludollari: 0", LABEL_X_LAYOUT, LABEL_BOTTOM_COINS_Y_LAYOUT);
     }
 
     /**
@@ -223,5 +245,16 @@ public abstract class PlayerPanel extends AnchorPane {
 
         return diceImage;
     }
+
+
+    private static class CoinsLabel extends Label {
+
+        CoinsLabel(final String text, final int xPos, final int yPos) {
+            super(text);
+            this.setLayoutX(xPos);
+            this.setLayoutY(yPos);
+        }
+    }
+ 
 
 }

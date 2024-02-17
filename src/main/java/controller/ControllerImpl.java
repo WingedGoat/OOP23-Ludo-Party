@@ -16,10 +16,15 @@ import javafx.stage.Stage;
 
 import java.util.Random;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import controller.api.Controller;
+import controller.api.PanelObserver;
 import model.GameImpl;
 import model.Position;
 import model.api.Game;
+import model.api.Game.Result;
 import model.api.Item;
 import model.api.Item.ItemType;
 import model.api.Pawn;
@@ -33,13 +38,18 @@ import view.utils.ViewUtility;
  */
 public final class ControllerImpl implements Controller, Runnable {
 
+    private static final Logger LOGGER = LogManager.getRootLogger();
+    private static final int MILLISECS = 200;
+
     private static final String NOT_ENOUGH_SPACE = "ATTENZIONE! NON HAI ABBASTANZA SPAZIO NELL'INVENTARIO!";
     private static final String NOT_ENOUGH_MONEY = "ATTENZIONE! NON HAI ABBASTANZA LUDOLLARI!";
     private static final String DUPLICATE = "ATTENZIONE! HAI GIA' QUESTO OGGETTO NEL TUO INVENTARIO!";
 
     private final int playersNumber;
     private final Game game;
+    private final Result gameStatus;
     private final BoardScene view;
+    private PanelObserver obs;
     private boolean malusClicked;
     private Item itemToUse;
     private String outcome;
@@ -53,11 +63,45 @@ public final class ControllerImpl implements Controller, Runnable {
      * @param playersNumber the number of players of the game
      */
     public ControllerImpl(final Stage stage, final String playerName, final int playersNumber) {
-
         this.playersNumber = playersNumber;
         this.game = new GameImpl(playerName, playersNumber);
+        this.gameStatus = Result.PLAY;
         this.view = ViewUtility.createBoardScene(this, stage);
         this.setInputHandler();
+        this.addObserver(new PanelObserver() {
+
+            @Override
+            public void updateLeftPlayersCoins(final int coinsBottom, final int coinsTop) {
+                view.getLeftPane().refresh(coinsBottom, coinsTop);
+            }
+
+            @Override
+            public void updateRightPlayersCoins(final int coinsBottom, final int coinsTop) {
+                view.getRightPane().refresh(coinsBottom, coinsTop);
+            }
+
+        });
+    }
+
+    @Override
+    public void run() {
+
+        while (this.gameStatus != Result.WIN) {
+            if (playersNumber == Constants.PLAYERS_NUM_2) {
+                obs.updateLeftPlayersCoins(getGame().getHumanPlayer().getCoins(), 0);
+                obs.updateRightPlayersCoins(0, getGame().getPlayers().get(1).getCoins());
+            } else {
+                obs.updateLeftPlayersCoins(getGame().getHumanPlayer().getCoins(), getGame().getPlayers().get(1).getCoins());
+                obs.updateRightPlayersCoins(getGame().getPlayers().get(2).getCoins(), getGame().getPlayers().get(3).getCoins());
+            }
+
+            try {
+                // Refresh each 200 milliseconds
+                Thread.sleep(MILLISECS);
+            } catch (InterruptedException e) {
+                LOGGER.error("Refresh Thread is not sleeping");
+            }
+        }
     }
 
     @Override
@@ -90,31 +134,22 @@ public final class ControllerImpl implements Controller, Runnable {
                     this.game.getTurn().passTurnTo(player);
 
                     ImageView diceImage = null;
-                    Label coinsLabel = null;
                     if (getPlayersNumber() == 2) {
                         diceImage = (ImageView) ((Group) (this.view.getRightPane().getChildren().get(0)))
                                 .getChildren().get(4);
-                        coinsLabel = (Label) ((Group) (this.view.getRightPane().getChildren().get(0)))
-                                .getChildren().get(3);
                     } else {
                         switch (i) {
                             case 1:
                                 diceImage = (ImageView) ((Group) (this.view.getRightPane().getChildren().get(0)))
                                         .getChildren().get(4);
-                                coinsLabel = (Label) ((Group) (this.view.getRightPane().getChildren().get(0)))
-                                        .getChildren().get(3);
                                 break;
                             case 2:
                                 diceImage = (ImageView) ((Group) (this.view.getLeftPane().getChildren().get(1)))
                                         .getChildren().get(4);
-                                coinsLabel = (Label) ((Group) (this.view.getLeftPane().getChildren().get(1)))
-                                        .getChildren().get(3);
                                 break;
                             default:
                                 diceImage = (ImageView) ((Group) (this.view.getRightPane().getChildren().get(1)))
                                         .getChildren().get(4);
-                                coinsLabel = (Label) ((Group) (this.view.getRightPane().getChildren().get(1)))
-                                        .getChildren().get(3);
                                 break;
                         }
                     }
@@ -136,10 +171,10 @@ public final class ControllerImpl implements Controller, Runnable {
 
                     updatePawnPositions();
                     player.earnCoins(diceResult);
-                    coinsLabel.setText("Ludollari: " + player.getCoins());
                 }
 
                 this.game.getTurn().passTurnTo(this.game.getHumanPlayer());
+                LOGGER.error("Human coins: " + this.game.getHumanPlayer().getCoins());
             }
         });
 
@@ -155,10 +190,7 @@ public final class ControllerImpl implements Controller, Runnable {
                     // final Position actualPos = player.getPawns().get(index).getPosition();
                     pawn.move(player.getDiceResult(), this.game);
                     updatePawnPositions();
-                    final Label coinsLabel = (Label) ((Group) (this.view.getLeftPane().getChildren().get(0)))
-                        .getChildren().get(3);
                     player.earnCoins(this.game.getTurn().getDiceResult());
-                    coinsLabel.setText("Ludollari: " + player.getCoins());
 
                     if (this.game.getBoard().getShops().contains(pawn.getPosition())) {
                         this.view.getShopPane().ableShop();
@@ -176,6 +208,10 @@ public final class ControllerImpl implements Controller, Runnable {
                 }
             });
         }
+    }
+
+    private void addObserver(final PanelObserver obs) {
+        this.obs = obs;
     }
 
     @Override
@@ -253,12 +289,6 @@ public final class ControllerImpl implements Controller, Runnable {
     @Override
     public Item getNewShopItem() {
         return this.game.getShop().getNewItem();
-    }
-
-    @Override
-    public void run() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'run'");
     }
 
 }

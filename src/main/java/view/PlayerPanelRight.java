@@ -1,5 +1,6 @@
 package view;
 
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -19,11 +20,11 @@ public final class PlayerPanelRight extends PlayerPanel {
      * @param controller the controller
      */
     public PlayerPanelRight(final Controller controller) {
-
+        super(controller);
         final Group g3 = createTopPlayer(this.getTopPos(), controller);
         this.getChildren().add(g3);
 
-        if (controller.getGame().getPlayers().size() > 2) {
+        if (this.getPlayersNumber() > 2) {
             final Group g4 = createBottomPlayer(this.getBottomPos(), controller);
             this.getChildren().add(g4);
         }
@@ -42,12 +43,8 @@ public final class PlayerPanelRight extends PlayerPanel {
         final Label playerName = createNameLabelTopPanel(name);
         setNodeAnchors(playerName, 0.0);
 
-        int coins = ctrl.getGame().getPlayers().get(1).getCoins();
-        if (ctrl.getPlayersNumber() > 2) {
-            coins = ctrl.getGame().getPlayers().get(2).getCoins();
-        }
-        final Label playerCoins = createCoinsLabelTopPanel(coins);
-        setNodeAnchors(playerCoins, 0.0);
+        this.createCoinsLabelTopPanel();
+        setNodeAnchors(this.getTopPlayerCoins(), 0.0);
 
         final ImageView diceImage = createDicImageView();
         diceImage.setLayoutX(DICE_X_LAYOUT);
@@ -56,7 +53,7 @@ public final class PlayerPanelRight extends PlayerPanel {
         //TODO Change dice image when it is computer player turn
         //TODO add another dice image when is used DADUPLO
         final Group g = new Group();
-        g.getChildren().addAll(playerAvatar, playerAvatarInner, playerName, playerCoins, diceImage);
+        g.getChildren().addAll(playerAvatar, playerAvatarInner, playerName, this.getTopPlayerCoins(), diceImage);
 
         return g;
     }
@@ -70,8 +67,8 @@ public final class PlayerPanelRight extends PlayerPanel {
         final Label playerName = createNameLabelBottomPanel(ctrl.getGame().getPlayers().get(3).getName());
         setNodeAnchors(playerName, 0.0);
 
-        final Label playerCoins = createCoinsLabelBottomPanel(ctrl.getGame().getPlayers().get(3).getCoins());
-        setNodeAnchors(playerCoins, 0.0);
+        this.createCoinsLabelBottomPanel();
+        setNodeAnchors(this.getBottomPlayerCoins(), 0.0);
 
         final ImageView diceImage = createDicImageView();
         diceImage.setLayoutX(DICE_X_LAYOUT);
@@ -80,9 +77,22 @@ public final class PlayerPanelRight extends PlayerPanel {
         //TODO Change dice image when it is computer player turn
         //TODO add another dice image when is used DADUPLO
         final Group g = new Group();
-        g.getChildren().addAll(playerAvatar, playerAvatarInner, playerName, playerCoins, diceImage);
+        g.getChildren().addAll(playerAvatar, playerAvatarInner, playerName, this.getBottomPlayerCoins(), diceImage);
 
         return g;
+    }
+
+    @Override
+    public void refresh(final int coinsBottom, final int coinsTop) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                getTopPlayerCoins().setText("Ludollari: " + coinsTop);
+                if (getPlayersNumber() > 2) {
+                    getBottomPlayerCoins().setText("Ludollari: " + coinsBottom);
+                }
+            }
+        });
     }
 
 }
