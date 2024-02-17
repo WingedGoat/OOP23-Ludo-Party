@@ -21,9 +21,9 @@ public interface Game {
          */
         WIN,
         /**
-         * Continue.
+         * Play.
          */
-        CONTINUE;
+        PLAY;
     }
 
     /**
