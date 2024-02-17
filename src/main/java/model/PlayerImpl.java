@@ -124,26 +124,26 @@ public final class PlayerImpl implements Player {
 
     @Override
     public int rollDice() {
-        if (firstTurn) { // force 6 at start of game in order to move at least the first pawn
-            firstTurn = !firstTurn;
+        if (this.firstTurn) { // force 6 at start of game in order to move at least the first pawn
+            this.firstTurn = !this.firstTurn;
             return Index.SIX;
         }
-        if (itemsApplied.contains(Item.DADUPLO) && itemsApplied.contains(Item.TAGLIATELO)) {
-            setFirstDice(this.getDice().roll() / 2);
-            setSecondDice(this.getDice().roll() / 2);
+        if (this.itemsApplied.contains(Item.DADUPLO) && this.itemsApplied.contains(Item.TAGLIATELO)) {
+            this.setFirstDice(this.getDice().roll() / 2);
+            this.setSecondDice(this.getDice().roll() / 2);
             return getFirstDice() + getSecondDice();
-        } else if (itemsApplied.contains(Item.DADUPLO)) {
-            setFirstDice(this.getDice().roll());
-            setSecondDice(this.getDice().roll());
+        } else if (this.itemsApplied.contains(Item.DADUPLO)) {
+            this.setFirstDice(this.getDice().roll());
+            this.setSecondDice(this.getDice().roll());
             return getFirstDice() + getSecondDice();
-        } else if (itemsApplied.contains(Item.TAGLIATELO)) {
+        } else if (this.itemsApplied.contains(Item.TAGLIATELO)) {
             return this.getDice().roll() / 2;
         }
         return this.getDice().roll();
     }
 
     @Override
-    public void modifyCoins(final int value) {
+    public void updateCoins(final int value) {
         this.coins = this.coins + value;
     }
 

@@ -7,19 +7,17 @@ import java.util.Map;
 public interface Shop {
 
     /** 
-     * Sell item to the specified player.
+     * Sell the item to the specified player.
      * 
-     * @param player
-     *          the player
-     * @param item
-     *          the item to buy
+     * @param player the player
+     * @param item the item to buy
      * 
      * @return a String message
     */
     String sellItem(Player player, Item item);
 
     /**
-     * Create showcase.
+     * Creates the showcase.
      */
     void fillShowcase();
 
@@ -38,23 +36,10 @@ public interface Shop {
     Map<Integer, Item> getShowcase();
 
     /**
-     * Create a new random key. 
-     * 
-     * @return a new random key
-     */
-    int getNewKey();
-
-    /**
-     * Retun the new item putted in the showcase.
+     * Returns the new item putted in the showcase.
      * 
      * @return the new item
      */
     Item getNewItem();
 
-    /**
-     * Set the new item putted in teh showcase.
-     * 
-     * @param item the new item
-     */
-    void setNewItem(Item item);
 }

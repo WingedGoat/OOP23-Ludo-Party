@@ -45,7 +45,7 @@ public final class ShopImpl implements Shop {
         } else if (player.getPlayerItems().contains(item)) {
             return "ATTENZIONE! HAI GIA' QUESTO OGGETTO NEL TUO INVENTARIO!";
         } else {
-            player.modifyCoins(-item.getPrice()); 
+            player.updateCoins(-item.getPrice()); 
             player.addItemPlayer(item);
             newItem(item);
             return "Item " + item.getName() + " venduto a " + player.getName() + ".";
@@ -88,17 +88,26 @@ public final class ShopImpl implements Shop {
     }
 
     @Override
-    public int getNewKey() {
-        return this.r.nextInt(Index.SIX) + 1;
-    } 
-
-    @Override
     public Item getNewItem() {
         return this.newItem;
     }
 
-    @Override
-    public void setNewItem(final Item item) {
+    /**
+     * Creates a new random key. 
+     * 
+     * @return a new random key
+     */
+    private int getNewKey() {
+        return this.r.nextInt(Index.SIX) + 1;
+    }
+
+    /**
+     * Sets the new item put in the showcase.
+     * 
+     * @param item the new item
+     */
+    private void setNewItem(final Item item) {
         this.newItem = item;
     }
+
 } 

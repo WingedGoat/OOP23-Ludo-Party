@@ -117,7 +117,7 @@ public interface Player {
      * 
      * @param value the amount of coins
      */
-    void modifyCoins(int value);
+    void updateCoins(int value);
 
     /**
      * Gets the player items.
