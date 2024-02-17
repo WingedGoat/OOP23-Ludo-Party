@@ -198,7 +198,15 @@ public final class Movement {
         return false;
     }
 
-    // fine degli aiuti
+    /**
+     * Gets the paths that the pawns of the players should follow according to their
+     * color.
+     * 
+     * @return the paths of the players
+     */
+    public List<List<Position>> getPathColors() {
+        return List.copyOf(Movement.PATH_COLORS);
+    }
 
     private List<Position> buildBlue() {
         final PathBuilder pb = new PathBuilder(Index.SIX, Index.THIRTEEN);
