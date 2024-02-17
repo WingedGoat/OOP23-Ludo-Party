@@ -77,6 +77,7 @@ public final class ControllerImpl implements Controller, Runnable {
         // when finish the turn
         this.view.setOnKeyPressed(e -> {
             if (e.getCode().equals(KeyCode.ENTER) && canPassTurn()) {
+                this.view.getShopPane().disableShop();
                 // LOGGER.error(" -- end of turn -- ");
                 for (int i = 1; i < getPlayersNumber(); i++) {
                     /*
@@ -148,11 +149,16 @@ public final class ControllerImpl implements Controller, Runnable {
                     // final Position actualPos = player.getPawns().get(index).getPosition();
                     pawn.move(getGame().getTurn().getDiceResult(), getGame());
                     updatePawnPositions();
+
+                    if (getGame().getBoard().getShops().contains(pawn.getPosition())) {
+                        this.view.getShopPane().ableShop();
+                    }
                 } else if (getMalusClicked()
                         && !player.equals(getGame().getTurn().getCurrentPlayer())) {
-                    final Label message = new Label(getGame().getTurn().getCurrentPlayer().getName() + " ha usato " 
+                    final Label message = new Label(getGame().getTurn().getCurrentPlayer().getName() + " ha usato "
                             + getItemToUse().getName() + " su " + player.getName());
-                    message.setBackground(new Background(new BackgroundFill(Color.PURPLE, CornerRadii.EMPTY, Insets.EMPTY)));
+                    message.setBackground(
+                            new Background(new BackgroundFill(Color.PURPLE, CornerRadii.EMPTY, Insets.EMPTY)));
                     view.getShopPane().getPopupMessage().getContent().add(message);
                     view.getShopPane().getPopupMessage().show(view.getWindow());
                     getGame().getTurn().getCurrentPlayer().useItem(itemToUse, player, pawn, game);
@@ -200,7 +206,7 @@ public final class ControllerImpl implements Controller, Runnable {
         return true;
     }
 
-    @Override //FIXME sta venendo utilizzato ? 
+    @Override // FIXME sta venendo utilizzato ?
     public Boolean clickPlayerTargetOfMalus(final Button targetPlayer) {
         if (!malusClicked) {
             return false;
