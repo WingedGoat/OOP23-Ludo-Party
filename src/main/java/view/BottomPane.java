@@ -44,9 +44,10 @@ public class BottomPane extends BorderPane {
         buttons.add(leftButton);
         buttons.add(centerButton);
         buttons.add(rightButton);
+
         buttonsMap.put(leftButton, null);
-        buttonsMap.put(leftButton, null);
-        buttonsMap.put(leftButton, null);
+        buttonsMap.put(centerButton, null);
+        buttonsMap.put(rightButton, null);
 
         this.buttonPressed = null;
 
