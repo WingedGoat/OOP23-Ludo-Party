@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import model.api.Cell.CellType;
@@ -35,6 +36,7 @@ public final class PlayerImpl implements Player {
     private boolean firstTurn = true;
     private int firstDice;
     private int secondDice;
+    private final Random r = new Random();
 
     /**
      * Player constructor.
@@ -102,8 +104,12 @@ public final class PlayerImpl implements Player {
         return coins;
     }
 
-    @Override
-    public void setCoins(final int coins) {
+    /**
+     * Sets the coins of the player.
+     * 
+     * @param coins the amount of coins
+     */
+    private void setCoins(final int coins) {
         this.coins = coins;
     }
 
@@ -145,6 +151,14 @@ public final class PlayerImpl implements Player {
     @Override
     public void updateCoins(final int value) {
         this.setCoins(this.coins + value);
+    }
+
+    @Override
+    public void earnCoins(final int diceResult) {
+        for (int i = 0; i < diceResult; i++) {
+            final int earnAmount = r.nextInt(Index.TWELVE) + Index.SIX; //ogni cella dà ludollari da 6 a 17
+            updateCoins(earnAmount);
+        }
     }
 
     @Override

@@ -79,13 +79,6 @@ public interface Player {
     int getCoins();
 
     /**
-     * Sets the coins of the player.
-     * 
-     * @param coins the amount of coins
-     */
-    void setCoins(int coins);
-
-    /**
      * Returns true if it's the turn of the player,
      * false otherwise.
      * 
@@ -118,6 +111,12 @@ public interface Player {
      * @param value the amount of coins
      */
     void updateCoins(int value);
+
+    /**
+     * Earn coins based on the cells advanced in this turn.
+     * @param diceResult this turn's dice result
+     */
+    void earnCoins(int diceResult);
 
     /**
      * Gets the player items.

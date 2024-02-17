@@ -91,49 +91,61 @@ public final class ControllerImpl implements Controller, Runnable {
 
                     getGame().getTurn().passTurnTo(getGame().getPlayers().get(i));
                     ImageView diceImage = null;
+                    Label coinsLabel = null;
                     if (getPlayersNumber() == 2) {
                         diceImage = (ImageView) ((Group) (this.view.getRightPane().getChildren().get(0)))
                                 .getChildren().get(4);
+                        coinsLabel = (Label) ((Group) (this.view.getRightPane().getChildren().get(0)))
+                                .getChildren().get(3);
                     } else {
                         switch (i) {
                             case 1:
                                 diceImage = (ImageView) ((Group) (this.view.getRightPane().getChildren().get(0)))
                                         .getChildren().get(4);
+                                coinsLabel = (Label) ((Group) (this.view.getRightPane().getChildren().get(0)))
+                                        .getChildren().get(3);
                                 break;
                             case 2:
                                 diceImage = (ImageView) ((Group) (this.view.getLeftPane().getChildren().get(1)))
                                         .getChildren().get(4);
+                                coinsLabel = (Label) ((Group) (this.view.getLeftPane().getChildren().get(1)))
+                                        .getChildren().get(3);
                                 break;
                             default:
                                 diceImage = (ImageView) ((Group) (this.view.getRightPane().getChildren().get(1)))
                                         .getChildren().get(4);
+                                coinsLabel = (Label) ((Group) (this.view.getRightPane().getChildren().get(1)))
+                                        .getChildren().get(3);
                                 break;
                         }
                     }
                     final int diceResult = getGame().getTurn().getCurrentPlayer().rollDice();
                     this.view.getLeftPane().showDiceNumber(diceImage, diceResult);
 
-                    int indexPawnToMove = r.nextInt(getGame().getPlayers().get(i).getPawns().size());
+                    int indexPawnToMove = r.nextInt(getGame().getTurn().getCurrentPlayer().getPawns().size());
                     /*
                      * Il Computer cambia la scelta del Pawn da muovere, finché:
                      * continua a sceglierne uno che NON si può muovere, però
                      * ne ha altri che POSSONO effettuare un movimento
                      */
                     while (!getGame().getMovement().playerCanMoveThePawn(
-                            getGame().getPlayers().get(i).getPawns().get(indexPawnToMove), diceResult)
+                            getGame().getTurn().getCurrentPlayer().getPawns().get(indexPawnToMove), diceResult)
                             && getGame().getMovement().playerCanMovePawns(
-                                    diceResult, getGame().getPlayers().get(i))) {
-                        indexPawnToMove = r.nextInt(getGame().getPlayers().get(i).getPawns().size());
+                                    diceResult, getGame().getTurn().getCurrentPlayer())) {
+                        indexPawnToMove = r.nextInt(getGame().getTurn().getCurrentPlayer().getPawns().size());
                     }
                     /*
                      * final Position pos = controller.getGame().getPlayers().get(i)
                      * .getPawns().get(indexPawnToMove).getStartPosition();
                      */
-                    final Pawn pawnToMove = getGame().getPlayers().get(i).getPawns().get(indexPawnToMove);
+                    final Pawn pawnToMove = getGame().getTurn().getCurrentPlayer().getPawns().get(indexPawnToMove);
                     pawnToMove.move(diceResult, getGame());
 
                     updatePawnPositions();
+                    getGame().getTurn().getCurrentPlayer().earnCoins(diceResult);
+                    coinsLabel.setText("Ludollari: " + getGame().getTurn().getCurrentPlayer().getCoins());
                 }
+                getGame().getTurn().passTurnTo(getGame().getPlayers().get(0));
             }
         });
 
@@ -149,6 +161,10 @@ public final class ControllerImpl implements Controller, Runnable {
                     // final Position actualPos = player.getPawns().get(index).getPosition();
                     pawn.move(getGame().getTurn().getDiceResult(), getGame());
                     updatePawnPositions();
+                    final Label coinsLabel = (Label) ((Group) (this.view.getLeftPane().getChildren().get(0)))
+                        .getChildren().get(3);
+                    player.earnCoins(getGame().getTurn().getDiceResult());
+                    coinsLabel.setText("Ludollari: " + player.getCoins());
 
                     if (getGame().getBoard().getShops().contains(pawn.getPosition())) {
                         this.view.getShopPane().ableShop();
