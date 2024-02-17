@@ -25,7 +25,6 @@ public class BottomPane extends BorderPane {
     private Button rightButton = new Button();
     private final List<Button> buttons = new ArrayList<>();
     private final Map<Button, Item> buttonsMap = new HashMap<>();
-    private final Button empybutton = new Button();
     private Button buttonPressed;
     private final Popup popupMessage = new Popup();
 
@@ -46,19 +45,11 @@ public class BottomPane extends BorderPane {
         buttons.add(centerButton);
         buttons.add(rightButton);
 
-        buttonsMap.put(leftButton, null);
-        buttonsMap.put(centerButton, null);
-        buttonsMap.put(rightButton, null);
-
-        this.empybutton.setText("*");
-        this.empybutton.setDisable(true);
-
         this.buttonPressed = null;
 
         this.popupMessage.setX(X_POS_POPUP);
         this.popupMessage.setY(Y_POS_POPUP);
         this.popupMessage.setAutoHide(true);
-
     }
     /** 
      * @return a copy of the left button
@@ -79,12 +70,6 @@ public class BottomPane extends BorderPane {
         return copyButton(this.rightButton);
     }
 
-    /**
-     *@return a copy of the empy button
-     */
-    public final Button getEmpyButton() {
-        return copyButton(this.empybutton);
-    }
     /**
      * Modify the left button.
      * 
@@ -140,7 +125,7 @@ public class BottomPane extends BorderPane {
      * 
      * @return a copy
      */
-    public final  Map<Button, Item> getButtonMap() {
+    public final  Map<Button, Item> getItemButtonMap() {
         final Map<Button, Item> copybuttonsMap = new HashMap<>();
         copybuttonsMap.put(leftButton, buttonsMap.get(leftButton));
         copybuttonsMap.put(centerButton, buttonsMap.get(centerButton));

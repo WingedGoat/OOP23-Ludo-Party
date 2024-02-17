@@ -77,8 +77,7 @@ public class ShopPane extends BottomPane {
      */
     public void sellingItem(final Button buttonpressed, final Controller ctrl, final BoardScene board) {
 
-        final Item oldItem = getButtonMap().get(buttonpressed);
-        final Item newItem = ctrl.getNewShopItem();
+        final Item oldItem = getItemButtonMap().get(buttonpressed);
         final boolean possibleSelling = ctrl.humanClickShopButton(buttonpressed, oldItem);
 
         if (possibleSelling) {
@@ -88,6 +87,7 @@ public class ShopPane extends BottomPane {
 
             getPopupMessage().getContent().add(message);
             getPopupMessage().show(board.getWindow());
+            final Item newItem = ctrl.getNewShopItem();
 
             buttonPressed(buttonpressed);
             buttonSetting(buttonpressed, newItem, ctrl, board);

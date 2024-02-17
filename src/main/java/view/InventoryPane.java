@@ -19,6 +19,8 @@ import utils.Index;
  */
 public class InventoryPane extends BottomPane {
 
+    private boolean empyLeft, empyCenter, empyRight;
+
     /**
      * The contructor for the InventoryPane.
      */
@@ -26,9 +28,23 @@ public class InventoryPane extends BottomPane {
         super();
 
         for (int i = 0; i < this.getButtons().size(); i++) {
+
             final Button button = getButtons().get(i);
+            button.setDisable(true);
+
+            if (button.equals(getLeftButton())) {
+                empyLeft = true;
+            } 
+            if (button.equals(getCenterButton())) {
+                empyCenter = true;
+            } 
+            if (button.equals(getRightButton())) {
+                empyRight = true;
+            }
+
             button.setText("*");
-            //button.setDisable(true);
+            button.setDisable(true);
+            replaceItemButtonsMap(button, null);
         }
     }
 
@@ -41,20 +57,43 @@ public class InventoryPane extends BottomPane {
      */
     public void addItem(final Item item, final Controller ctrl, final BoardScene board) { 
 
-        final Button newButton = new Button();
-        newButton.setText(item.getName());
-        newButton.setTooltip(new Tooltip(item.getDescription() + item.getType()));
-        newButton.setDisable(false);
+        if (isEmpyCenter()) { 
+            if (isEmpyLeft()) { 
+                setEmpyLeft(false);
+                setItemButton(getLeftButton(), item, ctrl, board);
+            } else {
+                setEmpyCenter(false);
+                setItemButton(getCenterButton(), item, ctrl, board);
+            }
+        } else {
+            setEmpyLeft(false);
+            setItemButton(getRightButton(), item, ctrl, board);
+        }
+    }
 
-        newButton.setOnMouseEntered(mouseEvent -> {
-            newButton.setCursor(Cursor.HAND);
+    /**
+     * 
+     * @param button
+     * @param item
+     * @param ctrl
+     * @param board
+     */
+    void setItemButton(final Button button, final Item item, final Controller ctrl, final BoardScene board) {
+
+        button.setText(item.getName());
+        button.setTooltip(new Tooltip(item.getDescription() + item.getType()));
+        button.setDisable(false);
+        replaceItemButtonsMap(button, item);
+
+        button.setOnMouseEntered(mouseEvent -> {
+            button.setCursor(Cursor.HAND);
             board.getBorderPane().requestFocus();
         });
 
-        newButton.setOnMousePressed(mouseEvent -> {
+        button.setOnMousePressed(mouseEvent -> {
 
             final Button pressdButton = (Button) mouseEvent.getSource();
-            final Item chooseItem = getButtonMap().get(pressdButton);
+            final Item chooseItem = getItemButtonMap().get(pressdButton);
             buttonPressed(pressdButton);
 
             if (ctrl.clickBonusButton(chooseItem)) {
@@ -64,45 +103,106 @@ public class InventoryPane extends BottomPane {
                 getPopupMessage().getContent().add(message);
                 message.setBackground(new Background(new BackgroundFill(Color.AQUAMARINE, CornerRadii.EMPTY, Insets.EMPTY)));
                 getPopupMessage().show(board.getWindow());
-                ordinateUsedInventory(pressdButton);
             } 
             ctrl.setItemToUse(chooseItem);
             pressdButton.setDisable(true);
-            ordinateUsedInventory(pressdButton);
+            ordinateUsedInventory(pressdButton, ctrl, board);
             board.getBorderPane().requestFocus();
         });
-
-        if (getCenterButton().equals(this.getEmpyButton())) { 
-            if (getLeftButton().equals(this.getEmpyButton())) { 
-                setLeftButton(newButton);
-                replaceItemButtonsMap(getLeftButton(), item);
-            } else {
-                setCenterButton(newButton);
-                replaceItemButtonsMap(getCenterButton(), item);
-            }
-        } else {
-            setRightButton(newButton);
-            replaceItemButtonsMap(getRightButton(), item);
-        }
     }
 
+    /**
+     * 
+     * @param button
+     */
+    public void setEmpyButton(final Button button) {
+        button.setText("*");
+        button.setDisable(true);
+        replaceItemButtonsMap(button, null);
+    }
     /**
      * Reordinate the inventory view on base of the button used.
      * 
      * @param buttonUsed
+     * @param ctrl
+     * @param board
      */
-    public void ordinateUsedInventory(final Button buttonUsed) {
-        final Button center = getCenterButton(), right = getRightButton();
-        setRightButton(this.getEmpyButton());
-        replaceItemButtonsMap(getRightButton(), null);
-        if (!buttonUsed.equals(right)) {
-            setCenterButton(right);
-            replaceItemButtonsMap(getCenterButton(), getButtonMap().get(right));
-            if (!buttonUsed.equals(center)) {
-                setLeftButton(center);
-                replaceItemButtonsMap(getLeftButton(), getButtonMap().get(center));
+    public void ordinateUsedInventory(final Button buttonUsed, final Controller ctrl, final BoardScene board) {
+        final Button  right = getRightButton(), center = getCenterButton();
+
+        if (isEmpyCenter() && isEmpyRight()) {
+            setEmpyButton(getLeftButton());
+        } else if (isEmpyRight()) {
+            if (getLeftButton().equals(buttonUsed)) {
+                setItemButton(getLeftButton(), getItemButtonMap().get(center), ctrl, board);
+            } 
+            setEmpyButton(getCenterButton());
+        } else { 
+            if (getLeftButton().equals(buttonUsed)) {
+                setItemButton(getLeftButton(), getItemButtonMap().get(center), ctrl, board);
+                setItemButton(getCenterButton(), getItemButtonMap().get(right), ctrl, board);
             }
-        } 
+            if (center.equals(buttonUsed)) {
+                setItemButton(getCenterButton(), getItemButtonMap().get(right), ctrl, board);
+            } 
+            setEmpyButton(getRightButton());
+        }
     }
 
+    /**
+     * Set the new value if the left button is empy or not.
+     * 
+     * @param newEmpyLeft
+     */
+    public void setEmpyLeft(final boolean newEmpyLeft) {
+        this.empyLeft = newEmpyLeft;
+    }
+
+    /**
+     * Set the new value if the center button is empy or not.
+     * 
+     * @param newEmpyCenter
+     */
+    public void setEmpyCenter(final boolean newEmpyCenter) {
+        this.empyCenter = newEmpyCenter;
+    }
+
+    /**
+     * Set the new value if the right button is empy or not.
+     * 
+     * @param newEmpyRight
+     */
+    public void setEmpyRight(final boolean newEmpyRight) {
+        this.empyRight = newEmpyRight;
+    }
+
+    /**
+     * Return true if the left button is empy,
+     * false instead.
+     * 
+     * @return true or false
+     */
+    public boolean isEmpyLeft() {
+        return empyLeft;
+    }
+
+    /**
+     * Return true if the central button is empy,
+     * false instead.
+     * 
+     * @return true or false
+     */
+    public boolean isEmpyCenter() {
+        return empyCenter;
+    }
+
+    /**
+     * Return true if the right button is empy,
+     * false instead.
+     * 
+     * @return true or false
+     */
+    public boolean isEmpyRight() {
+        return empyRight;
+    }
 }
