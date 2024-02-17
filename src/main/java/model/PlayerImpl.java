@@ -144,7 +144,7 @@ public final class PlayerImpl implements Player {
 
     @Override
     public void updateCoins(final int value) {
-        this.coins = this.coins + value;
+        this.setCoins(this.coins + value);
     }
 
     @Override
