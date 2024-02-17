@@ -1,6 +1,7 @@
 package model;
 
 import model.api.Game;
+import model.api.Item;
 import model.api.Pawn;
 import utils.BColor;
 import utils.Constants;
@@ -70,7 +71,8 @@ public final class Movement {
 
     private static void eatenPawns(final Pawn pawn, final Game game) {
         if (enemyIsAlone(pawn, game) && notSafe(pawn.getPosition(), game)
-                && !pawn.getPosition().equals(new Position(Index.SEVEN, Index.SEVEN))) {
+                && !pawn.getPosition().equals(new Position(Index.SEVEN, Index.SEVEN))
+                && !isEnemyOnBastione(getEnemyPawn(pawn, game), game)) {
             homeStep(getEnemyPawn(pawn, game), game);
         }
     }
@@ -115,6 +117,17 @@ public final class Movement {
         return nEnemies == 1;
     }
 
+    private static boolean isEnemyOnBastione(final Pawn enemyPawn, final Game game) {
+        for (int i = 0; i < game.getPlayers().size(); i++) {
+            if (game.getPlayers().get(i).getPawns().contains(enemyPawn)
+                    && game.getPlayers().get(i).getItemsApplied().contains(Item.BASTIONE)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private static boolean notSafe(final Position pos, final Game game) {
         for (final var c : game.getBoardCells()) {
             if (c.getPosition().equals(pos)) {
@@ -139,7 +152,7 @@ public final class Movement {
      * 
      * @return the paths of the players
      */
-    public static  List<List<Position>> getPathColors() {
+    public static List<List<Position>> getPathColors() {
         return List.copyOf(Movement.PATH_COLORS);
     }
 
