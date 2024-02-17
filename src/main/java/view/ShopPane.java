@@ -62,7 +62,14 @@ public class ShopPane extends BottomPane {
         button.setOnMousePressed(e -> {
 
             final Button buttonpressed = (Button) e.getSource();
-            final Item oldItem = getButtonMap().get(buttonpressed);
+            sellingItem(buttonpressed, ctrl, board);
+            
+            board.getBorderPane().requestFocus();
+        });
+    }
+
+    public void sellingItem(final Button buttonpressed, final Controller ctrl, final BoardScene board) {
+        final Item oldItem = getButtonMap().get(buttonpressed);
             final Item newItem = ctrl.getNewShopItem();
             final boolean possibleSelling = ctrl.humanClickShopButton(buttonpressed, oldItem);
 
@@ -84,8 +91,6 @@ public class ShopPane extends BottomPane {
                 getPopupMessage().getContent().add(message);
                 getPopupMessage().show(board.getWindow());
             }
-            board.getBorderPane().requestFocus();
-        });
     }
 
      /**
