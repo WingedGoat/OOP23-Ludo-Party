@@ -35,7 +35,7 @@ public enum Item {
      */
     BASTIONE(ItemType.BONUS,
             "Bastione",
-            "Fino al tuo prossimo turno non sei targhettabile dai malus degli avversari"
+            "Fino al tuo prossimo turno non sei targhettabile dai malus degli avversari "
                     + "e le tue pedine non possono venir mangiate",
             500,
             3),
