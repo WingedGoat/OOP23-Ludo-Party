@@ -127,7 +127,7 @@ public final class ControllerImpl implements Controller, Runnable {
                      * continua a sceglierne uno che NON si può muovere, però
                      * ne ha altri che POSSONO effettuare un movimento
                      */
-                    while (!player.canMovePawns(diceResult) && player.getPawns().get(indexPawnToMove).canMove(diceResult)) {
+                    while (player.canMovePawns(diceResult) && !player.getPawns().get(indexPawnToMove).canMove(diceResult)) {
                         indexPawnToMove = r.nextInt(Constants.PLAYER_PAWNS);
                     }
 

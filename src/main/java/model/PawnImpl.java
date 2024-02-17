@@ -57,8 +57,10 @@ public final class PawnImpl implements Pawn {
 
     @Override
     public boolean canMove(final int diceResult) {
-        if (this.getPosition().equals(this.getStartPosition()) && diceResult == Index.SIX) {
-            return true;
+        if (this.getPosition().equals(this.getStartPosition())) {
+            if (diceResult == Index.SIX) {
+                return true;
+            }
         } else {
             final Position pawnPos = this.getPosition();
             final int size = Movement.getPathColors().get(this.getColor().ordinal()).size();
