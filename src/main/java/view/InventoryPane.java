@@ -27,20 +27,12 @@ public class InventoryPane extends BottomPane {
     public InventoryPane() {
         super();
 
+        empyLeft = true;
+        empyCenter = true;
+        empyRight = true;
         for (int i = 0; i < this.getButtons().size(); i++) {
 
             final Button button = getButtons().get(i);
-            button.setDisable(true);
-
-            if (button.equals(getLeftButton())) {
-                empyLeft = true;
-            } 
-            if (button.equals(getCenterButton())) {
-                empyCenter = true;
-            } 
-            if (button.equals(getRightButton())) {
-                empyRight = true;
-            }
 
             button.setText("*");
             button.setDisable(true);
@@ -66,7 +58,7 @@ public class InventoryPane extends BottomPane {
                 setItemButton(getCenterButton(), item, ctrl, board);
             }
         } else {
-            setEmpyLeft(false);
+            setEmpyRight(false);
             setItemButton(getRightButton(), item, ctrl, board);
         }
     }
