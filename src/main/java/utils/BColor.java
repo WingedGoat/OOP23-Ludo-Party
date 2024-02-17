@@ -58,6 +58,10 @@ public enum BColor {
      */
     DARK_GREY("#363230"),
     /**
+     * Shop grey.
+     */
+    SHOP_GREY("#bcbec4"),
+    /**
      * Light black.
      */
     LIGHT_BLACK("#282a35"),

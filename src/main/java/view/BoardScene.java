@@ -13,6 +13,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import java.util.List;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import model.Position;
 import model.api.Player;
 import utils.BColor;
 import utils.Constants;
+import utils.Index;
 import view.utils.ViewUtility;
 
 import org.apache.logging.log4j.LogManager;
@@ -191,9 +193,12 @@ public class BoardScene extends Scene {
                         || ctrl.getGame().getBoard().getBottomRighSafePath().contains(pos)) {
                     bt.setStyle(BG_COLOR_CSS + BColor.YELLOW.getHexColor() + BG_RADIUS_CSS);
                     bt.setOnMouseEntered(e -> bt.setCursor(null));
-                } //else if (ctrl.getGame().getBoard().getShops().contains(pos)) {
-
-                //}
+                } else if (ctrl.getGame().getBoard().getShops().contains(pos)) {
+                    bt.setStyle(BG_COLOR_CSS + BColor.SHOP_GREY.getHexColor() + BG_RADIUS_CSS);
+                    bt.setText("S");
+                    bt.setFont(new Font(Index.EIGHTEEN));
+                    bt.setOnMouseEntered(e -> bt.setCursor(null));
+                }
 
                 bt.setPrefSize(CELL_WIDTH, CELL_WIDTH);
                 bt.setCursor(Cursor.HAND);

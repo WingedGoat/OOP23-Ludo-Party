@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import model.api.Cell.CellType;
@@ -27,14 +28,18 @@ public final class PlayerImpl implements Player {
     private final Set<Position> safePath;
     private final List<Pawn> pawns;
     private final Dice dice;
-    private int coins;
+    private int diceResult;
     private boolean isPlayerTurn;
-
+    private boolean diceRolled;
+    private boolean pawnMoved;
+    private boolean isfirstTurn = true;
+    private int coins;
+    // Item flags
     private final List<Item> playerItems = new ArrayList<>();
     private final List<Item> itemsApplied = new ArrayList<>();
-    private boolean firstTurn = true;
     private int firstDice;
     private int secondDice;
+    private final Random r = new Random();
 
     /**
      * Player constructor.
@@ -102,8 +107,12 @@ public final class PlayerImpl implements Player {
         return coins;
     }
 
-    @Override
-    public void setCoins(final int coins) {
+    /**
+     * Sets the coins of the player.
+     * 
+     * @param coins the amount of coins
+     */
+    private void setCoins(final int coins) {
         this.coins = coins;
     }
 
@@ -124,27 +133,106 @@ public final class PlayerImpl implements Player {
 
     @Override
     public int rollDice() {
-        if (firstTurn) { // force 6 at start of game in order to move at least the first pawn
-            firstTurn = !firstTurn;
-            return Index.SIX;
+        if (this.isfirstTurn) { // force 6 at start of game in order to move at least the first pawn
+            this.diceResult = Index.SIX;
+            this.isfirstTurn = !this.isfirstTurn;
+            return this.diceResult;
         }
-        if (itemsApplied.contains(Item.DADUPLO) && itemsApplied.contains(Item.TAGLIATELO)) {
-            setFirstDice(this.getDice().roll() / 2);
-            setSecondDice(this.getDice().roll() / 2);
-            return getFirstDice() + getSecondDice();
-        } else if (itemsApplied.contains(Item.DADUPLO)) {
-            setFirstDice(this.getDice().roll());
-            setSecondDice(this.getDice().roll());
-            return getFirstDice() + getSecondDice();
-        } else if (itemsApplied.contains(Item.TAGLIATELO)) {
-            return this.getDice().roll() / 2;
+        if (this.itemsApplied.contains(Item.DADUPLO) && this.itemsApplied.contains(Item.TAGLIATELO)) {
+            this.setFirstDice(this.getDice().roll() / 2);
+            this.setSecondDice(this.getDice().roll() / 2);
+            this.diceResult = getFirstDice() + getSecondDice();
+
+            return this.diceResult;
+        } else if (this.itemsApplied.contains(Item.DADUPLO)) {
+            this.setFirstDice(this.getDice().roll());
+            this.setSecondDice(this.getDice().roll());
+            this.diceResult = getFirstDice() + getSecondDice();
+
+            return this.diceResult;
+        } else if (this.itemsApplied.contains(Item.TAGLIATELO)) {
+            this.diceResult = this.getDice().roll() / 2;
+            return this.diceResult;
         }
-        return this.getDice().roll();
+        this.diceResult = this.getDice().roll();
+
+        return this.diceResult;
     }
 
     @Override
-    public void modifyCoins(final int value) {
-        this.coins = this.coins + value;
+    public int getDiceResult() {
+        return this.diceResult;
+    }
+
+    @Override
+    public boolean isDiceRolled() {
+        return this.diceRolled;
+    }
+
+    @Override
+    public boolean canRollDice() {
+        if (this.diceRolled) {
+            return false;
+        }
+        this.diceRolled = true;
+        return true;
+    }
+
+    @Override
+    public boolean canPassTurn() {
+        if (!this.pawnMoved) {
+            return false;
+        }
+        this.diceRolled = false;
+        this.pawnMoved = false;
+        return true;
+    }
+
+    @Override
+    public void setPawnMoved(final boolean b) {
+        this.pawnMoved = b;
+    }
+
+    @Override
+    public boolean canMovePawn(final Pawn pawn) {
+        if (!this.diceRolled || this.pawnMoved || pawn.getColor() != BColor.BLUE) {
+            return false;
+        }
+        /*
+         * Se è possibile muovere la pedina cliccata, imposto pawnMoved a true.
+         * Già verificata (in PlayerPanelLeft) la casistica in cui non è possibile
+         * muovere nessuna pedina.
+         */
+        if (pawn.canMove(this.diceResult)) {
+            this.pawnMoved = true;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean canMovePawns(final int diceResult) {
+        boolean canMove = false;
+        for (final Pawn pawn : this.getPawns()) {
+            if (pawn.canMove(diceResult)) {
+                canMove = true;
+                break;
+            }
+        }
+
+        return canMove;
+    }
+
+    @Override
+    public void updateCoins(final int value) {
+        this.setCoins(this.coins + value);
+    }
+
+    @Override
+    public void earnCoins(final int diceResult) {
+        for (int i = 0; i < diceResult; i++) {
+            final int earnAmount = r.nextInt(Index.TWELVE) + Index.SIX; //ogni cella dà ludollari da 6 a 17
+            updateCoins(earnAmount);
+        }
     }
 
     @Override
@@ -210,7 +298,7 @@ public final class PlayerImpl implements Player {
      * 
      * @param diceResult the value of the first dice
      */
-    public void setFirstDice(final int diceResult) {
+    private void setFirstDice(final int diceResult) {
         this.firstDice = diceResult;
     }
 
@@ -219,7 +307,7 @@ public final class PlayerImpl implements Player {
      * 
      * @param diceResult the value of the second dice
      */
-    public void setSecondDice(final int diceResult) {
+    private void setSecondDice(final int diceResult) {
         this.secondDice = diceResult;
     }
 

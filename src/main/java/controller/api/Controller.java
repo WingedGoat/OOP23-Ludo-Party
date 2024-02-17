@@ -3,7 +3,6 @@ package controller.api;
 import javafx.scene.control.Button;
 import model.api.Game;
 import model.api.Item;
-import model.api.Pawn;
 
 /**
  * Controller.
@@ -31,7 +30,7 @@ public interface Controller {
      * @param item
      * @return true if the shop was clicked
      */
-    Boolean humanClickShopButton(Button clickedButton, Item item);
+    boolean humanClickShopButton(Button clickedButton, Item item);
 
     /**
      * Checks whether the player clicked an item button with a bonus.
@@ -85,33 +84,6 @@ public interface Controller {
      * @param newMessage
      */
     void setShopMessage(String newMessage);
-
-    /**
-     * Checks if the User can roll the Dice.
-     * 
-     * @return true if the roll-Dice Button has been clicked at the right time.
-     */
-    boolean canRollDice();
-
-    /**
-     * Checks if the User can move the clicked Pawn.
-     * @param pawn the clicked Pawn.
-     * @return true if the clicked Pawn can be moved.
-     */
-    boolean canMovePawn(Pawn pawn);
-
-    /**
-     * Checks if the User can pass the Turn by pressing ENTER.
-     * 
-     * @return true if ENTER key is pressed when it's actually possible to change turn
-     */
-    boolean canPassTurn();
-
-    /**
-     * Set the pawnMoved field of controller.
-     * @param b the boolean value to set.
-     */
-    void setPawnMoved(boolean b);
 
     /**
      * Update pawns positions.

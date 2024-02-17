@@ -3,6 +3,7 @@ package model;
 import model.api.Cell.CellType;
 import model.api.Game;
 import utils.BColor;
+import utils.Index;
 import model.api.Pawn;
 
 /**
@@ -55,8 +56,26 @@ public final class PawnImpl implements Pawn {
     }
 
     @Override
+    public boolean canMove(final int diceResult) {
+        if (this.getPosition().equals(this.getStartPosition()) && diceResult == Index.SIX) {
+            return true;
+        } else {
+            final Position pawnPos = this.getPosition();
+            final int size = Movement.getPathColors().get(this.getColor().ordinal()).size();
+
+            if (Movement.getPathColors().get(this.getColor().ordinal()).indexOf(pawnPos) + diceResult < size) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
     public void move(final int diceResult, final Game game) {
-        Movement.movePawn(this, getColor(), diceResult, game);
+        if (this.canMove(diceResult)) {
+            Movement.movePawn(this, getColor(), diceResult, game);
+        }
     }
 
 }

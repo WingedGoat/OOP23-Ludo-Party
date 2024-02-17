@@ -79,13 +79,6 @@ public interface Player {
     int getCoins();
 
     /**
-     * Sets the coins of the player.
-     * 
-     * @param coins the amount of coins
-     */
-    void setCoins(int coins);
-
-    /**
      * Returns true if it's the turn of the player,
      * false otherwise.
      * 
@@ -113,11 +106,66 @@ public interface Player {
     int rollDice();
 
     /**
+     * Gets the dice result.
+     * @return the dice result
+     */
+    int getDiceResult();
+
+    /**
+     * Returns true if dice is rolled.
+     * 
+     * @return true if dice is rolled
+     */
+    boolean isDiceRolled();
+
+    /**
+     * Checks if the player can roll the dice.
+     * 
+     * @return true if the dice has been clicked at the right time
+     */
+    boolean canRollDice();
+
+    /**
+     * Checks if it's the right moment to press ENTER.
+     * 
+     * @return true if ENTER key is pressed when it's actually possible to change
+     *         turn
+     */
+    boolean canPassTurn();
+
+    /**
+     * Set the pawnMoved field.
+     * @param b the boolean value to set
+     */
+    void setPawnMoved(boolean b);
+
+    /**
+     * Checks if the User can move the clicked Pawn.
+     * @param pawn the clicked Pawn.
+     * @return true if the clicked Pawn can be moved.
+     */
+    boolean canMovePawn(Pawn pawn);
+
+    /**
+     * Checks if the player can move one of its pawns.
+     * 
+     * @param diceResult the dice result
+     * @return true if the player can move one of its pawns
+     */
+    boolean canMovePawns(int diceResult);
+
+    /**
      * Modify the amount of coins.
      * 
      * @param value the amount of coins
      */
-    void modifyCoins(int value);
+    void updateCoins(int value);
+
+    /**
+     * Earn coins based on the cells advanced in this turn.
+     * @param diceResult this turn's dice result
+     */
+    void earnCoins(int diceResult);
 
     /**
      * Gets the player items.
