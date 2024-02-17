@@ -124,11 +124,13 @@ public class InventoryPane extends BottomPane {
 
         if (isEmpyCenter() && isEmpyRight()) {
             setEmpyButton(getLeftButton());
+            setEmpyLeft(true);
         } else if (isEmpyRight()) {
             if (getLeftButton().equals(buttonUsed)) {
                 setItemButton(getLeftButton(), getItemButtonMap().get(center), ctrl, board);
             } 
             setEmpyButton(getCenterButton());
+            setEmpyCenter(true);
         } else { 
             if (getLeftButton().equals(buttonUsed)) {
                 setItemButton(getLeftButton(), getItemButtonMap().get(center), ctrl, board);
@@ -138,6 +140,7 @@ public class InventoryPane extends BottomPane {
                 setItemButton(getCenterButton(), getItemButtonMap().get(right), ctrl, board);
             } 
             setEmpyButton(getRightButton());
+            setEmpyRight(true);
         }
     }
 
