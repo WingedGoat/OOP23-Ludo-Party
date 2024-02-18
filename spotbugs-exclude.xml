@@ -47,6 +47,11 @@
     <Bug code="EI" />
   </Match>
 
+  <Match>
+    <Class name="view.PlayerGroup" />
+    <Bug code="EI" />
+  </Match>
+
   <!-- Match all XYZ violations. -->
   <Match>
     <Bug code="XYZ" />
