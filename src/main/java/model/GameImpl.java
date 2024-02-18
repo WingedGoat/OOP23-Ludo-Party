@@ -25,7 +25,6 @@ public final class GameImpl implements Game {
     private final List<Player> players;
     private final Turn turn;
     private final Shop shop;
-    private final Movement movement;
 
     /**
      * Constructor.
@@ -39,8 +38,7 @@ public final class GameImpl implements Game {
 
         // add players
         this.humanPlayer = new PlayerImpl(playerName, PlayerType.HUMAN,
-                BColor.BLUE, CellType.BOTTOM_LEFT_HOUSE, board.getBottomLeftSafePath(),
-                board.getBottomLeftPawnsStartPos());
+                BColor.BLUE, CellType.BOTTOM_LEFT_HOUSE, board.getBottomLeftSafePath(), board.getBottomLeftPawnsStartPos());
         final Player p1 = new PlayerImpl("Player 2", PlayerType.COMPUTER,
                 BColor.GREEN, CellType.TOP_RIGHT_HOUSE, board.getTopRightSafePath(), board.getTopRightPawnsStartPos());
         this.players = new ArrayList<>(List.of(this.humanPlayer, p1));
@@ -49,7 +47,7 @@ public final class GameImpl implements Game {
             final Player p2 = new PlayerImpl("Player 3", PlayerType.COMPUTER,
                     BColor.RED, CellType.TOP_LEFT_HOUSE, board.getTopLeftSafePath(), board.getTopLeftPawnsStartPos());
             final Player p3 = new PlayerImpl("Player 4", PlayerType.COMPUTER,
-                    BColor.YELLOW, CellType.BOTTOM_RIGHT_HOUSE, board.getBottomRighSafePath(),
+                    BColor.YELLOW, CellType.BOTTOM_RIGHT_HOUSE, board.getBottomRighSafePath(), 
                     board.getBottomRightPawnsStartPos());
             this.players.add(p2);
             this.players.add(p3);
@@ -57,10 +55,7 @@ public final class GameImpl implements Game {
 
         // create turn
         turn = new Turn(this.humanPlayer);
-        // turn.passTurnTo(this.humanPlayer);
-
         shop = new ShopImpl();
-        movement = new Movement();
     }
 
     @Override
@@ -94,11 +89,6 @@ public final class GameImpl implements Game {
     }
 
     @Override
-    public Movement getMovement() {
-        return this.movement;
-    }
-
-    @Override
     public void buyItem(final Player player, final Item item) {
        this.shop.sellItem((PlayerImpl) player, item);
     }
@@ -112,4 +102,5 @@ public final class GameImpl implements Game {
     public Shop getShop() {
         return this.shop;
     }
+
 }

@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import model.Movement;
 import model.Turn;
 
 /**
@@ -64,12 +63,6 @@ public interface Game {
      * @return the current showcase.
      */
     Map<Integer, Item> getShowcase();
-
-    /**
-     * To access the Movement class methods.
-     * @return the Movement.
-     */
-    Movement getMovement();
 
     /**
      * Called when a player attempts to use the Shop.
