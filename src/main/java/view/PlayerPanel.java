@@ -8,12 +8,9 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 
-import controller.api.Controller;
 import model.Position;
-import utils.BColor;
+import model.api.Game;
 import view.utils.ResourcePath;
 /**
  * Abstract Player panel class.
@@ -21,80 +18,58 @@ import view.utils.ResourcePath;
 public abstract class PlayerPanel extends AnchorPane {
 
     private static final int PANE_HEIGHT = 600;
-    private static final int CIRCLE_RADIUS = 80;
-    /**
-     * The inner circle radius.
-     */
-    protected static final int INNER_CIRCLE_RADIUS = 77;
-    private static final String CIRCLE_COLOR = BColor.GREY_CIRCLE.getHexColor();
-    private static final String INNER_CIRCLE_COLOR = BColor.GREY.getHexColor();
-
-    private static final int LABEL_X_LAYOUT = 60;
-    private static final int LABEL_TOP_NAME_Y_LAYOUT = 230;
-    private static final int LABEL_TOP_COINS_Y_LAYOUT = 250;
 
     private static final int AVATAR_X_POSITION = 110;
-    private static final int AVATAR_Y_TOP_POSITION = 120;
-    private static final int AVATAR_Y_BOTTOM_POSITION = 480;
-
-    private static final int DICE_WIDTH = 40;
-    private static final int DICE_HEIGHT = 40;
+    private static final int AVATAR_TOP_Y_POSITION = 120;
+    private static final int AVATAR_BOTTOM_Y_POSITION = 480;
     /**
-     * label bottom name Y layout.
+     * name label y position of top player.
      */
-    protected static final int LABEL_BOTTOM_NAME_Y_LAYOUT = 350;
+    protected static final int LABEL_NAME_TOP_Y_LAYOUT = 230;
     /**
-     * label bottom coins Y layout.
+     * coins label y position of top player.
      */
-    protected static final int LABEL_BOTTOM_COINS_Y_LAYOUT = 370;
+    protected static final int LABEL_COINS_TOP_Y_LAYOUT = 250;
     /**
-     * dice X layout.
+     * name label y position of bottom player.
      */
-    protected static final int DICE_X_LAYOUT = 170;
+    protected static final int LABEL_NAME_BOTTOM_Y_LAYOUT = 350;
     /**
-     * dice Y layout at top position.
+     * coins label y position of bottom player.
      */
-    protected static final int DICE_Y_LAYOUT_TOP = 260;
+    protected static final int LABEL_COINS_BOTTOM_Y_LAYOUT = 370;
     /**
-     * dice Y layout at bottm position.
+     * dice image y position of top player.
      */
-    protected static final int DICE_Y_LAYOUT_BOTTOM = 340;
+    protected static final int DICE_TOP_Y_LAYOUT = 260;
+    /**
+     * dice image y position of bottom player.
+     */
+    protected static final int DICE_BOTTOM_Y_LAYOUT = 340;
 
     private final int playersNumber;
-    private Label bottomPlayerCoins;
-    private Label topPlayerCoins;
     private final Position bottomPos;
     private final Position topPos;
 
-    PlayerPanel(final Controller controller) {
-        this.playersNumber = controller.getGame().getPlayers().size(); 
-        this.bottomPos = new Position(AVATAR_X_POSITION, AVATAR_Y_BOTTOM_POSITION);
-        this.topPos = new Position(AVATAR_X_POSITION, AVATAR_Y_TOP_POSITION);
+    /**
+     * Constructor.
+     * 
+     * @param game the game
+     */
+    protected PlayerPanel(final Game game) {
+        this.playersNumber = game.getPlayers().size(); 
+        this.bottomPos = new Position(AVATAR_X_POSITION, AVATAR_BOTTOM_Y_POSITION);
+        this.topPos = new Position(AVATAR_X_POSITION, AVATAR_TOP_Y_POSITION);
         this.setPrefHeight(PANE_HEIGHT);
     }
 
+
     /**
-     * Gets the players number of the game.
-     * @return the players number
+     * Gets the player number of the game.
+     * @return the player number
      */
     protected int getPlayersNumber() {
         return playersNumber;
-    }
-
-    /**
-     * Gets the bottom player coins label.
-     * @return the bottom player coins label
-     */
-    protected Label getBottomPlayerCoins() {
-        return bottomPlayerCoins;
-    }
-
-    /**
-     * Gets the top player coins label.
-     * @return the top player coins label
-     */
-    protected Label getTopPlayerCoins() {
-        return topPlayerCoins;
     }
 
     /**
@@ -114,6 +89,18 @@ public abstract class PlayerPanel extends AnchorPane {
     }
 
     /**
+     * Gets the top player coins label.
+     * @return the top player coins label
+     */
+    protected abstract Label getTopPlayerCoins();
+
+    /**
+     * Gets the bottom player coins label.
+     * @return the bottom player coins label
+     */
+    protected abstract Label getBottomPlayerCoins();
+
+    /**
      * Refreshes the amount of coins of the player panel.
      * 
      * @param coinsBottom the amount of coins of the bottom player
@@ -125,108 +112,19 @@ public abstract class PlayerPanel extends AnchorPane {
      * Creates the player Group at bottom corner.
      * 
      * @param pos the position of the player avatar
-     * @param ctrl the controller
-     * @return the player Group
+     * @param game the game
+     * @return the player group
      */
-    protected abstract Group createBottomPlayer(Position pos, Controller ctrl);
+    protected abstract Group createBottomPlayer(Position pos, Game game);
 
     /**
      * Creates the player Group at top corner.
      * 
      * @param pos the position of the player avatar
-     * @param ctrl the controller
-     * @return the player Group
+     * @param game the game
+     * @return the player group
      */
-    protected abstract Group createTopPlayer(Position pos, Controller ctrl);
-
-    /**
-     * Sets the node anchors.
-     * 
-     * @param label the node
-     * @param value the position
-     */
-    protected void setNodeAnchors(final Label label, final double value) {
-        AnchorPane.setLeftAnchor(label, value);
-        AnchorPane.setRightAnchor(label, value);
-    }
-
-    /**
-     * Creates the outer circle of the player avatar.
-     * 
-     * @param pos pos
-     * @return the player avatar
-     */
-    protected Circle createPlayerAvatar(final Position pos) {
-        return new Circle(pos.getX(), pos.getY(), CIRCLE_RADIUS, Color.valueOf(CIRCLE_COLOR));
-    }
-
-    /**
-     * Creates the inner circle of the player avatar.
-     * 
-     * @param pos pos
-     * @return the player avatar
-     */
-    protected Circle createPlayerInnerAvatar(final Position pos) {
-        return new Circle(pos.getX(), pos.getY(), INNER_CIRCLE_RADIUS, Color.valueOf(INNER_CIRCLE_COLOR));
-    }
-
-    /**
-     * Creates the label with the name of the player.
-     * 
-     * @param name the player name
-     * @return the label with the player name
-     */
-    protected Label createNameLabelTopPanel(final String name) {
-        final Label playerName = new Label(name);
-        playerName.setLayoutX(LABEL_X_LAYOUT);
-        playerName.setLayoutY(LABEL_TOP_NAME_Y_LAYOUT);
-
-        return playerName;
-    }
-
-    /**
-     * Creates the label with the coin quantity of the player.
-     */
-    protected void createCoinsLabelTopPanel() {
-        this.topPlayerCoins = new CoinsLabel("Ludollari: 0", LABEL_X_LAYOUT, LABEL_TOP_COINS_Y_LAYOUT);
-    }
-
-    /**
-     * Creates the label with the name of the player.
-     * 
-     * @param name the player name
-     * @return the label with the player name
-     */
-    protected Label createNameLabelBottomPanel(final String name) {
-        final Label playerName = new Label(name);
-        playerName.setLayoutX(LABEL_X_LAYOUT);
-        playerName.setLayoutY(LABEL_BOTTOM_NAME_Y_LAYOUT);
-
-        return playerName;
-    }
-
-    /**
-     * Creates the label with the coin quantity of the player.
-     */
-    protected void createCoinsLabelBottomPanel() {
-        this.bottomPlayerCoins = new CoinsLabel("Ludollari: 0", LABEL_X_LAYOUT, LABEL_BOTTOM_COINS_Y_LAYOUT);
-    }
-
-    /**
-     * Creates the dice image to show at the player side.
-     * 
-     * @return the dice image
-     */
-    protected ImageView createDicImageView() {
-        final ImageView diceImage = new ImageView();
-
-        final File file = new File(ResourcePath.DICE_IMG_FACE_ONE.getPath());
-        diceImage.setImage(new Image(file.toURI().toString()));
-        diceImage.setFitHeight(DICE_HEIGHT);
-        diceImage.setFitWidth(DICE_WIDTH);
-
-        return diceImage;
-    }
+    protected abstract Group createTopPlayer(Position pos, Game game);
 
     /**
      * Change the dice number on the dice image showed.
@@ -245,16 +143,5 @@ public abstract class PlayerPanel extends AnchorPane {
 
         return diceImage;
     }
-
-
-    private static class CoinsLabel extends Label {
-
-        CoinsLabel(final String text, final int xPos, final int yPos) {
-            super(text);
-            this.setLayoutX(xPos);
-            this.setLayoutY(yPos);
-        }
-    }
- 
 
 }

@@ -1,81 +1,85 @@
 package view;
 
 import javafx.application.Platform;
-import javafx.scene.Group;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
-import javafx.scene.shape.Circle;
-
-import controller.api.Controller;
 import model.Position;
+import model.api.Game;
 
 /**
  * Player panel on the right.
  */
+@SuppressWarnings("all")
 public final class PlayerPanelRight extends PlayerPanel {
+
+    private final PlayerGroup topPlayer;
+    private PlayerGroup bottomPlayer;
 
     /**
      * Constructor.
      * 
-     * @param controller the controller
+     * @param game the game
      */
-    public PlayerPanelRight(final Controller controller) {
-        super(controller);
-        final Group g3 = createTopPlayer(this.getTopPos(), controller);
-        this.getChildren().add(g3);
+    public PlayerPanelRight(final Game game) {
+        super(game);
+        this.topPlayer = createTopPlayer(this.getTopPos(), game);
+        this.getChildren().add(this.topPlayer);
 
         if (this.getPlayersNumber() > 2) {
-            final Group g4 = createBottomPlayer(this.getBottomPos(), controller);
-            this.getChildren().add(g4);
+            this.bottomPlayer = createBottomPlayer(this.getBottomPos(), game);
+            this.getChildren().add(this.bottomPlayer);
         }
     }
 
     @Override
-    protected Group createTopPlayer(final Position pos, final Controller ctrl) {
+    protected PlayerGroup createTopPlayer(final Position pos, final Game game) {
 
-        final Circle playerAvatar = createPlayerAvatar(pos);
-        final Circle playerAvatarInner = createPlayerInnerAvatar(pos);
-
-        String name = ctrl.getGame().getPlayers().get(1).getName();
-        if (ctrl.getPlayersNumber() > 2) {
-            name = ctrl.getGame().getPlayers().get(2).getName();
+        String playerName = game.getPlayers().get(1).getName();
+        if (this.getPlayersNumber()  > 2) {
+            playerName = game.getPlayers().get(2).getName();
         }
-        final Label playerName = createNameLabelTopPanel(name);
-        setNodeAnchors(playerName, 0.0);
 
-        this.createCoinsLabelTopPanel();
-        setNodeAnchors(this.getTopPlayerCoins(), 0.0);
+        final PlayerGroup g = new PlayerGroup(
+            pos,
+            playerName,
+            LABEL_NAME_TOP_Y_LAYOUT,
+            LABEL_COINS_TOP_Y_LAYOUT,
+            DICE_TOP_Y_LAYOUT
+        );
 
-        final ImageView diceImage = createDicImageView();
-        diceImage.setLayoutX(DICE_X_LAYOUT);
-        diceImage.setLayoutY(DICE_Y_LAYOUT_TOP);
-        //TODO add another dice image when is used DADUPLO
-        final Group g = new Group();
-        g.getChildren().addAll(playerAvatar, playerAvatarInner, playerName, this.getTopPlayerCoins(), diceImage);
+        // TODO Change dice image when it is computer player turn
+        // TODO add another dice image when is used DADUPLO
+
+        g.getChildren().addAll(
+            g.getPlayerAvatar(), g.getPlayerAvatarInner(), g.getPlayerName(), g.getPlayerCoins(), g.getDiceImage());
 
         return g;
     }
 
     @Override
-    protected Group createBottomPlayer(final Position pos, final Controller ctrl) {
+    protected PlayerGroup createBottomPlayer(final Position pos, final Game game) {
 
-        final Circle playerAvatar = createPlayerAvatar(pos);
-        final Circle playerAvatarInner = createPlayerInnerAvatar(pos);
+        final PlayerGroup g = new PlayerGroup(
+                pos,
+                game.getPlayers().get(3).getName(),
+                LABEL_NAME_BOTTOM_Y_LAYOUT,
+                LABEL_COINS_BOTTOM_Y_LAYOUT,
+                DICE_BOTTOM_Y_LAYOUT
+        );
 
-        final Label playerName = createNameLabelBottomPanel(ctrl.getGame().getPlayers().get(3).getName());
-        setNodeAnchors(playerName, 0.0);
-
-        this.createCoinsLabelBottomPanel();
-        setNodeAnchors(this.getBottomPlayerCoins(), 0.0);
-
-        final ImageView diceImage = createDicImageView();
-        diceImage.setLayoutX(DICE_X_LAYOUT);
-        diceImage.setLayoutY(DICE_Y_LAYOUT_BOTTOM);
-        //TODO add another dice image when is used DADUPLO
-        final Group g = new Group();
-        g.getChildren().addAll(playerAvatar, playerAvatarInner, playerName, this.getBottomPlayerCoins(), diceImage);
+        g.getChildren().addAll(
+            g.getPlayerAvatar(), g.getPlayerAvatarInner(), g.getPlayerName(), g.getPlayerCoins(), g.getDiceImage());
 
         return g;
+    }
+
+    @Override
+    protected Label getTopPlayerCoins() {
+        return this.topPlayer.getPlayerCoins();
+    }
+
+    @Override
+    protected Label getBottomPlayerCoins() {
+        return this.bottomPlayer.getPlayerCoins();
     }
 
     @Override

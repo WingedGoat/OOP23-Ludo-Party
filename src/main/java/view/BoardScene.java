@@ -86,11 +86,11 @@ public class BoardScene extends Scene {
         borderPane.setCenter(boardPanel);
 
         // lateral panels for the players
-        this.leftPane = new PlayerPanelLeft(controller);
+        this.leftPane = new PlayerPanelLeft(controller.getGame());
         this.leftPane.setPrefWidth(PLAYER_PANEL_WIDTH);
         borderPane.setLeft(leftPane);
 
-        this.rightPane = new PlayerPanelRight(controller);
+        this.rightPane = new PlayerPanelRight(controller.getGame());
         this.rightPane.setPrefWidth(PLAYER_PANEL_WIDTH);
         borderPane.setRight(rightPane);
 
