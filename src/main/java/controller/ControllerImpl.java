@@ -3,7 +3,6 @@ package controller;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
@@ -296,16 +295,6 @@ public final class ControllerImpl implements Controller, Runnable {
             malusClicked = true;
             return false;
         }
-        return true;
-    }
-
-    @Override // FIXME sta venendo utilizzato ?
-    public Boolean clickPlayerTargetOfMalus(final Button targetPlayer) {
-        if (!malusClicked) {
-            return false;
-        }
-        // implementare in base a quale stringa conterrà il Button dei Player avversari
-        malusClicked = false;
         return true;
     }
 
