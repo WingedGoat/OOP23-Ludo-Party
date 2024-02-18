@@ -51,6 +51,7 @@ public final class ControllerImpl implements Controller, Runnable {
     private boolean malusClicked;
     private Item itemToUse;
     private String outcome;
+    private boolean itemselled;
     private final Random r = new Random();
 
     /**
@@ -227,7 +228,23 @@ public final class ControllerImpl implements Controller, Runnable {
         setShopMessage(game.getShop().getShopMessage());
         if (!NOT_ENOUGH_SPACE.equals(outcome) && !NOT_ENOUGH_MONEY.equals(outcome) && !DUPLICATE.equals(outcome)) {
             this.view.getInventoryPane().addItem(itemOfClickedButton, this, view);
+            setIsItemSelled(true);
+        } else {
+            setIsItemSelled(false);
         }
+    }
+
+    /**
+     * Set if the item in the selling operetion got selled or not.
+     * @param newvalue
+     */
+    private void setIsItemSelled(final boolean newvalue) {
+        this.itemselled = newvalue;
+    }
+
+    @Override
+    public boolean isItemSelled() {
+        return this.itemselled;
     }
 
     @Override

@@ -37,6 +37,12 @@ public interface Controller {
     void sellingItemToPlayer(Item item);
 
     /**
+     * Return treu if the item in the selling operation got selled, false instead.
+     * @return true or false
+     */
+    boolean isItemSelled();
+
+    /**
      * Checks whether the player clicked an item button with a bonus.
      * If true, tells the model to activate this bonus for the player.
      * 

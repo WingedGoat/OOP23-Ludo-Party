@@ -82,8 +82,8 @@ public class ShopPane extends BottomPane {
         final boolean possibleSelling = ctrl.isPossibleSelling();
 
         if (possibleSelling) {
-
-            ctrl.sellingItemToPlayer(itemChoose);
+            if (ctrl.isItemSelled()) {
+                ctrl.sellingItemToPlayer(itemChoose);
             final Label message = new Label(ctrl.getShopMessage());
             message.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
 
@@ -93,13 +93,14 @@ public class ShopPane extends BottomPane {
 
             setButtonPressed(buttonpressed);
             buttonSetting(buttonpressed, newItem, ctrl, board);
-        } else {
+            } else {
 
-            final Label message = new Label(ctrl.getShopMessage());
-            message.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+                final Label message = new Label(ctrl.getShopMessage());
+                message.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
 
-            setPopupMessage(message);
-            getPopupMessage().show(board.getWindow());
+                setPopupMessage(message);
+                getPopupMessage().show(board.getWindow());
+            }
         }
     }
 
