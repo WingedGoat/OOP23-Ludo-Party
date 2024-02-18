@@ -20,6 +20,7 @@ import org.apache.logging.log4j.Logger;
 import controller.api.Controller;
 import controller.api.PanelObserver;
 import model.GameImpl;
+import model.Movement;
 import model.Position;
 import model.api.Game;
 import model.api.Game.Result;
@@ -71,14 +72,14 @@ public final class ControllerImpl implements Controller, Runnable {
 
             @Override
             public void updateLeftPlayerPanel(
-                    final int coinsBottom, final int coinsTop, 
+                    final int coinsBottom, final int coinsTop,
                     final int diceBottomNum, final int diceTopNum) {
                 view.getLeftPane().refresh(coinsBottom, coinsTop, diceBottomNum, diceTopNum);
             }
 
             @Override
             public void updateRightPlayerPanel(
-                    final int coinsBottom, final int coinsTop, 
+                    final int coinsBottom, final int coinsTop,
                     final int diceBottomNum, final int diceTopNum) {
                 view.getRightPane().refresh(coinsBottom, coinsTop, diceBottomNum, diceTopNum);
             }
@@ -92,24 +93,22 @@ public final class ControllerImpl implements Controller, Runnable {
         while (this.gameStatus != Result.WIN) {
             if (playersNumber == Constants.PLAYERS_NUM_2) {
                 obs.updateLeftPlayerPanel(
-                    this.game.getHumanPlayer().getCoins(), 0, 
-                    this.game.getHumanPlayer().getDiceResult(), 0);
+                        this.game.getHumanPlayer().getCoins(), 0,
+                        this.game.getHumanPlayer().getDiceResult(), 0);
                 obs.updateRightPlayerPanel(
-                    0, this.game.getPlayers().get(1).getCoins(),
-                    0, this.game.getPlayers().get(1).getDiceResult());
+                        0, this.game.getPlayers().get(1).getCoins(),
+                        0, this.game.getPlayers().get(1).getDiceResult());
             } else {
                 obs.updateLeftPlayerPanel(
-                    this.game.getHumanPlayer().getCoins(), 
-                    this.game.getPlayers().get(1).getCoins(),
-                    this.game.getHumanPlayer().getDiceResult(),
-                    this.game.getPlayers().get(1).getDiceResult()
-                );
+                        this.game.getHumanPlayer().getCoins(),
+                        this.game.getPlayers().get(1).getCoins(),
+                        this.game.getHumanPlayer().getDiceResult(),
+                        this.game.getPlayers().get(1).getDiceResult());
                 obs.updateRightPlayerPanel(
-                    this.game.getPlayers().get(2).getCoins(), 
-                    this.game.getPlayers().get(3).getCoins(),
-                    this.game.getPlayers().get(2).getDiceResult(), 
-                    this.game.getPlayers().get(3).getDiceResult()
-                );
+                        this.game.getPlayers().get(2).getCoins(),
+                        this.game.getPlayers().get(3).getCoins(),
+                        this.game.getPlayers().get(2).getDiceResult(),
+                        this.game.getPlayers().get(3).getDiceResult());
             }
 
             try {
@@ -143,7 +142,7 @@ public final class ControllerImpl implements Controller, Runnable {
                     this.game.getTurn().passTurnTo(player);
 
                     final int diceResult = player.rollDice();
-                    //this.view.getLeftPane().showDiceNumber(diceImage, diceResult);
+                    // this.view.getLeftPane().showDiceNumber(diceImage, diceResult);
 
                     int indexPawnToMove = r.nextInt(Constants.PLAYER_PAWNS);
                     /*
@@ -151,7 +150,8 @@ public final class ControllerImpl implements Controller, Runnable {
                      * continua a sceglierne uno che NON si può muovere, però
                      * ne ha altri che POSSONO effettuare un movimento
                      */
-                    while (player.canMovePawns(diceResult) && !player.getPawns().get(indexPawnToMove).canMove(diceResult)) {
+                    while (player.canMovePawns(diceResult)
+                            && !player.getPawns().get(indexPawnToMove).canMove(diceResult)) {
                         indexPawnToMove = r.nextInt(Constants.PLAYER_PAWNS);
                     }
 
@@ -210,9 +210,24 @@ public final class ControllerImpl implements Controller, Runnable {
                     .getPawns().get(j % Constants.PLAYER_PAWNS).getStartPosition();
             final Position actualPos = this.game.getPlayers().get(j / Constants.PLAYER_PAWNS)
                     .getPawns().get(j % Constants.PLAYER_PAWNS).getPosition();
-            this.view.getPawns().get(j).setTranslateX((actualPos.getX() - startPos.getX()) * ViewUtility.CELL_WIDTH);
+            this.view.getPawns().get(j)
+                    .setTranslateX((actualPos.getX() - startPos.getX()) * ViewUtility.CELL_WIDTH + centerPawn(j));
             this.view.getPawns().get(j).setTranslateY((actualPos.getY() - startPos.getY()) * ViewUtility.CELL_WIDTH);
         }
+    }
+
+    private double centerPawn(final int j) {
+
+        this.view.getPawns().get(j).setRadius(ViewUtility.CIRCLE_RADIUS);
+
+        if (Movement.enemyPawnOntoPawn(game) && j / Constants.PLAYER_PAWNS > 0) {
+            this.view.getPawns().get(j).setRadius(
+                    this.view.getPawns().get(j).getRadius()
+                            - ViewUtility.RADIUS_DECREASE * Double.valueOf(j) / Double.valueOf(Constants.PLAYER_PAWNS));
+            final Double circleDiameter = this.view.getPawns().get(j).getRadius() * ViewUtility.RADIUS_TO_DIAMETER;
+            return (Double.valueOf(ViewUtility.CELL_WIDTH - circleDiameter)) / 4.0;
+        }
+        return 0.0;
     }
 
     @Override
@@ -236,6 +251,7 @@ public final class ControllerImpl implements Controller, Runnable {
 
     /**
      * Set if the item in the selling operetion got selled or not.
+     * 
      * @param newvalue
      */
     private void setIsItemSelled(final boolean newvalue) {

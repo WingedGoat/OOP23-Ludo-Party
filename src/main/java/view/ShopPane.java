@@ -79,20 +79,20 @@ public class ShopPane extends BottomPane {
      * @param ctrl
      * @param board
      */
-    public void sellingItem(final Button buttonpressed, final Item itemChoose, final Controller ctrl, final BoardScene board) {
+    public void sellingItem(final Button buttonpressed, final Item itemChoose, final Controller ctrl,
+            final BoardScene board) {
 
-        
         ctrl.sellingItemToPlayer(itemChoose);
         if (ctrl.isItemSelled()) {
-        final Label message = new Label(ctrl.getShopMessage());
-        message.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+            final Label message = new Label(ctrl.getShopMessage());
+            message.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        setPopupMessage(message);
-        getPopupMessage().show(board.getWindow());
-        final Item newItem = ctrl.getNewShopItem();
+            setPopupMessage(message);
+            getPopupMessage().show(board.getWindow());
+            final Item newItem = ctrl.getNewShopItem();
 
-        setButtonPressed(buttonpressed);
-        buttonSetting(buttonpressed, newItem, ctrl, board);
+            setButtonPressed(buttonpressed);
+            buttonSetting(buttonpressed, newItem, ctrl, board);
         } else {
 
             final Label message = new Label(ctrl.getShopMessage());
@@ -103,7 +103,7 @@ public class ShopPane extends BottomPane {
         }
     }
 
-     /**
+    /**
      * To able all the buttons of the shop when a pawn arrive on a the cell.
      */
     public void ableShop() {
@@ -114,7 +114,8 @@ public class ShopPane extends BottomPane {
     }
 
     /**
-     * To disable all the shop buttons at the end of the turn that a pawn arrive on a shop cell.
+     * To disable all the shop buttons at the end of the turn that a pawn arrive on
+     * a shop cell.
      */
     public void disableShop() {
         for (int i = 0; i < this.getButtons().size(); i++) {

@@ -141,10 +141,23 @@ public final class Movement {
         return game.getPlayers().get(k / Constants.PLAYER_PAWNS).getPawns().get(k % Constants.PLAYER_PAWNS);
     }
 
-    // provare ad aiutare chi gestisce i turni e le win
-    // facendo un metodo pubblico che ritorna se un player ha vinto
-    // con tutte e 4 le pedine al centro e magari pure in
-    // ordine in base a chi ha finito prima
+    /**
+     * Returns if there is at least one enemy pawn in the same position of a player
+     * pawn.
+     * 
+     * @param game the game
+     * @return the result
+     */
+    public static boolean enemyPawnOntoPawn(final Game game) {
+        for (int i = 0; i < Constants.PLAYER_PAWNS; i++) {
+            for (int j = Constants.PLAYER_PAWNS; j < game.getPlayers().size() * Constants.PLAYER_PAWNS; j++) {
+                if (getPawn(i, game).getPosition().equals(getPawn(j, game).getPosition())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     /**
      * Gets the paths that the pawns of the players should follow according to their
