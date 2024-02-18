@@ -71,13 +71,13 @@ public final class ControllerImpl implements Controller, Runnable {
         this.addObserver(new PanelObserver() {
 
             @Override
-            public void updateLeftPlayersCoins(final int coinsBottom, final int coinsTop) {
-                view.getLeftPane().refresh(coinsBottom, coinsTop);
+            public void updateLeftPlayerPanel(final int coinsBottom, final int coinsTop, final int diceBottomNum, final int diceTopNum) {
+                view.getLeftPane().refresh(coinsBottom, coinsTop, diceBottomNum, diceTopNum);
             }
 
             @Override
-            public void updateRightPlayersCoins(final int coinsBottom, final int coinsTop) {
-                view.getRightPane().refresh(coinsBottom, coinsTop);
+            public void updateRightPlayerPanel(final int coinsBottom, final int coinsTop, final int diceBottomNum, final int diceTopNum) {
+                view.getRightPane().refresh(coinsBottom, coinsTop, diceBottomNum, diceTopNum);
             }
 
         });
@@ -88,11 +88,25 @@ public final class ControllerImpl implements Controller, Runnable {
 
         while (this.gameStatus != Result.WIN) {
             if (playersNumber == Constants.PLAYERS_NUM_2) {
-                obs.updateLeftPlayersCoins(getGame().getHumanPlayer().getCoins(), 0);
-                obs.updateRightPlayersCoins(0, getGame().getPlayers().get(1).getCoins());
+                obs.updateLeftPlayerPanel(
+                    this.game.getHumanPlayer().getCoins(), 0, 
+                    this.game.getHumanPlayer().getDiceResult(), 0);
+                obs.updateRightPlayerPanel(
+                    0, this.game.getPlayers().get(1).getCoins(),
+                    this.game.getPlayers().get(1).getDiceResult(), 0);
             } else {
-                obs.updateLeftPlayersCoins(getGame().getHumanPlayer().getCoins(), getGame().getPlayers().get(1).getCoins());
-                obs.updateRightPlayersCoins(getGame().getPlayers().get(2).getCoins(), getGame().getPlayers().get(3).getCoins());
+                obs.updateLeftPlayerPanel(
+                    this.game.getHumanPlayer().getCoins(), 
+                    this.game.getPlayers().get(1).getCoins(),
+                    this.game.getHumanPlayer().getDiceResult(),
+                    this.game.getPlayers().get(1).getDiceResult()
+                );
+                obs.updateRightPlayerPanel(
+                    this.game.getPlayers().get(2).getCoins(), 
+                    this.game.getPlayers().get(3).getCoins(),
+                    this.game.getPlayers().get(2).getDiceResult(), 
+                    this.game.getPlayers().get(3).getDiceResult()
+                );
             }
 
             try {
@@ -133,26 +147,6 @@ public final class ControllerImpl implements Controller, Runnable {
                     final Player player = this.game.getPlayers().get(i);
                     this.game.getTurn().passTurnTo(player);
 
-                    ImageView diceImage = null;
-                    if (getPlayersNumber() == 2) {
-                        diceImage = (ImageView) ((Group) (this.view.getRightPane().getChildren().get(0)))
-                                .getChildren().get(4);
-                    } else {
-                        switch (i) {
-                            case 1:
-                                diceImage = (ImageView) ((Group) (this.view.getRightPane().getChildren().get(0)))
-                                        .getChildren().get(4);
-                                break;
-                            case 2:
-                                diceImage = (ImageView) ((Group) (this.view.getLeftPane().getChildren().get(1)))
-                                        .getChildren().get(4);
-                                break;
-                            default:
-                                diceImage = (ImageView) ((Group) (this.view.getRightPane().getChildren().get(1)))
-                                        .getChildren().get(4);
-                                break;
-                        }
-                    }
                     final int diceResult = player.rollDice();
                     this.view.getLeftPane().showDiceNumber(diceImage, diceResult);
 
