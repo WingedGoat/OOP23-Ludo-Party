@@ -2,6 +2,7 @@ package view;
 
 import javafx.application.Platform;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import model.Position;
 import model.api.Game;
 
@@ -83,11 +84,22 @@ public final class PlayerPanelRight extends PlayerPanel {
     }
 
     @Override
-    public void refresh(final int coinsBottom, final int coinsTop) {
+    protected DiceImageView getTopPlayerDice() {
+        return this.topPlayer.getDiceImage();
+    }
+
+    @Override
+    protected DiceImageView getBottomPlayerDice() {
+        return this.bottomPlayer.getDiceImage();
+    }
+
+    @Override
+    public void refresh(final int coinsBottom, final int coinsTop, final int diceBottomNum, final int diceTopNum) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 getTopPlayerCoins().setText("Ludollari: " + coinsTop);
+                getTopPlayerDice();
                 if (getPlayersNumber() > 2) {
                     getBottomPlayerCoins().setText("Ludollari: " + coinsBottom);
                 }

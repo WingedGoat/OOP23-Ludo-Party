@@ -111,7 +111,17 @@ public final class PlayerPanelLeft extends PlayerPanel {
     }
 
     @Override
-    public void refresh(final int coinsBottom, final int coinsTop) {
+    protected ImageView getBottomPlayerDice() {
+        return this.bottomPlayer.getDiceImage();
+    }
+
+    @Override
+    protected ImageView getTopPlayerDice() {
+        return this.topPlayer.getDiceImage();
+    }
+
+    @Override
+    public void refresh(final int coinsBottom, final int coinsTop, final int diceBottomNum, final int diceTopNum) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
