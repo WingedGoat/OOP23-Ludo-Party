@@ -1,17 +1,12 @@
 package view;
 
-import java.io.File;
-import java.nio.file.Path;
-
 import javafx.scene.Group;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
 import model.Position;
 import model.api.Game;
-import view.utils.ResourcePath;
 /**
  * Abstract Player panel class.
  */
@@ -101,12 +96,26 @@ public abstract class PlayerPanel extends AnchorPane {
     protected abstract Label getBottomPlayerCoins();
 
     /**
-     * Refreshes the amount of coins of the player panel.
+     * Gets the top player dice image.
+     * @return the top player dice image
+     */
+    protected abstract ImageView getTopPlayerDice();
+
+    /**
+     * Gets the bottom player dice image.
+     * @return the bottom player dice image
+     */
+    protected abstract ImageView getBottomPlayerDice();
+
+    /**
+     * Refreshes the components of the player panel.
      * 
      * @param coinsBottom the amount of coins of the bottom player
      * @param coinsTop the amount of coins of the top player
+     * @param diceBottomNum the result of the dice rolled of the bottom player
+     * @param diceTopNum the result of the dice rolled of the top player
      */
-    protected abstract void refresh(int coinsBottom, int coinsTop);
+    protected abstract void refresh(int coinsBottom, int coinsTop, int diceBottomNum, int diceTopNum);
 
     /**
      * Creates the player Group at bottom corner.
@@ -125,23 +134,5 @@ public abstract class PlayerPanel extends AnchorPane {
      * @return the player group
      */
     protected abstract Group createTopPlayer(Position pos, Game game);
-
-    /**
-     * Change the dice number on the dice image showed.
-     * 
-     * @param diceImage the old dice image
-     * @param number the new number to show
-     * 
-     * @return the dice image with the new value of the dice
-     */
-    public ImageView showDiceNumber(final ImageView diceImage, final int number) {
-
-        final String diceImagePath = Path.of(ResourcePath.DICE_IMG_FOLDER.getPath() + System.getProperty("file.separator") 
-            + "dice-" + number + ".png").toString();
-        final File file = new File(diceImagePath);
-        diceImage.setImage(new Image(file.toURI().toString()));
-
-        return diceImage;
-    }
 
 }
