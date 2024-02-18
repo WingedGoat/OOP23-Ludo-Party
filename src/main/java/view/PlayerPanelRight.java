@@ -2,9 +2,9 @@ package view;
 
 import javafx.application.Platform;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import model.Position;
 import model.api.Game;
+import view.PlayerGroup.DiceImageView;
 
 /**
  * Player panel on the right.
@@ -99,7 +99,7 @@ public final class PlayerPanelRight extends PlayerPanel {
             @Override
             public void run() {
                 getTopPlayerCoins().setText("Ludollari: " + coinsTop);
-                getTopPlayerDice();
+                //getTopPlayerDice();
                 if (getPlayersNumber() > 2) {
                     getBottomPlayerCoins().setText("Ludollari: " + coinsBottom);
                 }

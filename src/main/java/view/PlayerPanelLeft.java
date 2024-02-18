@@ -62,7 +62,7 @@ public final class PlayerPanelLeft extends PlayerPanel {
             if (game.getHumanPlayer().canRollDice()) {
                 final int diceResult = game.getHumanPlayer().rollDice();
                 game.getTurn().setDiceResult(diceResult);
-                showDiceNumber(diceImage, diceResult);
+                //showDiceNumber(diceImage, diceResult);
                 /*
                  * Se con il risultato ottenuto non è possibile muovere pedine,
                  * imposto pawnMoved a true, così è già possibile premere ENTER e passare il
