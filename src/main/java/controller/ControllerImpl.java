@@ -215,7 +215,7 @@ public final class ControllerImpl implements Controller, Runnable {
     }
 
     @Override
-    public boolean humanClickShopButton(final Button clickedButton, final Item item) {
+    public boolean isPossibleSelling(final Button clickedButton, final Item item) {
         if (!this.game.getTurn().getCurrentPlayer().isDiceRolled()) {
             return false;
         }

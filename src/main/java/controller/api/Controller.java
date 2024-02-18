@@ -30,7 +30,7 @@ public interface Controller {
      * @param item
      * @return true if the shop was clicked
      */
-    boolean humanClickShopButton(Button clickedButton, Item item);
+    boolean isPossibleSelling(Button clickedButton, Item item);
 
     /**
      * Checks whether the player clicked an item button with a bonus.

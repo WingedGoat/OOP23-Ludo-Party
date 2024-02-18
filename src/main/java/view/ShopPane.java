@@ -79,7 +79,7 @@ public class ShopPane extends BottomPane {
      */
     public void sellingItem(final Button buttonpressed, final Item itemChoose, final Controller ctrl, final BoardScene board) {
 
-        final boolean possibleSelling = ctrl.humanClickShopButton(buttonpressed, itemChoose);
+        final boolean possibleSelling = ctrl.isPossibleSelling(buttonpressed, itemChoose);
 
         if (possibleSelling) {
 
