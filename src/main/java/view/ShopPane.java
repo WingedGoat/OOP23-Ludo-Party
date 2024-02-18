@@ -73,12 +73,12 @@ public class ShopPane extends BottomPane {
      * Let start the selling item action for extended use.
      * 
      * @param buttonpressed
+     * @param itemChoose
      * @param ctrl
      * @param board
      */
     public void sellingItem(final Button buttonpressed, final Item itemChoose, final Controller ctrl, final BoardScene board) {
 
-        
         final boolean possibleSelling = ctrl.humanClickShopButton(buttonpressed, itemChoose);
 
         if (possibleSelling) {
