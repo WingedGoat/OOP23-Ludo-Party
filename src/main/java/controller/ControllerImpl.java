@@ -95,7 +95,7 @@ public final class ControllerImpl implements Controller, Runnable {
                     this.game.getHumanPlayer().getDiceResult(), 0);
                 obs.updateRightPlayerPanel(
                     0, this.game.getPlayers().get(1).getCoins(),
-                    this.game.getPlayers().get(1).getDiceResult(), 0);
+                    0, this.game.getPlayers().get(1).getDiceResult());
             } else {
                 obs.updateLeftPlayerPanel(
                     this.game.getHumanPlayer().getCoins(), 
