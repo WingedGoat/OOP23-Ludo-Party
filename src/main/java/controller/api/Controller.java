@@ -3,6 +3,7 @@ package controller.api;
 import javafx.scene.control.Button;
 import model.api.Game;
 import model.api.Item;
+import view.BoardScene;
 
 /**
  * Controller.
@@ -22,6 +23,18 @@ public interface Controller {
      * @return the game
      */
     Game getGame();
+
+    /**
+     * Returns the board view.
+     * @return the board view
+     */
+    BoardScene getView();
+
+    /**
+     * Saves the score of the player.
+     * @param name the player name
+     */
+    void saveScore(String name);
 
     /**
      * Return true if is possible for the human player to use the shop.

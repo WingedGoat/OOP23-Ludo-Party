@@ -52,6 +52,16 @@
     <Bug code="EI" />
   </Match>
 
+  <Match>
+    <Class name="controller.ControllerImpl" />
+    <Bug code="EI" />
+  </Match>
+
+  <Match>
+    <Class name="view.SaveScoreStage" />
+    <Bug code="MC" />
+  </Match>
+
   <!-- Match all XYZ violations. -->
   <Match>
     <Bug code="XYZ" />

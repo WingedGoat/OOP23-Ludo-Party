@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 import controller.api.Controller;
 import view.BoardScene;
 import view.ChoosePlayerNumberScene;
+import view.SaveScoreStage;
 import view.StartScene;
 
 /**
@@ -101,6 +102,16 @@ public final class ViewUtility {
      */
     public static BoardScene createBoardScene(final Controller controller, final Stage stage) {
         return new BoardScene(controller, stage);
+    }
+
+    /**
+     * Creates the scene used to save the players score.
+     * 
+     * @param controller the controller
+     * @return a new SaveScoreStage
+     */
+    public static SaveScoreStage createSaveScoreScene(final Controller controller) {
+        return new SaveScoreStage(controller);
     }
 
 }

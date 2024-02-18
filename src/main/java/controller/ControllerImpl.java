@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
@@ -118,6 +119,16 @@ public final class ControllerImpl implements Controller, Runnable {
                 LOGGER.error("Refresh Thread is not sleeping");
             }
         }
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                createSaveScoreView();
+            }
+        });
+    }
+
+    private void createSaveScoreView() {
+        ViewUtility.createSaveScoreScene(this);
     }
 
     @Override
@@ -128,6 +139,16 @@ public final class ControllerImpl implements Controller, Runnable {
     @Override
     public Game getGame() {
         return this.game;
+    }
+
+    @Override
+    public BoardScene getView() {
+        return this.view;
+    }
+
+    @Override
+    public void saveScore(final String name) {
+        ScoreManager.getInstance().saveScore(name, game.getHumanPlayer().getCoins());
     }
 
     private void setInputHandler() {
@@ -142,8 +163,6 @@ public final class ControllerImpl implements Controller, Runnable {
                     this.game.getTurn().passTurnTo(player);
 
                     final int diceResult = player.rollDice();
-                    //this.view.getLeftPane().showDiceNumber(diceImage, diceResult);
-
                     int indexPawnToMove = r.nextInt(Constants.PLAYER_PAWNS);
                     /*
                      * Il Computer cambia la scelta del Pawn da muovere, finché:
