@@ -29,7 +29,7 @@ public class PlayerGroup extends Group {
     private final Circle playerAvatarInner;
     private final Label playerName;
     private final Label playerCoins;
-    private final ImageView diceImage;
+    private final DiceImageView diceImage;
 
     /**
      * Constructor.
@@ -92,7 +92,7 @@ public class PlayerGroup extends Group {
      * Gets the dice image view.
      * @return the dice image
      */
-    public ImageView getDiceImage() {
+    public DiceImageView getDiceImage() {
         return diceImage;
     }
 
@@ -132,6 +132,9 @@ public class PlayerGroup extends Group {
         }
     }
  
+    /**
+     * Dice Image View.
+     */
     protected static class DiceImageView extends ImageView {
 
         private final File file = new File(ResourcePath.DICE_IMG_FACE_ONE.getPath());

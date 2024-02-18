@@ -2,10 +2,8 @@ package controller;
 
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
-import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -71,12 +69,16 @@ public final class ControllerImpl implements Controller, Runnable {
         this.addObserver(new PanelObserver() {
 
             @Override
-            public void updateLeftPlayerPanel(final int coinsBottom, final int coinsTop, final int diceBottomNum, final int diceTopNum) {
+            public void updateLeftPlayerPanel(
+                    final int coinsBottom, final int coinsTop, 
+                    final int diceBottomNum, final int diceTopNum) {
                 view.getLeftPane().refresh(coinsBottom, coinsTop, diceBottomNum, diceTopNum);
             }
 
             @Override
-            public void updateRightPlayerPanel(final int coinsBottom, final int coinsTop, final int diceBottomNum, final int diceTopNum) {
+            public void updateRightPlayerPanel(
+                    final int coinsBottom, final int coinsTop, 
+                    final int diceBottomNum, final int diceTopNum) {
                 view.getRightPane().refresh(coinsBottom, coinsTop, diceBottomNum, diceTopNum);
             }
 
@@ -148,7 +150,7 @@ public final class ControllerImpl implements Controller, Runnable {
                     this.game.getTurn().passTurnTo(player);
 
                     final int diceResult = player.rollDice();
-                    this.view.getLeftPane().showDiceNumber(diceImage, diceResult);
+                    //this.view.getLeftPane().showDiceNumber(diceImage, diceResult);
 
                     int indexPawnToMove = r.nextInt(Constants.PLAYER_PAWNS);
                     /*
