@@ -1,15 +1,15 @@
 package controller;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,6 +21,7 @@ import org.apache.logging.log4j.Logger;
 /**
  * Score manager (Singleton).
  */
+@SuppressWarnings("all")
 public final class ScoreManager {
 
     private static final Logger LOGGER = LogManager.getRootLogger();
@@ -29,11 +30,9 @@ public final class ScoreManager {
 
     private static ScoreManager instance;
 
-    private final List<Pair<String, Integer>> scores;
+    private List<Pair<String, Integer>> scores = new ArrayList<>();
 
-    private ScoreManager() {
-        this.scores = loadScore();
-    }
+    private ScoreManager() { }
 
     /**
      * Gets the instance of the score manager.
@@ -48,62 +47,59 @@ public final class ScoreManager {
     }
 
     /**
-     * Load scores from file.
-     * 
-     * @return a {@link Pair} list of String, Integer (name, score)
-     */
-    @SuppressWarnings("unchecked")
-    private List<Pair<String, Integer>> loadScore() {
-        List<Pair<String, Integer>> load = new ArrayList<>();
-
-        final File f = new File(SCORES_FILE_PATH);
-
-        try {
-            if (f.createNewFile()) {
-                try (ObjectInputStream ostream = 
-                        new ObjectInputStream(new BufferedInputStream(new FileInputStream(SCORES_FILE_PATH)))) {
-                    load = (List<Pair<String, Integer>>) ostream.readObject();
-                } catch (final IOException e) {
-                    LOGGER.error("Error on IO: " + e.getMessage());
-                } catch (final ClassNotFoundException e) {
-                    LOGGER.error("Error on: " + e.getMessage());
-                }
-            }
-        } catch (IOException e) {
-            LOGGER.error("Error: " + e.getMessage());
-        }
-
-        return load;
-    }
-
-    /**
      * Adds a score to the specified player.
      * 
      * @param name  the player name
      * @param score the player score
+     * @throws IOException the IO exception
+     * @throws FileNotFoundException the file not found exception
      */
-    public void saveScore(final String name, final Integer score) {
+    public void saveScore(final String name, final Integer score) throws FileNotFoundException, IOException {
+        this.loadScore();
         this.scores.add(new Pair<>(name, score));
+        Collections.sort(this.scores, (s1, s2) -> s1.getY() - s2.getY());
 
-        try (ObjectOutputStream ostream = 
-                new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(SCORES_FILE_PATH)))) {
-            ostream.writeObject(this.scores);
-        } catch (final FileNotFoundException e) {
-            LOGGER.error("Error on FileNotFound: " + e.getMessage());
-        } catch (final IOException e) {
-            LOGGER.error("Error on: " + e.getMessage());
+        try (FileOutputStream outputStream = new FileOutputStream(SCORES_FILE_PATH)) {
+            try {
+                final StringBuilder sb = new StringBuilder();
+                for (final var sc : this.scores) {
+                    sb.append(sc.getX()).append(' ').append(sc.getY()).append('\n');
+                }
+                final byte[] strToBytes = sb.toString().getBytes(Charset.forName("UTF-8"));
+                outputStream.write(strToBytes);
+            } catch (final FileNotFoundException e) {
+                LOGGER.error("Error on FileNotFound: " + e.getMessage());
+            } catch (final IOException e) {
+                LOGGER.error("Error on: " + e.getMessage());
+            }
         }
     }
 
     /**
-     * Gets the scores, ordered by score value.
-     * 
-     * @return lista di Pair(String, Integer)
+     * Load scores from file.
+     * @throws IOException the IO exception
      */
-    public List<Pair<String, Integer>> getScores() {
-        Collections.sort(this.scores, (s1, s2) -> s1.getY() - s2.getY());
-        return List.copyOf(this.scores);
+    private void loadScore() throws IOException {
+
+        final File file = new File(SCORES_FILE_PATH);
+        if (file.exists()) {
+            try {
+                final InputStream inputStream = new FileInputStream(file);
+                try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"))) {
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        final String[] nameScore = line.split(" ");
+                        this.scores.add(new Pair<String, Integer>(nameScore[0], Integer.valueOf(nameScore[1])));
+                    }
+                }
+            } catch (FileNotFoundException e) {
+                LOGGER.error(e.getMessage());
+            }
+        } else {
+            LOGGER.error("The file not exists.");
+        }
     }
+
 
     /**
      * A standard generic Pair<X,Y>, with getters, hashCode, equals, and toString.

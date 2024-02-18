@@ -13,6 +13,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Random;
 
 import org.apache.logging.log4j.LogManager;
@@ -148,7 +150,13 @@ public final class ControllerImpl implements Controller, Runnable {
 
     @Override
     public void saveScore(final String name) {
-        ScoreManager.getInstance().saveScore(name, game.getHumanPlayer().getCoins());
+        try {
+            ScoreManager.getInstance().saveScore(name, game.getHumanPlayer().getCoins());
+        } catch (FileNotFoundException e) {
+            LOGGER.error("File not found: " + e.getMessage());
+        } catch (IOException e) {
+            LOGGER.error("IO Exception: " + e.getMessage());
+        }
     }
 
     private void setInputHandler() {
