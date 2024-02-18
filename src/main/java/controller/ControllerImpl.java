@@ -174,8 +174,8 @@ public final class ControllerImpl implements Controller, Runnable {
             circle.setOnMouseEntered(event -> circle.setCursor(Cursor.HAND));
 
             circle.setOnMouseClicked(e -> {
-                if (player.canMovePawn(pawn)) {
-                    // final Position actualPos = player.getPawns().get(index).getPosition();
+
+                if (player.canMovePawn(pawn) && pawn.canMove(player.getDiceResult())) {
                     pawn.move(player.getDiceResult(), this.game);
                     updatePawnPositions();
                     player.earnCoins(this.game.getTurn().getDiceResult());
