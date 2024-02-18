@@ -126,10 +126,14 @@ public final class PlayerPanelLeft extends PlayerPanel {
             @Override
             public void run() {
                 getBottomPlayerCoins().setText("Ludollari: " + coinsBottom);
-                getBottomPlayerDice().updateDiceImage(diceBottomNum);
+                if (diceBottomNum > 0) {
+                    getBottomPlayerDice().updateDiceImage(diceBottomNum);
+                }
                 if (getPlayersNumber() > 2) {
                     getTopPlayerCoins().setText("Ludollari: " + coinsTop);
-                    getTopPlayerDice().updateDiceImage(diceTopNum);
+                    if (diceTopNum > 0){
+                        getTopPlayerDice().updateDiceImage(diceTopNum);
+                    }
                 }
             }
         });
