@@ -1,6 +1,7 @@
 package view;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Popup;
 
@@ -26,7 +27,7 @@ public class BottomPane extends BorderPane {
     private final List<Button> buttons = new ArrayList<>();
     private final Map<Button, Item> buttonsMap = new HashMap<>();
     private Button buttonPressed;
-    private final Popup popupMessage = new Popup();
+    private Label messageText = new Label();
 
     /** 
      * The contructor for the BottomPane.
@@ -50,10 +51,6 @@ public class BottomPane extends BorderPane {
         buttonsMap.put(rightButton, null);
 
         this.buttonPressed = null;
-
-        this.popupMessage.setX(X_POS_POPUP);
-        this.popupMessage.setY(Y_POS_POPUP);
-        this.popupMessage.setAutoHide(true);
     }
     /** 
      * @return a copy of the left button
@@ -154,7 +151,7 @@ public class BottomPane extends BorderPane {
      * 
      * @param button
      */
-    public void buttonPressed(final Button button) {
+    public void setButtonPressed(final Button button) {
         this.buttonPressed = button;
     }
 
@@ -168,11 +165,28 @@ public class BottomPane extends BorderPane {
     }
 
     /**
-     * Return the allert used for the message to the player.
+     * Set the Popup message with the new popup message.
      * 
-     * @return the allert
+     * @param newMessage the new popup message
+    */
+    public void setPopupMessage(final Label newMessage) {
+        this.messageText.setText(null);
+        this.messageText = newMessage;
+    }
+
+    /**
+     * Return a new popup used to advise the player.
+     * 
+     * @return the popup
      */
     public Popup getPopupMessage() {
-        return this.popupMessage;
+        final Popup popup = new Popup();
+        popup.getContent().add(this.messageText);
+        popup.setX(X_POS_POPUP);
+        popup.setY(Y_POS_POPUP);
+        popup.setAutoHide(true);
+
+        return popup;
     }
+
 }

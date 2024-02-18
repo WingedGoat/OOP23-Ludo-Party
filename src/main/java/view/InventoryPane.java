@@ -86,14 +86,14 @@ public class InventoryPane extends BottomPane {
 
             final Button pressdButton = (Button) mouseEvent.getSource();
             final Item chooseItem = getItemButtonMap().get(pressdButton);
-            buttonPressed(pressdButton);
+            setButtonPressed(pressdButton);
 
             if (ctrl.clickBonusButton(chooseItem)) {
                 ctrl.getGame().getHumanPlayer().useItem(chooseItem, ctrl.getGame().getHumanPlayer(), 
                         ctrl.getGame().getHumanPlayer().getPawns().get(Index.ONE), ctrl.getGame());
                 final Label message = new Label("Hai usato " + chooseItem.getName() + ".");
-                getPopupMessage().getContent().add(message);
                 message.setBackground(new Background(new BackgroundFill(Color.AQUAMARINE, CornerRadii.EMPTY, Insets.EMPTY)));
+                setPopupMessage(message);
                 getPopupMessage().show(board.getWindow());
             } 
             ctrl.setItemToUse(chooseItem);

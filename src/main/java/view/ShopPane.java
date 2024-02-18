@@ -85,18 +85,18 @@ public class ShopPane extends BottomPane {
             final Label message = new Label(ctrl.getShopMessage());
             message.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
 
-            getPopupMessage().getContent().add(message);
+            setPopupMessage(message);
             getPopupMessage().show(board.getWindow());
             final Item newItem = ctrl.getNewShopItem();
 
-            buttonPressed(buttonpressed);
+            setButtonPressed(buttonpressed);
             buttonSetting(buttonpressed, newItem, ctrl, board);
         } else {
 
             final Label message = new Label(ctrl.getShopMessage());
             message.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
 
-            getPopupMessage().getContent().add(message);
+            setPopupMessage(message);
             getPopupMessage().show(board.getWindow());
         }
     }
