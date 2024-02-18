@@ -188,7 +188,7 @@ public class PlayerGroup extends Group {
 
             if (!"".equals(diceImagePath)) {
                 this.file = new File(diceImagePath);
-                this.setImage(new Image(file.toURI().toString())); 
+                this.setImage(new Image(file.toURI().toString()));
             } else {
                 LOGGER.error("dice image path: " + diceImagePath + " not found");
             }

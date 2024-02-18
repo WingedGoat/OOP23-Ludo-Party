@@ -21,6 +21,14 @@ public final class ViewUtility {
      */
     public static final String RESOURCES_FOLDER = "." + FILE_SEPARATOR + "resources" + FILE_SEPARATOR;
     /**
+     * The images folder.
+     */
+    public static final String IMAGES_FOLDER = "." + FILE_SEPARATOR + "resources" + FILE_SEPARATOR + "images" + FILE_SEPARATOR;
+    /**
+     * The dices folder.
+     */
+    public static final String DICES_FOLDER = IMAGES_FOLDER + "dices" + FILE_SEPARATOR;
+    /**
      * Home window width.
      */
     public static final int HOME_WINDOW_WIDTH = 450;
