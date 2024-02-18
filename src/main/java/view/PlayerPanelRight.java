@@ -99,9 +99,10 @@ public final class PlayerPanelRight extends PlayerPanel {
             @Override
             public void run() {
                 getTopPlayerCoins().setText("Ludollari: " + coinsTop);
-                //getTopPlayerDice();
+                getTopPlayerDice().updateDiceImage(diceTopNum);
                 if (getPlayersNumber() > 2) {
                     getBottomPlayerCoins().setText("Ludollari: " + coinsBottom);
+                    getBottomPlayerDice().updateDiceImage(diceBottomNum);
                 }
             }
         });

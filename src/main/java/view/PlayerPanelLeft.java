@@ -4,11 +4,11 @@ import javafx.application.Platform;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Glow;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
 import model.Position;
 import model.api.Game;
+import view.PlayerGroup.DiceImageView;
 
 /**
  * Player panel on the left.
@@ -49,7 +49,7 @@ public final class PlayerPanelLeft extends PlayerPanel {
 
         g.getPlayerAvatarInner().setFill(Color.LIGHTBLUE);
 
-        final ImageView diceImage = g.getDiceImage();
+        final DiceImageView diceImage = g.getDiceImage();
         diceImage.setOnMouseEntered(mouseEvent -> {
             diceImage.setEffect(new Glow(GLOW_LEVEL));
             diceImage.setCursor(Cursor.HAND);
@@ -111,12 +111,12 @@ public final class PlayerPanelLeft extends PlayerPanel {
     }
 
     @Override
-    protected ImageView getBottomPlayerDice() {
+    protected DiceImageView getBottomPlayerDice() {
         return this.bottomPlayer.getDiceImage();
     }
 
     @Override
-    protected ImageView getTopPlayerDice() {
+    protected DiceImageView getTopPlayerDice() {
         return this.topPlayer.getDiceImage();
     }
 
@@ -126,8 +126,10 @@ public final class PlayerPanelLeft extends PlayerPanel {
             @Override
             public void run() {
                 getBottomPlayerCoins().setText("Ludollari: " + coinsBottom);
+                getBottomPlayerDice().updateDiceImage(diceBottomNum);
                 if (getPlayersNumber() > 2) {
                     getTopPlayerCoins().setText("Ludollari: " + coinsTop);
+                    getTopPlayerDice().updateDiceImage(diceTopNum);
                 }
             }
         });

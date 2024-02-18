@@ -137,14 +137,6 @@ public final class ControllerImpl implements Controller, Runnable {
                 this.view.getShopPane().disableShop();
                 // LOGGER.error(" -- end of turn -- ");
                 for (int i = 1; i < getPlayersNumber(); i++) {
-                    /*
-                     * change inner player avatar color FIXME
-                     * Circle c = (Circle) ((Group)
-                     * (rightPane.getChildren().get(0))).getChildren().get(1);
-                     * c.setFill(BColor.GREY.toString()));
-                     * ((Group) (rightPane.getChildren().get(0))).getChildren().remove(1);
-                     * ((Group) (rightPane.getChildren().get(0))).getChildren().add(1, c);
-                     */
 
                     final Player player = this.game.getPlayers().get(i);
                     this.game.getTurn().passTurnTo(player);
