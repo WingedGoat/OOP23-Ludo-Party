@@ -42,6 +42,14 @@ public interface Controller {
     Boolean clickBonusButton(Item itemUsed);
 
     /**
+     * Checks if the player has correctly targeted an opponent after having clicked a MALUS Item.
+     * 
+     * @param targetPlayer the opponent player who receives a malus for next turn
+     * @return true if clicked at the right time
+     */
+    Boolean clickPlayerTargetOfMalus(Button targetPlayer);
+
+    /**
      * Set the last item used for the next apllication.
      * 
      * @param itemClicked

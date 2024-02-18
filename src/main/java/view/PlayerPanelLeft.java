@@ -8,8 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
 import model.Position;
-import model.api.Item;
-import utils.Index;
+import model.api.Game;
 
 /**
  * Player panel on the left.
@@ -58,32 +57,12 @@ public final class PlayerPanelLeft extends PlayerPanel {
         diceImage.setOnMouseExited(mouseEvent -> {
             diceImage.setEffect(null);
         });
-
+        //TODO add another dice image when is used DADUPLO
         diceImage.setOnMouseClicked(mouseEvent -> {
-            if (ctrl.getGame().getTurn().getCurrentPlayer().canRollDice()) {
-                final int diceResult = ctrl.getGame().getTurn().getCurrentPlayer().rollDice();
-                if (ctrl.getGame().getTurn().getCurrentPlayer().getItemsApplied().contains(Item.DADUPLO) 
-                        || diceResult > Index.SIX) {
-                    final int firstDiceResult = ctrl.getGame().getTurn().getCurrentPlayer().getFirstDice();
-                    final int secondDiceResult = ctrl.getGame().getTurn().getCurrentPlayer().getSecondDice();
-                    final ImageView secondDiceImage = createDicImageView();
-                    //FIXME the second dice don't appear
-                    secondDiceImage.setLayoutX(DICE_X_LAYOUT);
-                    secondDiceImage.setLayoutY(DICE_Y_LAYOUT_BOTTOM - Index.FORTY);
-
-                    showDiceNumber(diceImage, firstDiceResult);
-                    showDiceNumber(secondDiceImage, secondDiceResult);
-                    ctrl.getGame().getTurn().getCurrentPlayer().setFirstDice(0);
-                    ctrl.getGame().getTurn().getCurrentPlayer().setSecondDice(0);
-                    ctrl.getGame().getTurn().getCurrentPlayer().getItemsApplied().remove(Item.DADUPLO);
-                    if (ctrl.getGame().getTurn().getCurrentPlayer().getItemsApplied().contains(Item.TAGLIATELO)) {
-                        ctrl.getGame().getTurn().getCurrentPlayer().getItemsApplied().remove(Item.TAGLIATELO);
-                    }
-                } else {
-                    ctrl.getGame().getTurn().setDiceResult(diceResult);
-                    showDiceNumber(diceImage, diceResult);
-                }
-
+            if (game.getHumanPlayer().canRollDice()) {
+                final int diceResult = game.getHumanPlayer().rollDice();
+                game.getTurn().setDiceResult(diceResult);
+                showDiceNumber(diceImage, diceResult);
                 /*
                  * Se con il risultato ottenuto non è possibile muovere pedine,
                  * imposto pawnMoved a true, così è già possibile premere ENTER e passare il
@@ -112,6 +91,7 @@ public final class PlayerPanelLeft extends PlayerPanel {
                 DICE_TOP_Y_LAYOUT
         );
 
+        //TODO Change dice image when it is computer player turn
         //TODO add another dice image when is used DADUPLO
 
         g.getChildren().addAll(
