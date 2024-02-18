@@ -61,10 +61,12 @@ public class ShopPane extends BottomPane {
 
         button.setOnMousePressed(e -> {
 
-            final Button buttonpressed = (Button) e.getSource();
-            final Item itemChoose = getItemButtonMap().get(buttonpressed);
-            sellingItem(buttonpressed, itemChoose, ctrl, board);
+            if (ctrl.isPossibleSelling()) {
+                final Button buttonpressed = (Button) e.getSource();
+                final Item itemChoose = getItemButtonMap().get(buttonpressed);
 
+                sellingItem(buttonpressed, itemChoose, ctrl, board);
+            }
             board.getBorderPane().requestFocus();
         });
     }
@@ -79,28 +81,25 @@ public class ShopPane extends BottomPane {
      */
     public void sellingItem(final Button buttonpressed, final Item itemChoose, final Controller ctrl, final BoardScene board) {
 
-        final boolean possibleSelling = ctrl.isPossibleSelling();
+        
+        if (ctrl.isItemSelled()) {
+            ctrl.sellingItemToPlayer(itemChoose);
+        final Label message = new Label(ctrl.getShopMessage());
+        message.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        if (possibleSelling) {
-            if (ctrl.isItemSelled()) {
-                ctrl.sellingItemToPlayer(itemChoose);
+        setPopupMessage(message);
+        getPopupMessage().show(board.getWindow());
+        final Item newItem = ctrl.getNewShopItem();
+
+        setButtonPressed(buttonpressed);
+        buttonSetting(buttonpressed, newItem, ctrl, board);
+        } else {
+
             final Label message = new Label(ctrl.getShopMessage());
-            message.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+            message.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
 
             setPopupMessage(message);
             getPopupMessage().show(board.getWindow());
-            final Item newItem = ctrl.getNewShopItem();
-
-            setButtonPressed(buttonpressed);
-            buttonSetting(buttonpressed, newItem, ctrl, board);
-            } else {
-
-                final Label message = new Label(ctrl.getShopMessage());
-                message.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
-
-                setPopupMessage(message);
-                getPopupMessage().show(board.getWindow());
-            }
         }
     }
 
