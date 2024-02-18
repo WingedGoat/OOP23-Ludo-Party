@@ -57,11 +57,10 @@ public final class PlayerPanelLeft extends PlayerPanel {
         diceImage.setOnMouseExited(mouseEvent -> {
             diceImage.setEffect(null);
         });
-
-        // TODO add another dice image when is used DADUPLO
+        //TODO add another dice image when is used DADUPLO
         diceImage.setOnMouseClicked(mouseEvent -> {
-            if (game.getTurn().getCurrentPlayer().canRollDice()) {
-                final int diceResult = game.getTurn().getCurrentPlayer().rollDice();
+            if (game.getHumanPlayer().canRollDice()) {
+                final int diceResult = game.getHumanPlayer().rollDice();
                 game.getTurn().setDiceResult(diceResult);
                 showDiceNumber(diceImage, diceResult);
                 /*
@@ -92,8 +91,8 @@ public final class PlayerPanelLeft extends PlayerPanel {
                 DICE_TOP_Y_LAYOUT
         );
 
-        // TODO Change dice image when it is computer player turn
-        // TODO add another dice image when is used DADUPLO
+        //TODO Change dice image when it is computer player turn
+        //TODO add another dice image when is used DADUPLO
 
         g.getChildren().addAll(
             g.getPlayerAvatar(), g.getPlayerAvatarInner(), g.getPlayerName(), g.getPlayerCoins(), g.getDiceImage());
