@@ -61,9 +61,12 @@ public class ShopPane extends BottomPane {
 
         button.setOnMousePressed(e -> {
 
-            final Button buttonpressed = (Button) e.getSource();
-            sellingItem(buttonpressed, ctrl, board);
+            if (ctrl.isPossibleSelling()) {
+                final Button buttonpressed = (Button) e.getSource();
+                final Item itemChoose = getItemButtonMap().get(buttonpressed);
 
+                sellingItem(buttonpressed, itemChoose, ctrl, board);
+            }
             board.getBorderPane().requestFocus();
         });
     }
@@ -72,16 +75,15 @@ public class ShopPane extends BottomPane {
      * Let start the selling item action for extended use.
      * 
      * @param buttonpressed
+     * @param itemChoose
      * @param ctrl
      * @param board
      */
-    public void sellingItem(final Button buttonpressed, final Controller ctrl, final BoardScene board) {
+    public void sellingItem(final Button buttonpressed, final Item itemChoose, final Controller ctrl,
+            final BoardScene board) {
 
-        final Item oldItem = getItemButtonMap().get(buttonpressed);
-        final boolean possibleSelling = ctrl.humanClickShopButton(buttonpressed, oldItem);
-
-        if (possibleSelling) {
-
+        ctrl.sellingItemToPlayer(itemChoose);
+        if (ctrl.isItemSelled()) {
             final Label message = new Label(ctrl.getShopMessage());
             message.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
 
@@ -101,7 +103,7 @@ public class ShopPane extends BottomPane {
         }
     }
 
-     /**
+    /**
      * To able all the buttons of the shop when a pawn arrive on a the cell.
      */
     public void ableShop() {
@@ -112,7 +114,8 @@ public class ShopPane extends BottomPane {
     }
 
     /**
-     * To disable all the shop buttons at the end of the turn that a pawn arrive on a shop cell.
+     * To disable all the shop buttons at the end of the turn that a pawn arrive on
+     * a shop cell.
      */
     public void disableShop() {
         for (int i = 0; i < this.getButtons().size(); i++) {

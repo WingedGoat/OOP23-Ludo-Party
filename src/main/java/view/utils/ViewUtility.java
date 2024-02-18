@@ -24,7 +24,8 @@ public final class ViewUtility {
     /**
      * The images folder.
      */
-    public static final String IMAGES_FOLDER = "." + FILE_SEPARATOR + "resources" + FILE_SEPARATOR + "images" + FILE_SEPARATOR;
+    public static final String IMAGES_FOLDER = "." + FILE_SEPARATOR + "resources" + FILE_SEPARATOR + "images"
+            + FILE_SEPARATOR;
     /**
      * The dices folder.
      */
@@ -40,7 +41,7 @@ public final class ViewUtility {
     /**
      * Board bottom height.
      */
-    public static final int BOARD_BOTTOM_HEIGHT = 200; 
+    public static final int BOARD_BOTTOM_HEIGHT = 200;
     /**
      * Button font size.
      */
@@ -53,8 +54,21 @@ public final class ViewUtility {
      * Cell width.
      */
     public static final int CELL_WIDTH = 40;
+    /**
+     * The radius of the circle.
+     */
+    public static final int CIRCLE_RADIUS = 18;
+    /**
+     * Radius decrease rate based on the player's number.
+     */
+    public static final int RADIUS_DECREASE = 2;
+    /**
+     * The radius multipler.
+     */
+    public static final double RADIUS_TO_DIAMETER = 2;
 
-    private ViewUtility() { }
+    private ViewUtility() {
+    }
 
     /**
      * Creates the app stage.
@@ -83,7 +97,7 @@ public final class ViewUtility {
      * Creates the second scene, the one in which
      * the player can choose the number of players in the game.
      * 
-     * @param stage the stage
+     * @param stage      the stage
      * @param playerName the player name
      * 
      * @return a new ChoosePlayerNumberScene
@@ -96,7 +110,7 @@ public final class ViewUtility {
      * Creates the third scene, the one with the board of the game.
      * 
      * @param controller the controller
-     * @param stage the stage
+     * @param stage      the stage
      * 
      * @return a new BoardScene
      */

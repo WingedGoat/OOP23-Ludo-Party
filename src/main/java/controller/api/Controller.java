@@ -39,11 +39,21 @@ public interface Controller {
     /**
      * Return true if is possible for the human player to use the shop.
      * 
-     * @param clickedButton
-     * @param item
-     * @return true if the shop was clicked
+     * @return true if is possible selling to the current player
      */
-    boolean humanClickShopButton(Button clickedButton, Item item);
+    boolean isPossibleSelling();
+
+    /**
+     * Start the oparatio of selling item to the current player.
+     * @param item
+     */
+    void sellingItemToPlayer(Item item);
+
+    /**
+     * Return treu if the item in the selling operation got selled, false instead.
+     * @return true or false
+     */
+    boolean isItemSelled();
 
     /**
      * Checks whether the player clicked an item button with a bonus.

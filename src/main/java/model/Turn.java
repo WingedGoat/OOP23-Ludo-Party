@@ -70,6 +70,8 @@ public final class Turn {
      * @param player the current player
      */
     public void passTurnTo(final Player player) {
+        this.currentPlayer.malusExpired();
+        player.bonusExpired();
         this.currentPlayer = player;
     }
 

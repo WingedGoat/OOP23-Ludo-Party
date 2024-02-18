@@ -76,9 +76,8 @@ public interface Game {
      * 
      * @param player trying to buy an item
      * @param item to be bought by the player
-     * @return a string representing the outcome of the transaction
      */
-    String buyItem(Player player, Item item);
+    void buyItem(Player player, Item item);
 
     /**
      * Returns true if the game is over, false otherwise.

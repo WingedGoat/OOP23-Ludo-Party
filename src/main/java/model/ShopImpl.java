@@ -20,6 +20,7 @@ public final class ShopImpl implements Shop {
     private final Map<Integer, Item> showcase = new HashMap<>(); //3
     private final Map<Integer, Item> items = new HashMap<>(); //6
     private Item newItem;
+    private String shopmessage;
 
     /**
      * Constructor for the shop.
@@ -36,22 +37,33 @@ public final class ShopImpl implements Shop {
     }
 
     @Override
-    public String sellItem(final Player player, final Item item) { 
+    public void sellItem(final Player player, final Item item) { 
         final int coinplayer = player.getCoins(); 
         if (player.getPlayerItems().size() == 3) { 
-            return "ATTENZIONE! NON HAI ABBASTANZA SPAZIO NELL'INVENTARIO!";
+            setShopMessage("ATTENZIONE! NON HAI ABBASTANZA SPAZIO NELL'INVENTARIO!");
         } else if (coinplayer < item.getPrice()) { 
-                return "ATTENZIONE! NON HAI ABBASTANZA LUDOLLARI!"; 
+            setShopMessage("ATTENZIONE! NON HAI ABBASTANZA LUDOLLARI!"); 
         } else if (player.getPlayerItems().contains(item)) {
-            return "ATTENZIONE! HAI GIA' QUESTO OGGETTO NEL TUO INVENTARIO!";
+            setShopMessage("ATTENZIONE! HAI GIA' QUESTO OGGETTO NEL TUO INVENTARIO!");
         } else {
             player.updateCoins(-item.getPrice()); 
             player.addItemPlayer(item);
             newItem(item);
-            return "Item " + item.getName() + " venduto a " + player.getName() + ".";
+            setShopMessage("Item " + item.getName() + " venduto a " + player.getName() + ".");
         }
     }
+    /**
+     * Set a new message Shop for the player. 
+     * @param newShopMessage the new message
+     */
+    private void setShopMessage(final String newShopMessage) {
+        this.shopmessage = newShopMessage;
+    }
 
+    @Override
+    public String getShopMessage() {
+        return this.shopmessage;
+    }
     @Override
     public void fillShowcase() {
 
