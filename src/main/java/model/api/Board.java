@@ -105,6 +105,15 @@ public interface Board {
     Set<Position> getShops();
 
     /**
+     * Gets the end cell of the game.
+     * When all the pawns of a player gets here, the game is over
+     * and the player wins.
+     * 
+     * @return the end cell
+     */
+    Position getEndCell();
+
+    /**
      * Gets the cells of the board.
      * 
      * @return the cells

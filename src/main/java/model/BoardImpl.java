@@ -7,9 +7,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-//import org.apache.logging.log4j.LogManager;
-//import org.apache.logging.log4j.Logger;
-
 import model.api.Board;
 import model.api.Cell;
 import model.api.Cell.CellType;
@@ -17,10 +14,10 @@ import utils.Constants;
 import utils.Index;
 
 /**
- * Game Board Builder.
+ * Game Board Implementation.
+ * Creates the model of the board, setting each cell type.
  */
 public final class BoardImpl implements Board {
-    // private static final Logger LOGGER = LogManager.getRootLogger();
 
     private final Set<Cell> cells = new HashSet<>();
 
@@ -41,6 +38,7 @@ public final class BoardImpl implements Board {
     private final List<Position> bottomRightPawnsStartPos;
 
     private final Set<Position> shops;
+    private final Position endCell;
 
     /**
      * Constructor.
@@ -64,6 +62,7 @@ public final class BoardImpl implements Board {
         this.bottomRightPawnsStartPos = createBottomRightPawnsPosition();
 
         this.shops = createShops();
+        this.endCell = new Position(Index.SEVEN, Index.SEVEN);
 
         fillBoard();
     }
@@ -90,6 +89,8 @@ public final class BoardImpl implements Board {
                     cell = new CellImpl(pos, true, CellType.TOP_RIGHT_SAFE_PATH);
                 } else if (this.bottomRighSafePath.contains(pos)) {
                     cell = new CellImpl(pos, true, CellType.BOTTOM_RIGHT_SAFE_PATH);
+                } else if (this.endCell.equals(pos)) {
+                    cell = new CellImpl(pos, true, CellType.END_CELL);
                 } else if (this.shops.contains(pos)) {
                     cell = new CellImpl(pos, false, true, false, CellType.WHITE_CELL);
                 } else {
@@ -166,6 +167,11 @@ public final class BoardImpl implements Board {
     @Override
     public Set<Position> getShops() {
         return Set.copyOf(this.shops);
+    }
+
+    @Override
+    public Position getEndCell() {
+        return new Position(endCell.getX(), endCell.getY());
     }
 
     @Override

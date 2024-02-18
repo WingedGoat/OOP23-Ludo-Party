@@ -47,9 +47,13 @@ public interface Cell {
          */
         BOTTOM_RIGHT_SAFE_PATH,
         /**
+         * End cell.
+         */
+        END_CELL,
+        /**
          * White cell.
          */
-        WHITE_CELL
+        WHITE_CELL;
     }
 
     /**
