@@ -8,24 +8,15 @@ import utils.Constants;
 import utils.Index;
 
 import java.util.List;
-import java.util.ArrayList;
 
 /**
  * This class handles the movement of the whole pawn system.
  */
 public final class Movement {
 
-    private static final List<List<Position>> PATH_COLORS = new ArrayList<>();
+    private static final List<List<Position>> PATH_COLORS = List.of(buildBlue(), buildRed(), buildGreen(), buildYellow());
 
-    /**
-     * The constructor of the class Movement.
-     */
-    public Movement() {
-        PATH_COLORS.add(buildBlue());
-        PATH_COLORS.add(buildRed());
-        PATH_COLORS.add(buildGreen());
-        PATH_COLORS.add(buildYellow());
-    }
+    private Movement() { }
 
     /**
      * Move the given pawn and checks.
@@ -169,7 +160,7 @@ public final class Movement {
         return List.copyOf(Movement.PATH_COLORS);
     }
 
-    private List<Position> buildBlue() {
+    private static List<Position> buildBlue() {
         final PathBuilder pb = new PathBuilder(Index.SIX, Index.THIRTEEN);
         pb.addUp(Index.FIVE);
         pb.addLeft(Index.SIX);
@@ -187,7 +178,7 @@ public final class Movement {
         return List.copyOf(pb.getPath());
     }
 
-    private List<Position> buildRed() {
+    private static List<Position> buildRed() {
         final PathBuilder pb = new PathBuilder(Index.ONE, Index.SIX);
         pb.addRight(Index.FIVE);
         pb.addUp(Index.SIX);
@@ -205,7 +196,7 @@ public final class Movement {
         return List.copyOf(pb.getPath());
     }
 
-    private List<Position> buildGreen() {
+    private static List<Position> buildGreen() {
         final PathBuilder pb = new PathBuilder(Index.EIGHT, Index.ONE);
         pb.addDown(Index.FIVE);
         pb.addRight(Index.SIX);
@@ -223,7 +214,7 @@ public final class Movement {
         return List.copyOf(pb.getPath());
     }
 
-    private List<Position> buildYellow() {
+    private static List<Position> buildYellow() {
         final PathBuilder pb = new PathBuilder(Index.THIRTEEN, Index.EIGHT);
         pb.addLeft(Index.FIVE);
         pb.addDown(Index.SIX);
