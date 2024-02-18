@@ -215,4 +215,31 @@ public interface Player {
      */
     void bonusExpired();
 
+    /**
+     * Sets the value of the first dice when {@link Item#DADUPLO} is activated.
+     * 
+     * @param diceResult the value of the first dice
+     */
+    void setFirstDice(int diceResult);
+
+    /**
+     * Sets the value of the second dice when {@link Item#DADUPLO} is activated.
+     * 
+     * @param diceResult the value of the second dice
+     */
+    void setSecondDice(int diceResult);
+
+    /**
+     * Gets the value of the first dice when {@link Item#DADUPLO} is activated.
+     * 
+     * @return the value of the first dice
+     */
+    int getFirstDice();
+
+    /**
+     * Gets the value of the second dice when {@link Item#DADUPLO} is activated.
+     * 
+     * @return the value of the second dice
+     */
+    int getSecondDice();
 }

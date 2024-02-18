@@ -293,39 +293,23 @@ public final class PlayerImpl implements Player {
         }
     }
 
-    /**
-     * Sets the value of the first dice when {@link Item#DADUPLO} is activated.
-     * 
-     * @param diceResult the value of the first dice
-     */
-    private void setFirstDice(final int diceResult) {
+    @Override
+    public void setFirstDice(final int diceResult) {
         this.firstDice = diceResult;
     }
 
-    /**
-     * Sets the value of the second dice when {@link Item#DADUPLO} is activated.
-     * 
-     * @param diceResult the value of the second dice
-     */
-    private void setSecondDice(final int diceResult) {
+    @Override
+    public void setSecondDice(final int diceResult) {
         this.secondDice = diceResult;
     }
 
-    /**
-     * Gets the value of the first dice when {@link Item#DADUPLO} is activated.
-     * 
-     * @return the value of the first dice
-     */
-    private int getFirstDice() {
+    @Override
+    public int getFirstDice() {
         return this.firstDice;
     }
 
-    /**
-     * Gets the value of the second dice when {@link Item#DADUPLO} is activated.
-     * 
-     * @return the value of the second dice
-     */
-    private int getSecondDice() {
+    @Override
+    public int getSecondDice() {
         return this.secondDice;
     }
 

@@ -200,9 +200,9 @@ public final class ControllerImpl implements Controller, Runnable {
                     final Label message = new Label(this.game.getTurn().getCurrentPlayer().getName() + " ha usato "
                             + getItemToUse().getName() + " su " + player.getName());
                     message.setBackground(
-                            new Background(new BackgroundFill(Color.PURPLE, CornerRadii.EMPTY, Insets.EMPTY)));
-                    view.getShopPane().getPopupMessage().getContent().add(message);
-                    view.getShopPane().getPopupMessage().show(view.getWindow());
+                            new Background(new BackgroundFill(Color.BLUEVIOLET, CornerRadii.EMPTY, Insets.EMPTY)));
+                    view.getInventoryPane().setPopupText(message);
+                    view.getInventoryPane().getPopupMessage().show(view.getWindow());
                     this.game.getTurn().getCurrentPlayer().useItem(itemToUse, player, pawn, game);
                     view.getBorderPane().requestFocus();
                 }
@@ -248,16 +248,6 @@ public final class ControllerImpl implements Controller, Runnable {
             malusClicked = true;
             return false;
         }
-        return true;
-    }
-
-    @Override // FIXME sta venendo utilizzato ?
-    public Boolean clickPlayerTargetOfMalus(final Button targetPlayer) {
-        if (!malusClicked) {
-            return false;
-        }
-        // implementare in base a quale stringa conterrà il Button dei Player avversari
-        malusClicked = false;
         return true;
     }
 

@@ -49,8 +49,6 @@ public final class PlayerPanelRight extends PlayerPanel {
         final ImageView diceImage = createDicImageView();
         diceImage.setLayoutX(DICE_X_LAYOUT);
         diceImage.setLayoutY(DICE_Y_LAYOUT_TOP);
-
-        //TODO Change dice image when it is computer player turn
         //TODO add another dice image when is used DADUPLO
         final Group g = new Group();
         g.getChildren().addAll(playerAvatar, playerAvatarInner, playerName, this.getTopPlayerCoins(), diceImage);
@@ -73,8 +71,6 @@ public final class PlayerPanelRight extends PlayerPanel {
         final ImageView diceImage = createDicImageView();
         diceImage.setLayoutX(DICE_X_LAYOUT);
         diceImage.setLayoutY(DICE_Y_LAYOUT_BOTTOM);
-
-        //TODO Change dice image when it is computer player turn
         //TODO add another dice image when is used DADUPLO
         final Group g = new Group();
         g.getChildren().addAll(playerAvatar, playerAvatarInner, playerName, this.getBottomPlayerCoins(), diceImage);

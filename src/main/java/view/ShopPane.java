@@ -79,24 +79,20 @@ public class ShopPane extends BottomPane {
 
         final Item oldItem = getItemButtonMap().get(buttonpressed);
         final boolean possibleSelling = ctrl.humanClickShopButton(buttonpressed, oldItem);
+        final Label message = new Label(ctrl.getShopMessage());
 
         if (possibleSelling) {
-
-            final Label message = new Label(ctrl.getShopMessage());
-            message.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
-
-            getPopupMessage().getContent().add(message);
-            getPopupMessage().show(board.getWindow());
             final Item newItem = ctrl.getNewShopItem();
 
-            buttonPressed(buttonpressed);
+            setButtonPressed(buttonpressed);
             buttonSetting(buttonpressed, newItem, ctrl, board);
+
+            message.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+            setPopupText(message);
+            getPopupMessage().show(board.getWindow());
         } else {
-
-            final Label message = new Label(ctrl.getShopMessage());
             message.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
-
-            getPopupMessage().getContent().add(message);
+            setPopupText(message);
             getPopupMessage().show(board.getWindow());
         }
     }
