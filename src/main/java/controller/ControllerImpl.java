@@ -215,19 +215,19 @@ public final class ControllerImpl implements Controller, Runnable {
     }
 
     @Override
-    public boolean isPossibleSelling(final Button clickedButton, final Item item) {
-        if (!this.game.getTurn().getCurrentPlayer().isDiceRolled()) {
-            return false;
-        }
-        // implementare controllo se la pedina appena mossa è arrivata su una cella shop
+    public boolean isPossibleSelling() {
+        return this.game.getTurn().getCurrentPlayer().isDiceRolled();
+    }
+
+    @Override
+    public void sellingItemToPlayer(final Item item) {
         final Item itemOfClickedButton = item;
 
-        setShopMessage(game.buyItem(this.game.getHumanPlayer(), itemOfClickedButton));
-        if (NOT_ENOUGH_SPACE.equals(outcome) || NOT_ENOUGH_MONEY.equals(outcome) || DUPLICATE.equals(outcome)) {
-            return false;
+        game.buyItem(this.game.getTurn().getCurrentPlayer(), itemOfClickedButton);
+        setShopMessage(game.getShop().getShopMessage());
+        if (!NOT_ENOUGH_SPACE.equals(outcome) && !NOT_ENOUGH_MONEY.equals(outcome) && !DUPLICATE.equals(outcome)) {
+            this.view.getInventoryPane().addItem(itemOfClickedButton, this, view);
         }
-        this.view.getInventoryPane().addItem(itemOfClickedButton, this, view);
-        return true;
     }
 
     @Override

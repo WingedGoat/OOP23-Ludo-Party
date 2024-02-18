@@ -79,10 +79,11 @@ public class ShopPane extends BottomPane {
      */
     public void sellingItem(final Button buttonpressed, final Item itemChoose, final Controller ctrl, final BoardScene board) {
 
-        final boolean possibleSelling = ctrl.isPossibleSelling(buttonpressed, itemChoose);
+        final boolean possibleSelling = ctrl.isPossibleSelling();
 
         if (possibleSelling) {
 
+            ctrl.sellingItemToPlayer(itemChoose);
             final Label message = new Label(ctrl.getShopMessage());
             message.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
 

@@ -99,8 +99,8 @@ public final class GameImpl implements Game {
     }
 
     @Override
-    public String buyItem(final Player player, final Item item) {
-        return this.shop.sellItem((PlayerImpl) player, item);
+    public void buyItem(final Player player, final Item item) {
+       this.shop.sellItem((PlayerImpl) player, item);
     }
 
     @Override

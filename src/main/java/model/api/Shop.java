@@ -11,10 +11,14 @@ public interface Shop {
      * 
      * @param player the player
      * @param item the item to buy
-     * 
-     * @return a String message
     */
-    String sellItem(Player player, Item item);
+    void sellItem(Player player, Item item);
+
+    /**
+     * Return the shop message after trying to sell an item.
+     * @return the shop message 
+     */
+    String getShopMessage();
 
     /**
      * Creates the showcase.
