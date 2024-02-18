@@ -131,7 +131,7 @@ public final class PlayerPanelLeft extends PlayerPanel {
                 }
                 if (getPlayersNumber() > 2) {
                     getTopPlayerCoins().setText("Ludollari: " + coinsTop);
-                    if (diceTopNum > 0){
+                    if (diceTopNum > 0) {
                         getTopPlayerDice().updateDiceImage(diceTopNum);
                     }
                 }

@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 
 import model.Position;
 import utils.BColor;
+import utils.Index;
 import view.utils.ResourcePath;
 /**
  * Player Group with player avatar, player name, coins and dice image.
@@ -161,22 +162,22 @@ public class PlayerGroup extends Group {
             String diceImagePath = "";
 
             switch (number) {
-                case 1:
+                case Index.ONE:
                     diceImagePath = ResourcePath.DICE_IMG_FACE_ONE.getPath();
                     break;
-                case 2:
+                case Index.TWO:
                     diceImagePath = ResourcePath.DICE_IMG_FACE_TWO.getPath();
                     break;
-                case 3:
+                case Index.THREE:
                     diceImagePath = ResourcePath.DICE_IMG_FACE_THREE.getPath();
                     break;
-                case 4:
+                case Index.FOUR:
                     diceImagePath = ResourcePath.DICE_IMG_FACE_FOUR.getPath();
                     break;
-                case 5:
+                case Index.FIVE:
                     diceImagePath = ResourcePath.DICE_IMG_FACE_FIVE.getPath();
                     break;
-                case 6:
+                case Index.SIX:
                     diceImagePath = ResourcePath.DICE_IMG_FACE_SIX.getPath();
                     break;
 
@@ -185,9 +186,9 @@ public class PlayerGroup extends Group {
                     break;
             }
 
-            if(!"".equals(diceImagePath)) {
+            if (!"".equals(diceImagePath)) {
                 this.file = new File(diceImagePath);
-                this.setImage(new Image(file.toURI().toString()));    
+                this.setImage(new Image(file.toURI().toString()));
             } else {
                 LOGGER.error("dice image path: " + diceImagePath + " not found");
             }
