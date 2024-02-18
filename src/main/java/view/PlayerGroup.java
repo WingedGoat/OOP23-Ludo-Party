@@ -1,6 +1,7 @@
 package view;
 
 import java.io.File;
+import java.nio.file.Path;
 
 import javafx.scene.Group;
 import javafx.scene.control.Label;
@@ -131,7 +132,7 @@ public class PlayerGroup extends Group {
         }
     }
  
-    private static class DiceImageView extends ImageView {
+    protected static class DiceImageView extends ImageView {
 
         private final File file = new File(ResourcePath.DICE_IMG_FACE_ONE.getPath());
 
@@ -141,6 +142,19 @@ public class PlayerGroup extends Group {
             this.setFitWidth(DICE_WIDTH);
             this.setLayoutX(DICE_X_LAYOUT);
             this.setLayoutY(yPos);
+        }
+
+        /**
+         * Change the dice number on the dice image showed.
+         * 
+         * @param number the new number to show
+         */
+        public void updateDiceImage(final int number) {
+
+            final String diceImagePath = Path.of(ResourcePath.DICE_IMG_FOLDER.getPath() + System.getProperty("file.separator") 
+                + "dice-" + number + ".png").toString();
+            final File file = new File(diceImagePath);
+            this.setImage(new Image(file.toURI().toString()));
         }
     }
 
