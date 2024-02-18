@@ -62,7 +62,8 @@ public class ShopPane extends BottomPane {
         button.setOnMousePressed(e -> {
 
             final Button buttonpressed = (Button) e.getSource();
-            sellingItem(buttonpressed, ctrl, board);
+            final Item itemChoose = getItemButtonMap().get(buttonpressed);
+            sellingItem(buttonpressed, itemChoose, ctrl, board);
 
             board.getBorderPane().requestFocus();
         });
@@ -75,10 +76,10 @@ public class ShopPane extends BottomPane {
      * @param ctrl
      * @param board
      */
-    public void sellingItem(final Button buttonpressed, final Controller ctrl, final BoardScene board) {
+    public void sellingItem(final Button buttonpressed, final Item itemChoose, final Controller ctrl, final BoardScene board) {
 
-        final Item oldItem = getItemButtonMap().get(buttonpressed);
-        final boolean possibleSelling = ctrl.humanClickShopButton(buttonpressed, oldItem);
+        
+        final boolean possibleSelling = ctrl.humanClickShopButton(buttonpressed, itemChoose);
 
         if (possibleSelling) {
 
