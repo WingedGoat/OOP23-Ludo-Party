@@ -1,7 +1,6 @@
 package view;
 
 import java.io.File;
-import java.nio.file.Path;
 
 import javafx.scene.Group;
 import javafx.scene.control.Label;
@@ -10,6 +9,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import model.Position;
 import utils.BColor;
 import view.utils.ResourcePath;
@@ -17,6 +19,8 @@ import view.utils.ResourcePath;
  * Player Group with player avatar, player name, coins and dice image.
  */
 public class PlayerGroup extends Group {
+
+    private static final Logger LOGGER = LogManager.getRootLogger();
 
     private static final int CIRCLE_RADIUS = 80;
     private static final int INNER_CIRCLE_RADIUS = 77;
@@ -137,7 +141,7 @@ public class PlayerGroup extends Group {
      */
     protected static class DiceImageView extends ImageView {
 
-        private final File file = new File(ResourcePath.DICE_IMG_FACE_ONE.getPath());
+        private File file = new File(ResourcePath.DICE_IMG_FACE_ONE.getPath());
 
         DiceImageView(final int yPos) {
             this.setImage(new Image(file.toURI().toString()));
@@ -148,16 +152,45 @@ public class PlayerGroup extends Group {
         }
 
         /**
-         * Change the dice number on the dice image showed.
+         * Updates the dice number on the dice image showed.
          * 
          * @param number the new number to show
          */
         public void updateDiceImage(final int number) {
 
-            final String diceImagePath = Path.of(ResourcePath.DICE_IMG_FOLDER.getPath() + System.getProperty("file.separator") 
-                + "dice-" + number + ".png").toString();
-            final File file = new File(diceImagePath);
-            this.setImage(new Image(file.toURI().toString()));
+            String diceImagePath = "";
+
+            switch (number) {
+                case 1:
+                    diceImagePath = ResourcePath.DICE_IMG_FACE_ONE.getPath();
+                    break;
+                case 2:
+                    diceImagePath = ResourcePath.DICE_IMG_FACE_TWO.getPath();
+                    break;
+                case 3:
+                    diceImagePath = ResourcePath.DICE_IMG_FACE_THREE.getPath();
+                    break;
+                case 4:
+                    diceImagePath = ResourcePath.DICE_IMG_FACE_FOUR.getPath();
+                    break;
+                case 5:
+                    diceImagePath = ResourcePath.DICE_IMG_FACE_FIVE.getPath();
+                    break;
+                case 6:
+                    diceImagePath = ResourcePath.DICE_IMG_FACE_SIX.getPath();
+                    break;
+
+                default:
+                    // error
+                    break;
+            }
+
+            if(!"".equals(diceImagePath)) {
+                this.file = new File(diceImagePath);
+                this.setImage(new Image(file.toURI().toString()));    
+            } else {
+                LOGGER.error("dice image path: " + diceImagePath + " not found");
+            }
         }
     }
 

@@ -20,13 +20,29 @@ public enum ResourcePath {
      */
     BACKGROUND_IMG(Path.of(getResourcesFoder() + "images" + getFileSep() + "space-bg.png")),
     /**
-     * the dice image folder.
-     */
-    DICE_IMG_FOLDER(Path.of(getResourcesFoder() + "images" + getFileSep() + "dices")),
-    /**
      * the dice image with face one.
      */
-    DICE_IMG_FACE_ONE(Path.of(DICE_IMG_FOLDER.getPath() + getFileSep() + "dice-1.png"));
+    DICE_IMG_FACE_ONE(Path.of(getResourcesFoder() + "images" + getFileSep() + "dices" + getFileSep() + "dice-1.png")),
+    /**
+     * the dice image with face two.
+     */
+    DICE_IMG_FACE_TWO(Path.of(getResourcesFoder() + "images" + getFileSep() + "dices" + getFileSep() + "dice-2.png")),
+    /**
+     * the dice image with face three.
+     */
+    DICE_IMG_FACE_THREE(Path.of(getResourcesFoder() + "images" + getFileSep() + "dices" + getFileSep() + "dice-3.png")),
+    /**
+     * the dice image with face four.
+     */
+    DICE_IMG_FACE_FOUR(Path.of(getResourcesFoder() + "images" + getFileSep() + "dices" + getFileSep() + "dice-4.png")),
+    /**
+     * the dice image with face five.
+     */
+    DICE_IMG_FACE_FIVE(Path.of(getResourcesFoder() + "images" + getFileSep() + "dices" + getFileSep() + "dice-5.png")),
+    /**
+     * the dice image with face six.
+     */
+    DICE_IMG_FACE_SIX(Path.of(getResourcesFoder() + "images" + getFileSep() + "dices" + getFileSep() + "dice-6.png"));
 
 
     private final Path path;
