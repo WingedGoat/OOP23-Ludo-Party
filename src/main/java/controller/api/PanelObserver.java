@@ -9,17 +9,19 @@ public interface PanelObserver {
      * 
      * @param coinsBottom the amount of coins of the bottom player
      * @param coinsTop the amount of coins of the top player
+     * @param diceBottomNum the result of the dice rolled of the bottom player
+     * @param diceTopNum the result of the dice rolled of the top player
      */
-    void updateLeftPlayersCoins(int coinsBottom, int coinsTop);
+    void updateLeftPlayerPanel(int coinsBottom, int coinsTop, int diceBottomNum, int diceTopNum);
 
     /**
      * Updates the amount of coins of the right player panel.
      * 
      * @param coinsBottom the amount of coins of the bottom player
      * @param coinsTop the amount of coins of the top player
+     * @param diceBottomNum the result of the dice rolled of the bottom player
+     * @param diceTopNum the result of the dice rolled of the top player
      */
-    void updateRightPlayersCoins(int coinsBottom, int coinsTop);
-
-//    void updateDiceImage();
+    void updateRightPlayerPanel(int coinsBottom, int coinsTop, int diceBottomNum, int diceTopNum);
 
 }
