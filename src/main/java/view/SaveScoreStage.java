@@ -34,26 +34,27 @@ public class SaveScoreStage extends Stage {
         this.setTitle("Salvataggio");
         this.setMinWidth(STAGE_WIDTH);
         this.initModality(Modality.WINDOW_MODAL);
-        this.setScene(ctrl.getView());  //FIXME
+        this.initOwner(ctrl.getView().getWindow());
 
-        final int playerCoins = ctrl.getGame().getHumanPlayer().getCoins();
+        final String playerName = ctrl.getGame().getTurn().getCurrentPlayer().getName();
+        final int playerCoins = ctrl.getGame().getTurn().getCurrentPlayer().getCoins();
         final Label scoreLabel = new Label("Punteggio: " + playerCoins);
-        if ("".equals(ctrl.getGame().getHumanPlayer().getName())) {
+        if ("".equals(playerName)) {
             this.nameLabel = new Label("Inserisci il tuo nome:");
             this.nameField = new TextField();
         } else {
-            nameLabel = new Label(ctrl.getGame().getHumanPlayer().getName());
+            nameLabel = new Label(playerName);
         }
 
         final Button saveBt = new Button("Salva");
         saveBt.setOnAction(e -> {
             if (nameField == null) {
-                close();
-                ctrl.saveScore(ctrl.getGame().getHumanPlayer().getName());
+                ctrl.saveScore(playerName);
             } else if (!this.nameField.getText().isEmpty()) {
-                close();
                 ctrl.saveScore(this.nameField.getText());
             }
+            close();
+            ctrl.getView().close();
         });
 
         final GridPane pane = new GridPane();

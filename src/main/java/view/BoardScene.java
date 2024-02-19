@@ -48,6 +48,8 @@ public class BoardScene extends Scene {
     private static final String BG_COLOR_CSS = "-fx-background-color: ";
     private static final String BG_RADIUS_CSS = "; -fx-border-color: #5A5858; -fx-border-width: 0.3px; "
             + "-fx-background-radius: 0";
+
+    private final Stage boardStage;
     private final GridPane boardPanel;
     private final BorderPane borderPane;
 
@@ -66,8 +68,9 @@ public class BoardScene extends Scene {
      */
     public BoardScene(final Controller controller, final Stage stage) {
         super(new BorderPane());
-        stage.setScene(this);
-        stage.setTitle("Board");
+        this.boardStage = stage;
+        boardStage.setScene(this);
+        boardStage.setTitle("Board");
 
         // borderpane - container
         borderPane = (BorderPane) this.getRoot();
@@ -108,10 +111,13 @@ public class BoardScene extends Scene {
 
         this.setFill(Color.valueOf("0077b6"));
 
-        stage.show();
+        boardStage.show();
         borderPane.requestFocus();
     }
 
+    public void close() {
+        boardStage.close();
+    }
     /**
      * Return the borderpane.
      * @return the borderpane
