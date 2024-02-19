@@ -10,9 +10,11 @@ import model.api.Cell;
 import model.api.Cell.CellType;
 import model.api.Game;
 import model.api.Item;
+import model.api.Pawn;
 import model.api.Player;
 import model.api.Player.PlayerType;
 import utils.BColor;
+import utils.Constants;
 import model.api.Shop;
 
 /**
@@ -25,6 +27,7 @@ public final class GameImpl implements Game {
     private final List<Player> players;
     private final Turn turn;
     private final Shop shop;
+    private Result gameStatus;
 
     /**
      * Constructor.
@@ -56,6 +59,7 @@ public final class GameImpl implements Game {
         // create turn
         turn = new Turn(this.humanPlayer);
         shop = new ShopImpl();
+        this.gameStatus = Result.PLAY;
     }
 
     @Override
@@ -94,8 +98,37 @@ public final class GameImpl implements Game {
     }
 
     @Override
-    public boolean isOver(final Result res) {
-        return res == Result.WIN;
+    @SuppressWarnings("all")
+    public Result getResult() {
+        // check if in cell (7,7) there are all pawns of some player
+        final List<Pawn> pawns = this.getBoard().getEndCell().getPawns();
+
+        int[] pawnsNumber = new int[getPlayers().size()]; // BLUE, RED, GREEN, YELLOW
+        if (pawns.size() >= Constants.PLAYER_PAWNS) {
+            for (final var pawn : pawns) {
+                if (pawn.getColor() == BColor.BLUE) {
+                    pawnsNumber[0]++;
+                } else if (pawn.getColor() == BColor.GREEN) {
+                    pawnsNumber[1]++;
+                }
+                if (getPlayers().size() > Constants.PLAYERS_NUM_2) {
+                    if (pawn.getColor() == BColor.RED) {
+                        pawnsNumber[2]++;
+                    } else if (pawn.getColor() == BColor.YELLOW) {
+                        pawnsNumber[3]++;
+                    }
+                }
+            }
+
+            for (int i = 0; i < pawnsNumber.length; i++) {
+                if (pawnsNumber[i] == Constants.PLAYER_PAWNS) {
+                    this.gameStatus = Result.WIN;
+                    break;
+                }
+            }
+        }
+
+        return this.gameStatus;
     }
 
     @Override

@@ -73,11 +73,11 @@ public interface Game {
     void buyItem(Player player, Item item);
 
     /**
-     * Returns true if the game is over, false otherwise.
-     * @param res the game result
-     * @return true if the game is over
+     * Returns {@link Result#WIN} if the player has all its pawns
+     * in the end cell.
+     * @return {@link Result#WIN} if isOver, {@link Result#PLAY} otherwise;
      */
-    boolean isOver(Result res);
+    Result getResult();
 
     /**
      * To access the Shop class methods.

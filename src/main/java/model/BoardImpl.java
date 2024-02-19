@@ -38,7 +38,7 @@ public final class BoardImpl implements Board {
     private final List<Position> bottomRightPawnsStartPos;
 
     private final Set<Position> shops;
-    private final Position endCell;
+    private Cell endCell;
 
     /**
      * Constructor.
@@ -62,7 +62,6 @@ public final class BoardImpl implements Board {
         this.bottomRightPawnsStartPos = createBottomRightPawnsPosition();
 
         this.shops = createShops();
-        this.endCell = new Position(Index.SEVEN, Index.SEVEN);
 
         fillBoard();
     }
@@ -72,6 +71,7 @@ public final class BoardImpl implements Board {
             for (int j = 0; j < Constants.CELLS_NUMBER; j++) {
                 final Position pos = new Position(i, j);
 
+                final Position endCellPosition = new Position(Index.SEVEN, Index.SEVEN);
                 Cell cell;
                 if (this.bottomLeftHouse.contains(pos)) {
                     cell = new CellImpl(pos, CellType.BOTTOM_LEFT_HOUSE);
@@ -89,8 +89,9 @@ public final class BoardImpl implements Board {
                     cell = new CellImpl(pos, true, CellType.TOP_RIGHT_SAFE_PATH);
                 } else if (this.bottomRighSafePath.contains(pos)) {
                     cell = new CellImpl(pos, true, CellType.BOTTOM_RIGHT_SAFE_PATH);
-                } else if (this.endCell.equals(pos)) {
+                } else if (endCellPosition.equals(pos)) {
                     cell = new CellImpl(pos, true, CellType.END_CELL);
+                    endCell = cell;
                 } else if (this.shops.contains(pos)) {
                     cell = new CellImpl(pos, false, true, false, CellType.WHITE_CELL);
                 } else {
@@ -170,8 +171,8 @@ public final class BoardImpl implements Board {
     }
 
     @Override
-    public Position getEndCell() {
-        return new Position(endCell.getX(), endCell.getY());
+    public Cell getEndCell() {
+        return new CellImpl(endCell.getPosition(), CellType.END_CELL);
     }
 
     @Override

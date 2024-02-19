@@ -48,7 +48,6 @@ public final class ControllerImpl implements Controller, Runnable {
 
     private final int playersNumber;
     private final Game game;
-    private final Result gameStatus;
     private final BoardScene view;
     private PanelObserver obs;
     private boolean malusClicked;
@@ -67,7 +66,6 @@ public final class ControllerImpl implements Controller, Runnable {
     public ControllerImpl(final Stage stage, final String playerName, final int playersNumber) {
         this.playersNumber = playersNumber;
         this.game = new GameImpl(playerName, playersNumber);
-        this.gameStatus = Result.PLAY;
         this.view = ViewUtility.createBoardScene(this, stage);
         this.setInputHandler();
         this.addObserver(new PanelObserver() {
@@ -92,7 +90,7 @@ public final class ControllerImpl implements Controller, Runnable {
     @Override
     public void run() {
 
-        while (this.gameStatus != Result.WIN) {
+        while (this.game.getResult() != Result.WIN) {
             if (playersNumber == Constants.PLAYERS_NUM_2) {
                 obs.updateLeftPlayerPanel(
                         this.game.getHumanPlayer().getCoins(), 0,

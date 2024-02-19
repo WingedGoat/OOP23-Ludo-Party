@@ -111,7 +111,7 @@ public interface Board {
      * 
      * @return the end cell
      */
-    Position getEndCell();
+    Cell getEndCell();
 
     /**
      * Gets the cells of the board.
