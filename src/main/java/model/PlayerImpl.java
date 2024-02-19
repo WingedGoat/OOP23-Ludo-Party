@@ -26,7 +26,6 @@ public final class PlayerImpl implements Player {
     private final List<Pawn> pawns;
     private final Dice dice;
     private int diceResult;
-    private boolean isPlayerTurn;
     private boolean diceRolled;
     private boolean pawnMoved;
     private boolean isfirstTurn = true;
@@ -59,7 +58,6 @@ public final class PlayerImpl implements Player {
         }
 
         this.coins = 0;
-        this.isPlayerTurn = false;
         this.dice = new BasicDiceImpl();
     }
 
@@ -99,18 +97,7 @@ public final class PlayerImpl implements Player {
         this.coins = coins;
     }
 
-    @Override
-    public boolean isPlayerTurn() {
-        return isPlayerTurn;
-    }
-
-    @Override
-    public void setPlayerTurn() {
-        this.isPlayerTurn = true;
-    }
-
-    @Override
-    public Dice getDice() {
+    private Dice getDice() {
         return this.dice;
     }
 
@@ -119,6 +106,7 @@ public final class PlayerImpl implements Player {
         if (this.isfirstTurn) { // force 6 at start of game in order to move at least the first pawn
             this.diceResult = Index.SIX;
             this.isfirstTurn = !this.isfirstTurn;
+
             return this.diceResult;
         }
         if (this.itemsApplied.contains(Item.DADUPLO) && this.itemsApplied.contains(Item.TAGLIATELO)) {
@@ -135,6 +123,7 @@ public final class PlayerImpl implements Player {
             return this.diceResult;
         } else if (this.itemsApplied.contains(Item.TAGLIATELO)) {
             this.diceResult = this.getDice().roll() / 2;
+
             return this.diceResult;
         }
         this.diceResult = this.getDice().roll();

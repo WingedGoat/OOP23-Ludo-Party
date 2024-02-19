@@ -61,26 +61,6 @@ public interface Player {
     int getCoins();
 
     /**
-     * Returns true if it's the turn of the player,
-     * false otherwise.
-     * 
-     * @return true if it's the player turn
-     */
-    boolean isPlayerTurn();
-
-    /**
-     * Sets the isPlayerTurn field to true.
-     */
-    void setPlayerTurn();
-
-    /**
-     * Gets the dice of the player.
-     * 
-     * @return the dice of the player
-     */
-    Dice getDice();
-
-    /**
      * Returns the value of the dice thrown.
      * 
      * @return the value of the dice

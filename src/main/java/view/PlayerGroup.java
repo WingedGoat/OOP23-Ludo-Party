@@ -192,6 +192,7 @@ public class PlayerGroup extends Group {
 
                 default:
                     // error
+                    diceImagePath = ResourcePath.DICE_IMG_FACE_ONE.getPath(); //FIXME for number > 6
                     break;
             }
 
