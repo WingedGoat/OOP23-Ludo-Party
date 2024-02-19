@@ -51,6 +51,7 @@ public final class ControllerImpl implements Controller, Runnable {
     private final BoardScene view;
     private PanelObserver obs;
     private boolean malusClicked;
+    private boolean malusUsed;
     private Item itemToUse;
     private String outcome;
     private boolean itemselled;
@@ -208,16 +209,27 @@ public final class ControllerImpl implements Controller, Runnable {
                     if (this.game.getBoard().getShops().contains(pawn.getPosition())) {
                         this.view.getShopPane().ableShop();
                     }
-                } else if (getMalusClicked()
-                        && clickBonusButton(itemToUse)) {
-                    final Label message = new Label(this.game.getTurn().getCurrentPlayer().getName() + " ha usato "
+                } else if (malusClicked && !malusUsed)  {
+                    if (clickBonusButton(itemToUse)) {
+                        final Label message = new Label(this.game.getTurn().getCurrentPlayer().getName() + " ha usato "
                             + getItemToUse().getName() + " su " + player.getName());
-                    message.setBackground(
+                        message.setBackground(
                             new Background(new BackgroundFill(Color.PURPLE, CornerRadii.EMPTY, Insets.EMPTY)));
-                    view.getShopPane().setPopupMessage(message);
-                    view.getShopPane().getPopupMessage().show(view.getWindow());
-                    this.game.getTurn().getCurrentPlayer().useItem(itemToUse, player, pawn, game);
-                    view.getBorderPane().requestFocus();
+                        view.getShopPane().setPopupMessage(message);
+                        view.getShopPane().getPopupMessage().show(view.getWindow());
+                        this.game.getTurn().getCurrentPlayer().useItem(itemToUse, player, pawn, game);
+                        malusClicked = false;
+                        malusUsed = true;
+                        setItemToUse(null);
+                        view.getBorderPane().requestFocus();
+                    } else {
+                        final Label message = new Label("HAI UN MALUS ATTIVO! DEVI UASRLO SU UNA PEDINA AVVERSARIA!");
+                        message.setBackground(
+                            new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+                        view.getShopPane().setPopupMessage(message);
+                        view.getShopPane().getPopupMessage().show(view.getWindow());
+                        view.getBorderPane().requestFocus();
+                    }
                 }
             });
         }
@@ -292,8 +304,10 @@ public final class ControllerImpl implements Controller, Runnable {
         if (itemToUse.getType() == ItemType.MALUS 
             && getGame().getHumanPlayer().equals(getGame().getTurn().getCurrentPlayer())) {
             malusClicked = true;
+            malusUsed = false;
             return false;
         }
+        malusClicked = false;
         return true;
     }
 
@@ -305,11 +319,6 @@ public final class ControllerImpl implements Controller, Runnable {
     @Override
     public void setItemToUse(final Item itemClicked) {
         this.itemToUse = itemClicked;
-    }
-
-    @Override
-    public Boolean getMalusClicked() {
-        return this.malusClicked;
     }
 
     @Override

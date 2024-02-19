@@ -87,6 +87,7 @@ public class InventoryPane extends BottomPane {
             final Button pressdButton = (Button) mouseEvent.getSource();
             final Item chooseItem = getItemButtonMap().get(pressdButton);
             setButtonPressed(pressdButton);
+            ctrl.setItemToUse(chooseItem);
 
             if (ctrl.clickBonusButton(chooseItem)) {
                 ctrl.getGame().getHumanPlayer().useItem(chooseItem, ctrl.getGame().getHumanPlayer(), 
@@ -96,7 +97,6 @@ public class InventoryPane extends BottomPane {
                 setPopupMessage(message);
                 getPopupMessage().show(board.getWindow());
             } 
-            ctrl.setItemToUse(chooseItem);
             pressdButton.setDisable(true);
             ordinateUsedInventory(pressdButton, ctrl, board);
             board.getBorderPane().requestFocus();

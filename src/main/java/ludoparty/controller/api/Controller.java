@@ -78,14 +78,6 @@ public interface Controller {
     Item getItemToUse();
 
     /**
-     * Return true if the last item used is a malus,
-     * false if is a Bonus.
-     * 
-     * @return if the last item ised is a malus
-     */
-    Boolean getMalusClicked();
-
-    /**
      * Return the shop message after the shop action.
      * 
      * @return the shop message
