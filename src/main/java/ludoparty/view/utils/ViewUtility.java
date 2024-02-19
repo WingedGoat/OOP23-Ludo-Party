@@ -12,7 +12,6 @@ import javafx.stage.Stage;
  * Utility class used to create the views of the game.
  */
 public final class ViewUtility {
-    
     /**
      * The resources folder root.
      */

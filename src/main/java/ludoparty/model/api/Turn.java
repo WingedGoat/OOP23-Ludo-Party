@@ -1,5 +1,8 @@
 package ludoparty.model.api;
 
+/**
+ * This interface handles current Computer player's turns.
+ */
 public interface Turn {
 
     /**

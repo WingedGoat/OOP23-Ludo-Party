@@ -10,7 +10,7 @@
   </Match>
 
   <Match>
-    <Class name="ludoparty.model.Turn" />
+    <Class name="ludoparty.model.TurnImpl" />
     <Bug code="EI2,EI" />
   </Match>
 

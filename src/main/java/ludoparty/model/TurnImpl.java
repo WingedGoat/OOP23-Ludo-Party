@@ -1,11 +1,12 @@
 package ludoparty.model;
 
 import ludoparty.model.api.Player;
+import ludoparty.model.api.Turn;
 
 /**
  * This class handles current Computer player's turn.
  */
-public final class Turn {
+public final class TurnImpl implements Turn {
 
     private Player currentPlayer;
 
@@ -14,24 +15,16 @@ public final class Turn {
      * 
      * @param player the player which start the game.
      */
-    public Turn(final Player player) {
+    public TurnImpl(final Player player) {
         this.currentPlayer = player;
     }
 
-    /**
-     * Returns the current player.
-     * 
-     * @return the current player
-     */
+    @Override
     public Player getCurrentPlayer() {
         return this.currentPlayer;
     }
 
-    /**
-     * Sets the current player.
-     * 
-     * @param player the current player
-     */
+    @Override
     public void passTurnTo(final Player player) {
         this.currentPlayer.malusExpired();
         player.bonusExpired();

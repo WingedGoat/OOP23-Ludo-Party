@@ -16,6 +16,7 @@ import ludoparty.model.api.Player.PlayerType;
 import ludoparty.utils.BColor;
 import ludoparty.utils.Constants;
 import ludoparty.model.api.Shop;
+import ludoparty.model.api.Turn;
 
 /**
  * Game Implementation class.
@@ -56,7 +57,7 @@ public final class GameImpl implements Game {
         }
 
         // create turn
-        turn = new Turn(this.humanPlayer);
+        turn = new TurnImpl(this.humanPlayer);
         shop = new ShopImpl();
         this.gameStatus = Result.PLAY;
     }
