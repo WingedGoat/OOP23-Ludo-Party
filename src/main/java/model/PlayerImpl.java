@@ -306,4 +306,10 @@ public final class PlayerImpl implements Player {
         return this.secondDice;
     }
 
+    @Override
+    public String toString() {
+        return "PlayerImpl [name=" + name + ", type=" + type + ", color=" + color + ", pawns=" + pawns + ", diceResult="
+                + diceResult + ", coins=" + coins + ", playerItems=" + playerItems + "]";
+    }
+
 }

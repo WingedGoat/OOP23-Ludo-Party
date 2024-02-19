@@ -13,7 +13,6 @@ public final class CellImpl implements Cell {
     private final Position position;
     private final boolean isSafe;
     private final boolean isShop;
-    private final boolean isEmpty;
     private final boolean isHome;
     private final CellType type;
     private final List<Pawn> pawns;
@@ -34,7 +33,6 @@ public final class CellImpl implements Cell {
         this.isShop = isShop;
         this.isHome = isHome;
         this.type = type;
-        this.isEmpty = true;
         this.pawns = new ArrayList<>();
     }
 
@@ -80,11 +78,6 @@ public final class CellImpl implements Cell {
     }
 
     @Override
-    public boolean isEmpty() {
-        return isEmpty;
-    }
-
-    @Override
     public CellType getType() {
         return type;
     }
@@ -106,7 +99,7 @@ public final class CellImpl implements Cell {
 
     @Override
     public String toString() {
-        return "CellImpl [position=" + position + ", isSafe=" + isSafe + ", isShop=" + isShop + ", isEmpty=" + isEmpty
+        return "CellImpl [position=" + position + ", isSafe=" + isSafe + ", isShop=" + isShop
                 + ", isHome=" + isHome + ", pawnList=" + pawns + "]";
     }
 

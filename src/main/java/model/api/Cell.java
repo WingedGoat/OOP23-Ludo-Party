@@ -85,13 +85,6 @@ public interface Cell {
     boolean isShop();
 
     /**
-     * Returns true if the actual cell is not populated by pawns, false otherwise.
-     * 
-     * @return true if is an empty cell
-     */
-    boolean isEmpty();
-
-    /**
      * Returns the list of the pawns in that cell.
      * 
      * @return list with pawns
