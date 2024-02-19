@@ -8,6 +8,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,6 +31,7 @@ public class PlayerGroup extends Group {
     private static final int DICE_X_LAYOUT = 170;
     private static final int DICE_WIDTH = 40;
     private static final int DICE_HEIGHT = 40;
+    private static final int FONT_SIZE = 16;
 
     private final Circle playerAvatar;
     private final Circle playerAvatarInner;
@@ -116,6 +119,10 @@ public class PlayerGroup extends Group {
         AnchorPane.setRightAnchor(label, 0.0);
     }
 
+    private static Font getLabelFont() {
+        return Font.font("Helvetica", FontWeight.LIGHT, FONT_SIZE);
+    }
+
 
     // inner classes
 
@@ -125,6 +132,7 @@ public class PlayerGroup extends Group {
             super(text);
             this.setLayoutX(LABEL_X_LAYOUT);
             this.setLayoutY(yPos);
+            this.setFont(getLabelFont());
         }
     }
 
@@ -134,6 +142,7 @@ public class PlayerGroup extends Group {
             super(text);
             this.setLayoutX(LABEL_X_LAYOUT);
             this.setLayoutY(yPos);
+            this.setFont(getLabelFont());
         }
     }
  

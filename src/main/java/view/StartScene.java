@@ -77,7 +77,7 @@ public class StartScene extends Scene {
         final Text text = createText("Inserisci il tuo nome:", font);
         final TextField textField = createTextField(font);
 
-        final Button button = createButton(stage);
+        final Button button = createGoButton(stage);
 
         gridPane.addRow(Index.ZERO, title);
         gridPane.addRow(Index.FIFTEEN, text);
@@ -120,7 +120,7 @@ public class StartScene extends Scene {
         return textField;
     }
 
-    private Button createButton(final Stage stage) {
+    private Button createGoButton(final Stage stage) {
         final Button button = new Button("GO");
         button.setContentDisplay(ContentDisplay.RIGHT);
         button.setMinSize(BUTTON_WIDTH, BUTTON_HEIGHT);
