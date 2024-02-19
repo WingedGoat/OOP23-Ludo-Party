@@ -34,7 +34,7 @@ import org.apache.logging.log4j.Logger;
  * contained by the Stage. It's the view
  * with the effective board of the game.
  */
-public class BoardScene extends Scene {
+public final class BoardScene extends Scene {
 
     private static final Logger LOGGER = LogManager.getRootLogger();
 
@@ -115,9 +115,13 @@ public class BoardScene extends Scene {
         borderPane.requestFocus();
     }
 
+    /**
+     * Close the board stage and the game.
+     */
     public void close() {
         boardStage.close();
     }
+
     /**
      * Return the borderpane.
      * @return the borderpane

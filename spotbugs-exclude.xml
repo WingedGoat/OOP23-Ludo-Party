@@ -62,6 +62,11 @@
     <Bug code="MC" />
   </Match>
 
+  <Match>
+    <Class name="view.BoardScene" />
+    <Bug code="EI2" />
+  </Match>
+
   <!-- Match all XYZ violations. -->
   <Match>
     <Bug code="XYZ" />
