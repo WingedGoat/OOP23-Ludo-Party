@@ -3,7 +3,6 @@ package controller;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
@@ -212,13 +211,13 @@ public final class ControllerImpl implements Controller, Runnable {
                         this.view.getShopPane().ableShop();
                     }
                 } else if (getMalusClicked()
-                        && !player.equals(this.game.getTurn().getCurrentPlayer())) {
+                        && clickBonusButton(itemToUse)) {
                     final Label message = new Label(this.game.getTurn().getCurrentPlayer().getName() + " ha usato "
                             + getItemToUse().getName() + " su " + player.getName());
                     message.setBackground(
                             new Background(new BackgroundFill(Color.PURPLE, CornerRadii.EMPTY, Insets.EMPTY)));
-                    view.getInventoryPane().setPopupMessage(message);
-                    view.getInventoryPane().getPopupMessage().show(view.getWindow());
+                    view.getShopPane().setPopupMessage(message);
+                    view.getShopPane().getPopupMessage().show(view.getWindow());
                     this.game.getTurn().getCurrentPlayer().useItem(itemToUse, player, pawn, game);
                     view.getBorderPane().requestFocus();
                 }
@@ -292,20 +291,11 @@ public final class ControllerImpl implements Controller, Runnable {
 
     @Override
     public Boolean clickBonusButton(final Item itemToUse) {
-        if (itemToUse.getType() == ItemType.MALUS) {
+        if (itemToUse.getType() == ItemType.MALUS 
+            && getGame().getHumanPlayer().equals(getGame().getTurn().getCurrentPlayer())) {
             malusClicked = true;
             return false;
         }
-        return true;
-    }
-
-    @Override // FIXME sta venendo utilizzato ?
-    public Boolean clickPlayerTargetOfMalus(final Button targetPlayer) {
-        if (!malusClicked) {
-            return false;
-        }
-        // implementare in base a quale stringa conterrà il Button dei Player avversari
-        malusClicked = false;
         return true;
     }
 
