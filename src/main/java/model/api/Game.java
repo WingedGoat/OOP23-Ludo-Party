@@ -75,7 +75,7 @@ public interface Game {
     /**
      * Returns {@link Result#WIN} if the player has all its pawns
      * in the end cell.
-     * @return {@link Result#WIN} if isOver, {@link Result#PLAY} otherwise;
+     * @return {@link Result#WIN} if the game isOver, {@link Result#PLAY} otherwise;
      */
     Result getResult();
 
