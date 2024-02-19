@@ -1,10 +1,6 @@
 package model.api;
 
 import java.util.List;
-import java.util.Set;
-
-import model.Position;
-import model.api.Cell.CellType;
 import utils.BColor;
 
 /**
@@ -49,20 +45,6 @@ public interface Player {
      * @return the color
      */
     BColor getColor();
-
-    /**
-     * Gets the position of the house cell {@link CellType}.
-     * 
-     * @return the position of the house cell
-     */
-    CellType getPlayerHouse();
-
-    /**
-     * Gets the player safe path on the board.
-     * 
-     * @return the safe path
-     */
-    Set<Position> getSafePath();
 
     /**
      * Gets the pawns of the player.

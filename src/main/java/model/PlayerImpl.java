@@ -3,7 +3,6 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 import model.api.Cell.CellType;
 import model.api.Dice;
@@ -24,8 +23,6 @@ public final class PlayerImpl implements Player {
     private final String name;
     private final PlayerType type;
     private final BColor color;
-    private final CellType playerHouse;
-    private final Set<Position> safePath;
     private final List<Pawn> pawns;
     private final Dice dice;
     private int diceResult;
@@ -48,17 +45,13 @@ public final class PlayerImpl implements Player {
      * @param type          the player type
      * @param color         the player color
      * @param playerHouse   the position of the player's house
-     * @param safePath      the safe path
      * @param pawnsStartPos the player pawns start positions
      */
     public PlayerImpl(final String name, final PlayerType type,
-            final BColor color, final CellType playerHouse, final Set<Position> safePath,
-            final List<Position> pawnsStartPos) {
+            final BColor color, final CellType playerHouse, final List<Position> pawnsStartPos) {
         this.name = name;
         this.type = type;
         this.color = color;
-        this.playerHouse = playerHouse;
-        this.safePath = Set.copyOf(safePath);
         this.pawns = new ArrayList<>();
 
         for (int i = 0; i < Constants.PLAYER_PAWNS; i++) {
@@ -85,16 +78,6 @@ public final class PlayerImpl implements Player {
     @Override
     public BColor getColor() {
         return color;
-    }
-
-    @Override
-    public CellType getPlayerHouse() {
-        return playerHouse;
-    }
-
-    @Override
-    public Set<Position> getSafePath() {
-        return safePath;
     }
 
     @Override
