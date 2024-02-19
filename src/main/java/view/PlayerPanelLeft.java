@@ -61,8 +61,8 @@ public final class PlayerPanelLeft extends PlayerPanel {
         diceImage.setOnMouseClicked(mouseEvent -> {
             if (game.getHumanPlayer().canRollDice()) {
                 final int diceResult = game.getHumanPlayer().rollDice();
-                game.getTurn().setDiceResult(diceResult);
-                //showDiceNumber(diceImage, diceResult);
+                game.getTurn().getCurrentPlayer().setDiceResult(diceResult);
+
                 /*
                  * Se con il risultato ottenuto non è possibile muovere pedine,
                  * imposto pawnMoved a true, così è già possibile premere ENTER e passare il
@@ -91,7 +91,6 @@ public final class PlayerPanelLeft extends PlayerPanel {
                 DICE_TOP_Y_LAYOUT
         );
 
-        //TODO Change dice image when it is computer player turn
         //TODO add another dice image when is used DADUPLO
 
         g.getChildren().addAll(

@@ -112,6 +112,12 @@ public interface Player {
     int getDiceResult();
 
     /**
+     * Sets the dice result.
+     * @param result the dice result
+     */
+    void setDiceResult(int result);
+
+    /**
      * Returns true if dice is rolled.
      * 
      * @return true if dice is rolled

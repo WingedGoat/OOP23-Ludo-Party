@@ -165,6 +165,11 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
+    public void setDiceResult(final int result) {
+        this.diceResult = result;
+    }
+
+    @Override
     public boolean isDiceRolled() {
         return this.diceRolled;
     }

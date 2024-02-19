@@ -203,7 +203,7 @@ public final class ControllerImpl implements Controller, Runnable {
                 if (player.canMovePawn(pawn) && pawn.canMove(player.getDiceResult())) {
                     pawn.move(player.getDiceResult(), this.game);
                     updatePawnPositions();
-                    player.earnCoins(this.game.getTurn().getDiceResult());
+                    player.earnCoins(this.game.getTurn().getCurrentPlayer().getDiceResult());
 
                     if (this.game.getBoard().getShops().contains(pawn.getPosition())) {
                         this.view.getShopPane().ableShop();
