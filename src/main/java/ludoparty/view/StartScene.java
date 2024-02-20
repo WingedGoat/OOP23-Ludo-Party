@@ -85,6 +85,10 @@ public class StartScene extends Scene {
         gridPane.addRow(Index.FORTY, button);
 
         addBackgroundImage(gridPane);
+
+        stage.setOnCloseRequest(e -> {
+            stage.close();
+        });
     }
 
     private Text createTitleText(final String txt) {

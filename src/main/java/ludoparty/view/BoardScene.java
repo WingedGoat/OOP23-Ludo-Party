@@ -48,8 +48,8 @@ public final class BoardScene extends Scene {
     private final GridPane boardPanel;
     private final BorderPane borderPane;
 
-    private final PlayerPanelLeft leftPane;
-    private final PlayerPanelRight rightPane;
+    private final PlayerPanelLeftImpl leftPane;
+    private final PlayerPanelRightImpl rightPane;
     private final InventoryPane inventoryPane;
     private final ShopPane shopPane;
 
@@ -64,8 +64,8 @@ public final class BoardScene extends Scene {
     public BoardScene(final Controller controller, final Stage stage) {
         super(new BorderPane());
         this.boardStage = stage;
-        boardStage.setScene(this);
-        boardStage.setTitle("Board");
+        this.boardStage.setScene(this);
+        this.boardStage.setTitle("Board");
 
         // borderpane - container
         borderPane = (BorderPane) this.getRoot();
@@ -84,15 +84,15 @@ public final class BoardScene extends Scene {
         borderPane.setCenter(boardPanel);
 
         // lateral panels for the players
-        this.leftPane = new PlayerPanelLeft(controller.getGame());
+        this.leftPane = new PlayerPanelLeftImpl(controller.getGame());
         this.leftPane.setPrefWidth(PLAYER_PANEL_WIDTH);
         borderPane.setLeft(leftPane);
 
-        this.rightPane = new PlayerPanelRight(controller.getGame());
+        this.rightPane = new PlayerPanelRightImpl(controller.getGame());
         this.rightPane.setPrefWidth(PLAYER_PANEL_WIDTH);
         borderPane.setRight(rightPane);
 
-        // hbox - bottom panel for Player Bonus/Malus and Shop
+        // bottom pane for Player Bonus/Malus and Shop
         this.inventoryPane = new InventoryPane();
         this.shopPane = new ShopPane(controller, this);
         this.shopPane.disableShop();
@@ -101,13 +101,16 @@ public final class BoardScene extends Scene {
         bottomPane.setBottom(shopPane);
         bottomPane.setPrefHeight(ViewUtility.BOARD_BOTTOM_HEIGHT);
         bottomPane.setBorder(border);
-
         borderPane.setBottom(bottomPane);
+
+        borderPane.requestFocus();
 
         this.setFill(Color.valueOf("0077b6"));
 
-        boardStage.show();
-        borderPane.requestFocus();
+        this.boardStage.show();
+        this.boardStage.setOnCloseRequest(e -> {
+            boardStage.close();
+        });
     }
 
     /**
@@ -129,7 +132,7 @@ public final class BoardScene extends Scene {
      * Return the left panel.
      * @return the left panel
      */
-    public PlayerPanelLeft getLeftPane() {
+    public PlayerPanelLeftImpl getLeftPane() {
         return leftPane;
     }
 
@@ -137,7 +140,7 @@ public final class BoardScene extends Scene {
      * Return the right panel.
      * @return the right panel
      */
-    public PlayerPanelRight getRightPane() {
+    public PlayerPanelRightImpl getRightPane() {
         return rightPane;
     }
 
@@ -178,30 +181,26 @@ public final class BoardScene extends Scene {
                 final Button bt = new Button(" ");
                 bt.setStyle("-fx-background-color: #fdfcfc;"
                         + "-fx-border-color: #5A5858; -fx-border-width: 0.5px; " + BG_RADIUS_CSS);
+                bt.setOnMouseEntered(e -> bt.setCursor(null));
 
                 final Position pos = new Position(j, i);
 
                 if (ctrl.getGame().getBoard().getBottomLeftHouse().contains(pos)
                         || ctrl.getGame().getBoard().getBottomLeftSafePath().contains(pos)) {
                     bt.setStyle(BG_COLOR_CSS + BColor.BLUE.getHexColor() + BG_RADIUS_CSS);
-                    bt.setOnMouseEntered(e -> bt.setCursor(null));
                 } else if (ctrl.getGame().getBoard().getTopLeftHouse().contains(pos)
                         || ctrl.getGame().getBoard().getTopLeftSafePath().contains(pos)) {
                     bt.setStyle(BG_COLOR_CSS + BColor.RED.getHexColor() + BG_RADIUS_CSS);
-                    bt.setOnMouseEntered(e -> bt.setCursor(null));
                 } else if (ctrl.getGame().getBoard().getTopRightHouse().contains(pos)
                         || ctrl.getGame().getBoard().getTopRightSafePath().contains(pos)) {
                     bt.setStyle(BG_COLOR_CSS + BColor.GREEN.getHexColor() + BG_RADIUS_CSS);
-                    bt.setOnMouseEntered(e -> bt.setCursor(null));
                 } else if (ctrl.getGame().getBoard().getBottomRightHouse().contains(pos)
                         || ctrl.getGame().getBoard().getBottomRighSafePath().contains(pos)) {
                     bt.setStyle(BG_COLOR_CSS + BColor.YELLOW.getHexColor() + BG_RADIUS_CSS);
-                    bt.setOnMouseEntered(e -> bt.setCursor(null));
                 } else if (ctrl.getGame().getBoard().getShops().contains(pos)) {
                     bt.setStyle(BG_COLOR_CSS + BColor.SHOP_GREY.getHexColor() + BG_RADIUS_CSS);
                     bt.setText("S");
                     bt.setFont(new Font(Index.EIGHTEEN));
-                    bt.setOnMouseEntered(e -> bt.setCursor(null));
                 }
 
                 bt.setPrefSize(CELL_WIDTH, CELL_WIDTH);

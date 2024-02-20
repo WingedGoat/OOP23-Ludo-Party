@@ -3,6 +3,7 @@ package ludoparty.view;
 import ludoparty.model.Position;
 import ludoparty.model.api.Game;
 import ludoparty.view.PlayerGroup.DiceImageView;
+import ludoparty.view.api.PlayerPanel;
 import javafx.application.Platform;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
@@ -13,7 +14,7 @@ import javafx.scene.paint.Color;
  * Player panel on the left.
  */
 @SuppressWarnings("all")
-public final class PlayerPanelLeft extends PlayerPanel {
+public final class PlayerPanelLeftImpl extends AbstractPlayerPanel {
 
     private static final double GLOW_LEVEL = 0.8;
     private final PlayerGroup bottomPlayer;
@@ -24,7 +25,7 @@ public final class PlayerPanelLeft extends PlayerPanel {
      * 
      * @param game the game
      */
-    public PlayerPanelLeft(final Game game) {
+    public PlayerPanelLeftImpl(final Game game) {
         super(game);
         this.bottomPlayer = createBottomPlayer(this.getBottomPos(), game);
         this.getChildren().add(this.bottomPlayer);
@@ -36,7 +37,7 @@ public final class PlayerPanelLeft extends PlayerPanel {
     }
 
     @Override
-    protected PlayerGroup createBottomPlayer(final Position pos, final Game game) {
+    public PlayerGroup createBottomPlayer(final Position pos, final Game game) {
 
         final PlayerGroup g = new PlayerGroup(
                 pos,
@@ -80,7 +81,7 @@ public final class PlayerPanelLeft extends PlayerPanel {
     }
 
     @Override
-    protected PlayerGroup createTopPlayer(final Position pos, final Game game) {
+    public PlayerGroup createTopPlayer(final Position pos, final Game game) {
 
         final PlayerGroup g = new PlayerGroup(
                 pos,
@@ -99,22 +100,22 @@ public final class PlayerPanelLeft extends PlayerPanel {
     }
 
     @Override
-    protected Label getBottomPlayerCoins() {
+    public Label getBottomPlayerCoins() {
         return this.bottomPlayer.getPlayerCoins();
     }
 
     @Override
-    protected Label getTopPlayerCoins() {
+    public Label getTopPlayerCoins() {
         return this.topPlayer.getPlayerCoins();
     }
 
     @Override
-    protected DiceImageView getBottomPlayerDice() {
+    public DiceImageView getBottomPlayerDice() {
         return this.bottomPlayer.getDiceImage();
     }
 
     @Override
-    protected DiceImageView getTopPlayerDice() {
+    public DiceImageView getTopPlayerDice() {
         return this.topPlayer.getDiceImage();
     }
 

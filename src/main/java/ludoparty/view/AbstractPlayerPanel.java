@@ -1,16 +1,14 @@
 package ludoparty.view;
 
-import javafx.scene.Group;
-import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
 import ludoparty.model.Position;
 import ludoparty.model.api.Game;
+import ludoparty.view.api.PlayerPanel;
 /**
  * Abstract Player panel class.
  */
-public abstract class PlayerPanel extends AnchorPane {
+public abstract class AbstractPlayerPanel extends AnchorPane implements PlayerPanel {
 
     private static final int PANE_HEIGHT = 600;
 
@@ -51,7 +49,7 @@ public abstract class PlayerPanel extends AnchorPane {
      * 
      * @param game the game
      */
-    protected PlayerPanel(final Game game) {
+    protected AbstractPlayerPanel(final Game game) {
         this.playersNumber = game.getPlayers().size(); 
         this.bottomPos = new Position(AVATAR_X_POSITION, AVATAR_BOTTOM_Y_POSITION);
         this.topPos = new Position(AVATAR_X_POSITION, AVATAR_TOP_Y_POSITION);
@@ -82,57 +80,5 @@ public abstract class PlayerPanel extends AnchorPane {
     protected Position getTopPos() {
         return this.topPos;
     }
-
-    /**
-     * Gets the top player coins label.
-     * @return the top player coins label
-     */
-    protected abstract Label getTopPlayerCoins();
-
-    /**
-     * Gets the bottom player coins label.
-     * @return the bottom player coins label
-     */
-    protected abstract Label getBottomPlayerCoins();
-
-    /**
-     * Gets the top player dice image.
-     * @return the top player dice image
-     */
-    protected abstract ImageView getTopPlayerDice();
-
-    /**
-     * Gets the bottom player dice image.
-     * @return the bottom player dice image
-     */
-    protected abstract ImageView getBottomPlayerDice();
-
-    /**
-     * Refreshes the components of the player panel.
-     * 
-     * @param coinsBottom the amount of coins of the bottom player
-     * @param coinsTop the amount of coins of the top player
-     * @param diceBottomNum the result of the dice rolled of the bottom player
-     * @param diceTopNum the result of the dice rolled of the top player
-     */
-    protected abstract void refresh(int coinsBottom, int coinsTop, int diceBottomNum, int diceTopNum);
-
-    /**
-     * Creates the player Group at bottom corner.
-     * 
-     * @param pos the position of the player avatar
-     * @param game the game
-     * @return the player group
-     */
-    protected abstract Group createBottomPlayer(Position pos, Game game);
-
-    /**
-     * Creates the player Group at top corner.
-     * 
-     * @param pos the position of the player avatar
-     * @param game the game
-     * @return the player group
-     */
-    protected abstract Group createTopPlayer(Position pos, Game game);
 
 }
