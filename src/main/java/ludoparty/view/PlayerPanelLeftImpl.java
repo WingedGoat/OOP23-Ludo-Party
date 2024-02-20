@@ -3,7 +3,6 @@ package ludoparty.view;
 import ludoparty.model.Position;
 import ludoparty.model.api.Game;
 import ludoparty.view.PlayerGroup.DiceImageView;
-import ludoparty.view.api.PlayerPanel;
 import javafx.application.Platform;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
