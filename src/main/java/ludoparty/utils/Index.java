@@ -77,6 +77,30 @@ public final class Index {
      * Index 40.
      */
     public static final int FORTY = 40;
+    /**
+     * Index 150.
+     */
+    public static final int HUNDREDFIFTY = 150;
+    /**
+     * Index 250.
+     */
+    public static final int TWOHUNDREDFIFTY = 250;
+    /**
+     * Index 500.
+     */
+    public static final int FIVEHUNDRED = 500;
+    /**
+     * Index 400.
+     */
+    public static final int FOURHUNDRED = 400;
+    /**
+     * Index 600.
+     */
+    public static final int SIXHUNDRED = 600;
+    /**
+     * Index 300.
+     */
+    public static final int THREEHUNDRED = 300;
 
     private Index() { }
 

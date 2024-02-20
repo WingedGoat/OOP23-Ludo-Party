@@ -1,0 +1,54 @@
+package ludoparty;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
+
+import ludoparty.model.api.Item;
+import ludoparty.utils.Index;
+
+class TestItem {
+
+    @Test void testDaduplo() {
+        assertEquals("Daduplo", Item.DADUPLO.getName());
+        assertEquals("Al prossimo tiro di dado ne lancerai due", Item.DADUPLO.getDescription());
+        assertEquals(Index.HUNDREDFIFTY, Item.DADUPLO.getPrice());
+        assertEquals(Index.ONE, Item.DADUPLO.getId());
+    }
+
+    @Test void testAbbondanza() {
+        assertEquals("Abbondanza", Item.ABBONDANZA.getName());
+        assertEquals("I coin raccolti raddoppiano per questo turno", Item.ABBONDANZA.getDescription());
+        assertEquals(Index.TWOHUNDREDFIFTY, Item.ABBONDANZA.getPrice());
+        assertEquals(Index.TWO, Item.ABBONDANZA.getId());
+    }
+
+    @Test void testBastione() {
+        assertEquals("Bastione", Item.BASTIONE.getName());
+        assertEquals("Fino al tuo prossimo turno non sei targhettabile dai malus degli avversari" 
+            + " e le tue pedine non possono venir mangiate", 
+            Item.BASTIONE.getDescription());
+        assertEquals(Index.FIVEHUNDRED, Item.BASTIONE.getPrice());
+        assertEquals(Index.THREE, Item.BASTIONE.getId());
+    }
+
+    @Test void testRegolaDei4() {
+        assertEquals("La regola dei 4", Item.REGOLA_DEI_4.getName());
+        assertEquals("Riporta una pedina avversaria indietro di 4 caselle", Item.REGOLA_DEI_4.getDescription());
+        assertEquals(Index.FOURHUNDRED, Item.REGOLA_DEI_4.getPrice());
+        assertEquals(Index.FOUR, Item.REGOLA_DEI_4.getId());
+    }
+
+    @Test void testTagliatelo() {
+        assertEquals("Tagliatelo", Item.TAGLIATELO.getName());
+        assertEquals("Il prossimo tiro di dado dell'avversario sara' dimezzato", Item.TAGLIATELO.getDescription());
+        assertEquals(Index.THREEHUNDRED, Item.TAGLIATELO.getPrice());
+        assertEquals(Index.FIVE, Item.TAGLIATELO.getId());
+    }
+
+    @Test void testAriete() {
+        assertEquals("Ariete", Item.ARIETE.getName());
+        assertEquals("Disattiva anticipatamente il bastione di un avversario", Item.ARIETE.getDescription());
+        assertEquals(Index.SIXHUNDRED, Item.ARIETE.getPrice());
+        assertEquals(Index.SIX, Item.ARIETE.getId());
+    }
+}
