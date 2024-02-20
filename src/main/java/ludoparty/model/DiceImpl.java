@@ -6,7 +6,7 @@ import ludoparty.model.api.Dice;
 /**
  * A standard dice with 6 possible results.
  */
-public final class BasicDiceImpl implements Dice {
+public final class DiceImpl implements Dice {
 
     /**
      * Number of faces.

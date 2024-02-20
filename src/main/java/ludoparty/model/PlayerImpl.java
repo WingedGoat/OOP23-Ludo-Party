@@ -58,7 +58,7 @@ public final class PlayerImpl implements Player {
         }
 
         this.coins = 0;
-        this.dice = new BasicDiceImpl();
+        this.dice = new DiceImpl();
     }
 
     // getters
