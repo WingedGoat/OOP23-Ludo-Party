@@ -19,7 +19,7 @@ public final class ViewUtility {
     /**
      * Home window width.
      */
-    public static final int HOME_WINDOW_WIDTH = 450;
+    public static final int HOME_WINDOW_WIDTH = 480;
     /**
      * Home window height.
      */

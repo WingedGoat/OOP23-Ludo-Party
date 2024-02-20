@@ -9,10 +9,10 @@ import ludoparty.view.PlayerGroup.DiceImageView;
 /**
  * Player panel on the right.
  */
-@SuppressWarnings("all")
 public final class PlayerPanelRightImpl extends AbstractPlayerPanel {
 
     private final PlayerGroup topPlayer;
+    @SuppressWarnings("all")
     private PlayerGroup bottomPlayer;
 
     /**
@@ -47,7 +47,6 @@ public final class PlayerPanelRightImpl extends AbstractPlayerPanel {
             DICE_TOP_Y_LAYOUT
         );
 
-        // TODO Change dice image when it is computer player turn
         // TODO add another dice image when is used DADUPLO
 
         g.getChildren().addAll(
