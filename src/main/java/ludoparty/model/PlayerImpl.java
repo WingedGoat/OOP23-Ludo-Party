@@ -241,15 +241,16 @@ public final class PlayerImpl implements Player {
             player.addToItemsApplied(item);
         } else if (!player.getItemsApplied().contains(Item.BASTIONE)) {
             player.addToItemsApplied(item);
-            if (item.getId() == Item.REGOLA_DEI_4.getId()) {
+            if (item.equals(Item.REGOLA_DEI_4)) {
                 pawn.move(-Index.FOUR, game);
             }
-        } else if (item.getId() == Item.ARIETE.getId()) {
+        } else if (item.equals(Item.ARIETE)) {
             player.getItemsApplied().remove(Item.BASTIONE);
             player.addToItemsApplied(item);
-        } else if (item.getId() == Item.REGOLA_DEI_4.getId()) {
-            pawn.move(-Index.FOUR, game);
-        }
+            if (item.equals(Item.REGOLA_DEI_4)) {
+                pawn.move(-Index.FOUR, game);
+            }
+        } 
     }
 
     @Override
@@ -264,7 +265,7 @@ public final class PlayerImpl implements Player {
     @Override
     public void bonusExpired() {
         for (final Item i : itemsApplied) {
-            if (i.getType().equals(ItemType.BONUS)) {
+            if (i.getType().equals(Item.ItemType.BONUS)) {
                 itemsApplied.remove(i);
             }
         }

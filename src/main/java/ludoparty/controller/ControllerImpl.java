@@ -166,8 +166,6 @@ public final class ControllerImpl implements Controller, Runnable {
                 for (int i = 1; i < getPlayersNumber(); i++) {
 
                     final Player player = this.game.getPlayers().get(i);
-                    this.game.getTurn().getCurrentPlayer().malusExpired();
-                    player.bonusExpired();
                     this.game.getTurn().passTurnTo(player);
 
                     final int diceResult = player.rollDice();
@@ -212,7 +210,7 @@ public final class ControllerImpl implements Controller, Runnable {
                         this.view.getShopPane().ableShop();
                     }
                 } else if (malusClicked && !malusUsed)  {
-                    if (clickBonusButton(itemToUse)) {
+                    if (!getGame().getTurn().getCurrentPlayer().getPawns().contains(pawn)) {
                         final Label message = new Label(this.game.getTurn().getCurrentPlayer().getName() + " ha usato "
                             + getItemToUse().getName() + " su " + player.getName());
                         message.setBackground(
@@ -225,7 +223,7 @@ public final class ControllerImpl implements Controller, Runnable {
                         setItemToUse(null);
                         view.getBorderPane().requestFocus();
                     } else {
-                        final Label message = new Label("HAI UN MALUS ATTIVO! DEVI UASRLO SU UNA PEDINA AVVERSARIA!");
+                        final Label message = new Label("HAI UN MALUS ATTIVO! DEVI USARLO SU UNA PEDINA AVVERSARIA!");
                         message.setBackground(
                             new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
                         view.getShopPane().setPopupMessage(message);
