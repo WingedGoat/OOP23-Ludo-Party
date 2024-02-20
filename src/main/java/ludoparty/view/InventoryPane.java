@@ -9,7 +9,8 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
-
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import ludoparty.controller.api.Controller;
 import ludoparty.model.api.Item;
 import ludoparty.utils.Index;
@@ -27,6 +28,10 @@ public class InventoryPane extends BottomPane {
     public InventoryPane() {
         super();
 
+        final Label shopLabel = new Label("Inventory");
+        shopLabel.setFont(Font.font("Helvetica", FontWeight.LIGHT, FONT_SIZE));
+
+        this.setTop(shopLabel);
         empyLeft = true;
         empyCenter = true;
         empyRight = true;

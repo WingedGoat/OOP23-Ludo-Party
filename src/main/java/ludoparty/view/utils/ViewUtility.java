@@ -27,7 +27,7 @@ public final class ViewUtility {
     /**
      * Board bottom height.
      */
-    public static final int BOARD_BOTTOM_HEIGHT = 200;
+    public static final int BOARD_BOTTOM_HEIGHT = 150;
     /**
      * Button font size.
      */

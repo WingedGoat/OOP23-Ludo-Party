@@ -9,6 +9,8 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 import java.util.Collection;
 
@@ -31,6 +33,10 @@ public class ShopPane extends BottomPane {
 
         final Collection<Item> itemsColl = ctrl.getGame().getShowcase().values();
         final var items = itemsColl.stream().toList();
+        final Label shopLabel = new Label("Inventory");
+        shopLabel.setFont(Font.font("Helvetica", FontWeight.LIGHT, FONT_SIZE));
+
+        this.setTop(shopLabel);
 
         for (int i = 0; i < itemsColl.size(); i++) {
             final Item item = items.get(i);

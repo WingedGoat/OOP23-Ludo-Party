@@ -5,7 +5,6 @@ import javafx.scene.control.Label;
 import ludoparty.model.Position;
 import ludoparty.model.api.Game;
 import ludoparty.view.PlayerGroup.DiceImageView;
-import ludoparty.view.api.PlayerPanel;
 
 /**
  * Player panel on the right.

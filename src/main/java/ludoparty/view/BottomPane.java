@@ -18,7 +18,11 @@ import ludoparty.model.api.Item;
 public class BottomPane extends BorderPane {
 
     private static final int ITEM_BUTTON_WIDHT = 250;
-    private static final int ITEM_BUTTON_HEIGTH = 80;
+    private static final int ITEM_BUTTON_HEIGTH = 60;
+    /**
+     * The font size.
+     */
+    protected static final int FONT_SIZE = 16; 
     private static final int X_POS_POPUP = 632;
     private static final int Y_POS_POPUP = 732;
     private Button leftButton = new Button();
