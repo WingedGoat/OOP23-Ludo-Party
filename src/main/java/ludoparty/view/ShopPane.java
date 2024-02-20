@@ -33,7 +33,7 @@ public class ShopPane extends BottomPane {
 
         final Collection<Item> itemsColl = ctrl.getGame().getShowcase().values();
         final var items = itemsColl.stream().toList();
-        final Label shopLabel = new Label("Inventory");
+        final Label shopLabel = new Label("Shop");
         shopLabel.setFont(Font.font("Helvetica", FontWeight.LIGHT, FONT_SIZE));
 
         this.setTop(shopLabel);
