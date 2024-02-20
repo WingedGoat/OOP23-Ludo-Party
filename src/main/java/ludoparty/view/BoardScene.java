@@ -225,19 +225,6 @@ public final class BoardScene extends Scene {
                 pawns.add(pawn);
 
                 this.boardPanel.add(pawn, pos.getX(), pos.getY());
-
-                /*
-                 * model.Movement m = new model.Movement(); (da usare successivamente per
-                 * testare se va)
-                 * 
-                 * pawn.setOnMouseClicked(event -> {
-                 * // m.move();
-                 * // LOGGER.error("-- moving pawn");
-                 * pawn.setTranslateX(controller.getPlayersNumber());
-                 * pawn.setTranslateY(pawn.getTranslateX() + Index.FIVE);
-                 * event.consume();
-                 * });
-                 */
             }
         }
     }
@@ -268,4 +255,5 @@ public final class BoardScene extends Scene {
         c.setStrokeWidth(3.0);
         return c;
     }
+
 }
