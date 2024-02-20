@@ -16,6 +16,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import java.util.List;
+
 import java.util.ArrayList;
 
 import ludoparty.controller.api.Controller;
@@ -110,6 +111,10 @@ public final class BoardScene extends Scene {
         this.boardStage.show();
         this.boardStage.setOnCloseRequest(e -> {
             boardStage.close();
+        });
+
+        stage.setOnCloseRequest(e -> {
+            Runtime.getRuntime().exit(0);
         });
     }
 
