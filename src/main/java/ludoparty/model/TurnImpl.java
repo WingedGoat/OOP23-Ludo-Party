@@ -16,8 +16,6 @@ public final class TurnImpl implements Turn {
      * @param player the player which start the game.
      */
     public TurnImpl(final Player player) {
-        player.bonusExpired();
-        getCurrentPlayer().malusExpired();
         this.currentPlayer = player;
     }
 
@@ -28,8 +26,6 @@ public final class TurnImpl implements Turn {
 
     @Override
     public void passTurnTo(final Player player) {
-        this.currentPlayer.malusExpired();
-        player.bonusExpired();
         this.currentPlayer = player;
     }
 

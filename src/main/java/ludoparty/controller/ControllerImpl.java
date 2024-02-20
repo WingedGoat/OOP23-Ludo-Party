@@ -166,6 +166,8 @@ public final class ControllerImpl implements Controller, Runnable {
                 for (int i = 1; i < getPlayersNumber(); i++) {
 
                     final Player player = this.game.getPlayers().get(i);
+                    this.game.getTurn().getCurrentPlayer().malusExpired();
+                    player.bonusExpired();
                     this.game.getTurn().passTurnTo(player);
 
                     final int diceResult = player.rollDice();
