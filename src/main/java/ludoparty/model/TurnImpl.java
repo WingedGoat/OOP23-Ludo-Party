@@ -26,9 +26,9 @@ public final class TurnImpl implements Turn {
 
     @Override
     public void passTurnTo(final Player player) {
-        this.currentPlayer.malusExpired();
+        getCurrentPlayer().malusExpired();
         this.currentPlayer = player;
-        this.currentPlayer.bonusExpired();
+        getCurrentPlayer().bonusExpired();
     }
 
 }

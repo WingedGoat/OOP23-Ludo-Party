@@ -24,7 +24,7 @@ public class BottomPane extends BorderPane {
      */
     protected static final int FONT_SIZE = 16; 
     private static final int X_POS_POPUP = 632;
-    private static final int Y_POS_POPUP = 732;
+    private static final int Y_POS_POPUP = 742;
     private Button leftButton = new Button();
     private Button centerButton = new Button();
     private Button rightButton = new Button();
