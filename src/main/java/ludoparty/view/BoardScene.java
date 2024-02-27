@@ -205,7 +205,7 @@ public final class BoardScene extends Scene {
                 } else if (ctrl.getGame().getBoard().getShops().contains(pos)) {
                     bt.setStyle(BG_COLOR_CSS + BColor.SHOP_GREY.getHexColor() + BG_RADIUS_CSS);
                     bt.setText("S");
-                    bt.setFont(new Font(Index.EIGHTEEN));
+                    bt.setFont(new Font(Index.FIFTEEN));
                 }
 
                 bt.setPrefSize(CELL_WIDTH, CELL_WIDTH);
