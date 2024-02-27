@@ -7,17 +7,15 @@ import ludoparty.view.PlayerGroup.DiceImageView;
 import javafx.application.Platform;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
-import javafx.scene.effect.Glow;
 import javafx.scene.paint.Color;
 
 /**
  * Player panel on the left.
  */
-@SuppressWarnings("all")
 public final class PlayerPanelLeftImpl extends AbstractPlayerPanel {
 
-    private static final double GLOW_LEVEL = 0.8;
     private final PlayerGroup bottomPlayer;
+    @SuppressWarnings("PMD")
     private PlayerGroup topPlayer;
 
     /**
@@ -51,12 +49,9 @@ public final class PlayerPanelLeftImpl extends AbstractPlayerPanel {
 
         final DiceImageView diceImage = g.getDiceImage();
         diceImage.setOnMouseEntered(mouseEvent -> {
-            diceImage.setEffect(new Glow(GLOW_LEVEL));
             diceImage.setCursor(Cursor.HAND);
         });
-        diceImage.setOnMouseExited(mouseEvent -> {
-            diceImage.setEffect(null);
-        });
+
         //TODO add another dice image when is used DADUPLO
         diceImage.setOnMouseClicked(mouseEvent -> {
             if (game.getHumanPlayer().canRollDice()) {

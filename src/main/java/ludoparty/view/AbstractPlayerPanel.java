@@ -1,7 +1,11 @@
 package ludoparty.view;
 
+import javafx.geometry.Insets;
 import javafx.scene.layout.AnchorPane;
-
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
 import ludoparty.model.Position;
 import ludoparty.model.api.Game;
 import ludoparty.view.api.PlayerPanel;
@@ -54,6 +58,7 @@ public abstract class AbstractPlayerPanel extends AnchorPane implements PlayerPa
         this.bottomPos = new Position(AVATAR_X_POSITION, AVATAR_BOTTOM_Y_POSITION);
         this.topPos = new Position(AVATAR_X_POSITION, AVATAR_TOP_Y_POSITION);
         this.setPrefHeight(PANE_HEIGHT);
+        this.setBackground(new Background(new BackgroundFill(Color.valueOf("#fdfcfc"), CornerRadii.EMPTY, Insets.EMPTY)));
     }
 
 

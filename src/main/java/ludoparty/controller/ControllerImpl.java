@@ -40,7 +40,7 @@ import ludoparty.view.utils.ViewUtility;
 public final class ControllerImpl implements Controller, Runnable {
 
     private static final Logger LOGGER = LogManager.getRootLogger();
-    private static final int MILLISECS = 200;
+    private static final int MILLISECS = 150;
 
     private static final String NOT_ENOUGH_SPACE = "ATTENZIONE! NON HAI ABBASTANZA SPAZIO NELL'INVENTARIO!";
     private static final String NOT_ENOUGH_MONEY = "ATTENZIONE! NON HAI ABBASTANZA LUDOLLARI!";
@@ -113,7 +113,7 @@ public final class ControllerImpl implements Controller, Runnable {
             }
 
             try {
-                // Refresh each 200 milliseconds
+                // Refresh each 150 milliseconds
                 Thread.sleep(MILLISECS);
             } catch (InterruptedException e) {
                 LOGGER.error("Refresh Thread is not sleeping");

@@ -4,6 +4,8 @@ import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.BorderStroke;
@@ -72,6 +74,7 @@ public final class BoardScene extends Scene {
         borderPane = (BorderPane) this.getRoot();
         borderPane.setMinSize(BOARD_PANEL_WIDTH, BOARD_PANEL_WIDTH);
         borderPane.setPadding(new Insets(ViewUtility.INSET_OS));
+        borderPane.setBackground(new Background(new BackgroundFill(Color.valueOf("#fdfcfc"), CornerRadii.EMPTY, Insets.EMPTY)));
 
         final var border = new Border(new BorderStroke(
             BColor.DARK_GREY.get(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(BORDER_WIDTH)));

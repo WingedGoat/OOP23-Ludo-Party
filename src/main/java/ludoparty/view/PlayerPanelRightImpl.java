@@ -13,7 +13,7 @@ import ludoparty.view.PlayerGroup.DiceImageView;
 public final class PlayerPanelRightImpl extends AbstractPlayerPanel {
 
     private final PlayerGroup topPlayer;
-    @SuppressWarnings("all")
+    @SuppressWarnings("PMD")
     private PlayerGroup bottomPlayer;
 
     /**
