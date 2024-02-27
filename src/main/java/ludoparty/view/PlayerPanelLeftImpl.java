@@ -2,6 +2,7 @@ package ludoparty.view;
 
 import ludoparty.model.Position;
 import ludoparty.model.api.Game;
+import ludoparty.utils.Constants;
 import ludoparty.view.PlayerGroup.DiceImageView;
 import javafx.application.Platform;
 import javafx.scene.Cursor;
@@ -29,7 +30,7 @@ public final class PlayerPanelLeftImpl extends AbstractPlayerPanel {
         this.bottomPlayer = createBottomPlayer(this.getBottomPos(), game);
         this.getChildren().add(this.bottomPlayer);
 
-        if (game.getPlayers().size() > 2) {
+        if (game.getPlayers().size() > Constants.PLAYERS_NUM_2) {
             this.topPlayer = createTopPlayer(this.getTopPos(), game);
             this.getChildren().add(this.topPlayer);
         }
@@ -127,7 +128,7 @@ public final class PlayerPanelLeftImpl extends AbstractPlayerPanel {
                 if (diceBottomNum > 0) {
                     getBottomPlayerDice().updateDiceImage(diceBottomNum);
                 }
-                if (getPlayersNumber() > 2) {
+                if (getPlayersNumber() > Constants.PLAYERS_NUM_2) {
                     getTopPlayerCoins().setText("Ludollari: " + coinsTop);
                     if (diceTopNum > 0) {
                         getTopPlayerDice().updateDiceImage(diceTopNum);

@@ -188,7 +188,6 @@ public final class ControllerImpl implements Controller, Runnable {
                 }
 
                 this.game.getTurn().passTurnTo(this.game.getHumanPlayer());
-                LOGGER.error("Human coins: " + this.game.getHumanPlayer().getCoins());
             }
         });
 

@@ -23,7 +23,7 @@ public class PlayerGroup extends Group {
     private static final int CIRCLE_RADIUS = 80;
     private static final int INNER_CIRCLE_RADIUS = 77;
     private static final int LABEL_X_LAYOUT = 60;
-    private static final int DICE_X_LAYOUT = 170;
+    private static final int DICE_X_LAYOUT = 10;
     private static final int DICE_WIDTH = 40;
     private static final int DICE_HEIGHT = 40;
     private static final int FONT_SIZE = 16;

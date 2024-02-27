@@ -34,11 +34,11 @@ public abstract class AbstractPlayerPanel extends AnchorPane implements PlayerPa
     /**
      * dice image y position of top player.
      */
-    protected static final int DICE_TOP_Y_LAYOUT = 260;
+    protected static final int DICE_TOP_Y_LAYOUT = 234;
     /**
      * dice image y position of bottom player.
      */
-    protected static final int DICE_BOTTOM_Y_LAYOUT = 340;
+    protected static final int DICE_BOTTOM_Y_LAYOUT = 352;
 
     private final int playersNumber;
     private final Position bottomPos;

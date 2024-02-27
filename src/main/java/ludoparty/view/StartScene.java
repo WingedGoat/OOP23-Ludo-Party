@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -47,6 +49,8 @@ public class StartScene extends Scene {
     private static final int TITLE_Y_POS = 35;
     private static final int TEXT_FONT_SIZE = 18;
     private static final int TEXT_FIELD_HEIGHT = 20;
+    private static final int TEXT_FIELD_WIDTH = 250;
+    private static final int TEXT_FIELD_MAX_LENGTH = 15;
     // button props
     private static final int BUTTON_WIDTH = 90;
     private static final int BUTTON_HEIGHT = 40;
@@ -75,7 +79,7 @@ public class StartScene extends Scene {
 
         final Font font = Font.font("Helvetica", FontWeight.LIGHT, TEXT_FONT_SIZE);
         final Text text = createText("Inserisci il tuo nome:", font);
-        final TextField textField = createTextField(font);
+        final PlayerNameTextField textField = new PlayerNameTextField(font);
 
         final Button button = createGoButton(stage);
 
@@ -121,14 +125,6 @@ public class StartScene extends Scene {
         return text;
     }
 
-    private TextField createTextField(final Font font) {
-        final TextField textField = new TextField();
-        textField.setMinHeight(TEXT_FIELD_HEIGHT);
-        textField.setFont(font);
-
-        return textField;
-    }
-
     private Button createGoButton(final Stage stage) {
         final Button button = new Button("GO");
         button.setContentDisplay(ContentDisplay.RIGHT);
@@ -138,7 +134,6 @@ public class StartScene extends Scene {
         button.setFont(Font.font("Helvetica", FontWeight.LIGHT, ViewUtility.BUTTON_FONT_SIZE));
 
         final URL imgURL = ClassLoader.getSystemResource(ResourcePath.ARROW_ICON.getPath());
-        LOGGER.error("Arrow icon path: " + ResourcePath.ARROW_ICON.getPath());
         if (imgURL != null) {
             final ImageView arrowRIght = new ImageView(new Image(imgURL.toString()));
             arrowRIght.setFitHeight(ViewUtility.BUTTON_FONT_SIZE);
@@ -170,6 +165,26 @@ public class StartScene extends Scene {
             }
         } catch (IllegalArgumentException e) {
             LOGGER.error("Not possible to add background image");
+        }
+    }
+
+
+    private static class PlayerNameTextField extends TextField {
+
+        PlayerNameTextField(final Font font) {
+            this.setMinHeight(TEXT_FIELD_HEIGHT);
+            this.setMaxWidth(TEXT_FIELD_WIDTH);
+            this.setFont(font);
+            this.textProperty().addListener(new ChangeListener<String>() {
+                @Override
+                public void changed(
+                    final ObservableValue<? extends String> observable, final String oldValue, final String newValue) {
+                    if (getText().length() > TEXT_FIELD_MAX_LENGTH) {
+                        final String s = getText().substring(Index.ZERO, TEXT_FIELD_MAX_LENGTH);
+                        setText(s);
+                    }
+                }
+            });
         }
     }
 
