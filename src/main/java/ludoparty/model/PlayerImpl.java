@@ -255,20 +255,24 @@ public final class PlayerImpl implements Player {
 
     @Override
     public void malusExpired() {
+        final List<Item> malus = new ArrayList<>();
         for (final Item i : itemsApplied) {
             if (i.getType().equals(Item.ItemType.MALUS)) {
-                itemsApplied.remove(i);
+                malus.add(i);
             }
         }
+        itemsApplied.removeAll(malus);
     }
 
     @Override
     public void bonusExpired() {
+        final List<Item> bonus = new ArrayList<>();
         for (final Item i : itemsApplied) {
             if (i.getType().equals(Item.ItemType.BONUS)) {
-                itemsApplied.remove(i);
+                bonus.add(i);
             }
         }
+        itemsApplied.removeAll(bonus);
     }
 
     /**
