@@ -29,6 +29,7 @@ public final class GameImpl implements Game {
     private final Turn turn;
     private final Shop shop;
     private Result gameStatus;
+    private int[] pawnsNumber;
 
     /**
      * Constructor.
@@ -60,6 +61,7 @@ public final class GameImpl implements Game {
         turn = new TurnImpl(this.humanPlayer);
         shop = new ShopImpl();
         this.gameStatus = Result.PLAY;
+        this.pawnsNumber = new int[getPlayers().size()]; // BLUE, RED [GREEN, YELLOW]
     }
 
     @Override
@@ -103,25 +105,24 @@ public final class GameImpl implements Game {
         // check if in cell (7,7) there are all pawns of any player
         final List<Pawn> pawns = this.getBoard().getEndCell().getPawns();
 
-        int[] pawnsNumber = new int[getPlayers().size()]; // BLUE, RED, GREEN, YELLOW
         if (pawns.size() >= Constants.PLAYER_PAWNS) {
             for (final var pawn : pawns) {
                 if (pawn.getColor() == BColor.BLUE) {
-                    pawnsNumber[0]++;
+                    this.pawnsNumber[0]++;
                 } else if (pawn.getColor() == BColor.GREEN) {
-                    pawnsNumber[1]++;
+                    this.pawnsNumber[1]++;
                 }
                 if (getPlayers().size() > Constants.PLAYERS_NUM_2) {
                     if (pawn.getColor() == BColor.RED) {
-                        pawnsNumber[2]++;
+                        this.pawnsNumber[2]++;
                     } else if (pawn.getColor() == BColor.YELLOW) {
-                        pawnsNumber[3]++;
+                        this.pawnsNumber[3]++;
                     }
                 }
             }
 
-            for (int i = 0; i < pawnsNumber.length; i++) {
-                if (pawnsNumber[i] == Constants.PLAYER_PAWNS) {
+            for (int i = 0; i < this.pawnsNumber.length; i++) {
+                if (this.pawnsNumber[i] == Constants.PLAYER_PAWNS) {
                     this.gameStatus = Result.WIN;
                     break;
                 }

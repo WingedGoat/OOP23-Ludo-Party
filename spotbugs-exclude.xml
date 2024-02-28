@@ -10,6 +10,11 @@
   </Match>
 
   <Match>
+    <Class name="ludoparty.model.BoardImpl" />
+    <Bug code="EI" />
+  </Match>
+
+  <Match>
     <Class name="ludoparty.model.TurnImpl" />
     <Bug code="EI2,EI" />
   </Match>
@@ -41,7 +46,7 @@
 
   <Match>
     <Class name="ludoparty.view.BoardScene" />
-    <Bug code="EI" />
+    <Bug code="EI, EI2" />
   </Match>
 
   <Match>
@@ -57,11 +62,6 @@
   <Match>
     <Class name="ludoparty.view.SaveScoreStage" />
     <Bug code="MC" />
-  </Match>
-
-  <Match>
-    <Class name="ludoparty.view.BoardScene" />
-    <Bug code="EI2" />
   </Match>
 
 </FindBugsFilter>

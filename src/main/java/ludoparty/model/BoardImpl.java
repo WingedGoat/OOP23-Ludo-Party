@@ -172,7 +172,7 @@ public final class BoardImpl implements Board {
 
     @Override
     public Cell getEndCell() {
-        return new CellImpl(endCell.getPosition(), CellType.END_CELL);
+        return endCell;
     }
 
     @Override
