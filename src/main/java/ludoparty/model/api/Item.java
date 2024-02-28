@@ -18,7 +18,7 @@ public enum Item {
     DADUPLO(
             ItemType.BONUS,
             "Daduplo",
-            "Al prossimo tiro di dado il risultato varrà doppio",
+            "Per il prossimo tiro di dado in questo turno il risultato varrà doppio",
             150,
             1),
     /**

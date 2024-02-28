@@ -10,7 +10,7 @@ class TestItem {
 
     @Test void testDaduplo() {
         assertEquals("Daduplo", Item.DADUPLO.getName());
-        assertEquals("Al prossimo tiro di dado il risultato varrà doppio", Item.DADUPLO.getDescription());
+        assertEquals("Per il prossimo tiro di dado in questo turno il risultato varrà doppio", Item.DADUPLO.getDescription());
         assertEquals(Index.HUNDREDFIFTY, Item.DADUPLO.getPrice());
         assertEquals(Index.ONE, Item.DADUPLO.getId());
     }
