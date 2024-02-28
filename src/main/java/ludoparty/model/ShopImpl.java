@@ -110,7 +110,7 @@ public final class ShopImpl implements Shop {
      * @return a new random key
      */
     private int getNewKey() {
-        return this.r.nextInt(Index.SIX) + 1;
+        return this.r.nextInt(Index.FIVE) + 1;
     }
 
     /**

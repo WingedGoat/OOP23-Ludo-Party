@@ -250,13 +250,7 @@ public final class PlayerImpl implements Player {
             if (item.equals(Item.REGOLA_DEI_4)) {
                 pawn.move(-Index.FOUR, game);
             }
-        } else if (item.equals(Item.ARIETE)) {
-            player.getItemsApplied().remove(Item.BASTIONE);
-            player.addToItemsApplied(item);
-            if (item.equals(Item.REGOLA_DEI_4)) {
-                pawn.move(-Index.FOUR, game);
-            }
-        } 
+        }
     }
 
     @Override

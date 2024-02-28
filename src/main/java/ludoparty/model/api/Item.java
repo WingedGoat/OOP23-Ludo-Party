@@ -56,16 +56,7 @@ public enum Item {
             "Tagliatelo",
             "Il prossimo tiro di dado dell'avversario sara' dimezzato",
             300,
-            5),
-    /**
-     * Ariete.
-     */
-    ARIETE(
-            ItemType.MALUS,
-            "Ariete",
-            "Disattiva anticipatamente il bastione di un avversario",
-            600,
-            6);
+            5);
 
     private ItemType type;
     private String name;

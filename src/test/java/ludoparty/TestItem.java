@@ -44,11 +44,4 @@ class TestItem {
         assertEquals(Index.THREEHUNDRED, Item.TAGLIATELO.getPrice());
         assertEquals(Index.FIVE, Item.TAGLIATELO.getId());
     }
-
-    @Test void testAriete() {
-        assertEquals("Ariete", Item.ARIETE.getName());
-        assertEquals("Disattiva anticipatamente il bastione di un avversario", Item.ARIETE.getDescription());
-        assertEquals(Index.SIXHUNDRED, Item.ARIETE.getPrice());
-        assertEquals(Index.SIX, Item.ARIETE.getId());
-    }
 }

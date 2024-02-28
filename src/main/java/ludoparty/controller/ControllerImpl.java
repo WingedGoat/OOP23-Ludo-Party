@@ -168,23 +168,23 @@ public final class ControllerImpl implements Controller, Runnable {
                     final Player player = this.game.getPlayers().get(i);
                     this.game.getTurn().passTurnTo(player);
 
-                    final int diceResult = player.rollDice();
+                    player.rollDice();
                     int indexPawnToMove = r.nextInt(Constants.PLAYER_PAWNS);
                     /*
                      * Il Computer cambia la scelta del Pawn da muovere, finché:
                      * continua a sceglierne uno che NON si può muovere, però
                      * ne ha altri che POSSONO effettuare un movimento
                      */
-                    while (player.canMovePawns(diceResult)
-                            && !player.getPawns().get(indexPawnToMove).canMove(diceResult)) {
+                    while (player.canMovePawns(player.getDiceMovement())
+                            && !player.getPawns().get(indexPawnToMove).canMove(player.getDiceMovement())) {
                         indexPawnToMove = r.nextInt(Constants.PLAYER_PAWNS);
                     }
 
                     final Pawn pawnToMove = player.getPawns().get(indexPawnToMove);
-                    pawnToMove.move(diceResult, this.game);
+                    pawnToMove.move(player.getDiceMovement(), this.game);
 
                     updatePawnPositions();
-                    player.earnCoins(diceResult);
+                    player.earnCoins(player.getDiceMovement());
                 }
 
                 this.game.getTurn().passTurnTo(this.game.getHumanPlayer());
