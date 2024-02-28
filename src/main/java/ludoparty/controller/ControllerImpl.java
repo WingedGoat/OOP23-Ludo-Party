@@ -200,10 +200,10 @@ public final class ControllerImpl implements Controller, Runnable {
 
             circle.setOnMouseClicked(e -> {
 
-                if (player.canMovePawn(pawn) && pawn.canMove(player.getDiceResult())) {
-                    pawn.move(player.getDiceResult(), this.game);
+                if (player.canMovePawn(pawn) && pawn.canMove(player.getDiceMovement())) { 
+                    pawn.move(player.getDiceMovement(), this.game); 
                     updatePawnPositions();
-                    player.earnCoins(this.game.getTurn().getCurrentPlayer().getDiceResult());
+                    player.earnCoins(this.game.getTurn().getCurrentPlayer().getDiceMovement()); 
 
                     if (this.game.getBoard().getShops().contains(pawn.getPosition())) {
                         this.view.getShopPane().ableShop();

@@ -26,6 +26,7 @@ public final class PlayerImpl implements Player {
     private final List<Pawn> pawns;
     private final Dice dice;
     private int diceResult;
+    private int diceMovement;
     private boolean diceRolled;
     private boolean pawnMoved;
     private boolean isfirstTurn = true;
@@ -33,8 +34,6 @@ public final class PlayerImpl implements Player {
     // Item flags
     private final List<Item> playerItems = new ArrayList<>();
     private final List<Item> itemsApplied = new ArrayList<>();
-    private int firstDice;
-    private int secondDice;
     private final Random r = new Random();
 
     /**
@@ -103,31 +102,33 @@ public final class PlayerImpl implements Player {
 
     @Override
     public int rollDice() {
+
+        this.diceResult = this.getDice().roll();
+
         if (this.isfirstTurn) { // force 6 at start of game in order to move at least the first pawn
             this.diceResult = Index.SIX;
             this.isfirstTurn = !this.isfirstTurn;
+            this.diceMovement = this.diceResult;
 
             return this.diceResult;
         }
         if (this.itemsApplied.contains(Item.DADUPLO) && this.itemsApplied.contains(Item.TAGLIATELO)) {
-            this.setFirstDice(this.getDice().roll() / 2);
-            this.setSecondDice(this.getDice().roll() / 2);
-            this.diceResult = getFirstDice() + getSecondDice();
 
+            this.diceMovement = this.diceResult;
             return this.diceResult;
+
         } else if (this.itemsApplied.contains(Item.DADUPLO)) {
-            this.setFirstDice(this.getDice().roll());
-            this.setSecondDice(this.getDice().roll());
-            this.diceResult = getFirstDice() + getSecondDice();
 
+            this.diceMovement = this.diceResult * Index.TWO;
             return this.diceResult;
-        } else if (this.itemsApplied.contains(Item.TAGLIATELO)) {
-            this.diceResult = this.getDice().roll() / 2;
 
+        } else if (this.itemsApplied.contains(Item.TAGLIATELO)) {
+
+            this.diceMovement = this.diceResult / Index.TWO;
             return this.diceResult;
         }
-        this.diceResult = this.getDice().roll();
 
+        this.diceMovement = this.diceResult;
         return this.diceResult;
     }
 
@@ -139,6 +140,11 @@ public final class PlayerImpl implements Player {
     @Override
     public void setDiceResult(final int result) {
         this.diceResult = result;
+    }
+
+    @Override
+    public int getDiceMovement() {
+        return this.diceMovement;
     }
 
     @Override
@@ -273,42 +279,6 @@ public final class PlayerImpl implements Player {
             }
         }
         itemsApplied.removeAll(bonus);
-    }
-
-    /**
-     * Sets the value of the first dice when {@link Item#DADUPLO} is activated.
-     * 
-     * @param diceResult the value of the first dice
-     */
-    private void setFirstDice(final int diceResult) {
-        this.firstDice = diceResult;
-    }
-
-    /**
-     * Sets the value of the second dice when {@link Item#DADUPLO} is activated.
-     * 
-     * @param diceResult the value of the second dice
-     */
-    private void setSecondDice(final int diceResult) {
-        this.secondDice = diceResult;
-    }
-
-    /**
-     * Gets the value of the first dice when {@link Item#DADUPLO} is activated.
-     * 
-     * @return the value of the first dice
-     */
-    private int getFirstDice() {
-        return this.firstDice;
-    }
-
-    /**
-     * Gets the value of the second dice when {@link Item#DADUPLO} is activated.
-     * 
-     * @return the value of the second dice
-     */
-    private int getSecondDice() {
-        return this.secondDice;
     }
 
     @Override
