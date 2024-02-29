@@ -112,7 +112,7 @@ public class ShopPane extends BottomPane {
     /**
      * To able all the buttons of the shop when a pawn arrive on a the cell.
      */
-    public void ableShop() {
+    public void enableShop() {
         for (int i = 0; i < this.getButtons().size(); i++) {
             final Button button = getButtons().get(i);
             button.setDisable(false);

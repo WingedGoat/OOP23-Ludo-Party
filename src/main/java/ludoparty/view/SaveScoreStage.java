@@ -53,7 +53,7 @@ public class SaveScoreStage extends Stage {
                 ctrl.saveScore(this.nameField.getText());
             }
             close();
-            ctrl.getView().close();
+            Runtime.getRuntime().exit(0);
         });
 
         final GridPane pane = new GridPane();
