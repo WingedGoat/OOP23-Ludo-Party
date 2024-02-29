@@ -56,6 +56,11 @@ public class SaveScoreStage extends Stage {
             Runtime.getRuntime().exit(0);
         });
 
+        this.setOnCloseRequest(e -> {
+            this.close();
+            Runtime.getRuntime().exit(0);
+        });
+
         final GridPane pane = new GridPane();
         pane.setMinWidth(STAGE_WIDTH);
         pane.setPadding(new Insets(ViewUtility.INSET_OS));
