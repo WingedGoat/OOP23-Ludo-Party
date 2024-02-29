@@ -5,9 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import ludoparty.model.api.Board;
 import ludoparty.model.api.Cell;
 import ludoparty.model.api.Cell.CellType;
@@ -26,15 +23,14 @@ import ludoparty.model.api.Turn;
  */
 public final class GameImpl implements Game {
 
-    private static final Logger LOGGER = LogManager.getRootLogger();
-
     private final Board board;
     private final Player humanPlayer;
     private final List<Player> players;
     private final Turn turn;
     private final Shop shop;
     private Result gameStatus;
-    private int[] pawnsNumber;
+    private Integer[] pawnsNumber;
+    private int previousPawnsNumber;
 
     /**
      * Constructor.
@@ -66,7 +62,8 @@ public final class GameImpl implements Game {
         turn = new TurnImpl(this.humanPlayer);
         shop = new ShopImpl();
         this.gameStatus = Result.PLAY;
-        this.pawnsNumber = new int[getPlayers().size()]; // BLUE, RED [GREEN, YELLOW]
+        this.pawnsNumber = new Integer[getPlayers().size()]; // BLUE, RED [GREEN, YELLOW]
+        this.previousPawnsNumber = Constants.PLAYER_PAWNS;
     }
 
     @Override
@@ -105,13 +102,17 @@ public final class GameImpl implements Game {
     }
 
     @Override
-    @SuppressWarnings("all")
     public Result getResult() {
         // check if in cell (7,7) there are all pawns of any player
         final List<Pawn> pawns = this.getBoard().getEndCell().getPawns();
 
-        if (pawns.size() >= Constants.PLAYER_PAWNS) {
-            LOGGER.error("pawn size: " + pawns.size());
+        if (pawns.size() >= Constants.PLAYER_PAWNS && previousPawnsNumber <= pawns.size()) {
+            // empty the array
+            for (int i = 0; i < this.pawnsNumber.length; i++) {
+                this.pawnsNumber[i] = 0;
+            }
+            previousPawnsNumber++;
+
             for (final var pawn : pawns) {
                 if (pawn.getColor() == BColor.BLUE) {
                     this.pawnsNumber[0]++;
@@ -126,11 +127,8 @@ public final class GameImpl implements Game {
                     }
                 }
             }
-            for (int i = 0; i < this.pawnsNumber.length; i++) {
-                if (this.pawnsNumber[i] == Constants.PLAYER_PAWNS) {
-                    this.gameStatus = Result.WIN;
-                    break;
-                }
+            if (List.of(pawnsNumber).stream().anyMatch(n -> n == Constants.PLAYER_PAWNS)) {
+                this.gameStatus = Result.WIN;
             }
         }
 
