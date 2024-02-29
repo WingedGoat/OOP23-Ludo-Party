@@ -62,7 +62,7 @@ public class ShopPane extends BottomPane {
 
         button.setOnMouseEntered(cursorHand -> {
             button.setCursor(Cursor.HAND);
-            board.getBorderPane().requestFocus();
+            board.getContainer().requestFocus();
         });
 
         button.setOnMousePressed(e -> {
@@ -73,7 +73,7 @@ public class ShopPane extends BottomPane {
 
                 sellingItem(buttonpressed, itemChoose, ctrl, board);
             }
-            board.getBorderPane().requestFocus();
+            board.getContainer().requestFocus();
         });
     }
 

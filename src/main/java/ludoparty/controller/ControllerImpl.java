@@ -180,7 +180,7 @@ public final class ControllerImpl implements Controller, Runnable {
                 }
                 // turn is again of the human player
                 this.game.getTurn().passTurnTo(this.game.getHumanPlayer());
-                //view.getBorderPane().requestFocus();
+                //view.getContainer().requestFocus();
             }
         });
 
@@ -210,13 +210,13 @@ public final class ControllerImpl implements Controller, Runnable {
                         malusClicked = false;
                         malusUsed = true;
                         setItemToUse(null);
-                        view.getBorderPane().requestFocus();
+                        view.getContainer().requestFocus();
                     } else {
                         final Label message = new Label("HAI UN MALUS ATTIVO! DEVI USARLO SU UNA PEDINA AVVERSARIA!");
                         message.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
                         view.getShopPane().setPopupMessage(message);
                         view.getShopPane().getPopupMessage().show(view.getWindow());
-                        view.getBorderPane().requestFocus();
+                        view.getContainer().requestFocus();
                     }
                 }
             });

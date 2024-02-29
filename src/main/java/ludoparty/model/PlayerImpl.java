@@ -161,7 +161,7 @@ public final class PlayerImpl implements Player {
 
     @Override
     public boolean canMovePawn(final Pawn pawn) {
-        if (!this.diceRolled || this.pawnMoved || pawn.getColor() != BColor.BLUE) {
+        if (!this.diceRolled || this.pawnMoved || this.getType() != PlayerType.HUMAN) {
             return false;
         }
         /*

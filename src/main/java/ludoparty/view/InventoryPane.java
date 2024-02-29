@@ -84,7 +84,7 @@ public class InventoryPane extends BottomPane {
 
         button.setOnMouseEntered(mouseEvent -> {
             button.setCursor(Cursor.HAND);
-            board.getBorderPane().requestFocus();
+            board.getContainer().requestFocus();
         });
 
         button.setOnMousePressed(mouseEvent -> {
@@ -104,7 +104,7 @@ public class InventoryPane extends BottomPane {
             } 
             pressdButton.setDisable(true);
             ordinateUsedInventory(pressdButton, ctrl, board);
-            board.getBorderPane().requestFocus();
+            board.getContainer().requestFocus();
         });
     }
 
