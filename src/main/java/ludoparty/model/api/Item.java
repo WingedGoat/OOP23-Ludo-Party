@@ -27,7 +27,7 @@ public enum Item {
     ABBONDANZA(
             ItemType.BONUS,
             "Abbondanza",
-            "I coin raccolti raddoppiano per questo turno",
+            "I ludollari raccolti in questo turno raddoppiano",
             250,
             2),
     /**

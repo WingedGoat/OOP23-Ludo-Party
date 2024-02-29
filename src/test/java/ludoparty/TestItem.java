@@ -17,7 +17,7 @@ class TestItem {
 
     @Test void testAbbondanza() {
         assertEquals("Abbondanza", Item.ABBONDANZA.getName());
-        assertEquals("I coin raccolti raddoppiano per questo turno", Item.ABBONDANZA.getDescription());
+        assertEquals("I ludollari raccolti in questo turno raddoppiano", Item.ABBONDANZA.getDescription());
         assertEquals(Index.TWOHUNDREDFIFTY, Item.ABBONDANZA.getPrice());
         assertEquals(Index.TWO, Item.ABBONDANZA.getId());
     }
