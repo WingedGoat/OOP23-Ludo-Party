@@ -80,12 +80,6 @@ public interface Player {
     void setDiceResult(int result);
 
     /**
-     * Gets the movement value.
-     * @return the movement value
-     */
-    int getDiceMovement();
-
-    /**
      * Returns true if dice is rolled.
      * 
      * @return true if dice is rolled
@@ -137,9 +131,8 @@ public interface Player {
 
     /**
      * Earn coins based on the cells advanced in this turn.
-     * @param diceResult this turn's dice result
      */
-    void earnCoins(int diceResult);
+    void earnCoins();
 
     /**
      * Gets the player items.

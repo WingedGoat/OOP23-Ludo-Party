@@ -26,10 +26,9 @@ public final class PlayerImpl implements Player {
     private final List<Pawn> pawns;
     private final Dice dice;
     private int diceResult;
-    private int diceMovement;
     private boolean diceRolled;
     private boolean pawnMoved;
-    private boolean isfirstTurn = true;
+    private boolean isfirstTurn;
     private int coins;
     // Item flags
     private final List<Item> playerItems = new ArrayList<>();
@@ -58,6 +57,7 @@ public final class PlayerImpl implements Player {
 
         this.coins = 0;
         this.dice = new DiceImpl();
+        this.isfirstTurn = true;
     }
 
     // getters
@@ -106,29 +106,17 @@ public final class PlayerImpl implements Player {
         this.diceResult = this.getDice().roll();
 
         if (this.isfirstTurn) { // force 6 at start of game in order to move at least the first pawn
-            this.diceResult = Index.SIX;
+            this.setDiceResult(Index.SIX);
             this.isfirstTurn = !this.isfirstTurn;
-            this.diceMovement = this.diceResult;
-
-            return this.diceResult;
         }
-        if (this.itemsApplied.contains(Item.DADUPLO) && this.itemsApplied.contains(Item.TAGLIATELO)) {
-
-            this.diceMovement = this.diceResult;
-            return this.diceResult;
-
-        } else if (this.itemsApplied.contains(Item.DADUPLO)) {
-
-            this.diceMovement = this.diceResult * Index.TWO;
-            return this.diceResult;
-
+        //if (this.itemsApplied.contains(Item.DADUPLO) && this.itemsApplied.contains(Item.TAGLIATELO)) {
+        //    this.getDiceResult();
+        if (this.itemsApplied.contains(Item.DADUPLO)) {
+            this.setDiceResult(this.diceResult * Index.TWO);
         } else if (this.itemsApplied.contains(Item.TAGLIATELO)) {
-
-            this.diceMovement = this.diceResult / Index.TWO;
-            return this.diceResult;
+            this.setDiceResult(this.diceResult / Index.TWO);
         }
 
-        this.diceMovement = this.diceResult;
         return this.diceResult;
     }
 
@@ -140,11 +128,6 @@ public final class PlayerImpl implements Player {
     @Override
     public void setDiceResult(final int result) {
         this.diceResult = result;
-    }
-
-    @Override
-    public int getDiceMovement() {
-        return this.diceMovement;
     }
 
     @Override
@@ -211,11 +194,9 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public void earnCoins(final int diceResult) {
-        for (int i = 0; i < diceResult; i++) {
-            final int earnAmount = r.nextInt(Index.TWELVE) + Index.SIX; //ogni cella dà ludollari da 6 a 17
-            updateCoins(earnAmount);
-        }
+    public void earnCoins() {
+        final int earnAmount = r.nextInt(Index.TWELVE) + Index.SIX; //ogni cella dà ludollari da 6 a 17
+        updateCoins(earnAmount);
     }
 
     @Override
