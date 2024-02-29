@@ -2,7 +2,6 @@ package ludoparty.controller;
 
 import javafx.application.Platform;
 import javafx.geometry.Insets;
-import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
@@ -158,36 +157,30 @@ public final class ControllerImpl implements Controller, Runnable {
     }
 
     private void setInputHandler() {
-        // when finish the turn
+        // when human finish the turn
         this.view.setOnKeyPressed(e -> {
-            if (e.getCode().equals(KeyCode.ENTER) && this.getGame().getTurn().getCurrentPlayer().canPassTurn()) {
+            if (e.getCode().equals(KeyCode.SPACE) && this.getGame().getTurn().getCurrentPlayer().canPassTurn()) {
                 this.view.getShopPane().disableShop();
-                // LOGGER.error(" -- end of turn -- ");
+                // computer players move a pawn
                 for (int i = 1; i < getPlayersNumber(); i++) {
-
                     final Player player = this.game.getPlayers().get(i);
                     this.game.getTurn().passTurnTo(player);
+                    final int diceRes = player.rollDice();
 
-                    player.rollDice();
                     int indexPawnToMove = r.nextInt(Constants.PLAYER_PAWNS);
-                    /*
-                     * Il Computer cambia la scelta del Pawn da muovere, finché:
-                     * continua a sceglierne uno che NON si può muovere, però
-                     * ne ha altri che POSSONO effettuare un movimento
-                     */
-                    while (player.canMovePawns(player.getDiceMovement())
-                            && !player.getPawns().get(indexPawnToMove).canMove(player.getDiceMovement())) {
+                    // while a random movable pawn is assigned
+                    while (player.canMovePawns(diceRes)  && !player.getPawns().get(indexPawnToMove).canMove(diceRes)) {
                         indexPawnToMove = r.nextInt(Constants.PLAYER_PAWNS);
                     }
-
-                    final Pawn pawnToMove = player.getPawns().get(indexPawnToMove);
-                    pawnToMove.move(player.getDiceMovement(), this.game);
+                    final Pawn pawn = player.getPawns().get(indexPawnToMove);
+                    pawn.move(diceRes, this.game);
 
                     updatePawnPositions();
-                    player.earnCoins(player.getDiceMovement());
+                    player.earnCoins();
                 }
-
+                // turn is again of the human player
                 this.game.getTurn().passTurnTo(this.game.getHumanPlayer());
+                //view.getBorderPane().requestFocus();
             }
         });
 
@@ -196,17 +189,14 @@ public final class ControllerImpl implements Controller, Runnable {
             final Player player = this.game.getPlayers().get(i / Constants.PLAYER_PAWNS);
             final Pawn pawn = player.getPawns().get(i % Constants.PLAYER_PAWNS);
 
-            circle.setOnMouseEntered(event -> circle.setCursor(Cursor.HAND));
-
             circle.setOnMouseClicked(e -> {
-
-                if (player.canMovePawn(pawn) && pawn.canMove(player.getDiceMovement())) { 
-                    pawn.move(player.getDiceMovement(), this.game); 
+                if (player.canMovePawn(pawn) && pawn.canMove(player.getDiceResult())) { 
+                    pawn.move(player.getDiceResult(), this.game); 
                     updatePawnPositions();
-                    player.earnCoins(this.game.getTurn().getCurrentPlayer().getDiceMovement()); 
+                    player.earnCoins(); 
 
                     if (this.game.getBoard().getShops().contains(pawn.getPosition())) {
-                        this.view.getShopPane().ableShop();
+                        this.view.getShopPane().enableShop();
                     }
                 } else if (malusClicked && !malusUsed)  {
                     if (!getGame().getTurn().getCurrentPlayer().getPawns().contains(pawn)) {
@@ -223,8 +213,7 @@ public final class ControllerImpl implements Controller, Runnable {
                         view.getBorderPane().requestFocus();
                     } else {
                         final Label message = new Label("HAI UN MALUS ATTIVO! DEVI USARLO SU UNA PEDINA AVVERSARIA!");
-                        message.setBackground(
-                            new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+                        message.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
                         view.getShopPane().setPopupMessage(message);
                         view.getShopPane().getPopupMessage().show(view.getWindow());
                         view.getBorderPane().requestFocus();

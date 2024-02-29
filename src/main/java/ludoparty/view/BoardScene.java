@@ -47,7 +47,6 @@ public final class BoardScene extends Scene {
     private static final String BG_RADIUS_CSS = "; -fx-border-color: #5A5858; -fx-border-width: 0.3px; "
             + "-fx-background-radius: 0";
 
-    private final Stage boardStage;
     private final GridPane boardPanel;
     private final BorderPane borderPane;
 
@@ -66,9 +65,8 @@ public final class BoardScene extends Scene {
      */
     public BoardScene(final Controller controller, final Stage stage) {
         super(new BorderPane());
-        this.boardStage = stage;
-        this.boardStage.setScene(this);
-        this.boardStage.setTitle("Board");
+        stage.setScene(this);
+        stage.setTitle("Board");
 
         // borderpane - container
         borderPane = (BorderPane) this.getRoot();
@@ -111,21 +109,11 @@ public final class BoardScene extends Scene {
 
         this.setFill(Color.valueOf("0077b6"));
 
-        this.boardStage.show();
-        this.boardStage.setOnCloseRequest(e -> {
-            boardStage.close();
-        });
-
+        stage.show();
         stage.setOnCloseRequest(e -> {
+            stage.close();
             Runtime.getRuntime().exit(0);
         });
-    }
-
-    /**
-     * Close the board stage and the game.
-     */
-    public void close() {
-        boardStage.close();
     }
 
     /**
@@ -228,10 +216,10 @@ public final class BoardScene extends Scene {
 
         for (final Player player : controller.getGame().getPlayers()) {
             for (int i = 0; i < player.getPawns().size(); i++) {
-                final Position pos = player.getPawns().get(i).getStartPosition();
                 final Circle pawn = createPawn(player.getColor());
-                pawns.add(pawn);
+                this.pawns.add(pawn);
 
+                final Position pos = player.getPawns().get(i).getStartPosition();
                 this.boardPanel.add(pawn, pos.getX(), pos.getY());
             }
         }
@@ -261,6 +249,10 @@ public final class BoardScene extends Scene {
         final Circle c = new Circle(PAWN_POSITION, PAWN_POSITION, CIRCLE_RADIUS, BColor.DARK_GREY.get());
         c.setStroke(newColor.get());
         c.setStrokeWidth(3.0);
+        if (color == BColor.BLUE) {
+            c.setOnMouseEntered(event -> c.setCursor(Cursor.HAND));
+        }
+
         return c;
     }
 
