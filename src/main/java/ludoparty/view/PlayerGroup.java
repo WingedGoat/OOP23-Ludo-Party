@@ -159,10 +159,13 @@ public class PlayerGroup extends Group {
         /**
          * Updates the dice number on the dice image showed.
          * 
-         * @param number the new number to show
+         * @param num the new number to show
          */
-        public void updateDiceImage(final int number) {
-
+        public void updateDiceImage(final int num) {
+            int number = num;
+            if (number > Index.SIX) {
+                number /= 2;
+            } 
             switch (number) {
                 case Index.ONE:
                     imgURL = ClassLoader.getSystemResource(ResourcePath.DICE_IMG_FACE_ONE.getPath());
