@@ -200,23 +200,28 @@ public final class ControllerImpl implements Controller, Runnable {
                     }
                 } else if (malusClicked && !malusUsed)  {
                     if (!getGame().getTurn().getCurrentPlayer().getPawns().contains(pawn)) {
-                        final Label message = new Label(this.game.getTurn().getCurrentPlayer().getName() + " ha usato "
-                            + getItemToUse().getName() + " su " + player.getName());
-                        message.setBackground(
-                            new Background(new BackgroundFill(Color.PURPLE, CornerRadii.EMPTY, Insets.EMPTY)));
-                        view.getShopPane().setPopupMessage(message);
-                        view.getShopPane().getPopupMessage().show(view.getWindow());
-                        this.game.getTurn().getCurrentPlayer().useItem(itemToUse, player, pawn, game);
-                        malusClicked = false;
-                        malusUsed = true;
-                        setItemToUse(null);
-                        //view.getContainer().requestFocus();
+                        if (!getGame().getBoard().getEndCell().getPawns().contains(pawn)) {
+                            final Label message = new Label(this.game.getTurn().getCurrentPlayer().getName() + " ha usato "
+                                + getItemToUse().getName() + " su " + player.getName());
+                            message.setBackground(
+                                new Background(new BackgroundFill(Color.PURPLE, CornerRadii.EMPTY, Insets.EMPTY)));
+                            view.getShopPane().setPopupMessage(message);
+                            view.getShopPane().getPopupMessage().show(view.getWindow());
+                            this.game.getTurn().getCurrentPlayer().useItem(itemToUse, player, pawn, game);
+                            malusClicked = false;
+                            malusUsed = true;
+                            setItemToUse(null);
+                        } else {
+                            final Label message = new Label("QUELLA PEDINA E' ARRIVATA ALLA CELLA FINALE, NON PUOI TOCCARLA!");
+                            message.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+                            view.getShopPane().setPopupMessage(message);
+                            view.getShopPane().getPopupMessage().show(view.getWindow());
+                        }
                     } else {
                         final Label message = new Label("HAI UN MALUS ATTIVO! DEVI USARLO SU UNA PEDINA AVVERSARIA!");
                         message.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
                         view.getShopPane().setPopupMessage(message);
                         view.getShopPane().getPopupMessage().show(view.getWindow());
-                        //view.getContainer().requestFocus();
                     }
                 }
                 view.getContainer().requestFocus();

@@ -126,7 +126,6 @@ public final class GameImpl implements Game {
                     }
                 }
             }
-            LOGGER.error("pawnsNumber: " + pawnsNumber.toString());
             for (int i = 0; i < this.pawnsNumber.length; i++) {
                 if (this.pawnsNumber[i] == Constants.PLAYER_PAWNS) {
                     this.gameStatus = Result.WIN;
