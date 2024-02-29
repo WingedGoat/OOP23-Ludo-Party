@@ -195,8 +195,10 @@ public final class PlayerImpl implements Player {
 
     @Override
     public void earnCoins() {
-        final int earnAmount = r.nextInt(Index.TWELVE) + Index.SIX; //ogni cella dà ludollari da 6 a 17
-        updateCoins(earnAmount);
+        for (int i = 0; i < this.diceResult; i++) {
+            final int earnAmount = r.nextInt(Index.TWELVE) + Index.SIX; // each cell contains from 6 to 17 ludollari
+            updateCoins(earnAmount);
+        }
     }
 
     @Override

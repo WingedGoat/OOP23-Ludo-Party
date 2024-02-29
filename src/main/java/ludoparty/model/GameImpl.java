@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import ludoparty.model.api.Board;
 import ludoparty.model.api.Cell;
 import ludoparty.model.api.Cell.CellType;
@@ -22,6 +25,8 @@ import ludoparty.model.api.Turn;
  * Game Implementation class.
  */
 public final class GameImpl implements Game {
+
+    private static final Logger LOGGER = LogManager.getRootLogger();
 
     private final Board board;
     private final Player humanPlayer;
@@ -106,6 +111,7 @@ public final class GameImpl implements Game {
         final List<Pawn> pawns = this.getBoard().getEndCell().getPawns();
 
         if (pawns.size() >= Constants.PLAYER_PAWNS) {
+            LOGGER.error("pawn size: " + pawns.size());
             for (final var pawn : pawns) {
                 if (pawn.getColor() == BColor.BLUE) {
                     this.pawnsNumber[0]++;
@@ -120,7 +126,7 @@ public final class GameImpl implements Game {
                     }
                 }
             }
-
+            LOGGER.error("pawnsNumber: " + pawnsNumber.toString());
             for (int i = 0; i < this.pawnsNumber.length; i++) {
                 if (this.pawnsNumber[i] == Constants.PLAYER_PAWNS) {
                     this.gameStatus = Result.WIN;
