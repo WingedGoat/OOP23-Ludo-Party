@@ -57,11 +57,11 @@ public class ShopPane extends BottomPane {
     final void buttonSetting(final Button button, final Item item, final Controller ctrl, final BoardScene board) {
 
         button.setText(item.getName() + ". \nCosto: " + item.getPrice() + " ludollari.");
-        button.setTooltip(new Tooltip(item.getDescription() + "\n" + item.getType().name()));
         replaceItemButtonsMap(button, item);
 
         button.setOnMouseEntered(cursorHand -> {
             button.setCursor(Cursor.HAND);
+            button.setTooltip(new Tooltip(item.getDescription() + "\n" + item.getType().name()));
             board.getContainer().requestFocus();
         });
 
@@ -89,24 +89,16 @@ public class ShopPane extends BottomPane {
             final BoardScene board) {
 
         ctrl.sellingItemToPlayer(itemChoose);
+        final Label message = new Label(ctrl.getShopMessage());
         if (ctrl.isItemSelled()) {
-            final Label message = new Label(ctrl.getShopMessage());
             message.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
-
-            setPopupMessage(message);
-            getPopupMessage().show(board.getWindow());
             final Item newItem = ctrl.getNewShopItem();
-
             setButtonPressed(buttonpressed);
             buttonSetting(buttonpressed, newItem, ctrl, board);
         } else {
-
-            final Label message = new Label(ctrl.getShopMessage());
             message.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
-
-            setPopupMessage(message);
-            getPopupMessage().show(board.getWindow());
         }
+        getPopupMessage(message).show(board.getWindow()); 
     }
 
     /**

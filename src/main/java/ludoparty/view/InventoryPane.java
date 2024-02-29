@@ -78,12 +78,12 @@ public class InventoryPane extends BottomPane {
     void setItemButton(final Button button, final Item item, final Controller ctrl, final BoardScene board) {
 
         button.setText(item.getName());
-        button.setTooltip(new Tooltip(item.getDescription() + item.getType()));
         button.setDisable(false);
         replaceItemButtonsMap(button, item);
 
         button.setOnMouseEntered(mouseEvent -> {
             button.setCursor(Cursor.HAND);
+            button.setTooltip(new Tooltip(item.getDescription() + "\n" + item.getType()));
             board.getContainer().requestFocus();
         });
 
@@ -91,19 +91,26 @@ public class InventoryPane extends BottomPane {
 
             final Button pressdButton = (Button) mouseEvent.getSource();
             final Item chooseItem = getItemButtonMap().get(pressdButton);
-            setButtonPressed(pressdButton);
-            ctrl.setItemToUse(chooseItem);
 
-            if (ctrl.clickBonusButton(chooseItem)) {
-                ctrl.getGame().getHumanPlayer().useItem(chooseItem, ctrl.getGame().getHumanPlayer(), 
-                        ctrl.getGame().getHumanPlayer().getPawns().get(Index.ONE), ctrl.getGame());
-                final Label message = new Label("Hai usato " + chooseItem.getName() + ".");
-                message.setBackground(new Background(new BackgroundFill(Color.AQUAMARINE, CornerRadii.EMPTY, Insets.EMPTY)));
-                setPopupMessage(message);
-                getPopupMessage().show(board.getWindow());
-            } 
-            pressdButton.setDisable(true);
-            ordinateUsedInventory(pressdButton, ctrl, board);
+            if (ctrl.getGame().getTurn().getCurrentPlayer().isDiceRolled() && chooseItem.getType().equals(Item.ItemType.BONUS)) {
+                final Label message = new Label("NON PUOI USARE L'ITEM IN QUESTO MOMENTO!");
+                message.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+                getPopupMessage(message).show(board.getWindow());
+            } else {
+                setButtonPressed(pressdButton);
+                ctrl.setItemToUse(chooseItem);
+
+                if (ctrl.clickBonusButton(chooseItem)) {
+                    ctrl.getGame().getHumanPlayer().useItem(chooseItem, ctrl.getGame().getHumanPlayer(), 
+                            ctrl.getGame().getHumanPlayer().getPawns().get(Index.ONE), ctrl.getGame());
+                    final Label message = new Label("Hai usato " + chooseItem.getName() + ".");
+                    message.setBackground(new Background(new BackgroundFill(Color.AQUAMARINE, CornerRadii.EMPTY, Insets.EMPTY)));
+                    getPopupMessage(message).show(board.getWindow());
+                } 
+                pressdButton.setDisable(true);
+                ordinateUsedInventory(pressdButton, ctrl, board);
+            }
+
             board.getContainer().requestFocus();
         });
     }

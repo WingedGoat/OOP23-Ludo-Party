@@ -31,7 +31,6 @@ public class BottomPane extends BorderPane {
     private final List<Button> buttons = new ArrayList<>();
     private final Map<Button, Item> buttonsMap = new HashMap<>();
     private Button buttonPressed;
-    private Label messageText = new Label();
 
     /** 
      * The contructor for the BottomPane.
@@ -169,27 +168,19 @@ public class BottomPane extends BorderPane {
     }
 
     /**
-     * Set the Popup message with the new popup message.
-     * 
-     * @param newMessage the new popup message
-    */
-    public void setPopupMessage(final Label newMessage) {
-        this.messageText.setText(null);
-        this.messageText = newMessage;
-    }
-
-    /**
      * Return a new popup used to advise the player.
+     * 
+     * @param messageText the popup message
      * 
      * @return the popup
      */
-    public Popup getPopupMessage() {
+    public Popup getPopupMessage(final Label messageText) {
         final Popup popup = new Popup();
-        popup.getContent().add(this.messageText);
+        popup.getContent().add(messageText);
         popup.setX(X_POS_POPUP);
         popup.setY(Y_POS_POPUP);
-        popup.setAutoHide(true);
 
+        popup.setAutoHide(true);
         return popup;
     }
 
