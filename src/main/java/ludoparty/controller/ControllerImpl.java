@@ -149,7 +149,7 @@ public final class ControllerImpl implements Controller, Runnable {
     @Override
     public void saveScore(final String name) {
         try {
-            ScoreManager.getInstance().saveScore(name, game.getHumanPlayer().getCoins());
+            ScoreManager.getInstance().saveScore(name, game.getTurn().getCurrentPlayer().getCoins());
         } catch (FileNotFoundException e) {
             LOGGER.error("File not found: " + e.getMessage());
         } catch (IOException e) {

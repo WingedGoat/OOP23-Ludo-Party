@@ -152,7 +152,7 @@ public final class PlayerImpl implements Player {
 
     @Override
     public boolean canPassTurn() {
-        if (!this.pawnMoved) {
+        if (!this.pawnMoved && canMovePawns()) {
             return false;
         }
         this.diceRolled = false;
