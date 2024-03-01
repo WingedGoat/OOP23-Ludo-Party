@@ -1,6 +1,9 @@
 package ludoparty;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -49,12 +52,12 @@ class TestCell {
 
     @Test
     void testIsNotSafe() {
-        assertEquals(false, cell.isSafe());
+        assertFalse(cell.isSafe());
     }
 
     @Test
     void testIsSafe() {
-        assertEquals(true, safeCell.isSafe());
+        assertTrue(safeCell.isSafe());
     }
 
 }

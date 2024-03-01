@@ -21,7 +21,6 @@ import org.apache.logging.log4j.Logger;
 import ludoparty.controller.api.Controller;
 import ludoparty.controller.api.PanelObserver;
 import ludoparty.model.GameImpl;
-import ludoparty.model.Movement;
 import ludoparty.model.Position;
 import ludoparty.model.api.Game;
 import ludoparty.model.api.Game.Result;
