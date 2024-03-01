@@ -128,7 +128,7 @@ public final class ControllerImpl implements Controller, Runnable {
     }
 
     private void createSaveScoreView() {
-        ViewUtility.createSaveScoreScene(this);
+        ViewUtility.createSaveScoreStage(this);
     }
 
     @Override
@@ -164,23 +164,27 @@ public final class ControllerImpl implements Controller, Runnable {
                 this.view.getShopPane().disableShop();
                 // computer players move a pawn
                 for (int i = 1; i < getPlayersNumber(); i++) {
-                    final Player player = this.game.getPlayers().get(i);
-                    this.game.getTurn().passTurnTo(player);
-                    final int diceRes = player.rollDice();
+                    if (!this.game.isOver()) {
+                        final Player player = this.game.getPlayers().get(i);
+                        this.game.getTurn().passTurnTo(player);
+                        player.rollDice();
+                        final int steps = player.getSteps();
+                        int indexPawnToMove = r.nextInt(Constants.PLAYER_PAWNS);
+                        // while a random movable pawn is assigned
+                        while (player.canMovePawns() && !player.getPawns().get(indexPawnToMove).canMove(steps)) {
+                            indexPawnToMove = r.nextInt(Constants.PLAYER_PAWNS);
+                        }
+                        final Pawn pawn = player.getPawns().get(indexPawnToMove);
+                        pawn.move(steps, this.game);
 
-                    int indexPawnToMove = r.nextInt(Constants.PLAYER_PAWNS);
-                    // while a random movable pawn is assigned
-                    while (player.canMovePawns(diceRes) && !player.getPawns().get(indexPawnToMove).canMove(diceRes)) {
-                        indexPawnToMove = r.nextInt(Constants.PLAYER_PAWNS);
+                        updatePawnPositions();
+                        player.earnCoins();
                     }
-                    final Pawn pawn = player.getPawns().get(indexPawnToMove);
-                    pawn.move(diceRes, this.game);
-
-                    updatePawnPositions();
-                    player.earnCoins();
                 }
                 // turn is again of the human player
-                this.game.getTurn().passTurnTo(this.game.getHumanPlayer());
+                if (!this.game.isOver()) {
+                    this.game.getTurn().passTurnTo(this.game.getHumanPlayer());
+                }
                 view.getContainer().requestFocus();
             }
         });
@@ -191,8 +195,8 @@ public final class ControllerImpl implements Controller, Runnable {
             final Pawn pawn = player.getPawns().get(i % Constants.PLAYER_PAWNS);
 
             circle.setOnMouseClicked(e -> {
-                if (player.canMovePawn(pawn) && pawn.canMove(player.getDiceResult())) {
-                    pawn.move(player.getDiceResult(), this.game);
+                if (player.canMovePawn(pawn) && pawn.canMove(player.getSteps())) {
+                    pawn.move(player.getSteps(), this.game); 
                     updatePawnPositions();
                     player.earnCoins();
 

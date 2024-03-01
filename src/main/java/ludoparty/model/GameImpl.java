@@ -63,7 +63,7 @@ public final class GameImpl implements Game {
         shop = new ShopImpl();
         this.gameStatus = Result.PLAY;
         this.pawnsNumber = new Integer[getPlayers().size()]; // BLUE, RED [GREEN, YELLOW]
-        this.previousPawnsNumber = Constants.PLAYER_PAWNS;
+        this.previousPawnsNumber = Constants.PLAYER_PAWNS - 1;
     }
 
     @Override
@@ -103,15 +103,23 @@ public final class GameImpl implements Game {
 
     @Override
     public Result getResult() {
+        if (isOver()) {
+            this.gameStatus = Result.WIN;
+        }
+        return this.gameStatus;
+    }
+
+    @Override
+    public boolean isOver() {
         // check if in cell (7,7) there are all pawns of any player
         final List<Pawn> pawns = this.getBoard().getEndCell().getPawns();
 
-        if (pawns.size() >= Constants.PLAYER_PAWNS && previousPawnsNumber <= pawns.size()) {
+        if (pawns.size() >= Constants.PLAYER_PAWNS && this.previousPawnsNumber <= pawns.size()) {
+            this.previousPawnsNumber = pawns.size();
             // empty the array
             for (int i = 0; i < this.pawnsNumber.length; i++) {
                 this.pawnsNumber[i] = 0;
             }
-            previousPawnsNumber++;
 
             for (final var pawn : pawns) {
                 if (pawn.getColor() == BColor.BLUE) {
@@ -128,11 +136,10 @@ public final class GameImpl implements Game {
                 }
             }
             if (List.of(pawnsNumber).stream().anyMatch(n -> n == Constants.PLAYER_PAWNS)) {
-                this.gameStatus = Result.WIN;
+                return true;
             }
         }
-
-        return this.gameStatus;
+        return false;
     }
 
     @Override

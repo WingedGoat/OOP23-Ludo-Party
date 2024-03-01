@@ -114,7 +114,7 @@ public final class ViewUtility {
      * @param controller the controller
      * @return a new SaveScoreStage
      */
-    public static SaveScoreStage createSaveScoreScene(final Controller controller) {
+    public static SaveScoreStage createSaveScoreStage(final Controller controller) {
         return new SaveScoreStage(controller);
     }
 

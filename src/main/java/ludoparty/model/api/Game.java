@@ -78,6 +78,12 @@ public interface Game {
     Result getResult();
 
     /**
+     * Checks if the game is over.
+     * @return true if the game is over, false otherwise
+     */
+    boolean isOver();
+
+    /**
      * To access the Shop class methods.
      * @return the Shop
      */
