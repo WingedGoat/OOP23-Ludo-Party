@@ -49,6 +49,7 @@ public interface Pawn {
      * Checks if the pawn can exit from its house or
      * it can move from a position to another.
      * 
+     * @param game       the game
      * @param diceResult the dice result
      * @return if the pawn can move
      */

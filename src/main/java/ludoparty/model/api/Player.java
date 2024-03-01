@@ -96,6 +96,7 @@ public interface Player {
     /**
      * Checks if it's the right moment to press ENTER.
      * 
+     * @param game the Game.
      * @return true if ENTER key is pressed when it's actually possible to change
      *         turn
      */
@@ -105,6 +106,7 @@ public interface Player {
      * Checks if the User can move the clicked Pawn.
      * 
      * @param pawn the clicked Pawn.
+     * @param game the Game.
      * @return true if the clicked Pawn can be moved.
      */
     boolean canMovePawn(Pawn pawn, Game game);
@@ -112,6 +114,7 @@ public interface Player {
     /**
      * Checks if the player can move one of its pawns.
      * 
+     * @param game the Game.
      * @return true if the player can move one of its pawns
      */
     boolean canMovePawns(Game game);

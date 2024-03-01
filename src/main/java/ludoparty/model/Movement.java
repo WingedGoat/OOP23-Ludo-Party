@@ -137,7 +137,7 @@ public final class Movement {
     private static boolean noMultiple(final int index, final int diceResult, final Pawn pawn, final Game game) {
 
         int enemyCounter = 0;
-        int size = PATH_COLORS.get(pawn.getColor().ordinal()).size();
+        final int size = PATH_COLORS.get(pawn.getColor().ordinal()).size();
 
         if (index + diceResult < size
                 && !notSafe(PATH_COLORS.get(pawn.getColor().ordinal()).get(index + diceResult), game)) {
@@ -156,6 +156,15 @@ public final class Movement {
         return enemyCounter < 2;
     }
 
+    /**
+     * Checks in the next candidate position if there is more than one enemy pawn.
+     * 
+     * @param index
+     * @param diceResult
+     * @param pawn
+     * @param game
+     * @return the result
+     */
     public static boolean noMultipleEnemyPawns(final int index, final int diceResult, final PawnImpl pawn,
             final Game game) {
         return noMultiple(index, diceResult, pawn, game);
