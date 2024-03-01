@@ -4,17 +4,28 @@ import ludoparty.model.Position;
 import ludoparty.model.api.Game;
 import ludoparty.utils.Constants;
 import ludoparty.view.PlayerGroup.DiceImageView;
+
+import javafx.animation.RotateTransition;
 import javafx.application.Platform;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.transform.Rotate;
+import javafx.util.Duration;
 
 /**
  * Player panel on the left.
  */
 public final class PlayerPanelLeftImpl extends AbstractPlayerPanel {
+    private static final int COINS_LABEL_X_LAYOUT = 88;
+    private static final int COINS_LABEL_Y_LAYOUT = 460;
+    private static final int FONT_SIZE = 16;
+    private static final int ROTATION_DURATION = 500;
 
     private final PlayerGroup bottomPlayer;
+    private Label humanEarnedCoins;
     @SuppressWarnings("PMD")
     private PlayerGroup topPlayer;
 
@@ -52,10 +63,15 @@ public final class PlayerPanelLeftImpl extends AbstractPlayerPanel {
             diceImage.setCursor(Cursor.HAND);
         });
 
-        //TODO add another dice image when is used DADUPLO
         diceImage.setOnMouseClicked(mouseEvent -> {
             if (game.getHumanPlayer().canRollDice()) {
                 final int diceResult = game.getHumanPlayer().rollDice();
+                final RotateTransition rotate = new RotateTransition();
+                rotate.setAxis(Rotate.Z_AXIS);
+                rotate.setByAngle(360);
+                rotate.setDuration(Duration.millis(ROTATION_DURATION));
+                rotate.setNode(diceImage);
+                rotate.play();
                 game.getTurn().getCurrentPlayer().setDiceResult(diceResult);
 
                 /*
@@ -68,9 +84,15 @@ public final class PlayerPanelLeftImpl extends AbstractPlayerPanel {
                 }
             }
         });
+        // earned coins in current turn label
+        this.humanEarnedCoins = new Label();
+        this.humanEarnedCoins.setVisible(false);
+        this.humanEarnedCoins.setFont(Font.font("Helvetica", FontWeight.LIGHT, FONT_SIZE));
+        this.humanEarnedCoins.setLayoutX(COINS_LABEL_X_LAYOUT);
+        this.humanEarnedCoins.setLayoutY(COINS_LABEL_Y_LAYOUT);
 
         g.getChildren().addAll(
-            g.getPlayerAvatar(), g.getPlayerAvatarInner(), g.getPlayerName(), g.getPlayerCoins(), diceImage);
+            g.getPlayerAvatar(), g.getPlayerAvatarInner(), g.getPlayerName(), g.getPlayerCoins(), diceImage, humanEarnedCoins);
 
         return g;
     }
@@ -86,8 +108,6 @@ public final class PlayerPanelLeftImpl extends AbstractPlayerPanel {
                 DICE_TOP_Y_LAYOUT
         );
 
-        //TODO add another dice image when is used DADUPLO
-
         g.getChildren().addAll(
             g.getPlayerAvatar(), g.getPlayerAvatarInner(), g.getPlayerName(), g.getPlayerCoins(), g.getDiceImage());
 
@@ -97,6 +117,14 @@ public final class PlayerPanelLeftImpl extends AbstractPlayerPanel {
     @Override
     public Label getBottomPlayerCoins() {
         return this.bottomPlayer.getPlayerCoins();
+    }
+
+    /**
+     * Gets the amount of earned coins of the current turn.
+     * @return the amount of earned coins
+     */
+    public Label getHumanPlayerEarnedCoins() {
+        return this.humanEarnedCoins;
     }
 
     @Override
@@ -115,11 +143,16 @@ public final class PlayerPanelLeftImpl extends AbstractPlayerPanel {
     }
 
     @Override
-    public void refresh(final int coinsBottom, final int coinsTop, final int diceBottomNum, final int diceTopNum) {
+    public void refresh(final int coinsBottom, final int earnedCoins, final int coinsTop, final int diceBottomNum, 
+        final int diceTopNum) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 getBottomPlayerCoins().setText("Ludollari: " + coinsBottom);
+                if (coinsBottom > 0) {
+                    getHumanPlayerEarnedCoins().setVisible(true);
+                    getHumanPlayerEarnedCoins().setText("+ " + earnedCoins + " $");
+                }
                 if (diceBottomNum > 0) {
                     getBottomPlayerDice().updateDiceImage(diceBottomNum);
                 }

@@ -48,8 +48,6 @@ public final class PlayerPanelRightImpl extends AbstractPlayerPanel {
             DICE_TOP_Y_LAYOUT
         );
 
-        // TODO add another dice image when is used DADUPLO
-
         g.getChildren().addAll(
             g.getPlayerAvatar(), g.getPlayerAvatarInner(), g.getPlayerName(), g.getPlayerCoins(), g.getDiceImage());
 
@@ -94,7 +92,8 @@ public final class PlayerPanelRightImpl extends AbstractPlayerPanel {
     }
 
     @Override
-    public void refresh(final int coinsBottom, final int coinsTop, final int diceBottomNum, final int diceTopNum) {
+    public void refresh(final int coinsBottom, final int earnedCoins, final int coinsTop, final int diceBottomNum, 
+        final int diceTopNum) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {

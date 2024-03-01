@@ -72,16 +72,16 @@ public final class ControllerImpl implements Controller, Runnable {
 
             @Override
             public void updateLeftPlayerPanel(
-                    final int coinsBottom, final int coinsTop,
+                    final int coinsBottom, final int earnedCoins, final int coinsTop,
                     final int diceBottomNum, final int diceTopNum) {
-                view.getLeftPane().refresh(coinsBottom, coinsTop, diceBottomNum, diceTopNum);
+                view.getLeftPane().refresh(coinsBottom, earnedCoins, coinsTop, diceBottomNum, diceTopNum);
             }
 
             @Override
             public void updateRightPlayerPanel(
-                    final int coinsBottom, final int coinsTop,
+                    final int coinsBottom, final int earnedCoins, final int coinsTop,
                     final int diceBottomNum, final int diceTopNum) {
-                view.getRightPane().refresh(coinsBottom, coinsTop, diceBottomNum, diceTopNum);
+                view.getRightPane().refresh(coinsBottom, earnedCoins, coinsTop, diceBottomNum, diceTopNum);
             }
 
         });
@@ -93,19 +93,21 @@ public final class ControllerImpl implements Controller, Runnable {
         while (this.game.getResult() != Result.WIN) {
             if (playersNumber == Constants.PLAYERS_NUM_2) {
                 obs.updateLeftPlayerPanel(
-                        this.game.getHumanPlayer().getCoins(), 0,
+                        this.game.getHumanPlayer().getCoins(), this.game.getHumanPlayer().getEarnedCoins(), 0,
                         this.game.getHumanPlayer().getDiceResult(), 0);
                 obs.updateRightPlayerPanel(
-                        0, this.game.getPlayers().get(1).getCoins(),
+                        0, 0, this.game.getPlayers().get(1).getCoins(),
                         0, this.game.getPlayers().get(1).getDiceResult());
             } else {
                 obs.updateLeftPlayerPanel(
                         this.game.getHumanPlayer().getCoins(),
+                        this.game.getHumanPlayer().getEarnedCoins(),
                         this.game.getPlayers().get(1).getCoins(),
                         this.game.getHumanPlayer().getDiceResult(),
                         this.game.getPlayers().get(1).getDiceResult());
                 obs.updateRightPlayerPanel(
                         this.game.getPlayers().get(2).getCoins(),
+                        0,
                         this.game.getPlayers().get(3).getCoins(),
                         this.game.getPlayers().get(2).getDiceResult(),
                         this.game.getPlayers().get(3).getDiceResult());

@@ -30,6 +30,7 @@ public final class PlayerImpl implements Player {
     private boolean pawnMoved;
     private boolean isfirstTurn;
     private int coins;
+    private int currentEarnAmount;
     // Item flags
     private final List<Item> playerItems = new ArrayList<>();
     private final List<Item> itemsApplied = new ArrayList<>();
@@ -56,6 +57,7 @@ public final class PlayerImpl implements Player {
         }
 
         this.coins = 0;
+        this.currentEarnAmount = 0;
         this.dice = new DiceImpl();
         this.isfirstTurn = true;
     }
@@ -116,7 +118,7 @@ public final class PlayerImpl implements Player {
         } else if (this.itemsApplied.contains(Item.TAGLIATELO)) {
             this.setDiceResult(this.diceResult / Index.TWO);
         }
-
+        this.diceRolled = true;
         return this.diceResult;
     }
 
@@ -137,11 +139,7 @@ public final class PlayerImpl implements Player {
 
     @Override
     public boolean canRollDice() {
-        if (this.diceRolled) {
-            return false;
-        }
-        this.diceRolled = true;
-        return true;
+        return !this.diceRolled;
     }
 
     @Override
@@ -195,10 +193,22 @@ public final class PlayerImpl implements Player {
 
     @Override
     public void earnCoins() {
+        //System.out.println("- - - - ");
+        currentEarnAmount = 0;
         for (int i = 0; i < this.diceResult; i++) {
-            final int earnAmount = r.nextInt(Index.TWELVE) + Index.SIX; // each cell contains from 6 to 17 ludollari
-            updateCoins(earnAmount);
+            currentEarnAmount += r.nextInt(Index.TWELVE) + Index.SIX; // each cell contains from 6 to 17 ludollari
         }
+        //System.out.println("earn amt totale: " + currentEarnAmount);
+        if (getItemsApplied().contains(Item.ABBONDANZA)) {
+            currentEarnAmount *= 2;
+            //System.out.println("earn amt ABBONDANZA: " + currentEarnAmount);
+        }
+        updateCoins(currentEarnAmount);
+    }
+
+    @Override
+    public int getEarnedCoins() {
+        return this.currentEarnAmount;
     }
 
     @Override

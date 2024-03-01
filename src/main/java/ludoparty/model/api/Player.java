@@ -135,6 +135,12 @@ public interface Player {
     void earnCoins();
 
     /**
+     * Gets the amount of coins earned during last turn.
+     * @return the amount of coins just earned
+     */
+    int getEarnedCoins();
+
+    /**
      * Gets the player items.
      * 
      * @return the player items

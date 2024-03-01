@@ -64,4 +64,10 @@
     <Bug code="MC" />
   </Match>
 
+  <Match>
+    <Class name="ludoparty.view.PlayerPanelLeftImpl" />
+    <Bug code="EI" />
+  </Match>
+
+
 </FindBugsFilter>

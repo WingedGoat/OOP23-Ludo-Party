@@ -40,11 +40,12 @@ public interface PlayerPanel {
      * Refreshes the components of the player panel.
      * 
      * @param coinsBottom the amount of coins of the bottom player
+     * @param coinsEarned the amount of coins earned in the last turn
      * @param coinsTop the amount of coins of the top player
      * @param diceBottomNum the result of the dice rolled of the bottom player
      * @param diceTopNum the result of the dice rolled of the top player
      */
-    void refresh(int coinsBottom, int coinsTop, int diceBottomNum, int diceTopNum);
+    void refresh(int coinsBottom, int coinsEarned, int coinsTop, int diceBottomNum, int diceTopNum);
 
     /**
      * Creates the player Group at bottom corner.
