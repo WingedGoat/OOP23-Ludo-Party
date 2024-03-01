@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import ludoparty.model.api.Cell.CellType;
 import ludoparty.model.api.Dice;
 import ludoparty.model.api.Game;
@@ -20,11 +23,14 @@ import ludoparty.utils.Index;
  */
 public final class PlayerImpl implements Player {
 
+    private static final Logger LOGGER = LogManager.getRootLogger();
+
     private final String name;
     private final PlayerType type;
     private final BColor color;
     private final List<Pawn> pawns;
     private final Dice dice;
+    private int steps;
     private int diceResult;
     private boolean diceRolled;
     private boolean pawnMoved;
@@ -96,6 +102,7 @@ public final class PlayerImpl implements Player {
      */
     private void setCoins(final int coins) {
         this.coins = coins;
+        LOGGER.error("coins: " + coins);
     }
 
     private Dice getDice() {
@@ -103,23 +110,24 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public int rollDice() {
-
-        this.diceResult = this.getDice().roll();
+    public void rollDice() {
 
         if (this.isfirstTurn) { // force 6 at start of game in order to move at least the first pawn
-            this.setDiceResult(Index.SIX);
+            this.diceResult = Index.SIX;
+            this.steps = this.diceResult;
             this.isfirstTurn = !this.isfirstTurn;
+        } else {
+            this.diceResult = this.getDice().roll();
+            this.steps = this.diceResult;
+            // if (this.itemsApplied.contains(Item.DADUPLO) && this.itemsApplied.contains(Item.TAGLIATELO)) {
+            if (this.itemsApplied.contains(Item.DADUPLO)) {
+                this.steps = this.diceResult * Index.TWO;
+            } else if (this.itemsApplied.contains(Item.TAGLIATELO)) {
+                this.steps = this.diceResult / Index.TWO;
+            }
         }
-        //if (this.itemsApplied.contains(Item.DADUPLO) && this.itemsApplied.contains(Item.TAGLIATELO)) {
-        //    this.getDiceResult();
-        if (this.itemsApplied.contains(Item.DADUPLO)) {
-            this.setDiceResult(this.diceResult * Index.TWO);
-        } else if (this.itemsApplied.contains(Item.TAGLIATELO)) {
-            this.setDiceResult(this.diceResult / Index.TWO);
-        }
+
         this.diceRolled = true;
-        return this.diceResult;
     }
 
     @Override
@@ -128,8 +136,8 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public void setDiceResult(final int result) {
-        this.diceResult = result;
+    public int getSteps() {
+        return this.steps;
     }
 
     @Override
@@ -153,31 +161,20 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public void setPawnMoved(final boolean b) {
-        this.pawnMoved = b;
-    }
-
-    @Override
     public boolean canMovePawn(final Pawn pawn) {
         if (!this.diceRolled || this.pawnMoved || this.getType() != PlayerType.HUMAN) {
-            return false;
-        }
-        /*
-         * Se è possibile muovere la pedina cliccata, imposto pawnMoved a true.
-         * Già verificata (in PlayerPanelLeft) la casistica in cui non è possibile
-         * muovere nessuna pedina.
-         */
-        if (pawn.canMove(this.diceResult)) {
+            this.pawnMoved = false;
+        } else if (pawn.canMove(this.steps)) {
             this.pawnMoved = true;
         }
-        return true;
+        return this.pawnMoved;
     }
 
     @Override
-    public boolean canMovePawns(final int diceResult) {
+    public boolean canMovePawns() {
         boolean canMove = false;
         for (final Pawn pawn : this.getPawns()) {
-            if (pawn.canMove(diceResult)) {
+            if (pawn.canMove(this.steps)) {
                 canMove = true;
                 break;
             }
@@ -193,15 +190,15 @@ public final class PlayerImpl implements Player {
 
     @Override
     public void earnCoins() {
-        //System.out.println("- - - - ");
+        LOGGER.error("- - - - ");
         currentEarnAmount = 0;
-        for (int i = 0; i < this.diceResult; i++) {
+        for (int i = 0; i < this.steps; i++) {
             currentEarnAmount += r.nextInt(Index.TWELVE) + Index.SIX; // each cell contains from 6 to 17 ludollari
         }
-        //System.out.println("earn amt totale: " + currentEarnAmount);
+        LOGGER.error("earn amt totale: " + currentEarnAmount);
         if (getItemsApplied().contains(Item.ABBONDANZA)) {
             currentEarnAmount *= 2;
-            //System.out.println("earn amt ABBONDANZA: " + currentEarnAmount);
+            LOGGER.error("earn amt ABBONDANZA: " + currentEarnAmount);
         }
         updateCoins(currentEarnAmount);
     }
@@ -270,8 +267,8 @@ public final class PlayerImpl implements Player {
 
     @Override
     public String toString() {
-        return "PlayerImpl [name=" + name + ", type=" + type + ", color=" + color + ", pawns=" + pawns + ", diceResult="
-                + diceResult + ", coins=" + coins + ", playerItems=" + playerItems + "]";
+        return "PlayerImpl [name=" + name + ", type=" + type + ", color=" + color + ", steps=" + steps + ", diceResult="
+                + diceResult + ", coins=" + coins + ", currentEarnAmount=" + currentEarnAmount + "]";
     }
 
 }

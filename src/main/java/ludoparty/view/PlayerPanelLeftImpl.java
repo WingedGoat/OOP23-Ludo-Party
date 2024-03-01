@@ -65,23 +65,13 @@ public final class PlayerPanelLeftImpl extends AbstractPlayerPanel {
 
         diceImage.setOnMouseClicked(mouseEvent -> {
             if (game.getHumanPlayer().canRollDice()) {
-                final int diceResult = game.getHumanPlayer().rollDice();
+                game.getHumanPlayer().rollDice();
                 final RotateTransition rotate = new RotateTransition();
                 rotate.setAxis(Rotate.Z_AXIS);
                 rotate.setByAngle(360);
                 rotate.setDuration(Duration.millis(ROTATION_DURATION));
                 rotate.setNode(diceImage);
                 rotate.play();
-                game.getTurn().getCurrentPlayer().setDiceResult(diceResult);
-
-                /*
-                 * Se con il risultato ottenuto non è possibile muovere pedine,
-                 * imposto pawnMoved a true, così è già possibile premere ENTER e passare il
-                 * turno (senza cliccare Pawn).
-                 */
-                if (!game.getHumanPlayer().canMovePawns(diceResult)) {
-                    game.getHumanPlayer().setPawnMoved(true);
-                }
             }
         });
         // earned coins in current turn label

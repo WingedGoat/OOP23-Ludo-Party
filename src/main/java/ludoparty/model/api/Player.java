@@ -61,23 +61,21 @@ public interface Player {
     int getCoins();
 
     /**
-     * Returns the value of the dice thrown.
-     * 
-     * @return the value of the dice
+     * Rolls the dice.
      */
-    int rollDice();
+    void rollDice();
 
-    /**
+        /**
      * Gets the dice result.
      * @return the dice result
      */
     int getDiceResult();
 
     /**
-     * Sets the dice result.
-     * @param result the dice result
+     * Gets the number of steps of the pawn.
+     * @return the number of steps
      */
-    void setDiceResult(int result);
+    int getSteps();
 
     /**
      * Returns true if dice is rolled.
@@ -102,12 +100,6 @@ public interface Player {
     boolean canPassTurn();
 
     /**
-     * Set the pawnMoved field.
-     * @param b the boolean value to set
-     */
-    void setPawnMoved(boolean b);
-
-    /**
      * Checks if the User can move the clicked Pawn.
      * @param pawn the clicked Pawn.
      * @return true if the clicked Pawn can be moved.
@@ -117,10 +109,9 @@ public interface Player {
     /**
      * Checks if the player can move one of its pawns.
      * 
-     * @param diceResult the dice result
      * @return true if the player can move one of its pawns
      */
-    boolean canMovePawns(int diceResult);
+    boolean canMovePawns();
 
     /**
      * Modify the amount of coins.
