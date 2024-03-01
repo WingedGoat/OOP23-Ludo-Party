@@ -14,9 +14,11 @@ import java.util.List;
  */
 public final class Movement {
 
-    private static final List<List<Position>> PATH_COLORS = List.of(buildBlue(), buildRed(), buildGreen(), buildYellow());
+    private static final List<List<Position>> PATH_COLORS = List.of(buildBlue(), buildRed(), buildGreen(),
+            buildYellow());
 
-    private Movement() { }
+    private Movement() {
+    }
 
     /**
      * Move the given pawn and checks.
@@ -130,6 +132,33 @@ public final class Movement {
 
     private static Pawn getPawn(final int k, final Game game) {
         return game.getPlayers().get(k / Constants.PLAYER_PAWNS).getPawns().get(k % Constants.PLAYER_PAWNS);
+    }
+
+    private static boolean noMultiple(final int index, final int diceResult, final Pawn pawn, final Game game) {
+
+        int enemyCounter = 0;
+        int size = PATH_COLORS.get(pawn.getColor().ordinal()).size();
+
+        if (index + diceResult < size
+                && !notSafe(PATH_COLORS.get(pawn.getColor().ordinal()).get(index + diceResult), game)) {
+            return true;
+        } else {
+            for (int i = 0; i < game.getPlayers().size() * Constants.PLAYER_PAWNS; i++) {
+                final Pawn actualPawn = getPawn(i, game);
+                if (!pawn.getColor().equals(actualPawn.getColor())
+                        && PATH_COLORS.get(pawn.getColor().ordinal()).get(index + diceResult)
+                                .equals(actualPawn.getPosition())) {
+                    enemyCounter++;
+                }
+            }
+        }
+
+        return enemyCounter < 2;
+    }
+
+    public static boolean noMultipleEnemyPawns(final int index, final int diceResult, final PawnImpl pawn,
+            final Game game) {
+        return noMultiple(index, diceResult, pawn, game);
     }
 
     /**

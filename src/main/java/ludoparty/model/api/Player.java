@@ -65,14 +65,16 @@ public interface Player {
      */
     void rollDice();
 
-        /**
+    /**
      * Gets the dice result.
+     * 
      * @return the dice result
      */
     int getDiceResult();
 
     /**
      * Gets the number of steps of the pawn.
+     * 
      * @return the number of steps
      */
     int getSteps();
@@ -97,21 +99,22 @@ public interface Player {
      * @return true if ENTER key is pressed when it's actually possible to change
      *         turn
      */
-    boolean canPassTurn();
+    boolean canPassTurn(Game game);
 
     /**
      * Checks if the User can move the clicked Pawn.
+     * 
      * @param pawn the clicked Pawn.
      * @return true if the clicked Pawn can be moved.
      */
-    boolean canMovePawn(Pawn pawn);
+    boolean canMovePawn(Pawn pawn, Game game);
 
     /**
      * Checks if the player can move one of its pawns.
      * 
      * @return true if the player can move one of its pawns
      */
-    boolean canMovePawns();
+    boolean canMovePawns(Game game);
 
     /**
      * Modify the amount of coins.
@@ -127,6 +130,7 @@ public interface Player {
 
     /**
      * Gets the amount of coins earned during last turn.
+     * 
      * @return the amount of coins just earned
      */
     int getEarnedCoins();

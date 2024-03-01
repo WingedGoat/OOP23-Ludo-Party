@@ -119,7 +119,8 @@ public final class PlayerImpl implements Player {
         } else {
             this.diceResult = this.getDice().roll();
             this.steps = this.diceResult;
-            // if (this.itemsApplied.contains(Item.DADUPLO) && this.itemsApplied.contains(Item.TAGLIATELO)) {
+            // if (this.itemsApplied.contains(Item.DADUPLO) &&
+            // this.itemsApplied.contains(Item.TAGLIATELO)) {
             if (this.itemsApplied.contains(Item.DADUPLO)) {
                 this.steps = this.diceResult * Index.TWO;
             } else if (this.itemsApplied.contains(Item.TAGLIATELO)) {
@@ -151,8 +152,8 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public boolean canPassTurn() {
-        if (!this.pawnMoved && canMovePawns()) {
+    public boolean canPassTurn(final Game game) {
+        if (!this.pawnMoved && canMovePawns(game)) {
             return false;
         }
         this.diceRolled = false;
@@ -161,20 +162,20 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public boolean canMovePawn(final Pawn pawn) {
+    public boolean canMovePawn(final Pawn pawn, final Game game) {
         if (!this.diceRolled || this.pawnMoved || this.getType() != PlayerType.HUMAN) {
             this.pawnMoved = false;
-        } else if (pawn.canMove(this.steps)) {
+        } else if (pawn.canMove(this.steps, game)) {
             this.pawnMoved = true;
         }
         return this.pawnMoved;
     }
 
     @Override
-    public boolean canMovePawns() {
+    public boolean canMovePawns(final Game game) {
         boolean canMove = false;
         for (final Pawn pawn : this.getPawns()) {
-            if (pawn.canMove(this.steps)) {
+            if (pawn.canMove(this.steps, game)) {
                 canMove = true;
                 break;
             }

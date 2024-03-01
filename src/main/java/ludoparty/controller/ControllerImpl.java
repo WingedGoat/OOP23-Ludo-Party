@@ -122,11 +122,11 @@ public final class ControllerImpl implements Controller, Runnable {
      */
     private void updateTwoPlayersGame() {
         obs.updateLeftPlayerPanel(
-            this.game.getHumanPlayer().getCoins(), this.game.getHumanPlayer().getEarnedCoins(), 0,
-            this.game.getHumanPlayer().getDiceResult(), 0);
+                this.game.getHumanPlayer().getCoins(), this.game.getHumanPlayer().getEarnedCoins(), 0,
+                this.game.getHumanPlayer().getDiceResult(), 0);
         obs.updateRightPlayerPanel(
-            0, 0, this.game.getPlayers().get(1).getCoins(),
-            0, this.game.getPlayers().get(1).getDiceResult());
+                0, 0, this.game.getPlayers().get(1).getCoins(),
+                0, this.game.getPlayers().get(1).getDiceResult());
     }
 
     /**
@@ -134,17 +134,17 @@ public final class ControllerImpl implements Controller, Runnable {
      */
     private void updateFourPlayersGame() {
         obs.updateLeftPlayerPanel(
-            this.game.getHumanPlayer().getCoins(),
-            this.game.getHumanPlayer().getEarnedCoins(),
-            this.game.getPlayers().get(1).getCoins(),
-            this.game.getHumanPlayer().getDiceResult(),
-            this.game.getPlayers().get(1).getDiceResult());
+                this.game.getHumanPlayer().getCoins(),
+                this.game.getHumanPlayer().getEarnedCoins(),
+                this.game.getPlayers().get(1).getCoins(),
+                this.game.getHumanPlayer().getDiceResult(),
+                this.game.getPlayers().get(1).getDiceResult());
         obs.updateRightPlayerPanel(
-            this.game.getPlayers().get(2).getCoins(),
-            0,
-            this.game.getPlayers().get(3).getCoins(),
-            this.game.getPlayers().get(2).getDiceResult(),
-            this.game.getPlayers().get(3).getDiceResult());
+                this.game.getPlayers().get(2).getCoins(),
+                0,
+                this.game.getPlayers().get(3).getCoins(),
+                this.game.getPlayers().get(2).getDiceResult(),
+                this.game.getPlayers().get(3).getDiceResult());
     }
 
     private void createSaveScoreView() {
@@ -180,7 +180,8 @@ public final class ControllerImpl implements Controller, Runnable {
     private void setInputHandler() {
         // when human finish the turn
         this.view.setOnKeyPressed(e -> {
-            if (e.getCode().equals(KeyCode.SPACE) && this.getGame().getTurn().getCurrentPlayer().canPassTurn()) {
+            if (e.getCode().equals(KeyCode.SPACE)
+                    && this.getGame().getTurn().getCurrentPlayer().canPassTurn(this.game)) {
                 this.view.getShopPane().disableShop();
                 // computer players move a pawn
                 for (int i = 1; i < getPlayersNumber(); i++) {
@@ -191,7 +192,8 @@ public final class ControllerImpl implements Controller, Runnable {
                         final int steps = player.getSteps();
                         int indexPawnToMove = r.nextInt(Constants.PLAYER_PAWNS);
                         // while a random movable pawn is assigned
-                        while (player.canMovePawns() && !player.getPawns().get(indexPawnToMove).canMove(steps)) {
+                        while (player.canMovePawns(this.game)
+                                && !player.getPawns().get(indexPawnToMove).canMove(steps, this.game)) {
                             indexPawnToMove = r.nextInt(Constants.PLAYER_PAWNS);
                         }
                         final Pawn pawn = player.getPawns().get(indexPawnToMove);
@@ -215,8 +217,8 @@ public final class ControllerImpl implements Controller, Runnable {
             final Pawn pawn = player.getPawns().get(i % Constants.PLAYER_PAWNS);
 
             circle.setOnMouseClicked(e -> {
-                if (player.canMovePawn(pawn) && pawn.canMove(player.getSteps())) {
-                    pawn.move(player.getSteps(), this.game); 
+                if (player.canMovePawn(pawn, this.game) && pawn.canMove(player.getSteps(), this.game)) {
+                    pawn.move(player.getSteps(), this.game);
                     updatePawnPositions();
                     player.earnCoins();
 

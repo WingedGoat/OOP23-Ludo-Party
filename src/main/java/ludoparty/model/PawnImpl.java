@@ -56,7 +56,7 @@ public final class PawnImpl implements Pawn {
     }
 
     @Override
-    public boolean canMove(final int diceResult) {
+    public boolean canMove(final int diceResult, final Game game) {
         if (this.getPosition().equals(this.getStartPosition())) {
             if (diceResult == Index.SIX) {
                 return true;
@@ -65,7 +65,10 @@ public final class PawnImpl implements Pawn {
             final Position pawnPos = this.getPosition();
             final int size = Movement.getPathColors().get(this.getColor().ordinal()).size();
 
-            if (Movement.getPathColors().get(this.getColor().ordinal()).indexOf(pawnPos) + diceResult < size) {
+            if (Movement.getPathColors().get(this.getColor().ordinal()).indexOf(pawnPos) + diceResult < size
+                    && Movement.noMultipleEnemyPawns(
+                            Movement.getPathColors().get(this.getColor().ordinal()).indexOf(pawnPos), diceResult, this,
+                            game)) {
                 return true;
             }
         }
@@ -75,7 +78,7 @@ public final class PawnImpl implements Pawn {
 
     @Override
     public void move(final int diceResult, final Game game) {
-        if (this.canMove(diceResult)) {
+        if (this.canMove(diceResult, game)) {
             Movement.movePawn(this, getColor(), diceResult, game);
         }
     }
