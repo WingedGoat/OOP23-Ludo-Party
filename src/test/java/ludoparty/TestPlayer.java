@@ -46,7 +46,7 @@ class TestPlayer {
         human = new PlayerImpl("John", PlayerType.HUMAN, 
             BColor.BLUE, CellType.BOTTOM_LEFT_HOUSE, pawnsStartPositionsHuman);
 
-        p1 = new PlayerImpl("Player 2", PlayerType.COMPUTER,
+        p1 = new PlayerImpl("Player2", PlayerType.COMPUTER,
             BColor.GREEN, CellType.TOP_RIGHT_HOUSE, pawnStartPositionsComputer);
     }
 

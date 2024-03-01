@@ -91,25 +91,9 @@ public final class ControllerImpl implements Controller, Runnable {
 
         while (this.game.getResult() != Result.WIN) {
             if (playersNumber == Constants.PLAYERS_NUM_2) {
-                obs.updateLeftPlayerPanel(
-                        this.game.getHumanPlayer().getCoins(), this.game.getHumanPlayer().getEarnedCoins(), 0,
-                        this.game.getHumanPlayer().getDiceResult(), 0);
-                obs.updateRightPlayerPanel(
-                        0, 0, this.game.getPlayers().get(1).getCoins(),
-                        0, this.game.getPlayers().get(1).getDiceResult());
+                updateTwoPlayersGame();
             } else {
-                obs.updateLeftPlayerPanel(
-                        this.game.getHumanPlayer().getCoins(),
-                        this.game.getHumanPlayer().getEarnedCoins(),
-                        this.game.getPlayers().get(1).getCoins(),
-                        this.game.getHumanPlayer().getDiceResult(),
-                        this.game.getPlayers().get(1).getDiceResult());
-                obs.updateRightPlayerPanel(
-                        this.game.getPlayers().get(2).getCoins(),
-                        0,
-                        this.game.getPlayers().get(3).getCoins(),
-                        this.game.getPlayers().get(2).getDiceResult(),
-                        this.game.getPlayers().get(3).getDiceResult());
+                updateFourPlayersGame();
             }
 
             try {
@@ -120,11 +104,47 @@ public final class ControllerImpl implements Controller, Runnable {
             }
         }
         Platform.runLater(new Runnable() {
+
             @Override
             public void run() {
+                if (playersNumber == Constants.PLAYERS_NUM_2) {
+                    updateTwoPlayersGame();
+                } else {
+                    updateFourPlayersGame();
+                }
                 createSaveScoreView();
             }
         });
+    }
+
+    /**
+     * Updates left and right panel for the game with two players.
+     */
+    private void updateTwoPlayersGame() {
+        obs.updateLeftPlayerPanel(
+            this.game.getHumanPlayer().getCoins(), this.game.getHumanPlayer().getEarnedCoins(), 0,
+            this.game.getHumanPlayer().getDiceResult(), 0);
+        obs.updateRightPlayerPanel(
+            0, 0, this.game.getPlayers().get(1).getCoins(),
+            0, this.game.getPlayers().get(1).getDiceResult());
+    }
+
+    /**
+     * Updates left and right panel for the game with four players.
+     */
+    private void updateFourPlayersGame() {
+        obs.updateLeftPlayerPanel(
+            this.game.getHumanPlayer().getCoins(),
+            this.game.getHumanPlayer().getEarnedCoins(),
+            this.game.getPlayers().get(1).getCoins(),
+            this.game.getHumanPlayer().getDiceResult(),
+            this.game.getPlayers().get(1).getDiceResult());
+        obs.updateRightPlayerPanel(
+            this.game.getPlayers().get(2).getCoins(),
+            0,
+            this.game.getPlayers().get(3).getCoins(),
+            this.game.getPlayers().get(2).getDiceResult(),
+            this.game.getPlayers().get(3).getDiceResult());
     }
 
     private void createSaveScoreView() {

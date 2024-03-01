@@ -190,7 +190,6 @@ public final class PlayerImpl implements Player {
 
     @Override
     public void earnCoins() {
-        LOGGER.error("- - - - ");
         currentEarnAmount = 0;
         for (int i = 0; i < this.steps; i++) {
             currentEarnAmount += r.nextInt(Index.TWELVE) + Index.SIX; // each cell contains from 6 to 17 ludollari

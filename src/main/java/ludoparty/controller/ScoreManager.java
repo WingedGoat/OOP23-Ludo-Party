@@ -57,7 +57,7 @@ public final class ScoreManager {
     public void saveScore(final String name, final Integer score) throws FileNotFoundException, IOException {
         this.loadScore();
         this.scores.add(new Pair<>(name, score));
-        Collections.sort(this.scores, (s1, s2) -> s1.getY() - s2.getY());
+        Collections.sort(this.scores, (s1, s2) -> s2.getY() - s1.getY());
 
         try (FileOutputStream outputStream = new FileOutputStream(SCORES_FILE_PATH)) {
             try {

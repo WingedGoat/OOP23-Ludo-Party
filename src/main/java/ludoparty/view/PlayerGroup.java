@@ -185,7 +185,6 @@ public class PlayerGroup extends Group {
 
                 default:
                     // error
-                    // FIXME for number > 6
                     break;
             }
 
