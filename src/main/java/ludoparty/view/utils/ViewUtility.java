@@ -15,7 +15,7 @@ public final class ViewUtility {
     /**
      * The resources folder root.
      */
-    public static final String  RESOURCES_ROOT_PATH = "ludoparty/";
+    public static final String RESOURCES_ROOT_PATH = "ludoparty/";
     /**
      * Home window width.
      */
@@ -52,6 +52,10 @@ public final class ViewUtility {
      * The radius multipler.
      */
     public static final double RADIUS_TO_DIAMETER = 2;
+    /**
+     * The highest point of a pawn in a cell.
+     */
+    public static final int TOP_ROW = -15;
 
     private ViewUtility() {
     }

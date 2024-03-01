@@ -171,7 +171,7 @@ public final class ControllerImpl implements Controller, Runnable {
 
                     int indexPawnToMove = r.nextInt(Constants.PLAYER_PAWNS);
                     // while a random movable pawn is assigned
-                    while (player.canMovePawns(diceRes)  && !player.getPawns().get(indexPawnToMove).canMove(diceRes)) {
+                    while (player.canMovePawns(diceRes) && !player.getPawns().get(indexPawnToMove).canMove(diceRes)) {
                         indexPawnToMove = r.nextInt(Constants.PLAYER_PAWNS);
                     }
                     final Pawn pawn = player.getPawns().get(indexPawnToMove);
@@ -192,34 +192,38 @@ public final class ControllerImpl implements Controller, Runnable {
             final Pawn pawn = player.getPawns().get(i % Constants.PLAYER_PAWNS);
 
             circle.setOnMouseClicked(e -> {
-                if (player.canMovePawn(pawn) && pawn.canMove(player.getDiceResult())) { 
-                    pawn.move(player.getDiceResult(), this.game); 
+                if (player.canMovePawn(pawn) && pawn.canMove(player.getDiceResult())) {
+                    pawn.move(player.getDiceResult(), this.game);
                     updatePawnPositions();
-                    player.earnCoins(); 
+                    player.earnCoins();
 
                     if (this.game.getBoard().getShops().contains(pawn.getPosition())) {
                         this.view.getShopPane().enableShop();
                     }
-                } else if (malusClicked && !malusUsed)  {
+                } else if (malusClicked && !malusUsed) {
                     if (!getGame().getTurn().getCurrentPlayer().getPawns().contains(pawn)) {
                         if (!getGame().getBoard().getEndCell().getPawns().contains(pawn)) {
-                            final Label message = new Label(this.game.getTurn().getCurrentPlayer().getName() + " ha usato "
-                                + getItemToUse().getName() + " su " + player.getName());
+                            final Label message = new Label(
+                                    this.game.getTurn().getCurrentPlayer().getName() + " ha usato "
+                                            + getItemToUse().getName() + " su " + player.getName());
                             message.setBackground(
-                                new Background(new BackgroundFill(Color.PURPLE, CornerRadii.EMPTY, Insets.EMPTY)));
+                                    new Background(new BackgroundFill(Color.PURPLE, CornerRadii.EMPTY, Insets.EMPTY)));
                             view.getShopPane().getPopupMessage(message).show(view.getWindow());
                             this.game.getTurn().getCurrentPlayer().useItem(itemToUse, player, pawn, game);
                             malusClicked = false;
                             malusUsed = true;
                             setItemToUse(null);
                         } else {
-                            final Label message = new Label("QUELLA PEDINA E' ARRIVATA ALLA CELLA FINALE, NON PUOI TOCCARLA!");
-                            message.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+                            final Label message = new Label(
+                                    "QUELLA PEDINA E' ARRIVATA ALLA CELLA FINALE, NON PUOI TOCCARLA!");
+                            message.setBackground(
+                                    new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
                             view.getShopPane().getPopupMessage(message).show(view.getWindow());
                         }
                     } else {
                         final Label message = new Label("HAI UN MALUS ATTIVO! DEVI USARLO SU UNA PEDINA AVVERSARIA!");
-                        message.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+                        message.setBackground(
+                                new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
                         view.getShopPane().getPopupMessage(message).show(view.getWindow());
                     }
                 }
@@ -239,24 +243,32 @@ public final class ControllerImpl implements Controller, Runnable {
                     .getPawns().get(j % Constants.PLAYER_PAWNS).getStartPosition();
             final Position actualPos = this.game.getPlayers().get(j / Constants.PLAYER_PAWNS)
                     .getPawns().get(j % Constants.PLAYER_PAWNS).getPosition();
+            this.view.getPawns().get(j).setRadius(ViewUtility.CIRCLE_RADIUS);
             this.view.getPawns().get(j)
-                    .setTranslateX((actualPos.getX() - startPos.getX()) * ViewUtility.CELL_WIDTH + centerPawn(j));
-            this.view.getPawns().get(j).setTranslateY((actualPos.getY() - startPos.getY()) * ViewUtility.CELL_WIDTH);
+                    .setTranslateX((actualPos.getX() - startPos.getX()) * ViewUtility.CELL_WIDTH
+                            + overlappingCircles(actualPos, this.view.getPawns().get(j), j).getX());
+            this.view.getPawns().get(j).setTranslateY((actualPos.getY() - startPos.getY()) * ViewUtility.CELL_WIDTH
+                    + overlappingCircles(actualPos, this.view.getPawns().get(j), j).getY());
         }
     }
 
-    private double centerPawn(final int j) {
-
-        this.view.getPawns().get(j).setRadius(ViewUtility.CIRCLE_RADIUS);
-
-        if (Movement.enemyPawnOntoPawn(game) && j / Constants.PLAYER_PAWNS > 0) {
-            this.view.getPawns().get(j).setRadius(
-                    this.view.getPawns().get(j).getRadius()
-                            - ViewUtility.RADIUS_DECREASE * Double.valueOf(j) / Double.valueOf(Constants.PLAYER_PAWNS));
-            final Double circleDiameter = this.view.getPawns().get(j).getRadius() * ViewUtility.RADIUS_TO_DIAMETER;
-            return (Double.valueOf(ViewUtility.CELL_WIDTH - circleDiameter)) / 4.0;
+    private Position overlappingCircles(final Position pos, final Circle circle, final int j) {
+        if (circleIsNotAlone(pos)) {
+            circle.setRadius(ViewUtility.CIRCLE_RADIUS / Constants.PLAYER_PAWNS);
+            final int columnIndex = j % Constants.PLAYER_PAWNS;
+            return new Position(columnIndex * 10, ViewUtility.TOP_ROW
+                    + (j / Constants.PLAYERS_NUM_4) * ViewUtility.CELL_WIDTH / Constants.PLAYERS_NUM_4);
         }
-        return 0.0;
+        return new Position(0, 0);
+    }
+
+    private boolean circleIsNotAlone(final Position pos) {
+        for (final var c : game.getBoardCells()) {
+            if (pos.equals(c.getPosition()) && c.getPawns().size() > 1) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -294,8 +306,8 @@ public final class ControllerImpl implements Controller, Runnable {
 
     @Override
     public Boolean clickBonusButton(final Item itemToUse) {
-        if (itemToUse.getType() == ItemType.MALUS 
-            && getGame().getHumanPlayer().equals(getGame().getTurn().getCurrentPlayer())) {
+        if (itemToUse.getType() == ItemType.MALUS
+                && getGame().getHumanPlayer().equals(getGame().getTurn().getCurrentPlayer())) {
             malusClicked = true;
             malusUsed = false;
             return false;
