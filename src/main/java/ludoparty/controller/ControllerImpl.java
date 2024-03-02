@@ -49,7 +49,6 @@ public final class ControllerImpl implements Controller, Runnable {
     private final BoardScene view;
     private PanelObserver obs;
     private boolean malusClicked;
-    private boolean malusUsed;
     private Item itemToUse;
     private String outcome;
     private boolean itemselled;
@@ -202,13 +201,18 @@ public final class ControllerImpl implements Controller, Runnable {
                         updatePawnPositions();
                         player.earnCoins();
                     }
+                    // turn is again of the human player
+                    if (!this.game.isOver()) {
+                        this.game.getTurn().passTurnTo(this.game.getHumanPlayer());
+                    }
                 }
-                // turn is again of the human player
-                if (!this.game.isOver()) {
-                    this.game.getTurn().passTurnTo(this.game.getHumanPlayer());
-                }
-                view.getContainer().requestFocus();
+            } else if (!getGame().getHumanPlayer().isMalusUsed()) {
+                final Label message = new Label("DEVI USARE IL MALUS PRIMA DI PASSARE IL TURNO!");
+                message.setBackground(
+                    new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+                view.getShopPane().getPopupMessage(message).show(view.getWindow());
             }
+            view.getContainer().requestFocus();
         });
 
         for (int i = 0; i < this.view.getPawns().size(); i++) {
@@ -225,7 +229,7 @@ public final class ControllerImpl implements Controller, Runnable {
                     if (this.game.getBoard().getShops().contains(pawn.getPosition())) {
                         this.view.getShopPane().enableShop();
                     }
-                } else if (malusClicked && !malusUsed) {
+                } else if (malusClicked && !getGame().getTurn().getCurrentPlayer().isMalusUsed()) {
                     if (!getGame().getTurn().getCurrentPlayer().getPawns().contains(pawn)) {
                         if (!getGame().getBoard().getEndCell().getPawns().contains(pawn)) {
                             final Label message = new Label(
@@ -235,8 +239,9 @@ public final class ControllerImpl implements Controller, Runnable {
                                     new Background(new BackgroundFill(Color.PURPLE, CornerRadii.EMPTY, Insets.EMPTY)));
                             view.getShopPane().getPopupMessage(message).show(view.getWindow());
                             this.game.getTurn().getCurrentPlayer().useItem(itemToUse, player, pawn, game);
+                            updatePawnPositions();
                             malusClicked = false;
-                            malusUsed = true;
+                            getGame().getTurn().getCurrentPlayer().setMalusUsed(true);
                             setItemToUse(null);
                         } else {
                             final Label message = new Label(
@@ -331,10 +336,9 @@ public final class ControllerImpl implements Controller, Runnable {
 
     @Override
     public Boolean clickBonusButton(final Item itemToUse) {
-        if (itemToUse.getType() == ItemType.MALUS
-                && getGame().getHumanPlayer().equals(getGame().getTurn().getCurrentPlayer())) {
+        if (itemToUse.getType().equals(ItemType.MALUS)) {
             malusClicked = true;
-            malusUsed = false;
+            getGame().getHumanPlayer().setMalusUsed(false);
             return false;
         }
         malusClicked = false;
@@ -365,5 +369,4 @@ public final class ControllerImpl implements Controller, Runnable {
     public Item getNewShopItem() {
         return this.game.getShop().getNewItem();
     }
-
 }

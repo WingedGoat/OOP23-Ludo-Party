@@ -34,6 +34,7 @@ public final class PlayerImpl implements Player {
     private int diceResult;
     private boolean diceRolled;
     private boolean pawnMoved;
+    private boolean malusUsed;
     private boolean isfirstTurn;
     private int coins;
     private int currentEarnAmount;
@@ -57,6 +58,7 @@ public final class PlayerImpl implements Player {
         this.type = type;
         this.color = color;
         this.pawns = new ArrayList<>();
+        this.malusUsed = true;
 
         for (int i = 0; i < Constants.PLAYER_PAWNS; i++) {
             this.pawns.add(new PawnImpl(pawnsStartPos.get(i), playerHouse, color));
@@ -155,10 +157,13 @@ public final class PlayerImpl implements Player {
     public boolean canPassTurn(final Game game) {
         if (!this.pawnMoved && canMovePawns(game)) {
             return false;
+        } else if (!isMalusUsed()) {
+            return false;
+        }else {
+            this.diceRolled = false;
+            this.pawnMoved = false;
+            return true;
         }
-        this.diceRolled = false;
-        this.pawnMoved = false;
-        return true;
     }
 
     @Override
@@ -241,6 +246,16 @@ public final class PlayerImpl implements Player {
                 pawn.move(-Index.FOUR, game);
             }
         }
+    }
+
+    @Override 
+    public boolean isMalusUsed() {
+        return this.malusUsed;
+    }
+
+    @Override
+    public void setMalusUsed(final boolean value) {
+        this.malusUsed = value;
     }
 
     @Override

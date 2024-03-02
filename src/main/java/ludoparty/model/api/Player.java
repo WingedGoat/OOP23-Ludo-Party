@@ -177,6 +177,20 @@ public interface Player {
     void useItem(Item item, Player player, Pawn pawn, Game game);
 
     /**
+     * Return True if the last malus selected is used, False instead.
+     * 
+     * @return if the last malus selected is used
+     */
+    boolean isMalusUsed();
+
+    /**
+     * Set the new value for the malusUsed.
+     * 
+     * @param value the new value
+     */
+    void setMalusUsed(boolean value);
+
+    /**
      * Remove the {@link Item.ItemType#MALUS} on the player after it is expired.
      */
     void malusExpired();

@@ -65,6 +65,13 @@ public final class PlayerPanelLeftImpl extends AbstractPlayerPanel {
 
         diceImage.setOnMouseClicked(mouseEvent -> {
             if (game.getHumanPlayer().canRollDice()) {
+                // TODO 
+                /*if (!Controller.isMalusUsed()) {
+                    final Label message = new Label("DEVI ANCORA USARE IL MALUS PRIMA DI TIRARE IL DADO!");
+                    message.setBackground(
+                        new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+                    view.getShopPane().getPopupMessage(message).show(view.getWindow());
+                } */
                 game.getHumanPlayer().rollDice();
                 final RotateTransition rotate = new RotateTransition();
                 rotate.setAxis(Rotate.Z_AXIS);
