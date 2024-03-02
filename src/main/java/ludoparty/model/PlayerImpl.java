@@ -159,7 +159,7 @@ public final class PlayerImpl implements Player {
             return false;
         } else if (!isMalusUsed()) {
             return false;
-        }else {
+        } else {
             this.diceRolled = false;
             this.pawnMoved = false;
             return true;
