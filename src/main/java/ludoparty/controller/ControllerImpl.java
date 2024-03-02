@@ -201,10 +201,10 @@ public final class ControllerImpl implements Controller, Runnable {
                         updatePawnPositions();
                         player.earnCoins();
                     }
-                    // turn is again of the human player
-                    if (!this.game.isOver()) {
-                        this.game.getTurn().passTurnTo(this.game.getHumanPlayer());
-                    }
+                }
+                // turn is again of the human player
+                if (!this.game.isOver()) {
+                    this.game.getTurn().passTurnTo(this.game.getHumanPlayer());
                 }
             } else if (!getGame().getHumanPlayer().isMalusUsed()) {
                 final Label message = new Label("DEVI USARE IL MALUS PRIMA DI PASSARE IL TURNO!");
