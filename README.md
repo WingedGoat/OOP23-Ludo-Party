@@ -17,7 +17,6 @@ Un percorso completo parte dalla propria cella iniziale (quella colorata e adiac
 SVOLGIMENTO:
 A turno gli sfidanti tirano un dado, scelgono una pedina e la muovono lungo il percorso in base al risultato ottenuto.
 Per poter liberare una pedina dalla propria casa, è necessario ottenere un 6. In tal caso, la si posiziona nella cella iniziale.
-Ogni volta che si tira un 1, si lancia nuovamente il dado.
 Se non è possibile muovere con il tiro ottenuto, si passa il turno. Quando però un movimento è possibile, esso è obbligatorio e non si può passare il turno prima di averlo effettuato.
 Una pedina può venire spostata in una cella occupata da altre del suo stesso colore; se invece raggiunge la posizione di una pedina avversaria, quest'ultima viene "mangiata" e ricollocata nella casa di partenza.
 Qualora una pedina possa raggiungere una cella occupata da 2 (o più) pedine avversarie, questa non può venir mossa e il giocatore dovrà muovere un'altra pedina disponibile.
